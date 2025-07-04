@@ -36,8 +36,6 @@
     "eslint-plugin-storybook": "^9.0.15",
     "playwright": "^1.53.2",
     "storybook": "^9.0.15",
-    "tailwindcss": "^4",
-    "typescript": "^5",
     "vitest": "^3.2.4",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.13",
