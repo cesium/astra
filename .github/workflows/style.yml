@@ -1,0 +1,31 @@
+name: CI Style
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Setup up Node
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: 22.17.0
+
+      - name: Setup up Bun
+        uses: oven-sh/setup-bun@v2.0.2
+        with:
+          bun-version: 1.2.18
+
+      - name: Install dependencies
+        run: bun i
+
+      - name: Format the code
+        run: bun format
+
+      - name: Lint the code
+        run: bun lint
