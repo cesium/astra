@@ -1,5 +1,49 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Material Symbols Outlined";
+  font-style: normal;
+  src: url(/fonts/MaterialSymbolsOutlined.woff2) format("woff2");
+  font-display: block;
+}
+
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: 300;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  user-select: none;
+  font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga";
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.material-symbols-outlined-filled {
+  font-family: "Material Symbols Outlined";
+  font-weight: 300;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  user-select: none;
+  font-feature-settings: "liga";
+  font-variation-settings: "FILL" 1;
+  -moz-font-feature-settings: "liga";
+  -moz-osx-font-smoothing: grayscale;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -10,13 +54,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
