@@ -8,7 +8,7 @@ export default function Card ({
 			className={'p-24 border rounded-[15px] border-[#eeeeee] bg-[#fafafa]'}
 		>
 
-			{children ?? ""}
+			{children}
 		</div>
 	);
 }
