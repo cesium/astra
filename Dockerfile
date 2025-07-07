@@ -1,5 +1,5 @@
 FROM oven/bun AS base
-FROM node:22-slim AS node
+FROM node:22-alpine AS node
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -24,7 +24,10 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN bun run build
 
 # Production image, copy all the files and run next
-FROM base AS runner
+FROM node AS runner
+
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat curl
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -37,20 +40,22 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:bun .next
+RUN mkdir .next && chown nextjs .next
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:bun /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:bun /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs /app/.next/static ./.next/static
 
 USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
+ENV PORT=3000
 
-ENV HOSTNAME "0.0.0.0"
+ENV HOSTNAME="0.0.0.0"
+
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 --start-period=5s \
+  CMD curl -f http://localhost:3000/ || exit 1
 
 CMD ["node", "server.js"]
