@@ -1,8 +1,13 @@
 "use client";
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-const ToggleSwitch = ({ initialState = false, onToggle }: { initialState?: boolean, onToggle?: (state: boolean) => void }) => {
+interface IToggleSwitchProps {
+  initialState?: boolean;
+  onToggle?: (state: boolean) => void;
+}
+
+const ToggleSwitch: React.FC<IToggleSwitchProps> = ({ initialState = false, onToggle }) => {
   const [isOn, setIsOn] = useState(initialState);
 
   const handleToggle = () => {
@@ -17,7 +22,7 @@ const ToggleSwitch = ({ initialState = false, onToggle }: { initialState?: boole
     <button
       onClick={handleToggle}
       className={`
-        relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+        relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-orange-300
         ${isOn ? 'bg-orange-500' : 'bg-gray-300'}
       `}
       role="switch"
@@ -33,4 +38,5 @@ const ToggleSwitch = ({ initialState = false, onToggle }: { initialState?: boole
     </button>
   );
 };
+
 export default ToggleSwitch;
