@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import Label from '../app/components/label_component';
+import { fn } from 'storybook/test';
+
+import { Label } from './Label';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -13,33 +15,38 @@ const meta = {
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
-  argTypes: {
-    disabled: { control: 'boolean' },
-  },
-  // Use `fn` to spy on any callbacks
-  args: {},
+  argTypes: {},
+  // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
+  args: { onClick: fn() },
 } satisfies Meta<typeof Label>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Default: Story = {
+export const Enabled: Story = {
   args: {
-    children: 'Label',
+    label: 'Label',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    children: 'Label',
+    label: 'Label',
     disabled: true,
   },
 };
 
-export const WithHtmlFor: Story = {
+export const Large: Story = {
   args: {
-    children: 'Label',
-    htmlFor: 'input-example',
+    size: 'large',
+    label: 'Label',
+  },
+};
+
+export const Small: Story = {
+  args: {
+    size: 'small',
+    label: 'Label',
   },
 };
