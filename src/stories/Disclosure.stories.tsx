@@ -1,8 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import Disclosure, {
-  DisclosureButton as Button,
-  DisclosurePanel as Panel,
-} from "@/app/components/disclosure";
+import Disclosure from "@/app/components/disclosure";
 
 const meta: Meta<typeof Disclosure> = {
   title: "Components/Disclosure",
@@ -55,75 +52,41 @@ const courses = {
   Outros: [],
 };
 
-function ChevronToggle({ open, label }: { open: boolean; label: string }) {
-  return (
-    <Button className="mb-1 flex w-full items-center rounded-lg px-2 py-3 transition-colors hover:bg-zinc-100">
-      <span
-        className="material-symbols-outlined mr-2 text-zinc-500"
-        style={{ fontSize: 20 }}
-      >
-        {open ? "expand_less" : "expand_more"}
-      </span>
-      <div className="w-full text-left font-medium">{label}</div>
-    </Button>
-  );
-}
-
 export const Default: Story = {
-  args: {
-    defaultOpen: false,
-    as: "div",
-  },
-  render: (args) => (
+  render: () => (
     <div className="w-full max-w-sm rounded-lg bg-zinc-50 p-4 text-sm text-zinc-800 shadow-md">
-      <h1 className="mb-4 text-lg text-zinc-500">Disponíveis para adicionar</h1>
       {Object.entries(courses).map(([year, semesters]) => (
-        <Disclosure key={year} defaultOpen={year === "1º Ano"} {...args}>
-          {({ open }) => (
-            <>
-              <ChevronToggle open={open} label={year} />
-              <Panel className="mt-1 ml-4">
-                {Object.entries(semesters).map(([semester, units]) => (
-                  <Disclosure
-                    key={semester}
-                    defaultOpen={semester === "1º Semestre"}
-                  >
-                    {({ open: semOpen }) => (
-                      <>
-                        <ChevronToggle open={semOpen} label={semester} />
-                        <Panel className="mt-1 ml-4 space-y-1 rounded-lg bg-white shadow-sm">
-                          {Array.isArray(units) && units.length > 0 ? (
-                            units.map((unitName) => (
-                              <div
-                                key={unitName}
-                                className="flex w-full items-center justify-between rounded-lg px-2 py-3 text-left transition-colors hover:bg-zinc-100"
-                              >
-                                <div className="flex items-center">
-                                  <div className="mr-2 ml-1 h-3 w-1.5 rounded-full bg-blue-200" />
-                                  {unitName}
-                                </div>
-                                <span
-                                  className="material-symbols-outlined rounded-full bg-green-400 p-1 text-white hover:bg-green-500"
-                                  style={{ fontSize: 20 }}
-                                  aria-label="Adicionar"
-                                >
-                                  add
-                                </span>
-                              </div>
-                            ))
-                          ) : (
-                            <div className="px-2 py-2 text-zinc-400 italic">
-                              Sem unidades curriculares disponíveis
-                            </div>
-                          )}
-                        </Panel>
-                      </>
-                    )}
-                  </Disclosure>
-                ))}
-              </Panel>
-            </>
-          )}
+        <Disclosure key={year} defaultOpen={year === "1º Ano"} title={year}>
+          <div className="mt-1 ml-4">
+            {Object.entries(semesters).map(([semester, units]) => (
+              <Disclosure
+                key={semester}
+                defaultOpen={semester === "1º Semestre"}
+                title={semester}
+              >
+                <div className="mt-1 ml-4 space-y-1 rounded-lg bg-white p-2 shadow-sm">
+                  {units.length > 0 &&
+                    units.map((unitName) => (
+                      <div
+                        key={unitName}
+                        className="flex w-full items-center justify-between rounded-lg px-2 py-3 text-left transition-colors hover:bg-zinc-100"
+                      >
+                        <div className="flex items-center">
+                          <div className="mr-2 ml-1 h-3 w-1.5 rounded-full bg-blue-200" />
+                          {unitName}
+                        </div>
+                        <button
+                          className="material-symbols-outlined rounded-full bg-green-400 p-1 text-white hover:bg-green-500"
+                          style={{ fontSize: 20 }}
+                        >
+                          add
+                        </button>
+                      </div>
+                    ))}
+                </div>
+              </Disclosure>
+            ))}
+          </div>
         </Disclosure>
       ))}
     </div>
