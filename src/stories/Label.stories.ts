@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { fn } from 'storybook/test';
-
 import Label from '../app/components/label_component';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
