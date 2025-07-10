@@ -1,9 +1,9 @@
 "use client";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import Link from "next/link";
 
-interface ButtonProps {
-  title: string;
+interface IButtonProps {
+  title?: string;
   size?: "sm" | "md" | "lg";
   variant?: "filled" | "outline" | "text";
   bgColor?: string;
@@ -18,14 +18,16 @@ interface ButtonProps {
   href?: string;
   onClick?: () => void;
   className?: string;
+  ariaLabel?: string;
+  type?: "button" | "submit" | "reset";
 }
 
 const Button = ({
   title,
   size = "md",
   variant = "filled",
-  bgColor = "white",
-  textColor = "black",
+  bgColor = "bg-white",
+  textColor = "text-black",
   borderColor = "transparent",
   borderRadius = "rounded",
   borderWidth = "border",
@@ -36,7 +38,9 @@ const Button = ({
   href,
   onClick,
   className = "",
-}: ButtonProps) => {
+  ariaLabel,
+  type = "button",
+}: IButtonProps) => {
   const sizeMap: Record<"sm" | "md" | "lg", string> = {
     sm: "px-3 py-1.5 text-sm",
     md: "px-4 py-2 text-base",
@@ -49,7 +53,7 @@ const Button = ({
   };
 
   const baseStyle = [
-    "inline-flex items-center justify-center font-medium transition ease-in-out duration-200 hover:scale-105 active:scale-95",
+    "inline-flex items-center justify-center font-medium",
     sizeMap[size],
     variantMap[variant],
     padding,
@@ -58,7 +62,11 @@ const Button = ({
     className,
   ].join(" ");
 
-  const content = (
+  const isIconOnly = icon && (!title || title.trim() === "");
+
+  const content = isIconOnly ? (
+    <span className="flex items-center justify-center">{icon}</span>
+  ) : (
     <>
       {icon && iconPosition === "left" && (
         <span className="mr-2 flex">{icon}</span>
@@ -79,6 +87,7 @@ const Button = ({
       <Link
         href={href}
         className={baseStyle}
+        aria-label={ariaLabel}
         {...(isExternalLink
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}
@@ -90,7 +99,12 @@ const Button = ({
 
   if (as === "button") {
     return (
-      <button onClick={onClick} className={baseStyle}>
+      <button
+        type={type}
+        onClick={onClick}
+        className={baseStyle}
+        aria-label={ariaLabel}
+      >
         {content}
       </button>
     );
