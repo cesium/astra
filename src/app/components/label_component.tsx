@@ -4,9 +4,7 @@ interface ILabelProps {
   children: ReactNode;
   disabled?: boolean;
   htmlFor?: string;
-  /** How large should the label be? */
   size?: 'small' | 'medium' | 'large';
-  /** Optional click handler */
   onClick?: () => void;
 }
 
@@ -28,16 +26,14 @@ const Label = ({
     }
   };
 
-  const getColorClasses = () => {
-    if (disabled) return 'text-gray-400';
-    return 'text-gray-700';
-  };
+  const colorClass = disabled ? 'text-gray-400' : 'text-gray-700';
+  const cursorClass = disabled ? 'cursor-not-allowed' : 'cursor-pointer';
 
   return (
     <label
-      htmlFor={htmlFor}
-      onClick={onClick}
-      className={`cursor-pointer ${getSizeClasses()} ${getColorClasses()}`}
+    htmlFor={htmlFor}
+    onClick={disabled ? undefined : onClick}
+    className={`${getSizeClasses()} ${colorClass} ${cursorClass}`}
     >
       {children}
     </label>
