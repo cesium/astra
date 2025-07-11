@@ -19,6 +19,7 @@ const meta = {
     min: undefined,
     max: undefined,
     onChange: fn(),
+    maxLength: 20,
   },
 } satisfies Meta<typeof Input>;
 
