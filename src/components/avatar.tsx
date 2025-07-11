@@ -20,7 +20,9 @@ function getInitials(name: string): string {
 
 const Avatar = ({ src, name, className }: IAvatarProps) => {
   return (
-    <figure className={`overflow-hidden rounded-full ${className || ""}`}>
+    <figure
+      className={`bg-light overflow-hidden rounded-full ${className || ""}`}
+    >
       {src ? (
         <Image
           src={src}
@@ -30,8 +32,8 @@ const Avatar = ({ src, name, className }: IAvatarProps) => {
           className="object-cover"
         />
       ) : (
-        <div className="flex size-full min-w-8 min-h-8 items-center justify-center bg-gradient-to-b from-black/20 to-black/40">
-          <span className="text-white">{name && getInitials(name)}</span>
+        <div className="flex size-full min-h-8 min-w-8 items-center justify-center bg-gradient-to-b from-black/20 to-black/40">
+          <span className="text-light">{name && getInitials(name)}</span>
         </div>
       )}
     </figure>
