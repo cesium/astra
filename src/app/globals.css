@@ -55,3 +55,7 @@
   --color-danger: #FF5E79;
   --color-success: #2EDB51;
 }
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
