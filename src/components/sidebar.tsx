@@ -51,7 +51,7 @@ export function SidebarItem({ children, className, id, href, onClick }: IItemPro
   const { selected, setSelected } = context;
   const isSelected = selected === id;
 
-  const commonClass = `group inline-flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2.5 text-[#00000080] transition-all duration-300 ease-in-out ${isSelected ? "bg-[#EE77491A] text-[#EE7749] ring-1 ring-[#ee784971]" : "hover:bg-gray-100"} ${className}`
+  const commonClass = `flex group cursor-pointer items-center font-medium rounded-lg px-3 py-2.5 text-dark/50 transition-all duration-300 ease-in-out ${isSelected ? "bg-primary/10 text-primary ring-1 ring-primary/25" : "hover:bg-gray-100"} ${className}`
 
   return href ? (
     <Link
@@ -73,6 +73,15 @@ export function SidebarItem({ children, className, id, href, onClick }: IItemPro
     >
       {children}
     </button>
+  )
+}
+
+export function SidebarItemLabel({icon, label}: {icon: string, label: string}) {
+  return (
+    <div className="inline-flex gap-2">
+      <span className="material-symbols-outlined-filled">{icon}</span>
+      <p>{label}</p>
+    </div>
   )
 }
 
