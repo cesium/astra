@@ -91,8 +91,8 @@ export function SidebarItemLabel({
 }) {
   return (
     <div className="inline-flex gap-2">
-      <span className="material-symbols-outlined-filled">{icon}</span>
-      <p>{label}</p>
+      <span className="material-symbols-outlined-filled group-hover:-rotate-12 group-hover:scale-105 transition-all duration-200 ease-in-out origin-center">{icon}</span>
+      <p className="group-hover:translate-x-1 transition-all duration-200 ease-in-out">{label}</p>
     </div>
   );
 }
