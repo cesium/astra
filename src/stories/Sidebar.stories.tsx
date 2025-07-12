@@ -27,7 +27,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: (args) => (
+  render: () => (
     <div className="max-w-xs p-4">
       <Sidebar defaultSelected="account">
         <SidebarHeader>Conta</SidebarHeader>
@@ -55,7 +55,7 @@ export const Default: Story = {
 };
 
 export const WithoutLabels: Story = {
-  render: (args) => (
+  render: () => (
     <div className="max-w-xs p-4">
       <Sidebar defaultSelected="account">
         <SidebarHeader>Conta</SidebarHeader>
