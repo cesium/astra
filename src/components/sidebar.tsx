@@ -20,7 +20,7 @@ interface ISideBarContextType {
 interface IItemProps extends IParentProps {
   id: string;
   href?: string;
-  onClick?: () => void
+  onClick?: () => void;
 }
 
 // Compound Components
@@ -41,7 +41,13 @@ export function SidebarItemList({ children, className }: IParentProps) {
   return <div className={`flex flex-col gap-2 ${className}`}>{children}</div>;
 }
 
-export function SidebarItem({ children, className, id, href, onClick }: IItemProps) {
+export function SidebarItem({
+  children,
+  className,
+  id,
+  href,
+  onClick,
+}: IItemProps) {
   const context = useContext(SideBarContext);
 
   if (!context) {
@@ -51,7 +57,7 @@ export function SidebarItem({ children, className, id, href, onClick }: IItemPro
   const { selected, setSelected } = context;
   const isSelected = selected === id;
 
-  const commonClass = `flex group cursor-pointer items-center font-medium rounded-lg px-3 py-2.5 text-dark/50 transition-all duration-300 ease-in-out ${isSelected ? "bg-primary/10 text-primary ring-1 ring-primary/25" : "hover:bg-gray-100"} ${className}`
+  const commonClass = `flex group cursor-pointer items-center font-medium rounded-lg px-3 py-2.5 text-dark/50 transition-all duration-300 ease-in-out ${isSelected ? "bg-primary/10 text-primary ring-1 ring-primary/25" : "hover:bg-gray-100"} ${className}`;
 
   return href ? (
     <Link
@@ -63,7 +69,7 @@ export function SidebarItem({ children, className, id, href, onClick }: IItemPro
       {children}
     </Link>
   ) : (
-    <button 
+    <button
       onClick={() => {
         setSelected(id);
         onClick?.();
@@ -73,18 +79,23 @@ export function SidebarItem({ children, className, id, href, onClick }: IItemPro
     >
       {children}
     </button>
-  )
+  );
 }
 
-export function SidebarItemLabel({icon, label}: {icon: string, label: string}) {
+export function SidebarItemLabel({
+  icon,
+  label,
+}: {
+  icon: string;
+  label: string;
+}) {
   return (
     <div className="inline-flex gap-2">
       <span className="material-symbols-outlined-filled">{icon}</span>
       <p>{label}</p>
     </div>
-  )
+  );
 }
-
 
 // Main Sidebar component
 export default function Sidebar({ children, defaultSelected }: ISideBarProps) {
