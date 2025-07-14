@@ -1,21 +1,16 @@
 "use client"
 
+import EventsOptionsSection from "./events-options-section"
+
 import {
-  ReactElement,
-  isValidElement,
-  cloneElement,
   useState,
   ReactNode,
 } from "react"
 
 interface IAnimatedOptionsSection {
-  children: ReactNode
+  children: [ReactNode, ReactNode]
   title?: string
   classNameOpenedSection?: string
-}
-
-interface ISendEditProp {
-  sendEditInfoToParent: (editing: boolean) => void
 }
 
 export default function AnimatedOptionsSection({
@@ -23,14 +18,13 @@ export default function AnimatedOptionsSection({
   title = "Opções",
   classNameOpenedSection,
 }: IAnimatedOptionsSection) {
+
   const [isOpen, setIsOpen] = useState(false)
   const [isEditingFromChild, setIsEditingFromChild] = useState(false)
 
   function handleIsEditingFromChild(editing: boolean) {
     setIsEditingFromChild(editing)
   }
-
-  const newChildren = cloneElement(children as ReactElement<ISendEditProp>, {sendEditInfoToParent: handleIsEditingFromChild})
 
   return (
     <div
@@ -63,7 +57,9 @@ export default function AnimatedOptionsSection({
                 </div>
             </>
         )}
-        <div>{newChildren}</div>
+        <EventsOptionsSection sendEditInfoToParent={handleIsEditingFromChild}>
+        {children}
+        </EventsOptionsSection>
         </div>
       )}
     </div>
