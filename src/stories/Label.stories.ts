@@ -5,7 +5,7 @@ import { fn } from 'storybook/test';
 import Label from '../components/label_component';
 
 const meta = {
-  title: 'Example/Label',
+  title: 'Components/Label',
   component: Label,
   parameters: {
     layout: 'centered',
