@@ -1,4 +1,4 @@
-import type { Meta, StoryObj }  from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import Sidebar, {
   SidebarHeader,
   SidebarItem,
@@ -9,16 +9,31 @@ import Sidebar, {
 const meta: Meta<typeof Sidebar> = {
   title: "Components/Sidebar",
   component: Sidebar,
-  parameters: { layout: "fullscreen" },
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        component:
+          "A flexible sidebar container that manages selection state and provides context for child components. Serves as the root wrapper that coordinates the active state across all sidebar items.",
+      },
+    },
+  },
   tags: ["autodocs"],
   argTypes: {
     defaultSelected: {
       control: "text",
-      description: "Default selected item ID",
+      description:
+        "ID of the item that should be selected by default when the component loads",
     },
     children: {
       control: false,
-      description: "Sidebar content (Header, ItemList, Item)",
+      description:
+        "Sidebar child elements that compose the internal content of the sidebar",
+    },
+    className: {
+      control: "text",
+      description:
+        "Additional CSS classes to customize the styling of the main container",
     },
   },
 };
