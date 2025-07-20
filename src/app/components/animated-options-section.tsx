@@ -1,5 +1,6 @@
 "use client"
 
+import { motion } from "motion/react"
 import EventsOptionsSection from "./events-options-section"
 
 import {
@@ -27,11 +28,18 @@ export default function AnimatedOptionsSection({
   }
 
   return (
-    <div
+    <motion.div
       onClick={!isOpen ? () => setIsOpen(true) : undefined}
-      className={`border border-gray-200 shadow-sm rounded-xl w-20 h-96 flex items-center justify-center ${
-        !isOpen ? "cursor-pointer" : "w-fit"
+      className={`h-96 flex items-center justify-center border rounded-[15px] border-[#eeeeee] bg-[#fafafa] ${
+        !isOpen ? "cursor-pointer" : ""
       }`}
+      initial={{ width: "5rem" }}
+      animate={
+        isOpen
+          ? { width: "26rem" }
+          : { width: "5rem" }
+      }
+      transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       {!isOpen && (
         <div className="-rotate-90 flex">
@@ -44,24 +52,31 @@ export default function AnimatedOptionsSection({
         </div>
       )}
       {isOpen && (
-        <div
-          className={`flex flex-col bg-muted rounded-xl ${classNameOpenedSection}`}
-        > 
-        {!isEditingFromChild && (
+        <motion.div
+          className={`flex flex-col ${classNameOpenedSection}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          {!isEditingFromChild && (
             <>
-                <div className="flex justify-between">
-                    <span className="text-2xl font-semibold">{title}</span>
-                    <span className="material-symbols-outlined cursor-pointer text-gray-500" onClick={() => setIsOpen(false)}>
-                        arrow_back_ios_new
-                    </span>
-                </div>
+              <div className="flex justify-between place-items-center">
+                <span className="text-2xl font-semibold">{title}</span>
+                <span
+                  className="material-symbols-outlined cursor-pointer text-gray-500 font-bold"
+                  onClick={() => setIsOpen(false)}
+                >
+                  arrow_back_ios_new
+                </span>
+              </div>
             </>
-        )}
-        <EventsOptionsSection sendEditInfoToParent={handleIsEditingFromChild}>
-        {children}
-        </EventsOptionsSection>
-        </div>
+          )}
+          <EventsOptionsSection sendEditInfoToParent={handleIsEditingFromChild}>
+            {children}
+          </EventsOptionsSection>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   )
 }

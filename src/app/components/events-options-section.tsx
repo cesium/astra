@@ -1,4 +1,5 @@
 "use client"
+import { motion } from "motion/react"
 import React, { cloneElement, ReactNode, useState, isValidElement, ReactElement } from "react"
 
 interface IEventsOptionsSection {
@@ -43,13 +44,22 @@ export default function EventsOptionsSection({sendEditInfoToParent, children} : 
 
   return (
       <div>
-          <div>
-            {isEditing && <span onClick={handleEditClick} className="material-symbols-outlined">arrow_back_ios_new</span>}
-          </div>
-        <div className="bg-amber-300 w-96 h-80">
+          
+          {isEditing && (
+            <div className="h-8 flex place-items-center">
+              <motion.span onClick={handleEditClick} className="material-symbols-outlined text-gray-500 cursor-pointer">arrow_back_ios_new</motion.span>
+            </div>
+          )}
+          <motion.div 
+            initial={{ opacity: 0, width: "5rem" }}
+            animate={{ opacity: 1, width: "24rem" }}
+            exit={{ opacity: 0, width: "5rem" }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="bg-amber-300 h-80"
+        >
             {!isEditing && addEditActionToChildren(children[0])}
             {isEditing && children[1]}
-        </div>
+        </motion.div>
       </div>
   )
 }
