@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import { fn } from 'storybook/test';
 
-import ToggleSwitch from '../app/components/switch_component';
+import ToggleSwitch from '../../components/switch';
 
 const meta = {
-  title: 'Example/ToggleSwitch',
+  title: 'Components/ToggleSwitch',
   component: ToggleSwitch,
   parameters: {
     layout: 'centered',
