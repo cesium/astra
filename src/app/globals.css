@@ -46,22 +46,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-primary: #EE7749;
+  --color-light: #FFFFFF;
+  --color-dark: #000000;
+  --color-muted: #FAFAFA;
+  --color-university: #971318;
+  --color-danger: #FF5E79;
+  --color-success: #2EDB51;
+
+  --font-jamjuree: var(--font-jamjuree)
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  
-  font-family: var(--font-jamjuree), Arial, Helvetica, sans-serif;
-}
-
-.font-jamjuree {
-  font-family: var(--font-jamjuree), Arial, sans-serif;
-}
-
-.font-material-symbols {
-  font-family: "Material Symbols Outlined";
+input[type="number"] {
+  -moz-appearance: textfield;
 }
