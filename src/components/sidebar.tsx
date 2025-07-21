@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState, createContext, useContext } from "react";
+import { usePathname } from "next/navigation";
+import { useState, createContext, useContext, useEffect } from "react";
 
 interface IParentProps {
   children: React.ReactNode;
@@ -13,8 +14,8 @@ interface ISideBarProps extends IParentProps {
 }
 
 interface ISideBarContextType {
-  selected: string | null;
-  setSelected: React.Dispatch<React.SetStateAction<string | null>>;
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface IItemProps extends IParentProps {
@@ -57,7 +58,7 @@ export function SidebarItem({
   const { selected, setSelected } = context;
   const isSelected = selected === id;
 
-  const commonClass = `flex group cursor-pointer items-center font-medium rounded-lg px-3 py-2.5 text-dark/50 transition-all duration-300 ease-in-out ${isSelected ? "bg-primary/10 text-primary ring-1 ring-primary/25" : "hover:bg-gray-100"} ${className}`;
+  const commonClass = `flex group cursor-pointer items-center font-medium rounded-lg px-3 py-2.5 text-dark/50 transition-all duration-300 ease-in-out ${isSelected ? "bg-primary/10 text-primary ring-1 ring-primary/25" : "hover:bg-gray-100"} ${className || ''}`;
 
   return href ? (
     <Link
@@ -75,7 +76,7 @@ export function SidebarItem({
         onClick?.();
       }}
       className={commonClass}
-      aria-current={isSelected ? "true" : "false"}
+      aria-pressed={isSelected}
     >
       {children}
     </button>
@@ -102,10 +103,16 @@ export function SidebarItemLabel({
 }
 
 // Main Sidebar component
-export default function Sidebar({ children, defaultSelected }: ISideBarProps) {
-  const [selected, setSelected] = useState<string | null>(
-    defaultSelected || null,
+export default function Sidebar({ children, defaultSelected}: ISideBarProps) {
+  const currentPage = usePathname();
+  
+  const [selected, setSelected] = useState<string>(
+    defaultSelected || currentPage
   );
+
+  useEffect(() => {
+    if (!defaultSelected) setSelected(currentPage);
+  }, [currentPage, defaultSelected])
 
   return (
     <div className="h-full px-0.5 py-2">
