@@ -45,23 +45,20 @@ export const Default: Story = {
   render: () => (
     <div className="max-w-xs p-4">
       <Sidebar defaultSelected="account">
-        <SidebarHeader>Conta</SidebarHeader>
+        <SidebarHeader>Account</SidebarHeader>
 
         <SidebarItemList>
           <SidebarItem id="account" href="/account">
-            <SidebarItemLabel icon="account_circle" label="A tua conta" />
+            <SidebarItemLabel icon="account_circle" label="Your Account" />
           </SidebarItem>
           <SidebarItem id="university" href="/uminho">
-            <SidebarItemLabel icon="school" label="Universidade do Minho" />
+            <SidebarItemLabel icon="school" label="Minho University" />
           </SidebarItem>
           <SidebarItem id="privacy" href="/privacy">
-            <SidebarItemLabel
-              icon="back_hand"
-              label="Privacidade e segurança"
-            />
+            <SidebarItemLabel icon="back_hand" label="Privacy" />
           </SidebarItem>
           <SidebarItem id="connections" href="/connections">
-            <SidebarItemLabel icon="handshake" label="Ligações" />
+            <SidebarItemLabel icon="handshake" label="Connections" />
           </SidebarItem>
         </SidebarItemList>
       </Sidebar>
@@ -78,22 +75,22 @@ export const WithoutLabels: Story = {
         <SidebarItemList>
           <SidebarItem id="account" href="/account">
             <p className="transition-all duration-200 ease-in-out group-hover:translate-x-1">
-              A tua conta
+              Your Account
             </p>
           </SidebarItem>
           <SidebarItem id="university" href="/uminho">
             <p className="transition-all duration-200 ease-in-out group-hover:translate-x-1">
-              Universidade do Minho
+              Minho University
             </p>
           </SidebarItem>
           <SidebarItem id="privacy" href="/privacy">
             <p className="transition-all duration-200 ease-in-out group-hover:translate-x-1">
-              Privacidade e segurança
+              Privacy
             </p>
           </SidebarItem>
           <SidebarItem id="connections" href="/connections">
             <p className="transition-all duration-200 ease-in-out group-hover:translate-x-1">
-              Ligações
+              Connections
             </p>
           </SidebarItem>
         </SidebarItemList>
