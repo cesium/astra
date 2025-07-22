@@ -11,12 +11,14 @@ import {
 interface IAnimatedOptionsSection {
   children: [ReactNode, ReactNode]
   title?: string
+  titleEdit?: string
   classNameOpenedSection?: string
 }
 
 export default function AnimatedOptionsSection({
   children,
   title = "Opções",
+  titleEdit = "Editar Opções",
   classNameOpenedSection,
 }: IAnimatedOptionsSection) {
 
@@ -27,22 +29,26 @@ export default function AnimatedOptionsSection({
     setIsEditingFromChild(editing)
   }
 
+  let width
+
+  isEditingFromChild ? (width = "756px") : (width = "379px")
+
   return (
     <motion.div
       onClick={!isOpen ? () => setIsOpen(true) : undefined}
-      className={`h-96 flex items-center justify-center border rounded-[15px] border-[#eeeeee] bg-[#fafafa] ${
-        !isOpen ? "cursor-pointer" : ""
+      className={`h-full flex items-start justify-end ${
+        !isOpen ? "cursor-pointer" : "justify-start border rounded-[15px] border-[#eeeeee] bg-[#fafafa]"
       }`}
       initial={{ width: "5rem" }}
       animate={
         isOpen
-          ? { width: "26rem" }
+          ? { width: width }
           : { width: "5rem" }
       }
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       {!isOpen && (
-        <div className="-rotate-90 flex">
+        <div className="-rotate-90 flex translate-y-20">
           <span className="text-center flex w-30 text-gray-500 font-light text-sm">
             Mostrar opções
           </span>
@@ -60,19 +66,17 @@ export default function AnimatedOptionsSection({
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           {!isEditingFromChild && (
-            <>
-              <div className="flex justify-between place-items-center">
-                <span className="text-2xl font-semibold">{title}</span>
-                <span
-                  className="material-symbols-outlined cursor-pointer text-gray-500 font-bold"
-                  onClick={() => setIsOpen(false)}
-                >
-                  arrow_back_ios_new
-                </span>
-              </div>
-            </>
+            <div className="flex justify-between place-items-center p-4">
+              <span className="text-lg font-semibold">{title}</span>
+              <span
+                className="material-symbols-outlined cursor-pointer text-gray-500 font-bold"
+                onClick={() => setIsOpen(false)}
+              >
+                arrow_back_ios_new
+              </span>
+            </div>
           )}
-          <EventsOptionsSection sendEditInfoToParent={handleIsEditingFromChild}>
+          <EventsOptionsSection titleEdit={titleEdit} sendEditInfoToParent={handleIsEditingFromChild}>
             {children}
           </EventsOptionsSection>
         </motion.div>

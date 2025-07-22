@@ -4,15 +4,17 @@ import EventsOptionsSection from "./components/events-options-section"
 export default function Home() {
   return (
     <div className="p-64">
-      <AnimatedOptionsSection classNameOpenedSection="py-5 px-3">
-        <div>
-          CHILDREN 1
-          <span data-edit-button>JONAS</span>
-        </div>
-        <div>
-          CHILDREN 2
-        </div>
-      </AnimatedOptionsSection>  
+      <div className="h-[774px] w-full bg-orange-700 p-8">
+        <AnimatedOptionsSection classNameOpenedSection="" title="Opções" titleEdit="Editar Calendários">
+          <div>
+            CHILDREN 1
+            <span data-edit-button>JONAS</span>
+          </div>
+          <div>
+            CHILDREN 2
+          </div>
+        </AnimatedOptionsSection>
+      </div>
     </div>
   )
 }
