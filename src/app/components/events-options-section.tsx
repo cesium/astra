@@ -29,7 +29,6 @@ export default function EventsOptionsSection({
 
   function addEditActionToChildren(child: ReactNode): ReactNode {
     const element = child as ReactElement<any>;
-
     if (!isValidElement(child)) return child;
 
     if ("data-edit-button" in element.props) {
@@ -42,43 +41,47 @@ export default function EventsOptionsSection({
         children,
         (nestedChild) => addEditActionToChildren(nestedChild),
       );
-
       return cloneElement(element, {
         children: childrenWithEditButtonAction,
       });
     }
-
     return child;
   }
 
   let width
-
   isEditing ? (width = "756px") : (width = "379px")
 
   return (
-    <div>
+    <div className="h-full flex flex-col">
       {isEditing && (
-        <div className="flex justify-between place-items-center p-4">
+        <div className="flex justify-between place-items-center p-4 flex-shrink-0">
           <span
             className="material-symbols-outlined cursor-pointer text-gray-500"
             onClick={handleEditClick}
           >
             arrow_back_ios_new
           </span>
-          <span className="text-xl font-semibold">{titleEdit}</span>
-          <span></span>
+          <span className="text-lg font-semibold">{titleEdit}</span>
+          <span className="h-8"></span>
         </div>
       )}
-      <motion.div
-        initial={{ opacity: 0, width: "5rem" }}
-        animate={{ opacity: 1, width: width }}
-        exit={{ opacity: 0, width: "5rem" }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="h-80 bg-amber-300"
-      >
-        {!isEditing && addEditActionToChildren(children[0])}
-        {isEditing && children[1]}
-      </motion.div>
+      <div className="flex-1 min-h-0">
+        <motion.div
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="h-full w-full overflow-hidden box-border"
+        >
+          {!isEditing && (
+            <div className="overflow-auto h-full w-full box-border">
+              {addEditActionToChildren(children[0])}
+            </div>
+          )}
+          {isEditing && (
+            <div className="overflow-auto h-full w-full box-border">
+              {children[1]}
+            </div>
+          )}
+        </motion.div>
+      </div>
     </div>
   );
 }
