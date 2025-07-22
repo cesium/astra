@@ -54,6 +54,8 @@
   --color-university: #971318;
   --color-danger: #FF5E79;
   --color-success: #2EDB51;
+
+  --font-jamjuree: var(--font-jamjuree)
 }
 
 input[type="number"] {
