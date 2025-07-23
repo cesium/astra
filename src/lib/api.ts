@@ -1,0 +1,54 @@
+import { useAuthStore } from "@/stores/authStore";
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:4000/v1",
+  withCredentials: false,
+});
+
+const apiWithCredentials = axios.create({
+  baseURL: "http://localhost:4000/v1",
+  withCredentials: true,
+});
+
+api.interceptors.request.use(
+  async (config) => {
+    const token = useAuthStore.getState().token;
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const res = await apiWithCredentials.post("/auth/refresh");
+        const { access_token } = res.data;
+
+        useAuthStore.getState().setToken(access_token);
+        originalRequest.headers.Authorization = `Bearer ${access_token}`;
+
+        return axios(originalRequest);
+      } catch (refreshError) {
+        console.error("Token refresh failed: ", refreshError);
+        useAuthStore.getState().setToken(undefined);
+
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
+
+export default api;

@@ -13,10 +13,13 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
-    "install": "^0.13.0",
+    "axios": "^1.10.0",
+    "jwt-decode": "^4.0.0",
     "next": "15.3.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.60.0",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
