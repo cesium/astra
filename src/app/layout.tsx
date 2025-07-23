@@ -22,8 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${jamjuree.variable} font-jamjuree antialiased`}
+        className={`${jamjuree.variable} font-jamjuree antialiased px-8`}
       >
+        <nav className="h-24 w-full bg-gray-300"></nav>
         {children}
       </body>
     </html>

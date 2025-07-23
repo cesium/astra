@@ -115,7 +115,7 @@ export default function Sidebar({ children, defaultSelected }: ISideBarProps) {
   }, [currentPage, defaultSelected]);
 
   return (
-    <div className="h-full px-0.5 py-2">
+    <div className="h-full">
       <SideBarContext.Provider value={{ selected, setSelected }}>
         {children}
       </SideBarContext.Provider>
