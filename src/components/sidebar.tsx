@@ -15,7 +15,7 @@ interface ISideBarProps extends IParentProps {
 
 interface ISideBarContextType {
   selected: string;
-  setSelected: React.Dispatch<React.SetStateAction<string>>;
+  setSelected: (selected: string) => void;
 }
 
 interface IItemProps extends IParentProps {
