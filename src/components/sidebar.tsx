@@ -109,7 +109,7 @@ export default function Sidebar({ children, defaultSelected }: ISideBarProps) {
   const currentPage = usePathname();
 
   const [selected, setSelected] = useState<string>(
-    defaultSelected || currentPage,
+    defaultSelected || '',
   );
 
   useEffect(() => {
