@@ -66,7 +66,7 @@ export function SidebarItem({
       href={href}
       onClick={() => setSelected(href)}
       className={commonClass}
-      aria-current={"page"}
+      aria-current="page"
     >
       {children}
     </Link>
@@ -108,9 +108,7 @@ export function SidebarItemLabel({
 export default function Sidebar({ children, defaultSelected }: ISideBarProps) {
   const currentPage = usePathname();
 
-  const [selected, setSelected] = useState<string>(
-    defaultSelected || '',
-  );
+  const [selected, setSelected] = useState<string>(defaultSelected || "");
 
   useEffect(() => {
     if (!defaultSelected) setSelected(currentPage);
