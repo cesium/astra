@@ -31,7 +31,7 @@ const SideBarContext = createContext<ISideBarContextType | null>(null);
 export function SidebarHeader({ children, className }: IParentProps) {
   return (
     <div
-      className={`mx-3 mb-2.5 border-b border-gray-200 pt-5 pb-3 text-[#00000080] ${className}`}
+      className={`text-dark/50 mx-3 mb-2.5 border-b border-gray-200 pt-5 pb-3 ${className}`}
     >
       {children}
     </div>
@@ -56,21 +56,23 @@ export function SidebarItem({
   }
 
   const { selected, setSelected } = context;
-  const isSelected = selected === id;
+  const isSelected = selected === href;
 
-  const commonClass = `flex group cursor-pointer items-center font-medium rounded-lg px-3 py-2.5 text-dark/50 transition-all duration-300 ease-in-out ${isSelected ? "bg-primary/10 text-primary ring-1 ring-primary/25" : "hover:bg-gray-100"} ${className || ''}`;
+  const commonClass = `flex group cursor-pointer items-center font-medium rounded-lg px-3 py-2.5 text-dark/50 transition-all duration-300 ease-in-out ${isSelected ? "bg-primary/10 text-primary ring-1 ring-primary/25" : "hover:bg-gray-100"} ${className || ""}`;
 
   return href ? (
     <Link
+      id={id}
       href={href}
-      onClick={() => setSelected(id)}
+      onClick={() => setSelected(href)}
       className={commonClass}
-      aria-current={isSelected ? "page" : undefined}
+      aria-current={"page"}
     >
       {children}
     </Link>
   ) : (
     <button
+      id={id}
       onClick={() => {
         setSelected(id);
         onClick?.();
@@ -103,16 +105,16 @@ export function SidebarItemLabel({
 }
 
 // Main Sidebar component
-export default function Sidebar({ children, defaultSelected}: ISideBarProps) {
+export default function Sidebar({ children, defaultSelected }: ISideBarProps) {
   const currentPage = usePathname();
-  
+
   const [selected, setSelected] = useState<string>(
-    defaultSelected || currentPage
+    defaultSelected || currentPage,
   );
 
   useEffect(() => {
     if (!defaultSelected) setSelected(currentPage);
-  }, [currentPage, defaultSelected])
+  }, [currentPage, defaultSelected]);
 
   return (
     <div className="h-full px-0.5 py-2">
