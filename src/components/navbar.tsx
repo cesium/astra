@@ -27,7 +27,7 @@ export default function Navbar() {
 
     return (
       <Link
-        className={`relative inline-flex items-center gap-2 rounded-full px-4 py-2.5 transition-colors duration-200 ease-in-out ${
+        className={`relative inline-flex items-center gap-2 rounded-full px-2 sm:px-4 py-1.5 sm:py-2.5 text-sm sm:text-base transition-colors duration-200 ease-in-out ${
           isActive ? "text-white" : "text-gray-600 hover:text-gray-900"
         }`}
         href={href}
@@ -52,9 +52,9 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="flex w-full justify-between px-8 py-4">
+    <nav className="flex w-full justify-center md:justify-between px-8 py-4">
       {/* Logo */}
-      <div className="flex items-center gap-2">
+      <div className="hidden md:flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -79,7 +79,7 @@ export default function Navbar() {
 
       <menu
         key={currentPage}
-        className="flex h-13 items-center gap-0.5 rounded-full bg-gray-100 p-1"
+        className="flex h-fit sm:h-13 items-center gap-0.5 rounded-full bg-gray-100 p-1"
       >
         {tabs.map((tab) => (
           <Tab key={tab.href} name={tab.name} icon={tab.icon} href={tab.href} />
@@ -87,7 +87,7 @@ export default function Navbar() {
       </menu>
 
       {/* User dropdown */}
-      <div className="flex items-center justify-center px-4">Profile</div>
+      <div className="hidden md:flex items-center justify-center px-4">Profile</div>
     </nav>
   );
 }
