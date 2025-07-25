@@ -47,17 +47,65 @@
 }
 
 @theme {
-  --color-primary: #EE7749;
-  --color-light: #FFFFFF;
+  --color-primary: #ee7749;
+  --color-light: #ffffff;
   --color-dark: #000000;
-  --color-muted: #FAFAFA;
+  --color-muted: #fafafa;
   --color-university: #971318;
-  --color-danger: #FF5E79;
-  --color-success: #2EDB51;
+  --color-danger: #ff5e79;
+  --color-success: #2edb51;
 
-  --font-jamjuree: var(--font-jamjuree)
+  --font-jamjuree: var(--font-jamjuree);
 }
 
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+
+
+/*Calendar View Costumization*/
+
+.rbc-calendar {
+  width: 100% !important;
+}
+
+.rbc-month-view, .rbc-time-view {
+  border-radius: 15px;
+}
+
+.rbc-month-row:last-child .rbc-off-range-bg:last-child {
+  border-bottom-right-radius: 15px;
+}
+
+.rbc-off-range-bg {
+  background-color: #0000000e !important;
+}
+
+.rbc-month-header .rbc-header{
+  padding-bottom: 9px;
+  padding-top: 9px;
+  color: #00000080;
+  font-weight: 400;
+}
+
+.rbc-timeslot-group {
+  padding-top: 7.5px;
+}
+
+.rbc-today {
+  background-color: #EE774926 !important;
+}
+
+.rbc-current-time-indicator {
+  background-color: var(--color-primary) !important;
+  height: 2px !important;
+}
+
+
+
+
+
+
+
+
