@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import { fn } from 'storybook/test';
 
-import ToggleSwitch from '../../components/switch';
+import ToggleSwitch from '../components/switch';
 
 const meta = {
   title: 'Components/ToggleSwitch',
