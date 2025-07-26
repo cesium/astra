@@ -7,6 +7,8 @@ import React, {
   isValidElement,
   ReactElement,
   useEffect,
+  useCallback,
+  useMemo,
 } from "react"
 
 interface IAnimatedOptionsSection {
@@ -26,22 +28,19 @@ export default function AnimatedOptionsSection({
   const [applyClosedClasses, setApplyClosedClasses] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setIsOpen(false)
     setIsEditing(false)
-    setTimeout(() => {
-      setApplyClosedClasses(true)
-    }, 600)
-  }
+  }, [])
 
-  const handleOpen = () => {
+  const handleOpen = useCallback(() => {
     setIsOpen(true)
     setApplyClosedClasses(false)
-  }
+  }, [])
 
-  function handleEditClick() {
-    setIsEditing(!isEditing)
-  }
+  const handleEditClick = useCallback(() => {
+    setIsEditing(prev => !prev)
+  }, [])
 
   const useIsMobile = () => {
     const [isMobile, setIsMobile] = useState(false)
@@ -58,28 +57,34 @@ export default function AnimatedOptionsSection({
 
   const isMobile = useIsMobile()
 
-  function addEditActionToChildren(child: ReactNode): ReactNode {
-    const element = child as ReactElement<any>
+  const addEditActionToChildren = useCallback((child: ReactNode): ReactNode => {
     if (!isValidElement(child)) return child
 
-    if ("data-edit-button" in element.props) {
-      return cloneElement(element, { onClick: handleEditClick })
-    }
+    const element = child as ReactElement<Record<string, unknown>>
 
-    const children = element.props.children
-    if (children) {
-      const childrenWithEditButtonAction = React.Children.map(
-        children,
-        (nestedChild) => addEditActionToChildren(nestedChild),
-      )
+    if (element.props && "data-edit-button" in element.props) {
       return cloneElement(element, {
-        children: childrenWithEditButtonAction,
+        ...element.props,
+        onClick: handleEditClick
       })
     }
-    return child
-  }
 
-  const variants = {
+    const children = element.props?.children
+    if (children && (isValidElement(children) || Array.isArray(children))) {
+      const processedChildren = React.Children.map(
+        children as ReactNode,
+        (nestedChild: ReactNode) => addEditActionToChildren(nestedChild),
+      )
+      return cloneElement(element, {
+        ...element.props,
+        children: processedChildren,
+      })
+    }
+
+    return child
+  }, [handleEditClick])
+
+  const variants = useMemo(() => ({
     mobile: {
       closed: {
         width: "100%",
@@ -100,7 +105,7 @@ export default function AnimatedOptionsSection({
         height: "100%"
       },
       open: {
-        width: "380px",
+        width: "379px",
         height: "100%"
       },
       editing: {
@@ -108,31 +113,31 @@ export default function AnimatedOptionsSection({
         height: "100%"
       }
     }
-  }
+  }), [])
 
-  const transition = {
+  const transition = useMemo(() => ({
     duration: 0.4,
     ease: [0.4, 0.0, 0.2, 1] as const,
     editingDuration: 0.3,
     type: "tween" as const
-  }
+  }), [])
 
-  const getAnimationState = () => {
+  const getAnimationState = useCallback(() => {
     if (!isOpen) return 'closed'
     return isEditing ? 'editing' : 'open'
-  }
+  }, [isOpen, isEditing])
 
   const animationState = getAnimationState()
   const currentVariants = isMobile ? variants.mobile : variants.desktop
   const showClosedState = !isOpen && applyClosedClasses
 
-  const getContainerClasses = () => {
+  const getContainerClasses = useCallback(() => {
     const base = isMobile ? "fixed bottom-0 left-0 w-full z-50" : "h-full"
     const editing = isEditing && !isMobile ? "relative" : ""
     return `${base} ${editing}`
-  }
+  }, [isMobile, isEditing])
 
-  const getMotionClasses = () => {
+  const getMotionClasses = useCallback(() => {
     const base = isMobile ? "w-full" : "h-full"
     const flex = `flex ${isMobile ? "items-end" : "items-start"} justify-end box-border`
 
@@ -149,18 +154,18 @@ export default function AnimatedOptionsSection({
     const mobile = isMobile ? "rounded-t-2xl bg-white shadow-lg" : ""
 
     return `${base} ${flex} ${state} ${editing} ${mobile}`
-  }
+  }, [isMobile, showClosedState, isEditing])
 
-  const getContentClasses = () => {
+  const getContentClasses = useCallback(() => {
     const base = isMobile ? "w-full h-full" : "h-full"
     const flex = "flex flex-col w-full overflow-hidden"
     const styling = isMobile ? "rounded-t-2xl" : "rounded-[15px]"
     const custom = classNameOpenedSection || ""
 
     return `${base} ${flex} ${styling} ${custom}`
-  }
+  }, [isMobile, classNameOpenedSection])
 
-  const contentVariants = {
+  const contentVariants = useMemo(() => ({
     hidden: {
       opacity: 0
     },
@@ -170,12 +175,24 @@ export default function AnimatedOptionsSection({
     exit: {
       opacity: 0
     }
-  }
+  }), [])
+
+  const handleAnimationComplete = useCallback((definition: string) => {
+    if (definition === 'closed') {
+      setApplyClosedClasses(true)
+    }
+  }, [])
+
+  const handleMotionClick = useCallback(() => {
+    if (showClosedState) {
+      handleOpen()
+    }
+  }, [showClosedState, handleOpen])
 
   return (
     <div className={getContainerClasses()}>
       <motion.div
-        onClick={showClosedState ? handleOpen : undefined}
+        onClick={handleMotionClick}
         className={getMotionClasses()}
         animate={animationState}
         variants={currentVariants}
@@ -185,6 +202,16 @@ export default function AnimatedOptionsSection({
           ease: transition.ease,
           type: transition.type
         }}
+        onAnimationComplete={handleAnimationComplete}
+        role={showClosedState ? "button" : undefined}
+        tabIndex={showClosedState ? 0 : undefined}
+        onKeyDown={showClosedState ? (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleOpen()
+          }
+        } : undefined}
+        aria-label={showClosedState ? "Abrir opções" : undefined}
       >
         {showClosedState && (
           <motion.div
@@ -213,18 +240,20 @@ export default function AnimatedOptionsSection({
           >
             {!isEditing && (
               <motion.div
-                className={`flex justify-between place-items-center p-4 flex-shrink-0`}
+                className="flex justify-between place-items-center p-4 flex-shrink-0"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: 0.15 }}
               >
                 <span className="text-2xl font-semibold">{title}</span>
-                <span
-                  className="material-symbols-outlined cursor-pointer text-gray-500 font-bold hover:text-gray-700 transition-colors duration-200"
+                <button
+                  className="material-symbols-outlined cursor-pointer text-gray-500 font-bold hover:text-gray-700 transition-colors duration-200 bg-transparent border-none p-1"
                   onClick={handleClose}
+                  aria-label="Fechar opções"
+                  type="button"
                 >
                   arrow_back_ios_new
-                </span>
+                </button>
               </motion.div>
             )}
 
@@ -235,14 +264,16 @@ export default function AnimatedOptionsSection({
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: 0.15 }}
               >
-                <span
-                  className="material-symbols-outlined cursor-pointer text-gray-500 hover:text-gray-700 transition-colors duration-200"
+                <button
+                  className="material-symbols-outlined cursor-pointer text-gray-500 hover:text-gray-700 transition-colors duration-200 bg-transparent border-none p-1"
                   onClick={handleEditClick}
+                  aria-label="Voltar às opções"
+                  type="button"
                 >
                   arrow_back_ios_new
-                </span>
+                </button>
                 <span className="text-lg font-semibold">{titleEdit}</span>
-                <span className="h-8"></span>
+                <div className="h-8 w-8"></div>
               </motion.div>
             )}
 
