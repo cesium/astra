@@ -1,8 +1,9 @@
 "use client";
 import Card from "@/components/card";
 import Input from "@/components/input";
-import api from "@/lib/api";
+import { apiWithCredentials } from "@/lib/api";
 import { useAuthStore } from "@/stores/authStore";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -15,13 +16,12 @@ interface IFormInput {
 export default function Login() {
   const { register, handleSubmit } = useForm<IFormInput>();
   const [loading, setLoading] = useState(false);
-  // const { token } = useAuthStore();
   const router = useRouter();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setLoading(true);
 
-    api
+    apiWithCredentials
       .post("/auth/sign_in", data)
       .then((response) => {
         const { access_token } = response.data;
@@ -37,7 +37,6 @@ export default function Login() {
   };
 
   return (
-    // <Card className="bg-muted flex h-screen flex-col items-center justify-center">
     <div className="flex h-screen items-center justify-center">
       <div className="flex flex-col items-center gap-7">
         <div className="flex flex-col items-center">
@@ -65,38 +64,47 @@ export default function Login() {
           </div>
           <span>always at hand.</span>
         </div>
-        <Card className="p-8 flex flex-col gap-6 min-w-md">
+        <Card className="flex min-w-md flex-col gap-6 p-8">
           <div className="flex flex-col items-center">
             <span className="text-4xl font-bold">Welcome Back</span>
-            <span className="text-gray-400">Access your account to view all the info you need</span>
+            <span className="text-gray-400">
+              Access your account to view all the info you need
+            </span>
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-4"
           >
             <div className="flex flex-col gap-1">
-
-            <label htmlFor="email" className="font-medium text-dark pl-1">Email</label>
-            <Input
-              {...register("email", { required: true })}
-              className="bg-muted/70"
-              placeholder="Email"
-            />
+              <label htmlFor="email" className="text-dark pl-1 font-medium">
+                Email
+              </label>
+              <Input
+                {...register("email", { required: true })}
+                className="bg-muted/70"
+                placeholder="Email"
+              />
             </div>
             <div className="flex flex-col gap-1">
+              <label htmlFor="password" className="text-dark pl-1 font-medium">
+                Password
+              </label>
 
-            <label htmlFor="password" className="font-medium text-dark pl-1">Password</label>
-
-            <Input
-              {...register("password", { required: true })}
-              className="bg-muted/70"
-              type="password"
-              placeholder="Password"
-            />
+              <Input
+                {...register("password", { required: true })}
+                className="bg-muted/70"
+                type="password"
+                placeholder="Password"
+              />
             </div>
-            <button className="text-primary-400">Forgot password?</button>
+            <Link
+              href="/auth/forgot_password"
+              className="text-primary-400 mx-auto"
+            >
+              Forgot password?
+            </Link>
             <button
-              className="from-primary-400 to-primary-600 rounded-lg bg-gradient-to-br p-4 font-bold text-white mx-7"
+              className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
               type="submit"
             >
               {loading ? "Loading..." : "Login"}
@@ -107,8 +115,8 @@ export default function Login() {
           © 2025 Pombo • University schedule management made simple
         </span>
       </div>
-      <div className="absolute inset-0 h-screen w-screen overflow-hidden -z-10">
-        <div className="-z-10 absolute inset-0 backdrop-blur-3xl" />
+      <div className="absolute inset-0 -z-10 h-screen w-screen overflow-hidden">
+        <div className="absolute inset-0 -z-10 backdrop-blur-3xl" />
         <div className="bg-primary-400/15 absolute inset-0 -z-20 size-full" />
         <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 left-0 -z-20 size-[738px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
         <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 right-0 -z-20 size-[738px] translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />

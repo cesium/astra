@@ -1,12 +1,12 @@
 import { useAuthStore } from "@/stores/authStore";
 import axios from "axios";
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: "http://localhost:4000/v1",
   withCredentials: false,
 });
 
-const apiWithCredentials = axios.create({
+export const apiWithCredentials = axios.create({
   baseURL: "http://localhost:4000/v1",
   withCredentials: true,
 });
@@ -50,5 +50,3 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-
-export default api;
