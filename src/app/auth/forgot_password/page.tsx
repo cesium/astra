@@ -30,9 +30,9 @@ export default function ResetPassword() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <div className="flex flex-col items-center gap-7">
+      <div className="mx-4 flex flex-col items-center gap-4 sm:gap-7">
         <div className="flex flex-col items-center">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -56,38 +56,49 @@ export default function ResetPassword() {
           </div>
           <span>always at hand.</span>
         </div>
-        <Card className="flex min-w-md flex-col gap-6 p-8">
-          <div className="flex flex-col items-center gap-1.5">
-            <span className="text-4xl font-bold">Forgot password</span>
-            <span className="text-center leading-5 text-gray-400">
+        <Card className="flex flex-col gap-2 p-4 sm:min-w-md sm:gap-6 sm:p-8">
+          <div className="flex flex-col items-center gap-0.5 text-center sm:gap-1.5">
+            <h2 className="text-3xl font-bold sm:text-4xl">Forgot password</h2>
+            <span className="max-w-72 text-gray-400">
               Did you forget your password?
-              <br />
+            </span>
+            <span className="text-gray-400">
               Try entering your email here to reset your password
             </span>
           </div>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
-          >
-            <div className="flex flex-col gap-1">
-              <label htmlFor="email" className="text-dark pl-1 font-medium">
-                Email
-              </label>
-              <Input
-                {...register("email", { required: true })}
-                className="bg-muted/70"
-                placeholder="Email"
-              />
+          {status === ResponseStatus.Success ? (
+            <div className="flex flex-col items-center text-center">
+              <span className="material-symbols-outlined text-6xl">mail</span>
+              <p className="max-w-3xs">
+                If your account exists, an email was sent to your inbox with the
+                link to reset your password.
+              </p>
             </div>
-            <button
-              className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
-              type="submit"
+          ) : (
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col gap-4"
             >
-              {status === ResponseStatus.Loading ? "Loading..." : "Submit"}
-            </button>
-          </form>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="email" className="text-dark pl-1 font-medium">
+                  Email
+                </label>
+                <Input
+                  {...register("email", { required: true })}
+                  className="bg-muted/70"
+                  placeholder="Email"
+                />
+              </div>
+              <button
+                className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
+                type="submit"
+              >
+                {status === ResponseStatus.Loading ? "Loading..." : "Submit"}
+              </button>
+            </form>
+          )}
         </Card>
-        <span className="text-gray-400">
+        <span className="text-center text-gray-400">
           © 2025 Pombo • University schedule management made simple
         </span>
       </div>

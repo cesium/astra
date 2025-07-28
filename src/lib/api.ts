@@ -2,12 +2,12 @@ import { useAuthStore } from "@/stores/authStore";
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:4000/v1",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: false,
 });
 
 export const apiWithCredentials = axios.create({
-  baseURL: "http://localhost:4000/v1",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 

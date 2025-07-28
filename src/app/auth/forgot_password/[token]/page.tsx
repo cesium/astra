@@ -66,9 +66,9 @@ export default function ResetPassword() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <div className="flex flex-col items-center gap-7">
+      <div className="mx-4 flex flex-col items-center gap-4 sm:gap-7">
         <div className="flex flex-col items-center">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -92,9 +92,9 @@ export default function ResetPassword() {
           </div>
           <span>always at hand.</span>
         </div>
-        <Card className="flex min-w-md flex-col gap-6 p-8">
-          <div className="flex flex-col items-center gap-1.5">
-            <span className="text-4xl font-bold">Reset password</span>
+        <Card className="flex flex-col gap-2 p-4 sm:min-w-md sm:gap-6 sm:p-8">
+          <div className="flex flex-col items-center gap-0.5 text-center sm:gap-1.5">
+            <h2 className="text-3xl font-bold sm:text-4xl">Reset password</h2>
             <span className="text-gray-400">
               Access your account to view all the info you need
             </span>
@@ -144,7 +144,7 @@ export default function ResetPassword() {
             </button>
           </form>
         </Card>
-        <span className="text-gray-400">
+        <span className="text-center text-gray-400">
           © 2025 Pombo • University schedule management made simple
         </span>
       </div>
