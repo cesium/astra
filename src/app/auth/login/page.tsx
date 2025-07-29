@@ -66,7 +66,7 @@ export default function Login() {
         </div>
         <Card className="flex flex-col gap-2 p-4 sm:min-w-md sm:gap-6 sm:p-8">
           <div className="flex flex-col items-center gap-0.5 text-center sm:gap-1.5">
-            <span className="text-3xl font-bold sm:text-4xl">Welcome Back</span>
+            <span className="text-3xl font-bold sm:text-4xl">Welcome!</span>
             <span className="text-gray-400">
               Access your account to view all the info you need
             </span>

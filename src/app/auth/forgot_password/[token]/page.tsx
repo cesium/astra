@@ -6,18 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
-
-interface IFormInput {
-  password: string;
-  password_confirmation: string;
-}
+import z from "zod";
 
 const formSchema = z
   .object({
     password: z
       .string()
-      .min(8, { message: "The password should have at least 12 characters" })
+      .min(12, { message: "The password should have at least 12 characters" })
       .max(72, {
         message: "The password should be smaller than 72 characters",
       }),
@@ -49,8 +44,7 @@ export default function ResetPassword() {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     try {
       setStatus(ResponseStatus.Loading);
       await api.post("/auth/reset_password", {
@@ -114,6 +108,7 @@ export default function ResetPassword() {
                 className="bg-muted/70"
                 type="password"
                 placeholder="Password"
+                id="password"
               />
               <span className="text-danger px-1">
                 {errors.password?.message}
@@ -121,7 +116,7 @@ export default function ResetPassword() {
             </div>
             <div className="flex flex-col gap-1">
               <label
-                htmlFor="confirm_password"
+                htmlFor="password_confirmation"
                 className="text-dark pl-1 font-medium"
               >
                 Confirm Password
@@ -131,6 +126,7 @@ export default function ResetPassword() {
                 className="bg-muted/70"
                 type="password"
                 placeholder="Confirm Password"
+                id="password_confirmation"
               />
               <span className="text-danger px-1">
                 {errors.password_confirmation?.message}

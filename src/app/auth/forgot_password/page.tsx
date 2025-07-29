@@ -2,12 +2,16 @@
 import Card from "@/components/card";
 import Input from "@/components/input";
 import { api } from "@/lib/api";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import z from "zod";
 
-interface IFormInput {
-  email: string;
-}
+const formSchema = z.object({
+  email: z.email(),
+});
+
+type FormSchema = z.infer<typeof formSchema>;
 
 enum ResponseStatus {
   Empty,
@@ -17,10 +21,16 @@ enum ResponseStatus {
 }
 
 export default function ResetPassword() {
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormSchema>({
+    resolver: zodResolver(formSchema),
+  });
   const [status, setStatus] = useState<ResponseStatus>(ResponseStatus.Empty);
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     try {
       setStatus(ResponseStatus.Loading);
       await api.post("/auth/forgot_password", data);
@@ -68,8 +78,10 @@ export default function ResetPassword() {
           </div>
           {status === ResponseStatus.Success ? (
             <div className="flex flex-col items-center text-center">
-              <span className="material-symbols-outlined text-6xl">mail</span>
-              <p className="max-w-3xs">
+              <span className="material-symbols-outlined text-primary-400 text-6xl">
+                check_circle
+              </span>
+              <p className="max-w-3xs text-gray-700">
                 If your account exists, an email was sent to your inbox with the
                 link to reset your password.
               </p>
@@ -88,6 +100,9 @@ export default function ResetPassword() {
                   className="bg-muted/70"
                   placeholder="Email"
                 />
+                <span className="text-danger px-1">
+                  {errors.email?.message}
+                </span>
               </div>
               <button
                 className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
