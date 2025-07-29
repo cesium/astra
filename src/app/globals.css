@@ -47,17 +47,89 @@
 }
 
 @theme {
-  --color-primary: #EE7749;
-  --color-light: #FFFFFF;
+  --color-primary: #ee7749;
+  --color-light: #ffffff;
   --color-dark: #000000;
-  --color-muted: #FAFAFA;
+  --color-muted: #fafafa;
   --color-university: #971318;
-  --color-danger: #FF5E79;
-  --color-success: #2EDB51;
+  --color-danger: #ff5e79;
+  --color-success: #2edb51;
 
-  --font-jamjuree: var(--font-jamjuree)
+  --font-jamjuree: var(--font-jamjuree);
 }
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+/*Calendar View Costumization*/
+
+.rbc-calendar {
+  width: 100% !important;
+}
+
+.rbc-month-view,
+.rbc-time-view {
+  border-radius: 15px;
+}
+
+.rbc-month-row:last-child .rbc-off-range-bg:last-child {
+  border-bottom-right-radius: 15px;
+}
+
+.rbc-off-range-bg {
+  background-color: #0000000e !important;
+}
+
+.rbc-month-header .rbc-header {
+  padding-bottom: 9px;
+  padding-top: 9px;
+  color: #00000080;
+  font-weight: 400;
+}
+
+.rbc-timeslot-group {
+  padding-top: 7.5px;
+}
+
+.rbc-today {
+  background-color: #ee774926 !important;
+}
+
+.rbc-time-view .rbc-today {
+  background-color: transparent !important;
+}
+
+.rbc-current-time-indicator {
+  background-color: var(--color-primary) !important;
+  height: 2px !important;
+}
+
+.rbc-event {
+  margin-left: 7px !important;
+  margin-right: 7px !important;
+  box-sizing: border-box !important;
+  width: calc(100% - 14px) !important;
+  background-color: #f9c2c2 !important;
+  color: #cb5555 !important;
+  border: none !important;
+  font-weight: 600;
+  position: relative !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+}
+
+.rbc-event::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(249, 194, 194, 0), #f9c2c2);
+  border-radius: 0 4px 4px 0;
+}
+
+.rbc-event-content {
+  text-overflow: clip !important;
 }
