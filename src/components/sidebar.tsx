@@ -39,7 +39,7 @@ export function SidebarHeader({ children, className }: IParentProps) {
 }
 
 export function SidebarItemList({ children, className }: IParentProps) {
-  return <div className={`flex flex-col gap-2 ${className}`}>{children}</div>;
+  return <div className={`flex flex-col gap-1 ${className}`}>{children}</div>;
 }
 
 export function SidebarItem({
