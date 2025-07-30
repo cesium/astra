@@ -4,6 +4,7 @@ import Input from "@/components/input";
 import { apiWithCredentials } from "@/lib/api";
 import { useAuthStore } from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -22,7 +23,7 @@ export default function Login() {
     resolver: zodResolver(formSchema)
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
@@ -35,6 +36,15 @@ export default function Login() {
       useAuthStore.getState().setToken(access_token);
       router.push("/");
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.status === 401) {
+          setError("Incorrect email or password");
+        } else {
+          setError(error.message);
+        }
+      } else {
+        setError("Something went wrong");
+      }
 
       setLoading(false);
       console.error("Login failed:", error);
@@ -85,7 +95,7 @@ export default function Login() {
                 Email
               </label>
               <Input
-                {...register("email", { required: true })}
+                {...register("email", { required: true, value: "" })}
                 className="bg-muted/70"
                 placeholder="Email"
               />
@@ -114,12 +124,18 @@ export default function Login() {
             >
               Forgot password?
             </Link>
-            <button
-              className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
-              type="submit"
-            >
-              {loading ? "Loading..." : "Login"}
-            </button>
+            <div className="flex flex-col gap-1 sm:gap-2">
+
+              <span className="text-center text-danger px-1">
+                {error}
+              </span>
+              <button
+                className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
+                type="submit"
+              >
+                {loading ? "Loading..." : "Login"}
+              </button>
+            </div>
           </form>
         </Card>
         <span className="text-center text-gray-400">
@@ -129,8 +145,8 @@ export default function Login() {
       <div className="absolute inset-0 -z-10 h-screen w-screen overflow-hidden">
         <div className="absolute inset-0 -z-10 backdrop-blur-3xl" />
         <div className="bg-primary-400/15 absolute inset-0 -z-20 size-full" />
-        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 left-0 -z-20 size-[738px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
-        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 right-0 -z-20 size-[738px] translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
+        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 left-0 -z-20 h-10/12 w-2/6  md:size-[738px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
+        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 right-0 -z-20 h-10/12 w-2/6 md:size-[738px] translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
       </div>
     </div>
   );

@@ -35,7 +35,9 @@ export default function ResetPassword() {
       setStatus(ResponseStatus.Loading);
       await api.post("/auth/forgot_password", data);
       setStatus(ResponseStatus.Success);
-    } catch {}
+    } catch {
+      setStatus(ResponseStatus.Error);
+    }
   };
 
   return (
@@ -104,12 +106,18 @@ export default function ResetPassword() {
                   {errors.email?.message}
                 </span>
               </div>
-              <button
-                className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
-                type="submit"
-              >
-                {status === ResponseStatus.Loading ? "Loading..." : "Submit"}
-              </button>
+              <div className="flex flex-col gap-1 sm:gap-2">
+
+                <span className="text-center text-danger px-1">
+                  {status === ResponseStatus.Error && "Something went wrong, please try again."}
+                </span>
+                <button
+                  className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
+                  type="submit"
+                >
+                  {status === ResponseStatus.Loading ? "Loading..." : "Submit"}
+                </button>
+              </div>
             </form>
           )}
         </Card>
@@ -120,8 +128,8 @@ export default function ResetPassword() {
       <div className="absolute inset-0 -z-10 h-screen w-screen overflow-hidden">
         <div className="absolute inset-0 -z-10 backdrop-blur-3xl" />
         <div className="bg-primary-400/15 absolute inset-0 -z-20 size-full" />
-        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 left-0 -z-20 size-[738px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
-        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 right-0 -z-20 size-[738px] translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
+        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 left-0 -z-20 h-10/12 w-2/6  md:size-[738px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
+        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 right-0 -z-20 h-10/12 w-2/6 md:size-[738px] translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
       </div>
     </div>
   );

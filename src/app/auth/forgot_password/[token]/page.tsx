@@ -3,6 +3,7 @@ import Card from "@/components/card";
 import Input from "@/components/input";
 import { api } from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -52,8 +53,7 @@ export default function ResetPassword() {
         ...data,
       });
       setStatus(ResponseStatus.Success);
-    } catch (error) {
-      console.log(error);
+    } catch {
       setStatus(ResponseStatus.Error);
     }
   };
@@ -93,52 +93,80 @@ export default function ResetPassword() {
               Access your account to view all the info you need
             </span>
           </div>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
-          >
-            <div className="flex flex-col gap-1">
-              <label htmlFor="password" className="text-dark pl-1 font-medium">
-                Password
-              </label>
-              <Input
-                {...register("password", {
-                  required: true,
-                })}
-                className="bg-muted/70"
-                type="password"
-                placeholder="Password"
-                id="password"
-              />
-              <span className="text-danger px-1">
-                {errors.password?.message}
-              </span>
-            </div>
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="password_confirmation"
-                className="text-dark pl-1 font-medium"
+          {
+            status === ResponseStatus.Success ? (
+              <div className="flex flex-col items-center text-center gap-2 sm:gap-3">
+                <div className="flex flex-col">
+
+                  <span className="material-symbols-outlined text-primary-400 text-6xl">
+                    check_circle
+                  </span>
+                  <p className="max-w-3xs text-gray-700">
+                    The password was successfully changed!
+                  </p>
+                </div>
+                <Link
+                  className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
+                  type="submit"
+                  href="/auth/login"
+                >
+                  Go back to login
+                </Link>
+              </div>
+            ) : (
+
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col gap-4"
               >
-                Confirm Password
-              </label>
-              <Input
-                {...register("password_confirmation", { required: true })}
-                className="bg-muted/70"
-                type="password"
-                placeholder="Confirm Password"
-                id="password_confirmation"
-              />
-              <span className="text-danger px-1">
-                {errors.password_confirmation?.message}
-              </span>
-            </div>
-            <button
-              className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
-              type="submit"
-            >
-              {status === ResponseStatus.Loading ? "Loading..." : "Submit"}
-            </button>
-          </form>
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="password" className="text-dark pl-1 font-medium">
+                    Password
+                  </label>
+                  <Input
+                    {...register("password", {
+                      required: true,
+                    })}
+                    className="bg-muted/70"
+                    type="password"
+                    placeholder="Password"
+                    id="password"
+                  />
+                  <span className="text-danger px-1">
+                    {errors.password?.message}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label
+                    htmlFor="password_confirmation"
+                    className="text-dark pl-1 font-medium"
+                  >
+                    Confirm Password
+                  </label>
+                  <Input
+                    {...register("password_confirmation", { required: true })}
+                    className="bg-muted/70"
+                    type="password"
+                    placeholder="Confirm Password"
+                    id="password_confirmation"
+                  />
+                  <span className="text-danger px-1">
+                    {errors.password_confirmation?.message}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-1 sm:gap-2">
+                  <span className="text-center text-danger px-1">
+                    {status === ResponseStatus.Error && "Something went wrong, please try again."}
+                  </span>
+                  <button
+                    className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
+                    type="submit"
+                  >
+                    {status === ResponseStatus.Loading ? "Loading..." : "Submit"}
+                  </button>
+                </div>
+              </form>
+            )}
         </Card>
         <span className="text-center text-gray-400">
           © 2025 Pombo • University schedule management made simple
@@ -147,8 +175,8 @@ export default function ResetPassword() {
       <div className="absolute inset-0 -z-10 h-screen w-screen overflow-hidden">
         <div className="absolute inset-0 -z-10 backdrop-blur-3xl" />
         <div className="bg-primary-400/15 absolute inset-0 -z-20 size-full" />
-        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 left-0 -z-20 size-[738px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
-        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 right-0 -z-20 size-[738px] translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
+        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 left-0 -z-20 h-10/12 w-2/6  md:size-[738px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
+        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 right-0 -z-20 h-10/12 w-2/6 md:size-[738px] translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
       </div>
     </div>
   );
