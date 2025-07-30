@@ -5,7 +5,9 @@ interface ICardProps {
 
 function Card({ children, className }: ICardProps) {
   return (
-    <div className={`${className} p-4 border rounded-[15px] border-[#eeeeee] bg-[#fafafa]`}>
+    <div
+      className={`${className} bg-muted/50 rounded-2xl border border-black/5 p-4`}
+    >
       {children}
     </div>
   );
