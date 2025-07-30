@@ -47,15 +47,15 @@
 }
 
 @theme {
-  --color-primary: #EE7749;
-  --color-light: #FFFFFF;
+  --color-primary: #ee7749;
+  --color-light: #ffffff;
   --color-dark: #000000;
-  --color-muted: #FAFAFA;
+  --color-muted: #fafafa;
   --color-university: #971318;
-  --color-danger: #FF5E79;
-  --color-success: #2EDB51;
+  --color-danger: #ff5e79;
+  --color-success: #2edb51;
 
-  --font-jamjuree: var(--font-jamjuree)
+  --font-jamjuree: var(--font-jamjuree);
 }
 
 input[type="number"] {
