@@ -1,5 +1,10 @@
 import Sidebar from "@/components/sidebar";
-import { SidebarHeader, SidebarItem, SidebarItemLabel, SidebarItemList } from "@/components/sidebar";
+import {
+  SidebarHeader,
+  SidebarItem,
+  SidebarItemLabel,
+  SidebarItemList,
+} from "@/components/sidebar";
 
 export default function SettingsLayout({
   children,
@@ -8,45 +13,60 @@ export default function SettingsLayout({
 }>) {
   return (
     <div className="flex">
-        <div className="flex flex-col w-80">
-            <h3 className="text-4xl font-semibold pl-3">Settings</h3>
-            <Sidebar>
-                <SidebarHeader>Account</SidebarHeader>
-            
-                <SidebarItemList>
-                    <SidebarItem id="account" href="/settings">
-                        <SidebarItemLabel icon="account_circle" label="Your Account" />
-                    </SidebarItem>
+      <div className="flex w-80 flex-col">
+        <h3 className="pl-3 text-4xl font-semibold">Settings</h3>
+        <Sidebar>
+          <SidebarHeader>Account</SidebarHeader>
 
-                    <SidebarItem id="privacy" href="/settings/privacy">
-                        <SidebarItemLabel icon="back_hand" label="Privacy" />
-                    </SidebarItem>
+          <SidebarItemList>
+            <SidebarItem id="account" href="/settings">
+              <SidebarItemLabel icon="account_circle" label="Your Account" />
+            </SidebarItem>
 
-                    <SidebarItem id="preferences" href="/settings/preferences">
-                        <SidebarItemLabel icon="sync_alt" label="Preferences" />
-                    </SidebarItem>
+            <SidebarItem id="privacy" href="/settings/privacy">
+              <SidebarItemLabel icon="back_hand" label="Privacy" />
+            </SidebarItem>
 
-                </SidebarItemList>
+            <SidebarItem id="preferences" href="/settings/preferences">
+              <SidebarItemLabel icon="sync_alt" label="Preferences" />
+            </SidebarItem>
+          </SidebarItemList>
 
-                <SidebarHeader>General</SidebarHeader>
+          <SidebarHeader>General</SidebarHeader>
 
-                <SidebarItemList>
+          <SidebarItemList>
+            <SidebarItem id="connections" href="/settings/connections">
+              <SidebarItemLabel icon="handshake" label="Connections" />
+            </SidebarItem>
 
-                    <SidebarItem id="connections" href="/settings/connections">
-                        <SidebarItemLabel icon="handshake" label="Connections" />
-                    </SidebarItem>
+            <SidebarItem id="notifications" href="/settings/notifications">
+              <SidebarItemLabel icon="notifications" label="Notifications" />
+            </SidebarItem>
+          </SidebarItemList>
 
-                    <SidebarItem id="notifications" href="/settings/notifications">
-                        <SidebarItemLabel icon="notifications" label="Notifications" />
-                    </SidebarItem>
+          {/* Backoffice Options */}
+          <SidebarHeader>Backoffice</SidebarHeader>
 
-                </SidebarItemList>
-            </Sidebar>
-        </div>
+          <SidebarItemList>
+            <SidebarItem
+              id="configurations"
+              href="/settings/backoffice/configurations"
+            >
+              <SidebarItemLabel icon="settings" label="Configurations" />
+            </SidebarItem>
 
-        <div className="px-10">
-            {children}
-        </div>
+            <SidebarItem id="imports" href="/settings/backoffice/imports">
+              <SidebarItemLabel icon="move_to_inbox" label="Importar" />
+            </SidebarItem>
+
+            <SidebarItem id="exports" href="/settings/backoffice/exports">
+              <SidebarItemLabel icon="ios_share" label="Exportar" />
+            </SidebarItem>
+          </SidebarItemList>
+        </Sidebar>
+      </div>
+
+      <div className="px-10">{children}</div>
     </div>
   );
 }
