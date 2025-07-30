@@ -3,37 +3,42 @@ import Card from "@/components/card";
 import Input from "@/components/input";
 import { apiWithCredentials } from "@/lib/api";
 import { useAuthStore } from "@/stores/authStore";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import z from "zod";
 
-interface IFormInput {
-  email: string;
-  password: string;
-}
+const formSchema = z.object({
+  email: z.email(),
+  password: z.string()
+})
+
+type FormSchema = z.infer<typeof formSchema>
 
 export default function Login() {
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const { register, handleSubmit, formState: { errors } } = useForm<FormSchema>({
+    resolver: zodResolver(formSchema)
+  });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     setLoading(true);
 
-    apiWithCredentials
-      .post("/auth/sign_in", data)
-      .then((response) => {
-        const { access_token } = response.data;
-        console.log("Login successful, token:", access_token);
-        useAuthStore.getState().setToken(access_token);
-        router.push("/");
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.error("Login failed:", error);
-        alert("Login failed." + error);
-      });
+    try {
+      const res = await apiWithCredentials.post("/auth/sign_in", data);
+      const { access_token } = res.data;
+
+      useAuthStore.getState().setToken(access_token);
+      router.push("/");
+    } catch (error) {
+
+      setLoading(false);
+      console.error("Login failed:", error);
+    }
   };
 
   return (
@@ -84,6 +89,9 @@ export default function Login() {
                 className="bg-muted/70"
                 placeholder="Email"
               />
+              <span className="text-danger px-1">
+                {errors.email?.message}
+              </span>
             </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="password" className="text-dark pl-1 font-medium">
@@ -96,6 +104,9 @@ export default function Login() {
                 type="password"
                 placeholder="Password"
               />
+              <span className="text-danger px-1">
+                {errors.password?.message}
+              </span>
             </div>
             <Link
               href="/auth/forgot_password"
