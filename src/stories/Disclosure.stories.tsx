@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import Disclosure from "@/app/components/disclosure";
+import Disclosure from "@/components/disclosure";
 
 const meta: Meta<typeof Disclosure> = {
   title: "Components/Disclosure",
