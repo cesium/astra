@@ -18,7 +18,6 @@ const meta = {
       options: ['small', 'medium', 'large'],
     },
   },
-  args: { onClick: fn() },
 } satisfies Meta<typeof Label>;
 
 export default meta;

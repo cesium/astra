@@ -1,6 +1,7 @@
 "use client";
 import Card from "@/components/card";
 import Input from "@/components/input";
+import Label from "@/components/label";
 import { apiWithCredentials } from "@/lib/api";
 import { useAuthStore } from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +14,7 @@ import z from "zod";
 
 const formSchema = z.object({
   email: z.email(),
-  password: z.string()
+  password: z.string().min(1, "Password is required")
 })
 
 type FormSchema = z.infer<typeof formSchema>
@@ -40,7 +41,7 @@ export default function Login() {
         if (error.status === 401) {
           setError("Incorrect email or password");
         } else {
-          setError(error.message);
+          setError("Login unavailable at the moment. Please try again shortly.");
         }
       } else {
         setError("Something went wrong");
@@ -52,101 +53,96 @@ export default function Login() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="mx-4 flex flex-col items-center gap-4 sm:gap-7">
-        <div className="flex flex-col items-center">
-          <div className="flex items-center gap-1 sm:gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-bird-icon lucide-bird stroke-primary-400 size-14"
-            >
-              <path d="M16 7h.01" />
-              <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
-              <path d="m20 7 2 .5-2 .5" />
-              <path d="M10 18v3" />
-              <path d="M14 17.75V21" />
-              <path d="M7 18a6 6 0 0 0 3.84-10.61" />
-            </svg>
-            <span className="text-3xl font-bold">pombo</span>
-          </div>
-          <span>always at hand.</span>
+    <div className="flex h-screen items-center justify-end bg-[url(/images/calendar.svg)] bg-repeat bg-center">
+      <div className="absolute left-6 top-4 flex items-center gap-1 sm:gap-2 select-none">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="lucide lucide-bird-icon lucide-bird stroke-primary-400 size-14"
+        >
+          <path d="M16 7h.01" />
+          <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
+          <path d="m20 7 2 .5-2 .5" />
+          <path d="M10 18v3" />
+          <path d="M14 17.75V21" />
+          <path d="M7 18a6 6 0 0 0 3.84-10.61" />
+        </svg>
+        <span className="text-3xl font-bold">pombo</span>
+      </div>
+      <div className="mx-4 sm:mx-32 flex flex-col gap-2 p-4 ring-4 bg-light ring-smoke sm:min-w-md sm:gap-12 sm:p-8 rounded-3xl">
+        <div className="flex flex-col items-center gap-0.5 text-center sm:gap-1.5">
+
+          <h1 className="text-4xl font-semibold sm:text-4xl">Welcome! Sign in to Pombo</h1>
+          <span className="text-gray-400">
+            Acess your account to view all the info you need
+          </span>
         </div>
-        <Card className="flex flex-col gap-2 p-4 sm:min-w-md sm:gap-6 sm:p-8">
-          <div className="flex flex-col items-center gap-0.5 text-center sm:gap-1.5">
-            <span className="text-3xl font-bold sm:text-4xl">Welcome!</span>
-            <span className="text-gray-400">
-              Access your account to view all the info you need
-            </span>
-          </div>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
-          >
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-9"
+        >
+          <div className="flex flex-col gap-6">
+
             <div className="flex flex-col gap-1">
-              <label htmlFor="email" className="text-dark pl-1 font-medium">
+              <Label htmlFor="email" className="text-dark font-semibold pl-2">
                 Email
-              </label>
+              </Label>
               <Input
-                {...register("email", { required: true, value: "" })}
-                className="bg-muted/70"
+                {...register("email")}
+                id="email"
+                className="bg-dark/5 placeholder:text-black/50"
                 placeholder="Email"
               />
-              <span className="text-danger px-1">
+              <span className="text-danger pl-2">
                 {errors.email?.message}
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <label htmlFor="password" className="text-dark pl-1 font-medium">
+              <Label htmlFor="password" className="text-dark font-semibold pl-2">
                 Password
-              </label>
+              </Label>
 
               <Input
-                {...register("password", { required: true })}
-                className="bg-muted/70"
+                {...register("password")}
+                id="password"
+                className="bg-dark/5 placeholder:text-black/50"
                 type="password"
                 placeholder="Password"
               />
-              <span className="text-danger px-1">
+              <span className="text-danger pl-2">
                 {errors.password?.message}
               </span>
             </div>
+          </div>
+          <div className="flex justify-center gap-1">
+            <span>Did you forget your password?</span>
             <Link
               href="/auth/forgot_password"
-              className="text-primary-400 mx-auto"
+              className="text-primary-400 underline"
             >
-              Forgot password?
+              Click here
             </Link>
-            <div className="flex flex-col gap-1 sm:gap-2">
+          </div>
+          <div className="flex flex-col gap-1 sm:gap-2">
 
-              <span className="text-center text-danger px-1">
-                {error}
-              </span>
-              <button
-                className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
-                type="submit"
-              >
-                {loading ? "Loading..." : "Login"}
-              </button>
-            </div>
-          </form>
-        </Card>
-        <span className="text-center text-gray-400">
-          © 2025 Pombo • University schedule management made simple
-        </span>
-      </div>
-      <div className="absolute inset-0 -z-10 h-screen w-screen overflow-hidden">
-        <div className="absolute inset-0 -z-10 backdrop-blur-3xl" />
-        <div className="bg-primary-400/15 absolute inset-0 -z-20 size-full" />
-        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 left-0 -z-20 h-10/12 w-2/6  md:size-[738px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
-        <div className="from-primary-400/35 to-primary-400/5 absolute top-1/2 right-0 -z-20 h-10/12 w-2/6 md:size-[738px] translate-x-1/2 -translate-y-1/2 rounded-full bg-radial" />
+            <span className="text-center text-danger px-1">
+              {error}
+            </span>
+            <button
+              className="bg-primary-400 mx-7 rounded-full shadow-lg p-4 font-bold text-white"
+              type="submit"
+            >
+              {loading ? "Loading..." : "Login"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

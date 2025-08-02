@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, createContext, useContext, useEffect } from "react";
@@ -39,7 +40,7 @@ export function SidebarHeader({ children, className }: IParentProps) {
 }
 
 export function SidebarItemList({ children, className }: IParentProps) {
-  return <div className={`flex flex-col gap-2 ${className}`}>{children}</div>;
+  return <div className={clsx(className, "flex flex-col gap-2")}>{children}</div>;
 }
 
 export function SidebarItem({
