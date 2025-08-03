@@ -91,9 +91,9 @@ export default function ResetPassword() {
             </div>
             <Link
               className="bg-primary-400 mx-7 text-center rounded-full shadow-lg p-4 font-bold text-white"
-              href="/auth/login"
+              href="/auth/sign_in"
             >
-              Go back to login
+              Go back to sign in
             </Link>
           </>
         ) : (
@@ -107,7 +107,7 @@ export default function ResetPassword() {
               </Label>
               <Input
                 {...register("email", { required: true })}
-                className="bg-dark/5 placeholder:text-black/50"
+                className="bg-dark/5 placeholder:text-black/50 border-0"
                 id="email"
                 placeholder="Email"
               />
