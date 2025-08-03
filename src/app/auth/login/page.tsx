@@ -1,5 +1,4 @@
 "use client";
-import Card from "@/components/card";
 import Input from "@/components/input";
 import Label from "@/components/label";
 import { apiWithCredentials } from "@/lib/api";

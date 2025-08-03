@@ -1,5 +1,4 @@
 "use client";
-import Card from "@/components/card";
 import Input from "@/components/input";
 import Label from "@/components/label";
 import { api } from "@/lib/api";
@@ -94,24 +93,24 @@ export default function ResetPassword() {
         {
           status === ResponseStatus.Success ? (
             <>
-            <div className="flex flex-col items-center text-center gap-2 sm:gap-3">
-              <div className="flex flex-col">
+              <div className="flex flex-col items-center text-center gap-2 sm:gap-3">
+                <div className="flex flex-col">
 
-                <span className="material-symbols-outlined text-primary-400 text-6xl">
-                  check_circle
-                </span>
-                <p className="max-w-3xs text-gray-500">
-                  The password was successfully changed!
-                </p>
-              </div>
+                  <span className="material-symbols-outlined text-primary-400 text-6xl">
+                    check_circle
+                  </span>
+                  <p className="max-w-3xs text-gray-500">
+                    The password was successfully changed!
+                  </p>
+                </div>
               </div>
               <Link
                 className="bg-primary-400 mx-7 text-center rounded-full shadow-lg p-4 font-bold text-white"
                 href="/auth/login"
-                >
+              >
                 Go back to login
               </Link>
-                </>
+            </>
           ) : (
 
             <form
