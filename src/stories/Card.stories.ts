@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import Card from '../components/card';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import Card from "../components/card";
 
 const meta = {
-  title: 'Components/Card',
+  title: "Components/Card",
   component: Card,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 } satisfies Meta<typeof Card>;
 
 export default meta;
@@ -15,7 +15,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
-    children: 'Card',
-    className: 'underline'
+    children: "Card",
+    className: "underline",
   },
 };

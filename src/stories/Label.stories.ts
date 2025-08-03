@@ -1,19 +1,19 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import Label from '../components/label';
+import Label from "../components/label";
 
 const meta = {
-  title: 'Components/Label',
+  title: "Components/Label",
   component: Label,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
-    disabled: { control: 'boolean' },
+    disabled: { control: "boolean" },
     size: {
-      control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
+      control: { type: "select" },
+      options: ["small", "medium", "large"],
     },
   },
 } satisfies Meta<typeof Label>;
@@ -23,27 +23,27 @@ type Story = StoryObj<typeof meta>;
 
 export const Enabled: Story = {
   args: {
-    children: 'Label',
+    children: "Label",
   },
 };
 
 export const Disabled: Story = {
   args: {
-    children: 'Label',
+    children: "Label",
     disabled: true,
   },
 };
 
 export const Large: Story = {
   args: {
-    size: 'large',
-    children: 'Label',
+    size: "large",
+    children: "Label",
   },
 };
 
 export const Small: Story = {
   args: {
-    size: 'small',
-    children: 'Label',
+    size: "small",
+    children: "Label",
   },
 };

@@ -48,8 +48,9 @@ const ToggleSwitch: React.FC<IToggleSwitchProps> = ({
   return (
     <button
       onClick={handleToggle}
-      className={`relative inline-flex items-center rounded-full transition-colors duration-200 ease-in-out focus:ring-1 focus:ring-orange-300 focus:ring-offset-1 focus:outline-none ${getSizeClasses()} ${isOn ? "bg-orange-500" : "bg-gray-300"
-        }`}
+      className={`relative inline-flex items-center rounded-full transition-colors duration-200 ease-in-out focus:ring-1 focus:ring-orange-300 focus:ring-offset-1 focus:outline-none ${getSizeClasses()} ${
+        isOn ? "bg-orange-500" : "bg-gray-300"
+      }`}
       role="switch"
       aria-checked={isOn}
     >

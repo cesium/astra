@@ -40,7 +40,9 @@ export function SidebarHeader({ children, className }: IParentProps) {
 }
 
 export function SidebarItemList({ children, className }: IParentProps) {
-  return <div className={clsx(className, "flex flex-col gap-2")}>{children}</div>;
+  return (
+    <div className={clsx(className, "flex flex-col gap-2")}>{children}</div>
+  );
 }
 
 export function SidebarItem({

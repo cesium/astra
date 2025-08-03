@@ -13,14 +13,18 @@ import z from "zod";
 
 const formSchema = z.object({
   email: z.email(),
-  password: z.string().min(1, "Password is required")
-})
+  password: z.string().min(1, "Password is required"),
+});
 
-type FormSchema = z.infer<typeof formSchema>
+type FormSchema = z.infer<typeof formSchema>;
 
 export default function SignIn() {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormSchema>({
-    resolver: zodResolver(formSchema)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormSchema>({
+    resolver: zodResolver(formSchema),
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -40,7 +44,9 @@ export default function SignIn() {
         if (error.status === 401) {
           setError("Incorrect email or password");
         } else {
-          setError("Sign in unavailable at the moment. Please try again shortly.");
+          setError(
+            "Sign in unavailable at the moment. Please try again shortly.",
+          );
         }
       } else {
         setError("Something went wrong");
@@ -52,8 +58,8 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-end bg-[url(/images/calendar.svg)] bg-repeat bg-center">
-      <div className="absolute left-6 top-4 flex items-center gap-1 sm:gap-2 select-none">
+    <div className="flex h-screen items-center justify-end bg-[url(/images/calendar.svg)] bg-center bg-repeat">
+      <div className="absolute top-4 left-6 flex items-center gap-1 select-none sm:gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -75,43 +81,41 @@ export default function SignIn() {
         </svg>
         <span className="text-3xl font-bold">pombo</span>
       </div>
-      <div className="mx-4 sm:mx-32 flex flex-col gap-2 p-4 ring-4 bg-light ring-smoke sm:min-w-md sm:gap-12 sm:p-8 rounded-3xl">
+      <div className="bg-light ring-smoke mx-4 flex flex-col gap-2 rounded-3xl p-4 ring-4 sm:mx-32 sm:min-w-md sm:gap-12 sm:p-8">
         <div className="flex flex-col items-center gap-0.5 text-center sm:gap-1.5">
-
-          <h1 className="text-4xl font-semibold sm:text-4xl">Welcome! Sign in to Pombo</h1>
+          <h1 className="text-4xl font-semibold sm:text-4xl">
+            Welcome! Sign in to Pombo
+          </h1>
           <span className="text-gray-400">
             Acess your account to view all the info you need
           </span>
         </div>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-9"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-9">
           <div className="flex flex-col gap-6">
-
             <div className="flex flex-col gap-1">
-              <Label htmlFor="email" className="text-dark font-semibold pl-2">
+              <Label htmlFor="email" className="text-dark pl-2 font-semibold">
                 Email
               </Label>
               <Input
                 {...register("email")}
                 id="email"
-                className="bg-dark/5 placeholder:text-black/50 border-0"
+                className="bg-dark/5 border-0 placeholder:text-black/50"
                 placeholder="Email"
               />
-              <span className="text-danger pl-2">
-                {errors.email?.message}
-              </span>
+              <span className="text-danger pl-2">{errors.email?.message}</span>
             </div>
             <div className="flex flex-col gap-1">
-              <Label htmlFor="password" className="text-dark font-semibold pl-2">
+              <Label
+                htmlFor="password"
+                className="text-dark pl-2 font-semibold"
+              >
                 Password
               </Label>
 
               <Input
                 {...register("password")}
                 id="password"
-                className="bg-dark/5 placeholder:text-black/50 border-0"
+                className="bg-dark/5 border-0 placeholder:text-black/50"
                 type="password"
                 placeholder="Password"
               />
@@ -130,12 +134,9 @@ export default function SignIn() {
             </Link>
           </div>
           <div className="flex flex-col gap-1 sm:gap-2">
-
-            <span className="text-center text-danger px-1">
-              {error}
-            </span>
+            <span className="text-danger px-1 text-center">{error}</span>
             <button
-              className="bg-primary-400 mx-7 rounded-full shadow-lg p-4 font-bold text-white"
+              className="bg-primary-400 mx-7 rounded-full p-4 font-bold text-white shadow-lg"
               type="submit"
             >
               {loading ? "Loading..." : "Sign in"}

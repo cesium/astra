@@ -59,8 +59,8 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-end bg-[url(/images/calendar.svg)] bg-repeat bg-center">
-      <div className="absolute left-6 top-4 flex items-center gap-1 sm:gap-2 select-none">
+    <div className="flex h-screen items-center justify-end bg-[url(/images/calendar.svg)] bg-center bg-repeat">
+      <div className="absolute top-4 left-6 flex items-center gap-1 select-none sm:gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -83,91 +83,89 @@ export default function ResetPassword() {
         <span className="text-3xl font-bold">pombo</span>
       </div>
 
-      <div className="mx-4 sm:mx-32 flex flex-col gap-2 p-4 ring-4 bg-light ring-smoke sm:min-w-md sm:gap-12 sm:p-8 rounded-3xl">
+      <div className="bg-light ring-smoke mx-4 flex flex-col gap-2 rounded-3xl p-4 ring-4 sm:mx-32 sm:min-w-md sm:gap-12 sm:p-8">
         <div className="flex flex-col items-center gap-0.5 text-center sm:gap-1.5">
           <h1 className="text-3xl font-bold sm:text-4xl">Reset password</h1>
-          <span className="text-gray-400">
-            Enter the new password below
-          </span>
+          <span className="text-gray-400">Enter the new password below</span>
         </div>
-        {
-          status === ResponseStatus.Success ? (
-            <>
-              <div className="flex flex-col items-center text-center gap-2 sm:gap-3">
-                <div className="flex flex-col">
-
-                  <span className="material-symbols-outlined text-primary-400 text-6xl">
-                    check_circle
-                  </span>
-                  <p className="max-w-3xs text-gray-500">
-                    The password was successfully changed!
-                  </p>
-                </div>
-              </div>
-              <Link
-                className="bg-primary-400 mx-7 text-center rounded-full shadow-lg p-4 font-bold text-white"
-                href="/auth/sign_in"
-              >
-                Go back to sign in
-              </Link>
-            </>
-          ) : (
-
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col gap-9"
-            >
-              <div className="flex flex-col gap-6">
-
-                <div className="flex flex-col gap-1">
-                  <Label htmlFor="password" className="text-dark font-semibold pl-2">
-                    Password
-                  </Label>
-                  <Input
-                    {...register("password", {
-                      required: true,
-                    })}
-                    className="bg-dark/5 placeholder:text-black/50 border-0"
-                    type="password"
-                    placeholder="Password"
-                    id="password"
-                  />
-                  <span className="text-danger px-1">
-                    {errors.password?.message}
-                  </span>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <Label
-                    htmlFor="password_confirmation"
-                    className="text-dark font-semibold pl-2"
-                  >
-                    Confirm Password
-                  </Label>
-                  <Input
-                    {...register("password_confirmation", { required: true })}
-                    className="bg-dark/5 placeholder:text-black/50 border-0"
-                    type="password"
-                    placeholder="Confirm Password"
-                    id="password_confirmation"
-                  />
-                  <span className="text-danger px-1">
-                    {errors.password_confirmation?.message}
-                  </span>
-                </div>
-              </div>
-              <div className="flex flex-col gap-1 sm:gap-2">
-                <span className="text-center text-danger px-1">
-                  {status === ResponseStatus.Error && "Something went wrong, please try again."}
+        {status === ResponseStatus.Success ? (
+          <>
+            <div className="flex flex-col items-center gap-2 text-center sm:gap-3">
+              <div className="flex flex-col">
+                <span className="material-symbols-outlined text-primary-400 text-6xl">
+                  check_circle
                 </span>
-                <button
-                  className="bg-primary-400 mx-7 rounded-full shadow-lg p-4 font-bold text-white"
-                  type="submit"
-                >
-                  {status === ResponseStatus.Loading ? "Loading..." : "Submit"}
-                </button>
+                <p className="max-w-3xs text-gray-500">
+                  The password was successfully changed!
+                </p>
               </div>
-            </form>
-          )}
+            </div>
+            <Link
+              className="bg-primary-400 mx-7 rounded-full p-4 text-center font-bold text-white shadow-lg"
+              href="/auth/sign_in"
+            >
+              Go back to sign in
+            </Link>
+          </>
+        ) : (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-9"
+          >
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-1">
+                <Label
+                  htmlFor="password"
+                  className="text-dark pl-2 font-semibold"
+                >
+                  Password
+                </Label>
+                <Input
+                  {...register("password", {
+                    required: true,
+                  })}
+                  className="bg-dark/5 border-0 placeholder:text-black/50"
+                  type="password"
+                  placeholder="Password"
+                  id="password"
+                />
+                <span className="text-danger px-1">
+                  {errors.password?.message}
+                </span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <Label
+                  htmlFor="password_confirmation"
+                  className="text-dark pl-2 font-semibold"
+                >
+                  Confirm Password
+                </Label>
+                <Input
+                  {...register("password_confirmation", { required: true })}
+                  className="bg-dark/5 border-0 placeholder:text-black/50"
+                  type="password"
+                  placeholder="Confirm Password"
+                  id="password_confirmation"
+                />
+                <span className="text-danger px-1">
+                  {errors.password_confirmation?.message}
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-1 sm:gap-2">
+              <span className="text-danger px-1 text-center">
+                {status === ResponseStatus.Error &&
+                  "Something went wrong, please try again."}
+              </span>
+              <button
+                className="bg-primary-400 mx-7 rounded-full p-4 font-bold text-white shadow-lg"
+                type="submit"
+              >
+                {status === ResponseStatus.Loading ? "Loading..." : "Submit"}
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

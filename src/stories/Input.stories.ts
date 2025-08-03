@@ -1,20 +1,20 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { fn } from 'storybook/test';
+import { fn } from "storybook/test";
 
-import Input from '../components/input';
+import Input from "../components/input";
 
 const meta = {
-  title: 'Components/Input',
+  title: "Components/Input",
   component: Input,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   args: {
-    placeholder: 'Jonas Doe',
-    type: 'text',
+    placeholder: "Jonas Doe",
+    type: "text",
     disabled: false,
-    className: 'px-4 py-2 rounded text-gray-800',
-    name: 'Name',
-    value: 'Jonas Doe',
+    className: "px-4 py-2 rounded text-gray-800",
+    name: "Name",
+    value: "Jonas Doe",
     center_text: true,
     min: undefined,
     max: undefined,
