@@ -93,24 +93,25 @@ export default function ResetPassword() {
         </div>
         {
           status === ResponseStatus.Success ? (
+            <>
             <div className="flex flex-col items-center text-center gap-2 sm:gap-3">
               <div className="flex flex-col">
 
                 <span className="material-symbols-outlined text-primary-400 text-6xl">
                   check_circle
                 </span>
-                <p className="max-w-3xs text-gray-700">
+                <p className="max-w-3xs text-gray-500">
                   The password was successfully changed!
                 </p>
               </div>
+              </div>
               <Link
-                className="from-primary-400 to-primary-500 mx-7 rounded-xl bg-gradient-to-br p-4 font-bold text-white"
-                type="submit"
+                className="bg-primary-400 mx-7 text-center rounded-full shadow-lg p-4 font-bold text-white"
                 href="/auth/login"
-              >
+                >
                 Go back to login
               </Link>
-            </div>
+                </>
           ) : (
 
             <form
