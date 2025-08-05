@@ -5,9 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-{
-  /* Temporary Logo (Remove)*/
-}
+{/*Logo*/}
 const Logo = () => (
   <div className="flex items-center gap-2">
     <svg
@@ -79,7 +77,7 @@ function Tab({
 
   return (
     <Link
-      className={`relative z-50 inline-flex w-full items-center gap-2 rounded-2xl px-2 py-1.5 text-sm transition-colors duration-200 ease-in-out sm:px-4 sm:py-2.5 sm:text-base md:w-fit md:rounded-full ${
+      className={`relative z-50 inline-flex w-full items-center gap-2 rounded-2xl transition-colors duration-200 ease-in-out px-4 py-2 md:w-fit md:rounded-full ${
         isActive ? "text-white" : "text-gray-600 hover:text-gray-900"
       }`}
       href={href}
@@ -124,7 +122,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
+              className="fixed inset-0 z-30 bg-muted/30 backdrop-blur-md"
               onClick={() => setActive(false)}
             />
 
@@ -150,7 +148,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                 bounce: 0.2,
                 ease: [0.4, 0, 0.2, 1],
               }}
-              className="fixed inset-x-2.5 top-2 z-50 h-72 rounded-4xl border border-black/5 bg-[#f7f7f7]/80 px-2.5 py-5 shadow-2xl backdrop-blur-2xl"
+              className="fixed inset-x-2.5 top-2 z-50 h-72 rounded-4xl border border-black/5 bg-muted/50 px-2.5 py-5 shadow-xl backdrop-blur-3xl"
             >
               <motion.div
                 initial={{ opacity: 0 }}
