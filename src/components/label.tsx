@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import type { ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface ILabelProps {
   children: ReactNode;
@@ -30,10 +31,12 @@ const Label = ({
   return (
     <label
       htmlFor={htmlFor}
-      className={clsx(
-        className,
-        getSizeClasses(),
-        disabled ? "text-gray-400" : "text-gray-700",
+      className={twMerge(
+        clsx(
+          className,
+          getSizeClasses(),
+          disabled ? "text-gray-400" : "text-gray-700",
+        ),
       )}
     >
       {children}

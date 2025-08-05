@@ -66,9 +66,9 @@ export default function ResetPassword() {
         <span className="text-3xl font-bold">pombo</span>
       </div>
       <div className="bg-light ring-smoke mx-4 flex flex-col gap-2 rounded-3xl p-4 ring-4 sm:mx-32 sm:min-w-md sm:gap-12 sm:p-8">
-        <div className="flex flex-col items-center gap-0.5 text-center sm:gap-1.5">
+        <div className="flex w-full flex-col gap-0.5 sm:gap-1.5">
           <h1 className="text-3xl font-bold sm:text-4xl">Forgot password</h1>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col">
             <span className="max-w-72 text-gray-400">
               Did you forget your password?
             </span>
@@ -79,11 +79,11 @@ export default function ResetPassword() {
         </div>
         {status === ResponseStatus.Success ? (
           <>
-            <div className="flex flex-col items-center text-center">
+            <div className="flex flex-col items-center gap-4 text-center">
               <span className="material-symbols-outlined text-primary-400 text-6xl">
                 check_circle
               </span>
-              <p className="max-w-2xs text-gray-500">
+              <p className="max-w-sm text-gray-500">
                 If your account exists, an email was sent to your inbox with the
                 link to reset your password.
               </p>

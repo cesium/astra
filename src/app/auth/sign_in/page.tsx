@@ -53,7 +53,6 @@ export default function SignIn() {
       }
 
       setLoading(false);
-      console.error("Sign in failed:", error);
     }
   };
 
@@ -82,7 +81,7 @@ export default function SignIn() {
         <span className="text-3xl font-bold">pombo</span>
       </div>
       <div className="bg-light ring-smoke mx-4 flex flex-col gap-2 rounded-3xl p-4 ring-4 sm:mx-32 sm:min-w-md sm:gap-12 sm:p-8">
-        <div className="flex flex-col items-center gap-0.5 text-center sm:gap-1.5">
+        <div className="flex flex-col gap-0.5 sm:gap-1.5">
           <h1 className="text-4xl font-semibold sm:text-4xl">
             Welcome! Sign in to Pombo
           </h1>
@@ -124,7 +123,7 @@ export default function SignIn() {
               </span>
             </div>
           </div>
-          <div className="flex justify-center gap-1">
+          <div className="flex gap-1 pl-2">
             <span>Did you forget your password?</span>
             <Link
               href="/auth/forgot_password"

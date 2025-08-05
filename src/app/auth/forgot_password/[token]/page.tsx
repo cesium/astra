@@ -84,21 +84,19 @@ export default function ResetPassword() {
       </div>
 
       <div className="bg-light ring-smoke mx-4 flex flex-col gap-2 rounded-3xl p-4 ring-4 sm:mx-32 sm:min-w-md sm:gap-12 sm:p-8">
-        <div className="flex flex-col items-center gap-0.5 text-center sm:gap-1.5">
+        <div className="flex flex-col gap-0.5 sm:gap-1.5">
           <h1 className="text-3xl font-bold sm:text-4xl">Reset password</h1>
           <span className="text-gray-400">Enter the new password below</span>
         </div>
         {status === ResponseStatus.Success ? (
           <>
             <div className="flex flex-col items-center gap-2 text-center sm:gap-3">
-              <div className="flex flex-col">
-                <span className="material-symbols-outlined text-primary-400 text-6xl">
-                  check_circle
-                </span>
-                <p className="max-w-3xs text-gray-500">
-                  The password was successfully changed!
-                </p>
-              </div>
+              <span className="material-symbols-outlined text-primary-400 text-6xl">
+                check_circle
+              </span>
+              <p className="max-w-sm text-gray-500">
+                The password was successfully changed!
+              </p>
             </div>
             <Link
               className="bg-primary-400 mx-7 rounded-full p-4 text-center font-bold text-white shadow-lg"
