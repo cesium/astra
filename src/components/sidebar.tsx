@@ -1,8 +1,10 @@
 "use client";
 
+import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, createContext, useContext, useEffect } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface IParentProps {
   children: React.ReactNode;
@@ -39,7 +41,11 @@ export function SidebarHeader({ children, className }: IParentProps) {
 }
 
 export function SidebarItemList({ children, className }: IParentProps) {
-  return <div className={`flex flex-col gap-2 ${className}`}>{children}</div>;
+  return (
+    <div className={twMerge(clsx(className, "flex flex-col gap-2"))}>
+      {children}
+    </div>
+  );
 }
 
 export function SidebarItem({
@@ -65,7 +71,7 @@ export function SidebarItem({
       id={id}
       href={href}
       onClick={() => setSelected(href)}
-      className={commonClass}
+      className={twMerge(commonClass)}
       aria-current="page"
     >
       {children}
