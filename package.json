@@ -14,8 +14,10 @@
   "dependencies": {
     "@headlessui/react": "^2.2.4",
     "install": "^0.13.0",
+    "motion": "^12.23.12",
     "next": "15.3.4",
     "react": "^19.0.0",
+    "react-big-calendar": "^1.19.4",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
@@ -27,13 +29,14 @@
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
+    "@types/react-big-calendar": "^1.16.2",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
     "eslint-plugin-storybook": "^9.0.15",
-    "storybook": "^9.0.15",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.13",
+    "storybook": "^9.0.15",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
