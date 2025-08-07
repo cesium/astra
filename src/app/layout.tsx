@@ -6,8 +6,8 @@ const jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
   variable: "--font-jamjuree",
   weight: ["200", "300", "400", "500", "600", "700"],
-  display: "swap"
-})
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,9 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${jamjuree.variable} font-jamjuree antialiased`}
-      >
+      <body className={`${jamjuree.variable} font-jamjuree antialiased`}>
         {children}
       </body>
     </html>
