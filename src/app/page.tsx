@@ -1,4 +1,4 @@
-import AnimatedOptionsSection from "./components/animated-options-section";
+import AnimatedOptionsSection from "@/components/animated-options-section";
 
 export default function Home() {
   return (

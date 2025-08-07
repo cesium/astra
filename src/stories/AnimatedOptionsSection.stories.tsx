@@ -1,4 +1,4 @@
-import AnimatedOptionsSection from '@/app/components/animated-options-section'
+import AnimatedOptionsSection from '@/components/animated-options-section'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import React from 'react'
 
