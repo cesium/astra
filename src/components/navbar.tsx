@@ -5,9 +5,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-{
-  /*Logo*/
-}
 const Logo = () => (
   <div className="flex items-center gap-2">
     <svg
@@ -20,7 +17,7 @@ const Logo = () => (
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="lucide lucide-bird-icon lucide-bird stroke-primary size-8"
+      className="lucide lucide-bird-icon lucide-bird stroke-primary-400 size-8"
     >
       <path d="M16 7h.01" />
       <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
@@ -29,7 +26,7 @@ const Logo = () => (
       <path d="M14 17.75V21" />
       <path d="M7 18a6 6 0 0 0 3.84-10.61" />
     </svg>
-    <span className="text-xl font-bold">pombo</span>
+    <span className="text-xl font-bold select-none">pombo</span>
   </div>
 );
 
@@ -94,11 +91,11 @@ function Tab({
             bounce: 0.3,
             duration: 0.6,
           }}
-          className="bg-primary absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full"
+          className="bg-primary-400 absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full"
           style={{ zIndex: 10 }}
         />
       )}
-      <span className="material-symbols-outlined relative z-50">{icon}</span>
+      <span className="material-symbols-outlined relative z-50 text-2xl">{icon}</span>
       <p className="relative z-50">{name}</p>
     </Link>
   );
@@ -111,7 +108,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
     <div className="flex items-center md:hidden">
       <button
         onClick={() => setActive(true)}
-        className="material-symbols-outlined cursor-pointer hover:opacity-50"
+        className="material-symbols-outlined cursor-pointer hover:opacity-50 text-2xl"
       >
         menu
       </button>
@@ -124,7 +121,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="bg-muted/30 fixed inset-0 z-30 backdrop-blur-md"
+              className="bg-light/30 fixed inset-0 z-30 backdrop-blur-md"
               onClick={() => setActive(false)}
             />
 
@@ -164,13 +161,12 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.15, duration: 0.3 }}
                   >
-                    {/* Logo temporário */}
                     <Logo />
                   </motion.div>
 
                   <button
                     onClick={() => setActive(false)}
-                    className="material-symbols-outlined cursor-pointer transition-all duration-200 hover:rotate-90 hover:opacity-50"
+                    className="material-symbols-outlined cursor-pointer transition-all duration-200 hover:rotate-90 hover:opacity-50 text-2xl"
                   >
                     close
                   </button>
@@ -209,7 +205,6 @@ export default function Navbar() {
 
   return (
     <nav className="flex w-full items-center justify-between px-5 py-4 md:px-10">
-      {/* Logo */}
       <Logo />
 
       <TabsContainer currentPage={currentPage} className="hidden md:flex">
