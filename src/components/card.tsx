@@ -11,8 +11,8 @@ function Card({ children, className }: ICardProps) {
     <div
       className={twMerge(
         clsx(
+          "bg-muted/50 drop-shadow-dark/5 rounded-2xl border border-black/5 p-4 drop-shadow-2xl backdrop-blur-3xl",
           className,
-          "bg-muted/50 rounded-2xl border border-black/5 p-4 backdrop-blur-3xl",
         ),
       )}
     >
