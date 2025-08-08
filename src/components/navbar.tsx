@@ -95,7 +95,9 @@ function Tab({
           style={{ zIndex: 10 }}
         />
       )}
-      <span className="material-symbols-outlined relative z-50 text-2xl">{icon}</span>
+      <span className="material-symbols-outlined relative z-50 text-2xl">
+        {icon}
+      </span>
       <p className="relative z-50">{name}</p>
     </Link>
   );
@@ -108,7 +110,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
     <div className="flex items-center md:hidden">
       <button
         onClick={() => setActive(true)}
-        className="material-symbols-outlined cursor-pointer hover:opacity-50 text-2xl"
+        className="material-symbols-outlined cursor-pointer text-2xl hover:opacity-50"
       >
         menu
       </button>
@@ -166,7 +168,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
 
                   <button
                     onClick={() => setActive(false)}
-                    className="material-symbols-outlined cursor-pointer transition-all duration-200 hover:rotate-90 hover:opacity-50 text-2xl"
+                    className="material-symbols-outlined cursor-pointer text-2xl transition-all duration-200 hover:rotate-90 hover:opacity-50"
                   >
                     close
                   </button>
