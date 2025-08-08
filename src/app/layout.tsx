@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Bai_Jamjuree } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar";
 
 const jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
