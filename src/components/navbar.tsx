@@ -5,7 +5,9 @@ import { motion, AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-{/*Logo*/}
+{
+  /*Logo*/
+}
 const Logo = () => (
   <div className="flex items-center gap-2">
     <svg
@@ -77,7 +79,7 @@ function Tab({
 
   return (
     <Link
-      className={`relative z-50 inline-flex w-full items-center gap-2 rounded-2xl transition-colors duration-200 ease-in-out px-4 py-2 md:w-fit md:rounded-full ${
+      className={`relative z-50 inline-flex w-full items-center gap-2 rounded-2xl px-4 py-2 transition-colors duration-200 ease-in-out md:w-fit md:rounded-full ${
         isActive ? "text-white" : "text-gray-600 hover:text-gray-900"
       }`}
       href={href}
@@ -122,7 +124,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-30 bg-muted/30 backdrop-blur-md"
+              className="bg-muted/30 fixed inset-0 z-30 backdrop-blur-md"
               onClick={() => setActive(false)}
             />
 
@@ -148,7 +150,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                 bounce: 0.2,
                 ease: [0.4, 0, 0.2, 1],
               }}
-              className="fixed inset-x-2.5 top-2 z-50 h-72 rounded-4xl border border-black/5 bg-muted/50 px-2.5 py-5 shadow-xl backdrop-blur-3xl"
+              className="bg-muted/50 fixed inset-x-2.5 top-2 z-50 h-72 rounded-4xl border border-black/5 px-2.5 py-5 shadow-xl backdrop-blur-3xl"
             >
               <motion.div
                 initial={{ opacity: 0 }}
@@ -161,7 +163,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.15, duration: 0.3 }}
-                    >
+                  >
                     {/* Logo temporário */}
                     <Logo />
                   </motion.div>
@@ -206,7 +208,7 @@ export default function Navbar() {
   const currentPage = usePathname();
 
   return (
-    <nav className="flex w-full items-center justify-between px-5 md:px-10 py-4">
+    <nav className="flex w-full items-center justify-between px-5 py-4 md:px-10">
       {/* Logo */}
       <Logo />
 
