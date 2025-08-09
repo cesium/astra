@@ -14,44 +14,6 @@ interface FileUploaderProps {
   disabled?: boolean
 }
 
-const DownloadIcon = () => (
-  <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 15L7 10H10V3H14V10H17L12 15Z" fill="currentColor" />
-    <path d="M20 18H4V20H20V18Z" fill="currentColor" />
-  </svg>
-)
-
-const PlusIcon = () => (
-  <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-)
-
-const XIcon = () => (
-  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-)
-
-const FileIcon = () => (
-  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <polyline
-      points="14,2 14,8 20,8"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
-
 function formatFileSize(bytes: number): string {
   if (bytes === 0) return "0 Bytes"
   const k = 1024
@@ -163,11 +125,11 @@ export default function FileUploader({
         className={twMerge(
           clsx(
             "relative w-full cursor-pointer rounded-lg border-2 border-dashed transition-all duration-200 ease-in-out",
-            "flex min-h-[200px] flex-col items-center justify-center gap-4 p-4 text-center",
+            "flex min-h-[200px] flex-col items-center justify-center p-4 text-center",
             "sm:min-h-[250px] sm:p-6 md:p-8",
             isDragOver
-              ? "border-orange-400 bg-orange-50"
-              : "border-gray-300 bg-gray-50 hover:border-gray-400 hover:bg-gray-100",
+              ? "border-primary-400 bg-primary-400/20"
+              : "border-black/20 bg-gray-50 hover:border-black/30 hover:bg-gray-100",
             disabled && "pointer-events-none opacity-50",
           ),
         )}
@@ -190,51 +152,40 @@ export default function FileUploader({
         <div
           className={twMerge(
             clsx(
-              "rounded-lg p-3 transition-all duration-200 ease-in-out",
-              "sm:p-4",
-              isDragOver ? "bg-orange-100 text-orange-600" : "bg-gray-200 text-gray-500",
+              "rounded-lg transition-all duration-200 ease-in-out",
+              isDragOver ? "text-primary-400" : "text-black/50",
             ),
           )}
         >
-          {isDragOver ? <PlusIcon /> : <DownloadIcon />}
+          <span className="material-symbols-outlined text-5xl">{isDragOver ? "add" : "download"}</span>
         </div>
 
         {}
-        <div className="space-y-1 sm:space-y-2">
-          <p
-            className={twMerge(
-              clsx(
-                "text-sm font-medium transition-colors duration-200",
-                "sm:text-base",
-                isDragOver ? "text-orange-700" : "text-gray-600",
-              ),
-            )}
-          >
-            Largue aqui o ficheiro para carregar
-          </p>
-          <p
-            className={twMerge(
-              clsx(
-                "text-sm transition-colors duration-200",
-                "sm:text-base",
-                isDragOver ? "text-orange-600" : "text-gray-600",
-              ),
-            )}
-          >
-            ou{" "}
-            <span
+        {!isDragOver && (
+          <div className="space-y-1 sm:space-y-2">
+            <p
               className={twMerge(
-                clsx(
-                  "underline transition-colors duration-200 hover:no-underline",
-                  isDragOver ? "text-orange-600" : "text-blue-600 hover:text-blue-800",
-                ),
+                clsx("font-semibold transition-colors duration-200", "text-black/50"),
               )}
             >
-              abra um ficheiro do seu computador
-            </span>
-          </p>
-          {maxSize && <p className="text-xs text-gray-400 mt-2">Tamanho máximo: {formatFileSize(maxSize)}</p>}
-        </div>
+              Largue aqui o ficheiro para carregar
+            </p>
+            <p className={twMerge(clsx("transition-colors duration-200", "text-black/50"))}>
+              ou{" "}
+              <span
+                className={twMerge(
+                  clsx(
+                    "underline transition-colors duration-200 hover:no-underline",
+                    "text-primary-400 hover:text-primary-600",
+                  ),
+                )}
+              >
+                abra um ficheiro do seu computador
+              </span>
+            </p>
+            {maxSize && <p className="text-xs text-gray-400 mt-2">Tamanho máximo: {formatFileSize(maxSize)}</p>}
+          </div>
+        )}
       </div>
 
       {}
@@ -244,7 +195,7 @@ export default function FileUploader({
 
           <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-3">
             <div className="flex items-center gap-3 min-w-0 flex-1">
-              <FileIcon />
+              <span className="material-symbols-outlined text-base">description</span>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-gray-900 truncate">{selectedFile.name}</p>
                 <p className="text-xs text-gray-500">{formatFileSize(selectedFile.size)}</p>
@@ -254,7 +205,7 @@ export default function FileUploader({
               onClick={removeFile}
               className="flex-shrink-0 rounded-full p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
             >
-              <XIcon />
+              <span className="material-symbols-outlined text-base">close</span>
             </button>
           </div>
         </div>
