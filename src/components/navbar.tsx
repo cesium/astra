@@ -37,9 +37,9 @@ interface ITabProps {
 }
 
 const tabs = [
-  { name: "Eventos", icon: "calendar_month", href: "/" },
+  { name: "Events", icon: "calendar_month", href: "/" },
   {
-    name: "Calendário",
+    name: "Schedule",
     icon: "schedule",
     href: "/schedule",
   },
