@@ -64,7 +64,6 @@
   --color-university: #971318;
   --color-danger: #ff5e79;
   --color-success: #2edb51;
-
   --font-jamjuree: var(--font-jamjuree);
 }
 
@@ -113,7 +112,6 @@ input[type="number"] {
   font-weight: 400 !important;
 }
 
-
 .rbc-day-slot .rbc-time-slot {
   border: none !important;
 }
@@ -133,15 +131,13 @@ input[type="number"] {
   padding: 0.5px;
 }
 
-.rbc-events-container{
+.rbc-events-container {
   margin: 0 !important;
   padding: 5px !important;
 }
 
 .rbc-event {
   box-sizing: border-box !important;
-  background-color: #f9c2c2 !important;
-  color: #cb5555 !important;
   border: none !important;
   font-weight: 600;
   border-radius: 4px !important;
@@ -169,7 +165,11 @@ input[type="number"] {
   right: 0;
   width: 40px;
   height: 100%;
-  background: linear-gradient(to right, rgba(249, 194, 194, 0), #f9c2c2);
+  background: linear-gradient(
+    to right,
+    rgba(249, 194, 194, 0),
+    var(--gradient-color)
+  );
   border-radius: 0 4px 4px 0;
 }
 
@@ -186,20 +186,34 @@ input[type="number"] {
   width: var(--width) !important;
   z-index: 5 !important;
   height: 4px !important;
-  background-color: var(--color-primary) !important;
+  background-color: var(--color-primary-400) !important;
   pointer-events: none !important;
 
   &::before {
-    display: inline-block !important;
-    content: '' !important;
-    background-color: var(--color-primary) !important;
-    width: 12px !important;
-    height: 12px !important;
-    border-radius: 50% !important;
-    margin-left: -12px !important;
-    margin-bottom: 12px !important;
-    margin-top: -4px !important;
+    content: "NOW" !important;
+    color: var(--color-light) !important;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 8px;
+    font-size: 13px;
+    position: absolute;
+    left: -49px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 51px;
+    height: 26px;
+    background-color: var(--color-primary-400);
+    clip-path: path(
+      "M0 13C0 5.8203 5.8203 0 13 0H25.7015C32.0392 0 38.1829 2.18609 43.0961 6.18943L49 11L51 13L49 15L43.0961 19.8106C38.1829 23.8139 32.0392 26 25.7015 26H13C5.8203 26 0 20.1797 0 13Z"
+    );
   }
+}
+
+.rbc-time-content,
+.rbc-time-column {
+  overflow: visible !important;
 }
 
 .schedule .rbc-allday-cell {

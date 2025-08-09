@@ -14,14 +14,14 @@ export default function CustomToolbar(toolbar: ToolbarProps<any, object>) {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-center gap-4 lg:hidden">
         <button
-          className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:-translate-x-0.5"
+          className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:-translate-x-0.5 text-2xl"
           onClick={goToBack}
         >
           arrow_back
         </button>
         <span className="font-semibold">{label}</span>
         <button
-          className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:translate-x-0.5"
+          className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:translate-x-0.5 text-2xl"
           onClick={goToNext}
         >
           arrow_forward
@@ -30,7 +30,7 @@ export default function CustomToolbar(toolbar: ToolbarProps<any, object>) {
 
       <div className="mb-4.5 flex items-center justify-center gap-4 lg:justify-between">
         <button
-          className="text-primary bg-primary/20 hover:ring-primary/40 shadow-primary/15 inline-flex cursor-pointer items-center gap-2 rounded-full px-4 py-1.5 transition-all duration-200 ease-in-out hover:shadow-md hover:ring-1 lg:mr-38.5"
+          className="text-primary-400 bg-primary-400/20 hover:ring-primary-400/40 shadow-primary-400/15 inline-flex cursor-pointer items-center gap-2 rounded-full px-4 py-1.5 transition-all duration-200 ease-in-out hover:shadow-md hover:ring-1 lg:mr-38.5"
           onClick={goToToday}
         >
           Today
@@ -38,14 +38,14 @@ export default function CustomToolbar(toolbar: ToolbarProps<any, object>) {
 
         <div className="hidden items-center justify-between gap-4 lg:flex">
           <button
-            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:-translate-x-0.5"
+            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:-translate-x-0.5 text-2xl"
             onClick={goToBack}
           >
             arrow_back
           </button>
           <span className="font-semibold">{label}</span>
           <button
-            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:translate-x-0.5"
+            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:translate-x-0.5 text-2xl"
             onClick={goToNext}
           >
             arrow_forward
