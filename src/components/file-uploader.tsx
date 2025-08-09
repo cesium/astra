@@ -1,25 +1,27 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useCallback, useState, useRef } from "react"
-import { twMerge } from "tailwind-merge"
-import clsx from "clsx"
+import { useCallback, useState, useRef } from "react";
+import { twMerge } from "tailwind-merge";
+import clsx from "clsx";
 
 interface FileUploaderProps {
-  onFileChange?: (file: File | null) => void
-  accept?: string
-  maxSize?: number
-  className?: string
-  disabled?: boolean
+  onFileChange?: (file: File | null) => void;
+  accept?: string;
+  maxSize?: number;
+  className?: string;
+  disabled?: boolean;
 }
 
 function formatFileSize(bytes: number): string {
-  if (bytes === 0) return "0 Bytes"
-  const k = 1024
-  const sizes = ["Bytes", "KB", "MB", "GB"]
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
+  if (bytes === 0) return "0 Bytes";
+  const k = 1024;
+  const sizes = ["Bytes", "KB", "MB", "GB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return (
+    Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
+  );
 }
 
 export default function FileUploader({
@@ -29,94 +31,96 @@ export default function FileUploader({
   className,
   disabled = false,
 }: FileUploaderProps) {
-  const [isDragOver, setIsDragOver] = useState(false)
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const dragCounterRef = useRef(0)
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const dragCounterRef = useRef(0);
 
   const handleFile = useCallback(
     (file: File | null) => {
-      if (!file || disabled) return
+      if (!file || disabled) return;
 
       if (maxSize && file.size > maxSize) {
-        alert(`File "${file.name}" exceeds maximum size of ${formatFileSize(maxSize)}`)
-        return
+        alert(
+          `File "${file.name}" exceeds maximum size of ${formatFileSize(maxSize)}`,
+        );
+        return;
       }
 
-      setSelectedFile(file)
-      onFileChange?.(file)
+      setSelectedFile(file);
+      onFileChange?.(file);
     },
     [onFileChange, maxSize, disabled],
-  )
+  );
 
   const removeFile = useCallback(() => {
-    setSelectedFile(null)
-    onFileChange?.(null)
-  }, [onFileChange])
+    setSelectedFile(null);
+    onFileChange?.(null);
+  }, [onFileChange]);
 
   const handleDragEnter = useCallback(
     (e: React.DragEvent) => {
-      e.preventDefault()
-      e.stopPropagation()
-      if (disabled) return
+      e.preventDefault();
+      e.stopPropagation();
+      if (disabled) return;
 
-      dragCounterRef.current++
+      dragCounterRef.current++;
       if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
-        setIsDragOver(true)
+        setIsDragOver(true);
       }
     },
     [disabled],
-  )
+  );
 
   const handleDragLeave = useCallback(
     (e: React.DragEvent) => {
-      e.preventDefault()
-      e.stopPropagation()
-      if (disabled) return
+      e.preventDefault();
+      e.stopPropagation();
+      if (disabled) return;
 
-      dragCounterRef.current--
+      dragCounterRef.current--;
       if (dragCounterRef.current === 0) {
-        setIsDragOver(false)
+        setIsDragOver(false);
       }
     },
     [disabled],
-  )
+  );
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-  }, [])
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
-      e.preventDefault()
-      e.stopPropagation()
-      if (disabled) return
+      e.preventDefault();
+      e.stopPropagation();
+      if (disabled) return;
 
-      setIsDragOver(false)
-      dragCounterRef.current = 0
+      setIsDragOver(false);
+      dragCounterRef.current = 0;
 
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-        handleFile(e.dataTransfer.files[0])
+        handleFile(e.dataTransfer.files[0]);
       }
     },
     [handleFile, disabled],
-  )
+  );
 
   const handleClick = useCallback(() => {
-    if (disabled) return
-    fileInputRef.current?.click()
-  }, [disabled])
+    if (disabled) return;
+    fileInputRef.current?.click();
+  }, [disabled]);
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
-        handleFile(e.target.files[0])
+        handleFile(e.target.files[0]);
       }
-      e.target.value = ""
+      e.target.value = "";
     },
     [handleFile],
-  )
+  );
 
   return (
     <div className={twMerge(clsx("w-full space-y-4", className))}>
@@ -157,7 +161,9 @@ export default function FileUploader({
             ),
           )}
         >
-          <span className="material-symbols-outlined text-5xl">{isDragOver ? "add" : "download"}</span>
+          <span className="material-symbols-outlined text-5xl">
+            {isDragOver ? "add" : "download"}
+          </span>
         </div>
 
         {}
@@ -165,12 +171,19 @@ export default function FileUploader({
           <div className="space-y-1 sm:space-y-2">
             <p
               className={twMerge(
-                clsx("font-semibold transition-colors duration-200", "text-black/50"),
+                clsx(
+                  "font-semibold transition-colors duration-200",
+                  "text-black/50",
+                ),
               )}
             >
               Largue aqui o ficheiro para carregar
             </p>
-            <p className={twMerge(clsx("transition-colors duration-200", "text-black/50"))}>
+            <p
+              className={twMerge(
+                clsx("transition-colors duration-200", "text-black/50"),
+              )}
+            >
               ou{" "}
               <span
                 className={twMerge(
@@ -183,7 +196,11 @@ export default function FileUploader({
                 abra um ficheiro do seu computador
               </span>
             </p>
-            {maxSize && <p className="text-xs text-gray-400 mt-2">Tamanho máximo: {formatFileSize(maxSize)}</p>}
+            {maxSize && (
+              <p className="mt-2 text-xs text-gray-400">
+                Tamanho máximo: {formatFileSize(maxSize)}
+              </p>
+            )}
           </div>
         )}
       </div>
@@ -191,19 +208,27 @@ export default function FileUploader({
       {}
       {selectedFile && (
         <div className="space-y-3">
-          <h3 className="text-sm font-medium text-gray-700">Ficheiro selecionado</h3>
+          <h3 className="text-sm font-medium text-gray-700">
+            Ficheiro selecionado
+          </h3>
 
           <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-3">
-            <div className="flex items-center gap-3 min-w-0 flex-1">
-              <span className="material-symbols-outlined text-base">description</span>
+            <div className="flex min-w-0 flex-1 items-center gap-3">
+              <span className="material-symbols-outlined text-base">
+                description
+              </span>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-gray-900 truncate">{selectedFile.name}</p>
-                <p className="text-xs text-gray-500">{formatFileSize(selectedFile.size)}</p>
+                <p className="truncate text-sm font-medium text-gray-900">
+                  {selectedFile.name}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {formatFileSize(selectedFile.size)}
+                </p>
               </div>
             </div>
             <button
               onClick={removeFile}
-              className="flex-shrink-0 rounded-full p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+              className="flex-shrink-0 rounded-full p-1 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
             >
               <span className="material-symbols-outlined text-base">close</span>
             </button>
@@ -211,5 +236,5 @@ export default function FileUploader({
         </div>
       )}
     </div>
-  )
+  );
 }

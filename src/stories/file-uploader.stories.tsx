@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/nextjs-vite"
-import FileUploader from "@/components/file-uploader"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import FileUploader from "@/components/file-uploader";
 
 const meta: Meta<typeof FileUploader> = {
   title: "Components/FileUploader",
@@ -17,7 +17,8 @@ const meta: Meta<typeof FileUploader> = {
   argTypes: {
     onFileChange: {
       action: "file changed",
-      description: "Callback function called when a file is selected or removed",
+      description:
+        "Callback function called when a file is selected or removed",
     },
     accept: {
       control: "text",
@@ -38,10 +39,10 @@ const meta: Meta<typeof FileUploader> = {
       description: "Additional CSS classes for the container",
     },
   },
-}
+};
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => (
@@ -52,7 +53,7 @@ export const Default: Story = {
   args: {
     accept: "*/*",
   },
-}
+};
 
 export const ImagesOnly: Story = {
   render: (args) => (
@@ -63,7 +64,7 @@ export const ImagesOnly: Story = {
   args: {
     accept: "image/*",
   },
-}
+};
 
 export const WithSizeLimit: Story = {
   render: (args) => (
@@ -75,7 +76,7 @@ export const WithSizeLimit: Story = {
     maxSize: 5 * 1024 * 1024, // 5MB limit
     accept: "*/*",
   },
-}
+};
 
 export const DocumentsOnly: Story = {
   render: (args) => (
@@ -87,7 +88,7 @@ export const DocumentsOnly: Story = {
     accept:
       ".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain",
   },
-}
+};
 
 export const Disabled: Story = {
   render: (args) => (
@@ -98,7 +99,7 @@ export const Disabled: Story = {
   args: {
     disabled: true,
   },
-}
+};
 
 export const Mobile: Story = {
   render: (args) => (
@@ -111,7 +112,7 @@ export const Mobile: Story = {
       defaultViewport: "mobile1",
     },
   },
-}
+};
 
 export const Tablet: Story = {
   render: (args) => (
@@ -124,7 +125,7 @@ export const Tablet: Story = {
       defaultViewport: "tablet",
     },
   },
-}
+};
 
 export const Desktop: Story = {
   render: (args) => (
@@ -137,4 +138,4 @@ export const Desktop: Story = {
       defaultViewport: "desktop",
     },
   },
-}
+};
