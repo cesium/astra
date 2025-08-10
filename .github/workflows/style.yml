@@ -25,7 +25,7 @@ jobs:
         run: bun i
 
       - name: Format the code
-        run: bun format
+        run: bun test:format
 
       - name: Lint the code
         run: bun lint

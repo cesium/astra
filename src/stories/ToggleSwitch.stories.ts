@@ -1,21 +1,21 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { fn } from 'storybook/test';
+import { fn } from "storybook/test";
 
-import ToggleSwitch from '../components/switch';
+import ToggleSwitch from "../components/switch";
 
 const meta = {
-  title: 'Components/ToggleSwitch',
+  title: "Components/ToggleSwitch",
   component: ToggleSwitch,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
-    initialState: { control: 'boolean' },
+    initialState: { control: "boolean" },
     size: {
-      control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
+      control: { type: "select" },
+      options: ["small", "medium", "large"],
     },
   },
   args: { onToggle: fn() },
@@ -27,27 +27,27 @@ type Story = StoryObj<typeof meta>;
 export const Enabled: Story = {
   args: {
     initialState: false,
-    size: 'medium',
+    size: "medium",
   },
 };
 
 export const Disabled: Story = {
   args: {
     initialState: true,
-    size: 'medium',
+    size: "medium",
   },
 };
 
 export const Large: Story = {
   args: {
     initialState: false,
-    size: 'large',
+    size: "large",
   },
 };
 
 export const Small: Story = {
   args: {
     initialState: true,
-    size: 'small',
+    size: "small",
   },
 };

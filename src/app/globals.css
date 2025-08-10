@@ -13,7 +13,6 @@
   font-family: "Material Symbols Outlined";
   font-weight: 300;
   font-style: normal;
-  font-size: 24px;
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
@@ -47,15 +46,26 @@
 }
 
 @theme {
-  --color-primary: #EE7749;
-  --color-light: #FFFFFF;
+  --color-primary-50: #fef4ee;
+  --color-primary-100: #fce7d8;
+  --color-primary-200: #f8cbb0;
+  --color-primary-300: #f4a67d;
+  --color-primary-400: #ee7749;
+  --color-primary-500: #ea5425;
+  --color-primary-600: #db3c1b;
+  --color-primary-700: #b62b18;
+  --color-primary-800: #91251b;
+  --color-primary-900: #752119;
+  --color-primary-950: #3f0d0b;
+  --color-light: #ffffff;
   --color-dark: #000000;
-  --color-muted: #FAFAFA;
+  --color-muted: #f7f7f7;
+  --color-smoke: #f2f2f2;
   --color-university: #971318;
-  --color-danger: #FF5E79;
-  --color-success: #2EDB51;
+  --color-danger: #ff5e79;
+  --color-success: #2edb51;
 
-  --font-jamjuree: var(--font-jamjuree)
+  --font-jamjuree: var(--font-jamjuree);
 }
 
 input[type="number"] {
