@@ -22,13 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${jamjuree.variable} font-jamjuree`}
-      >
-        <Navbar/>
-        <main className="antialiased px-5 md:px-7.5 py-3.5">
-          {children}
-        </main>
+      <body className={`${jamjuree.variable} font-jamjuree`}>
+        <Navbar />
+        <main className="px-5 py-3.5 antialiased md:px-7.5">{children}</main>
       </body>
     </html>
   );
