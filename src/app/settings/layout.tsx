@@ -56,11 +56,11 @@ export default function SettingsLayout({
             </SidebarItem>
 
             <SidebarItem id="imports" href="/settings/backoffice/imports">
-              <SidebarItemLabel icon="move_to_inbox" label="Importar" />
+              <SidebarItemLabel icon="move_to_inbox" label="Import" />
             </SidebarItem>
 
             <SidebarItem id="exports" href="/settings/backoffice/exports">
-              <SidebarItemLabel icon="ios_share" label="Exportar" />
+              <SidebarItemLabel icon="ios_share" label="Export" />
             </SidebarItem>
           </SidebarItemList>
         </Sidebar>
