@@ -4,6 +4,8 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
+import clsx from "clsx";
 
 const Logo = () => (
   <div className="flex items-center gap-2">
@@ -58,7 +60,12 @@ function TabsContainer({
   return (
     <menu
       key={currentPage}
-      className={`bg-dark/5 relative z-50 flex h-fit flex-col items-center gap-0.5 rounded-2xl p-1 md:flex-row md:rounded-full ${className}`}
+      className={twMerge(
+        clsx(
+          "bg-dark/5 relative z-50 flex h-fit flex-col items-center gap-0.5 rounded-2xl p-1 md:flex-row md:rounded-full",
+          className,
+        ),
+      )}
     >
       {children}
     </menu>
