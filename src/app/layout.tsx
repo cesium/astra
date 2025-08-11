@@ -11,7 +11,8 @@ const jamjuree = Bai_Jamjuree({
 
 export const metadata: Metadata = {
   title: "Pombo",
-  description: "Exams, events and schedules. Your hub to everything for LEI and MEI!",
+  description:
+    "Exams, events and schedules. Your hub to everything for LEI and MEI!",
 };
 
 export default function RootLayout({
