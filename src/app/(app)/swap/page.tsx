@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pombo | Swap",
+  title: "Pombo | Exchange",
 };
 
-export default function Swap() {
-  return <div>Swap Page</div>;
+export default function Exchange() {
+  return <div>Exchange Page</div>;
 }
