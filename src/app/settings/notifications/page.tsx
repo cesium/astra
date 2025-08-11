@@ -1,3 +1,3 @@
-export default function Notificatins() {
-  return <div>Notificatins Page</div>;
+export default function Notifications() {
+  return <div>Notifications Page</div>;
 }
