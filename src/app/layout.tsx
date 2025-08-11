@@ -22,9 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${jamjuree.variable} font-jamjuree`}>
-        {children}
-      </body>
+      <body className={`${jamjuree.variable} font-jamjuree`}>{children}</body>
     </html>
   );
 }

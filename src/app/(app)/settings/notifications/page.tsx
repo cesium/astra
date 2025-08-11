@@ -5,9 +5,5 @@ export const metadata: Metadata = {
 };
 
 export default function Notifications() {
-  return (
-    <div>
-      Notifications Page
-    </div>
-  );
+  return <div>Notifications Page</div>;
 }

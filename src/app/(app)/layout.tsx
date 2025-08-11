@@ -10,6 +10,5 @@ export default function AppLayout({
       <Navbar />
       <main className="px-5 py-3.5 antialiased md:px-7.5">{children}</main>
     </>
-    
   );
 }
