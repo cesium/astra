@@ -46,7 +46,7 @@ export default function AnimatedOptionsSection({
     const [isMobile, setIsMobile] = useState(false)
 
     useEffect(() => {
-      const checkMobile = () => setIsMobile(window.innerWidth < 768)
+      const checkMobile = () => setIsMobile(window.innerWidth < 800)
       checkMobile()
       window.addEventListener("resize", checkMobile)
       return () => window.removeEventListener("resize", checkMobile)
@@ -133,9 +133,11 @@ export default function AnimatedOptionsSection({
 
   const getContainerClasses = useCallback(() => {
     const base = isMobile ? "fixed bottom-0 left-0 w-full z-50" : "h-full"
-    const editing = isEditing && !isMobile ? "relative" : ""
-    return `${base} ${editing}`
-  }, [isMobile, isEditing])
+    const editing = (isOpen && !isMobile) ? "relative" : ""
+    const background = showClosedState && isMobile ? "bg-white"  : ""
+
+    return `${base} ${editing} ${background}`
+  }, [isMobile, isEditing, showClosedState, isOpen])
 
   const getMotionClasses = useCallback(() => {
     const base = isMobile ? "w-full" : "h-full"
@@ -147,23 +149,30 @@ export default function AnimatedOptionsSection({
     } else if (isMobile) {
       state = "justify-start"
     } else {
-      state = "justify-start border rounded-2xl border-[#eeeeee] bg-[#f5f5f5]"
+      state = "justify-start rounded-2xl"
     }
 
-    const editing = isEditing && !isMobile ? "absolute z-50" : ""
-    const mobile = isMobile ? "rounded-t-2xl bg-white shadow-lg" : ""
+    const editing = (isEditing) && !isMobile ? "absolute z-50" : ""
+    const mobile = isMobile ? "rounded-t-2xl" : ""
 
-    return `${base} ${flex} ${state} ${editing} ${mobile}`
-  }, [isMobile, showClosedState, isEditing])
+    const backgroundAndBorder = isOpen ? isMobile ? "bg-muted/50 backdrop-blur-3xl border border-black/5" : "bg-muted/50 backdrop-blur-3xl border border-black/5" : ""
+
+    return `${base} ${flex} ${state} ${editing} ${mobile} ${backgroundAndBorder}`
+  }, [isMobile, showClosedState, isEditing, isOpen])
 
   const getContentClasses = useCallback(() => {
     const base = isMobile ? "w-full h-full" : "h-full"
     const flex = "flex flex-col w-full overflow-hidden"
-    const styling = isMobile ? "rounded-t-2xl" : "rounded-[15px]"
+    const styling = isMobile ? "rounded-t-2xl" : "rounded-2xl"
     const custom = classNameOpenedSection || ""
 
-    return `${base} ${flex} ${styling} ${custom}`
-  }, [isMobile, classNameOpenedSection])
+    const background = !showClosedState
+      ? "rounded-2xl border border-black/5"
+      : ""
+
+    return `${base} ${flex} ${styling} ${custom} ${background}`
+  }, [isMobile, showClosedState, classNameOpenedSection])
+
 
   const contentVariants = useMemo(() => ({
     hidden: {
@@ -215,13 +224,13 @@ export default function AnimatedOptionsSection({
       >
         {showClosedState && (
           <motion.div
-            className={`flex gap-2 ${isMobile ? "justify-center items-center w-full h-20 flex-row-reverse" : "-rotate-90 translate-y-20"}`}
+            className={`flex gap-2 ${isMobile ? "justify-center items-start w-full h-20 flex-row-reverse" : "-rotate-90 translate-y-20"}`}
             variants={contentVariants}
             initial="visible"
             animate="visible"
           >
             <span className="flex items-center justify-center whitespace-nowrap text-gray-500 font-light text-sm">
-              Mostrar opções
+              Abrir opções
             </span>
             <span className={`material-symbols-outlined text-center text-gray-500 ml-2 ${isMobile ? "-rotate-90" : "rotate-90"}`}>
               arrow_forward_ios
@@ -247,10 +256,11 @@ export default function AnimatedOptionsSection({
               >
                 <span className="text-2xl font-semibold">{title}</span>
                 <button
-                  className="material-symbols-outlined cursor-pointer text-gray-500 font-bold hover:text-gray-700 transition-colors duration-200 bg-transparent border-none p-1"
+                  className="material-symbols-outlined cursor-pointer text-gray-500 font-bold hover:text-gray-700 transition-colors duration-200 border-none p-1"
                   onClick={handleClose}
                   aria-label="Fechar opções"
                   type="button"
+                  style={{fontSize: "20px"}}
                 >
                   arrow_back_ios_new
                 </button>
@@ -265,10 +275,11 @@ export default function AnimatedOptionsSection({
                 transition={{ duration: 0.3, delay: 0.15 }}
               >
                 <button
-                  className="material-symbols-outlined cursor-pointer text-gray-500 hover:text-gray-700 transition-colors duration-200 bg-transparent border-none p-1"
+                  className="material-symbols-outlined cursor-pointer text-gray-500 hover:text-gray-700 transition-colors duration-200 border-none p-1"
                   onClick={handleEditClick}
                   aria-label="Voltar às opções"
                   type="button"
+                  style={{fontSize: "20px"}}
                 >
                   arrow_back_ios_new
                 </button>
