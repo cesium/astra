@@ -1,5 +1,7 @@
+import clsx from "clsx";
 import Image from "next/image";
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 interface IAvatarProps {
   src?: string;
@@ -21,18 +23,23 @@ function getInitials(name: string): string {
 const Avatar = ({ src, name, className }: IAvatarProps) => {
   return (
     <figure
-      className={`bg-light overflow-hidden rounded-full ${className || ""}`}
+      className={twMerge(
+        clsx(
+          "bg-light size-10 overflow-hidden rounded-full text-[1.1em]",
+          className,
+        ),
+      )}
     >
       {src ? (
         <Image
           src={src}
           alt="User Avatar"
-          width={34}
-          height={34}
+          width={60}
+          height={60}
           className="object-cover"
         />
       ) : (
-        <div className="flex size-full min-h-8 min-w-8 items-center justify-center bg-gradient-to-b from-black/20 to-black/40">
+        <div className="flex size-full items-center justify-center bg-gradient-to-b from-black/20 to-black/40">
           <span className="text-light">{name && getInitials(name)}</span>
         </div>
       )}

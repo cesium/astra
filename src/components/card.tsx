@@ -6,7 +6,7 @@ interface ICardProps {
   className?: string;
 }
 
-function Card({ children, className }: ICardProps) {
+function Card({ children, className, ...rest }: ICardProps) {
   return (
     <div
       className={twMerge(
@@ -15,6 +15,7 @@ function Card({ children, className }: ICardProps) {
           className,
         ),
       )}
+      {...rest}
     >
       {children}
     </div>

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
+import UserDropdown from "./user-dropdown";
 
 const Logo = () => (
   <div className="flex items-center gap-2">
@@ -45,7 +46,7 @@ const tabs = [
     icon: "schedule",
     href: "/schedule",
   },
-  { name: "SWAP", icon: "sync_alt", href: "/swap" },
+  { name: "Exchange", icon: "sync_alt", href: "/exchange" },
 ];
 
 function TabsContainer({
@@ -62,7 +63,7 @@ function TabsContainer({
       key={currentPage}
       className={twMerge(
         clsx(
-          "bg-dark/5 relative z-50 flex h-fit flex-col items-center gap-0.5 rounded-2xl p-1 md:flex-row md:rounded-full",
+          "bg-dark/5 relative z-10 flex h-fit flex-col items-center gap-0.5 rounded-2xl p-1 md:flex-row md:rounded-full",
           className,
         ),
       )}
@@ -83,7 +84,7 @@ function Tab({
 
   return (
     <Link
-      className={`relative z-50 inline-flex w-full items-center gap-2 rounded-2xl px-4 py-2 transition-colors duration-200 ease-in-out md:w-fit md:rounded-full ${
+      className={`relative z-10 inline-flex w-full items-center gap-2 rounded-2xl px-4 py-2 transition-colors duration-200 ease-in-out md:w-fit md:rounded-full ${
         isActive ? "text-white" : "text-gray-600 hover:text-gray-900"
       }`}
       href={href}
@@ -99,13 +100,10 @@ function Tab({
             duration: 0.6,
           }}
           className="bg-primary-400 absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full"
-          style={{ zIndex: 10 }}
         />
       )}
-      <span className="material-symbols-outlined relative z-50 text-2xl">
-        {icon}
-      </span>
-      <p className="relative z-50">{name}</p>
+      <span className="material-symbols-outlined z-10 text-2xl">{icon}</span>
+      <p className="z-10">{name}</p>
     </Link>
   );
 }
@@ -201,6 +199,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                   </TabsContainer>
                 </motion.div>
               </motion.div>
+              <UserDropdown />
             </motion.div>
           </>
         )}
@@ -230,9 +229,9 @@ export default function Navbar() {
       </TabsContainer>
 
       {/* User dropdown */}
-      <div className="hidden items-center justify-center px-4 md:flex">
-        Profile
-      </div>
+      {/* <div className="hidden items-center justify-center px-4 md:flex"> */}
+      <UserDropdown />
+      {/* </div> */}
 
       <MobileDropdown currentPage={currentPage} />
     </nav>
