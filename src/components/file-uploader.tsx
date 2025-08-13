@@ -1,17 +1,23 @@
 "use client";
 
 import type React from "react";
-
 import { useCallback, useState, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
+import { z } from "zod";
+import mime from "mime-types";
 
-interface FileUploaderProps {
+interface IFileUploaderProps {
   onFileChange?: (file: File | null) => void;
-  accept?: string;
   maxSize?: number;
+  allowedTypes?: string[];
   className?: string;
   disabled?: boolean;
+}
+
+interface ValidationError {
+  message: string;
+  type: "size" | "type";
 }
 
 function formatFileSize(bytes: number): string {
@@ -24,15 +30,58 @@ function formatFileSize(bytes: number): string {
   );
 }
 
+function getFileTypeCategory(allowedTypes: string[]): string | null {
+  const extensions = allowedTypes
+    .map((type) => mime.extension(type))
+    .filter((ext): ext is string => Boolean(ext))
+    .map((ext) => ext.toUpperCase());
+
+  if (extensions.length === 0) return null;
+
+  if (extensions.length <= 3) {
+    return extensions.join(", ");
+  }
+
+  return `${extensions.slice(0, 3).join(", ")} e mais ${extensions.length - 3}`;
+}
+
+function createFileSchema(maxSize?: number, allowedTypes?: string[]) {
+  return z
+    .instanceof(File)
+    .refine(
+      (file) => {
+        if (!maxSize) return true;
+        return file.size <= maxSize;
+      },
+      {
+        message: `O ficheiro excede o tamanho máximo de ${formatFileSize(maxSize!)}`,
+      },
+    )
+    .refine(
+      (file) => {
+        if (!allowedTypes || allowedTypes.length === 0) return true;
+        return allowedTypes.includes(file.type);
+      },
+      {
+        message:
+          allowedTypes && allowedTypes.length > 0
+            ? `Tipo de ficheiro não suportado (${getFileTypeCategory(allowedTypes)})`
+            : "Tipo de ficheiro não suportado.",
+      },
+    );
+}
+
 export default function FileUploader({
   onFileChange,
-  accept = "*/*",
   maxSize,
+  allowedTypes,
   className,
   disabled = false,
-}: FileUploaderProps) {
+}: IFileUploaderProps) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [validationError, setValidationError] =
+    useState<ValidationError | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dragCounterRef = useRef(0);
 
@@ -40,21 +89,29 @@ export default function FileUploader({
     (file: File | null) => {
       if (!file || disabled) return;
 
-      if (maxSize && file.size > maxSize) {
-        alert(
-          `File "${file.name}" exceeds maximum size of ${formatFileSize(maxSize)}`,
-        );
+      setValidationError(null);
+
+      const fileSchema = createFileSchema(maxSize, allowedTypes);
+      const result = fileSchema.safeParse(file);
+
+      if (!result.success) {
+        const error = result.error.issues[0];
+        setValidationError({
+          message: error.message,
+          type: error.message.includes("size") ? "size" : "type",
+        });
         return;
       }
 
       setSelectedFile(file);
       onFileChange?.(file);
     },
-    [onFileChange, maxSize, disabled],
+    [onFileChange, maxSize, allowedTypes, disabled],
   );
 
   const removeFile = useCallback(() => {
     setSelectedFile(null);
+    setValidationError(null);
     onFileChange?.(null);
   }, [onFileChange]);
 
@@ -135,6 +192,7 @@ export default function FileUploader({
               ? "border-primary-400 bg-primary-400/20"
               : "border-black/20 bg-gray-50 hover:border-black/30 hover:bg-gray-100",
             disabled && "pointer-events-none opacity-50",
+            validationError && "border-red-300 bg-red-50",
           ),
         )}
         onDragEnter={handleDragEnter}
@@ -146,7 +204,6 @@ export default function FileUploader({
         <input
           ref={fileInputRef}
           type="file"
-          accept={accept}
           onChange={handleInputChange}
           className="hidden"
           disabled={disabled}
@@ -158,6 +215,7 @@ export default function FileUploader({
             clsx(
               "rounded-lg transition-all duration-200 ease-in-out",
               isDragOver ? "text-primary-400" : "text-black/50",
+              validationError && "text-red-400",
             ),
           )}
         >
@@ -196,14 +254,39 @@ export default function FileUploader({
                 abra um ficheiro do seu computador
               </span>
             </p>
-            {maxSize && (
-              <p className="mt-2 text-xs text-gray-400">
-                Tamanho máximo: {formatFileSize(maxSize)}
-              </p>
-            )}
+            <div className="mt-2 space-y-1 text-xs text-gray-400">
+              {maxSize && <p>Tamanho máximo: {formatFileSize(maxSize)}</p>}
+              {allowedTypes &&
+                allowedTypes.length > 0 &&
+                getFileTypeCategory(allowedTypes) && (
+                  <p>Aceita: {getFileTypeCategory(allowedTypes)}</p>
+                )}
+            </div>
           </div>
         )}
       </div>
+
+      {validationError && (
+        <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+          <span className="material-symbols-outlined mt-0.5 text-lg text-red-500">
+            error
+          </span>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-red-800">
+              Erro de validação
+            </p>
+            <p className="mt-1 text-sm text-red-700">
+              {validationError.message}
+            </p>
+          </div>
+          <button
+            onClick={() => setValidationError(null)}
+            className="text-red-400 transition-colors hover:text-red-600"
+          >
+            <span className="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+      )}
 
       {}
       {selectedFile && (

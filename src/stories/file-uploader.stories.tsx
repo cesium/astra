@@ -9,7 +9,7 @@ const meta: Meta<typeof FileUploader> = {
     docs: {
       description: {
         component:
-          "A simple, responsive single file uploader component that supports drag-and-drop and click-to-upload functionality. Matches the exact UI design with proper visual states.",
+          "A robust file uploader component with drag-and-drop support, file type validation, size limits, and elegant error handling using Zod validation.",
       },
     },
   },
@@ -20,10 +20,10 @@ const meta: Meta<typeof FileUploader> = {
       description:
         "Callback function called when a file is selected or removed",
     },
-    accept: {
-      control: "text",
-      description: "File types to accept (MIME types or file extensions)",
-      defaultValue: "*/*",
+    allowedTypes: {
+      control: "object",
+      description:
+        "Array of allowed MIME types for validation (e.g., ['image/jpeg', 'image/png'])",
     },
     maxSize: {
       control: "number",
@@ -50,9 +50,6 @@ export const Default: Story = {
       <FileUploader {...args} />
     </div>
   ),
-  args: {
-    accept: "*/*",
-  },
 };
 
 export const ImagesOnly: Story = {
@@ -62,7 +59,7 @@ export const ImagesOnly: Story = {
     </div>
   ),
   args: {
-    accept: "image/*",
+    allowedTypes: ["image/jpeg", "image/png", "image/gif", "image/webp"],
   },
 };
 
@@ -74,7 +71,6 @@ export const WithSizeLimit: Story = {
   ),
   args: {
     maxSize: 5 * 1024 * 1024, // 5MB limit
-    accept: "*/*",
   },
 };
 
@@ -85,8 +81,49 @@ export const DocumentsOnly: Story = {
     </div>
   ),
   args: {
-    accept:
-      ".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain",
+    allowedTypes: ["application/pdf", "application/msword", "text/plain"],
+  },
+};
+
+export const StrictImageUpload: Story = {
+  render: (args) => (
+    <div className="w-full max-w-md">
+      <FileUploader {...args} />
+    </div>
+  ),
+  args: {
+    allowedTypes: ["image/jpeg", "image/png"],
+    maxSize: 2 * 1024 * 1024, // 2MB limit
+  },
+};
+
+export const MixedFileTypes: Story = {
+  render: (args) => (
+    <div className="w-full max-w-md">
+      <FileUploader {...args} />
+    </div>
+  ),
+  args: {
+    allowedTypes: [
+      "image/jpeg",
+      "image/png",
+      "application/pdf",
+      "text/plain",
+      "application/zip",
+    ],
+    maxSize: 10 * 1024 * 1024, // 10MB limit
+  },
+};
+
+export const SmallPDFOnly: Story = {
+  render: (args) => (
+    <div className="w-full max-w-md">
+      <FileUploader {...args} />
+    </div>
+  ),
+  args: {
+    allowedTypes: ["application/pdf"],
+    maxSize: 1 * 1024 * 1024, // 1MB limit
   },
 };
 
