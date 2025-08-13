@@ -1,6 +1,9 @@
-import { ToolbarProps } from "react-big-calendar";
+import { ToolbarProps, View } from "react-big-calendar";
 
 import { motion } from "motion/react";
+
+// Extend the View type to include custom views
+type CustomView = View | "feed";
 
 export default function CustomToolbar(toolbar: ToolbarProps<any, object>) {
   const goToBack = () => toolbar.onNavigate("PREV");
@@ -8,20 +11,20 @@ export default function CustomToolbar(toolbar: ToolbarProps<any, object>) {
   const goToToday = () => toolbar.onNavigate("TODAY");
 
   const label = toolbar.label;
-  const currentView = toolbar.view;
+  const currentView = toolbar.view as CustomView;
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-center gap-4 lg:hidden">
         <button
-          className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:-translate-x-0.5 text-2xl"
+          className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer text-2xl transition-all duration-200 ease-in-out hover:-translate-x-0.5"
           onClick={goToBack}
         >
           arrow_back
         </button>
         <span className="font-semibold">{label}</span>
         <button
-          className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:translate-x-0.5 text-2xl"
+          className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer text-2xl transition-all duration-200 ease-in-out hover:translate-x-0.5"
           onClick={goToNext}
         >
           arrow_forward
@@ -38,14 +41,14 @@ export default function CustomToolbar(toolbar: ToolbarProps<any, object>) {
 
         <div className="hidden items-center justify-between gap-4 lg:flex">
           <button
-            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:-translate-x-0.5 text-2xl"
+            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer text-2xl transition-all duration-200 ease-in-out hover:-translate-x-0.5"
             onClick={goToBack}
           >
             arrow_back
           </button>
           <span className="font-semibold">{label}</span>
           <button
-            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer transition-all duration-200 ease-in-out hover:translate-x-0.5 text-2xl"
+            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer text-2xl transition-all duration-200 ease-in-out hover:translate-x-0.5"
             onClick={goToNext}
           >
             arrow_forward
@@ -53,11 +56,12 @@ export default function CustomToolbar(toolbar: ToolbarProps<any, object>) {
         </div>
 
         <div className="flex h-8.5 items-center gap-0.5 rounded-full bg-gray-100">
-          {["month", "week", "day"].map((viewName) => (
+          
+          {["month", "week", "feed", "day"].map((viewName) => (
             <button
               key={viewName}
               onClick={() => toolbar.onView(viewName as any)}
-              className={`relative inline-flex cursor-pointer items-center gap-2 rounded-full px-4 py-1.5 transition-colors duration-200 ease-in-out ${
+              className={`relative ${viewName === "week" ? "md:inline-flex hidden" : "inline-flex"} ${viewName === "feed" ? "md:hidden inline-flex" : ""} cursor-pointer items-center gap-2 rounded-full px-4 py-1.5 transition-colors duration-200 ease-in-out ${
                 currentView === viewName
                   ? "text-white"
                   : "text-gray-600 hover:text-gray-900"
@@ -79,6 +83,7 @@ export default function CustomToolbar(toolbar: ToolbarProps<any, object>) {
               </p>
             </button>
           ))}
+
         </div>
       </div>
     </div>

@@ -1,0 +1,147 @@
+import Link from "next/link";
+import { useState, useRef, useEffect } from "react";
+import { Navigate, ViewProps } from "react-big-calendar";
+
+function EventCard({ start, title }: { start: Date; title: string }) {
+  return (
+    <div className="flex items-center gap-3.5 rounded-2xl border border-gray-200 p-2.5 py-2">
+      <p className="min-w-10.5 text-sm text-gray-500">{start.toString()}</p>
+      <div className="flex h-10 flex-1 items-center justify-start rounded-md bg-[#F9C2C2] p-2.5">
+        <p className="font-semibold text-[#CB5656]">{title}</p>
+      </div>
+    </div>
+  );
+}
+
+export default function FeedView({ events, localizer, date }: ViewProps) {
+  const [groupedEvents, setGroupedEvents] = useState<
+    Record<string, typeof events>
+  >({});
+  const [filteredLength, setFilteredLength] = useState(0);
+  const [hasEvents, setHasEvents] = useState(false);
+
+  useEffect(() => {
+    const filterEvents = () => {
+      if (!date) return events ?? [];
+
+      const currentDate = new Date(date);
+
+      return (events ?? []).filter((event) => {
+        if (!event.start) return false;
+        const eventDate = new Date(event.start);
+        return (
+          eventDate.getFullYear() === currentDate.getFullYear() &&
+          eventDate.getMonth() === currentDate.getMonth()
+        );
+      });
+    };
+
+    const filtered = filterEvents();
+
+    const groupedEvents = filtered.reduce(
+      (group: Record<string, typeof events>, event) => {
+        const day = localizer.format(event.start, "d MMMM");
+        if (!group[day]) group[day] = [];
+        group[day].push(event);
+        return group;
+      },
+      {},
+    );
+
+    const hasEvents =
+      events && events.length > 0 && Object.keys(groupedEvents).length > 0
+        ? true
+        : false;
+
+    setGroupedEvents(groupedEvents);
+    setFilteredLength(filtered.length);
+    setHasEvents(hasEvents);
+  }, [events, date, localizer]);
+
+  const [isScrolledTop, setIsScrolledTop] = useState(true);
+  const [isScrolledBottom, setIsScrolledBottom] = useState(false);
+  const scrollableRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = () => {
+    if (scrollableRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollableRef.current;
+
+      const isTop = scrollableRef.current.scrollTop === 0;
+      setIsScrolledTop(isTop);
+      const isBottom = scrollTop + clientHeight >= scrollHeight;
+      setIsScrolledBottom(isBottom);
+    }
+  };
+
+  return (
+    <div className="relative flex h-full flex-col">
+      {!isScrolledTop && (
+        <div className="pointer-events-none absolute top-0 right-0 left-0 z-10 h-12 bg-gradient-to-b from-white to-transparent" />
+      )}
+
+      <div
+        className="no-scrollbar flex h-full flex-col overflow-y-scroll px-2"
+        onScroll={handleScroll}
+        ref={scrollableRef}
+      >
+        {hasEvents ? (
+          <div className="space-y-5">
+            <div className="flex flex-col gap-5">
+              {Object.entries(groupedEvents).map(([day, events]) => (
+                <div className="space-y-2.5" key={day}>
+                  <h3 className="font-semibold">{day}</h3>
+                  <ul className="space-y-2">
+                    {events!.map((event, index) => (
+                      <EventCard
+                        key={index}
+                        start={localizer.format(event.start, "HH:mm")}
+                        title={event.title?.toString() ?? ""}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            {filteredLength < 6 && (
+              <div className="flex flex-col text-center">
+                <p>For now, there are no more events</p>
+                <Link className="text-primary-400 underline" href="/">
+                  Manage your notifications settings
+                </Link>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex h-full flex-col justify-center text-center">
+            <p>For now, there are no events</p>
+            <Link className="text-primary-400 underline" href="/">
+              Manage your notifications settings
+            </Link>
+          </div>
+        )}
+      </div>
+
+      {!isScrolledBottom && (
+        <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-12 bg-gradient-to-t from-white to-transparent" />
+      )}
+    </div>
+  );
+}
+
+FeedView.title = (date: Date, { localizer }: ViewProps) => {
+  return localizer.format(date, "monthHeaderFormat");
+};
+
+FeedView.navigate = (date: Date, action: any, { localizer }: ViewProps) => {
+  switch (action) {
+    case Navigate.PREVIOUS:
+      return localizer.add(date, -1, "month");
+
+    case Navigate.NEXT:
+      return localizer.add(date, 1, "month");
+
+    default:
+      return date;
+  }
+};

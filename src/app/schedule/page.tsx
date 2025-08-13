@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import CalendarView from "@/components/calendar/calendar";
 import { useState } from "react";
@@ -150,7 +150,9 @@ export default function Schedule() {
   return (
     <div className="flex h-screen w-full gap-8 p-8">
       <div className="h-full w-94.5 bg-gray-400">
-        <button className="cursor-pointer" onClick={() => setEditing(!editing)}>Edit</button>
+        <button className="cursor-pointer" onClick={() => setEditing(!editing)}>
+          Edit
+        </button>
       </div>
       <CalendarView
         type="schedule"

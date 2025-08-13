@@ -14,8 +14,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useMemo, useState, useEffect } from "react";
 
 import CustomToolbar from "./toolbar";
-import EventModal from "./eventModal";
-import { da } from "zod/locales";
+import EventModal from "./event-modal";
 
 //TODO: Interface temporária para Eventos
 export interface IEventProps {
@@ -32,7 +31,8 @@ interface ICalendarViewProps {
   type: "calendar" | "schedule";
   events: any;
   views: ViewsProps;
-  editing: boolean
+  editing: boolean;
+  defaultView?: string;
   className?: string;
 }
 
@@ -43,9 +43,9 @@ export default function CalendarView({
   events,
   views,
   editing,
+  defaultView: propDefaultView,
   className,
 }: ICalendarViewProps) {
-
   // adds transparency and darkness to the normal color
   const getEditingColor = (color: string, opacity: number, darken: number) => {
     let r = Math.floor(parseInt(color.slice(1, 3), 16) * darken);
@@ -66,7 +66,7 @@ export default function CalendarView({
     const bgColor = editing ? getEditingColor(eventColor, 0.4, 1) : eventColor;
     const textColor = getEditingColor(eventColor, 1, 0.55);
 
-    return {eventColor, bgColor, textColor};
+    return { eventColor, bgColor, textColor };
   };
 
   const waitForElement = (selector: string, callback: () => void) => {
@@ -145,8 +145,15 @@ export default function CalendarView({
     [type],
   );
 
-  const defaultView = type === "calendar" ? Views.MONTH : Views.WORK_WEEK;
-  const [view, setView] = useState(defaultView);
+  const getInitialView = (): View => {
+    if (propDefaultView) {
+      // For custom view feed
+      return propDefaultView as View;
+    }
+    return type === "calendar" ? Views.MONTH : Views.WORK_WEEK;
+  };
+
+  const [view, setView] = useState<View>(getInitialView());
   const [date, setDate] = useState(new Date());
 
   const handleNavigate = (newDate: Date) => {
@@ -201,16 +208,16 @@ export default function CalendarView({
         min={minDate}
         max={maxDate}
         eventPropGetter={(event) => {
-            const {eventColor, bgColor, textColor} = getEventColor(event);
-            
-            const newStyle = {
-              backgroundColor: bgColor,
-              color: textColor,
-              boxShadow: editing ? `inset 0 0 0 2px ${eventColor}` : "none",
-              "--gradient-color": bgColor,
-            } as React.CSSProperties & { "--gradient-color": string };
+          const { eventColor, bgColor, textColor } = getEventColor(event);
 
-            return { style: newStyle };
+          const newStyle = {
+            backgroundColor: bgColor,
+            color: textColor,
+            boxShadow: editing ? `inset 0 0 0 2px ${eventColor}` : "none",
+            "--gradient-color": bgColor,
+          } as React.CSSProperties & { "--gradient-color": string };
+
+          return { style: newStyle };
         }}
         className={className}
       />

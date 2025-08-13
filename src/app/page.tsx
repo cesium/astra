@@ -1,7 +1,8 @@
-'use client'
+"use client";
 
 import CalendarView from "@/components/calendar/calendar";
-import { useState } from "react";
+import FeedView from "@/components/calendar/feed-view";
+import { useMemo, useState } from "react";
 
 //EVENTOS PARA DEBUG
 
@@ -49,21 +50,44 @@ const events = [
     groupId: 1,
     filterId: 1,
   },
+
+  {
+    id: 4,
+    title: "Evento 2 dias",
+    start: new Date(2025, 8, 5, 11, 0),
+    end: new Date(2025, 8, 9, 13, 0),
+    place: "Campus",
+    link: "",
+    groupId: 1,
+    filterId: 1,
+  },
 ];
 
 export default function Home() {
   const [editing, setEditing] = useState(false);
 
+  const views = useMemo(
+    () => ({
+      month: true,
+      week: true,
+      day: true,
+      feed: FeedView,
+    }),
+    [],
+  );
+
   return (
     <div className="flex h-screen w-full gap-8 px-8 py-6">
       <div className="h-full w-83 bg-gray-400">
-        <button onClick={() => setEditing(!editing)} className="cursor-pointer">Edit</button>
+        <button onClick={() => setEditing(!editing)} className="cursor-pointer">
+          Edit
+        </button>
       </div>
       <CalendarView
         type="calendar"
         events={events}
         editing={editing}
-        views={["month", "week", "day"]}
+        views={views}
       />
     </div>
   );
