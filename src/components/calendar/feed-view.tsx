@@ -1,8 +1,20 @@
+"use client";
+
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { Navigate, ViewProps } from "react-big-calendar";
+import { Navigate, NavigateAction, ViewProps } from "react-big-calendar";
 
-function EventCard({ start, title }: { start: Date; title: string }) {
+interface IFeedViewProps extends ViewProps {
+  editing?: boolean;
+}
+
+interface IEventCardProps {
+  start: Date;
+  title: string;
+  editing: boolean;
+}
+
+function EventCard({ start, title, editing }: IEventCardProps) {
   return (
     <div className="flex items-center gap-3.5 rounded-2xl border border-gray-200 p-2.5 py-2">
       <p className="min-w-10.5 text-sm text-gray-500">{start.toString()}</p>
@@ -13,7 +25,12 @@ function EventCard({ start, title }: { start: Date; title: string }) {
   );
 }
 
-export default function FeedView({ events, localizer, date }: ViewProps) {
+export default function FeedView({
+  events,
+  localizer,
+  date,
+  editing = false,
+}: IFeedViewProps) {
   const [groupedEvents, setGroupedEvents] = useState<
     Record<string, typeof events>
   >({});
@@ -96,6 +113,7 @@ export default function FeedView({ events, localizer, date }: ViewProps) {
                         key={index}
                         start={localizer.format(event.start, "HH:mm")}
                         title={event.title?.toString() ?? ""}
+                        editing={false}
                       />
                     ))}
                   </ul>
@@ -133,7 +151,11 @@ FeedView.title = (date: Date, { localizer }: ViewProps) => {
   return localizer.format(date, "monthHeaderFormat");
 };
 
-FeedView.navigate = (date: Date, action: any, { localizer }: ViewProps) => {
+FeedView.navigate = (
+  date: Date,
+  action: NavigateAction,
+  { localizer }: ViewProps,
+) => {
   switch (action) {
     case Navigate.PREVIOUS:
       return localizer.add(date, -1, "month");

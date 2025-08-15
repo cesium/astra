@@ -2,10 +2,9 @@ import { ToolbarProps, View } from "react-big-calendar";
 
 import { motion } from "motion/react";
 
-// Extend the View type to include custom views
-type CustomView = View | "feed";
+export type CustomView = View | "feed";
 
-export default function CustomToolbar(toolbar: ToolbarProps<any, object>) {
+export default function CustomToolbar(toolbar: ToolbarProps) {
   const goToBack = () => toolbar.onNavigate("PREV");
   const goToNext = () => toolbar.onNavigate("NEXT");
   const goToToday = () => toolbar.onNavigate("TODAY");
@@ -56,12 +55,11 @@ export default function CustomToolbar(toolbar: ToolbarProps<any, object>) {
         </div>
 
         <div className="flex h-8.5 items-center gap-0.5 rounded-full bg-gray-100">
-          
           {["month", "week", "feed", "day"].map((viewName) => (
             <button
               key={viewName}
-              onClick={() => toolbar.onView(viewName as any)}
-              className={`relative ${viewName === "week" ? "md:inline-flex hidden" : "inline-flex"} ${viewName === "feed" ? "md:hidden inline-flex" : ""} cursor-pointer items-center gap-2 rounded-full px-4 py-1.5 transition-colors duration-200 ease-in-out ${
+              onClick={() => toolbar.onView(viewName as View)}
+              className={`relative ${viewName === "week" ? "hidden md:inline-flex" : "inline-flex"} ${viewName === "feed" ? "inline-flex md:hidden" : ""} cursor-pointer items-center gap-2 rounded-full px-4 py-1.5 transition-colors duration-200 ease-in-out ${
                 currentView === viewName
                   ? "text-white"
                   : "text-gray-600 hover:text-gray-900"
@@ -83,7 +81,6 @@ export default function CustomToolbar(toolbar: ToolbarProps<any, object>) {
               </p>
             </button>
           ))}
-
         </div>
       </div>
     </div>

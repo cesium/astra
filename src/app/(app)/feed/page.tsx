@@ -1,8 +1,8 @@
-import { Metadata } from "next";
+"use client";
 
 import CalendarView from "@/components/calendar/calendar";
+import { useMemo, useState } from "react";
 import FeedView from "@/components/calendar/feed-view";
-import { useMemo } from "react";
 import { IEvent } from "@/lib/types";
 
 const events: IEvent[] = [
@@ -52,11 +52,10 @@ const events: IEvent[] = [
   },
 ];
 
-export const metadata: Metadata = {
-  title: "Pombo | Calendar",
-};
+export default function Feed() {
+  const [editing, setEditing] = useState(false);
+  console.log("Editing mode:", editing);
 
-export default function Home() {
   const views = useMemo(
     () => ({
       month: true,
@@ -68,18 +67,19 @@ export default function Home() {
   );
 
   return (
-    <div className="flex h-full w-full gap-8">
-      <div className="hidden w-83 bg-gray-400 md:block">
-        <button className="cursor-pointer">Edit</button>
+    <div className="flex h-screen w-full gap-8 p-8">
+      <div className="h-full w-94.5 bg-gray-400">
+        <button className="cursor-pointer" onClick={() => setEditing(!editing)}>
+          Edit
+        </button>
       </div>
-      <div className="max-h-[754px] w-full">
-        <CalendarView
-          type="calendar"
-          calendarEvents={events}
-          editing={false}
-          views={views}
-        />
-      </div>
+      <CalendarView
+        type="calendar"
+        calendarEvents={events}
+        views={views}
+        defaultView="feed"
+        editing={editing}
+      />
     </div>
   );
 }

@@ -1,7 +1,11 @@
 "use client";
 
+import { IShift, IEvent } from "@/lib/types";
+
 import {
   Calendar,
+  DateLocalizer,
+  Event,
   momentLocalizer,
   View,
   Views,
@@ -16,20 +20,10 @@ import { useMemo, useState, useEffect } from "react";
 import CustomToolbar from "./toolbar";
 import EventModal from "./event-modal";
 
-//TODO: Interface temporária para Eventos
-export interface IEventProps {
-  title: string;
-  place: string;
-  link: string;
-  start: string | Date;
-  end: string | Date;
-  groupId: number;
-  filterId: number;
-}
-
 interface ICalendarViewProps {
   type: "calendar" | "schedule";
-  events: any;
+  calendarEvents?: IEvent[];
+  shifts?: IShift[];
   views: ViewsProps;
   editing: boolean;
   defaultView?: string;
@@ -40,7 +34,8 @@ const localizer = momentLocalizer(moment);
 
 export default function CalendarView({
   type,
-  events,
+  calendarEvents,
+  shifts,
   views,
   editing,
   defaultView: propDefaultView,
@@ -48,23 +43,56 @@ export default function CalendarView({
 }: ICalendarViewProps) {
   // adds transparency and darkness to the normal color
   const getEditingColor = (color: string, opacity: number, darken: number) => {
-    let r = Math.floor(parseInt(color.slice(1, 3), 16) * darken);
-    let g = Math.floor(parseInt(color.slice(3, 5), 16) * darken);
-    let b = Math.floor(parseInt(color.slice(5, 7), 16) * darken);
-    let a = opacity;
-    let rgbaColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+    const r = Math.floor(parseInt(color.slice(1, 3), 16) * darken);
+    const g = Math.floor(parseInt(color.slice(3, 5), 16) * darken);
+    const b = Math.floor(parseInt(color.slice(5, 7), 16) * darken);
+    const a = opacity;
+    const rgbaColor = `rgba(${r}, ${g}, ${b}, ${a})`;
 
     return rgbaColor;
   };
 
-  const getEventColor = (event: IEventProps) => {
-    // TODO: Implement logic to determine background color based on event properties
-    // It's still not determined how colors will be assigned to events
+  const formatedEvents = shifts
+    ? shifts.map((shift) => {
+        const [startHour, startMinute] = shift.start.split(":");
+        const [endHour, endMinute] = shift.end.split(":");
 
-    const eventColor = "#C3E5F9";
+        return {
+          title: `${shift.shortCourseName} - ${shift.shiftType}${shift.shiftNumber}`,
+          start: moment()
+            .day(shift.day + 1)
+            .hour(+startHour)
+            .minute(+startMinute)
+            .toDate(),
+          /* (*) we're subtracting 1 minute here to solve an issue that occurs when
+           * the end time of an event is equal to the start time of another.
+           * this issue causes the event bellow to think it is overlaping with the top one,
+           * when the `dayLayoutAlgorithm` is set to `no-overlap`.
+           */
+          end: moment()
+            .day(shift.day + 1)
+            .hour(+endHour)
+            .minute(+endMinute - 1) // (*)
+            .toDate(),
+          allDay: false,
+          resource: shift,
+        };
+      })
+    : calendarEvents
+      ? calendarEvents.map((event) => ({
+          title: event.title,
+          start: moment(event.start).toDate(),
+          end: moment(event.end).toDate(),
+          allDay: event.allDay,
+          resource: event,
+        }))
+      : [];
+
+  const getEventColor = (event: Event) => {
+    const eventColor = event.resource?.eventColor;
+    const textColor = event.resource?.textColor;
 
     const bgColor = editing ? getEditingColor(eventColor, 0.4, 1) : eventColor;
-    const textColor = getEditingColor(eventColor, 1, 0.55);
 
     return { eventColor, bgColor, textColor };
   };
@@ -134,12 +162,18 @@ export default function CalendarView({
         return "";
       },
 
-      timeGutterFormat: (date: any, culture: any, localizer?: any) =>
-        localizer?.format(date, "HH\\h", culture)?.replace(/^0+/, "") || "",
+      timeGutterFormat: (
+        date: Date,
+        culture: string | undefined,
+        localizer?: DateLocalizer,
+      ) => localizer?.format(date, "HH\\h", culture)?.replace(/^0+/, "") || "",
 
       ...(type === "schedule" && {
-        dayFormat: (date: any, _: any, localizer?: any) =>
-          localizer?.format(date, "ddd"),
+        dayFormat: (
+          date: Date,
+          _: string | undefined,
+          localizer?: DateLocalizer,
+        ) => localizer?.format(date, "ddd") || "",
       }),
     }),
     [type],
@@ -160,7 +194,7 @@ export default function CalendarView({
     setDate(newDate);
   };
 
-  const handleViewChange = (newView: any) => {
+  const handleViewChange = (newView: View) => {
     setView(newView);
     updateTimeIndicator(newView);
   };
@@ -171,10 +205,10 @@ export default function CalendarView({
     });
   }, [view, date]);
 
-  const [selectedEvent, setSelectedEvent] = useState<IEventProps>(events[0]);
+  const [selectedEvent, setSelectedEvent] = useState<Event>(formatedEvents[0]);
   const [inspectEvent, setInspectEvent] = useState<boolean>(false);
 
-  const handleSelection = (event: IEventProps) => {
+  const handleSelection = (event: Event) => {
     setSelectedEvent(event);
     setInspectEvent(!inspectEvent);
   };
@@ -192,13 +226,13 @@ export default function CalendarView({
         toolbar={type === "calendar" ? true : false}
         localizer={localizer}
         formats={formats}
-        events={events}
+        events={formatedEvents}
         selected={selectedEvent}
         onSelectEvent={(event) => handleSelection(event)}
         startAccessor="start"
         endAccessor="end"
-        allDayAccessor="all_day"
-        style={{ height: 754, width: "100%" }}
+        allDayAccessor="allDay"
+        style={{ height: "min(754px, calc(100vh - 108px))", width: "100%" }}
         view={view}
         views={views}
         onView={handleViewChange}
@@ -226,6 +260,7 @@ export default function CalendarView({
           selectedEvent={selectedEvent}
           setInspectEvent={setInspectEvent}
           inspectEvent={inspectEvent}
+          type={type}
         />
       )}
     </div>

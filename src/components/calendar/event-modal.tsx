@@ -1,11 +1,11 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-
-import { IEventProps } from "./calendar";
+import { Event } from "react-big-calendar";
 
 interface IEventModalProps {
-  selectedEvent: IEventProps;
+  selectedEvent: Event;
   setInspectEvent: (arg: boolean) => void;
   inspectEvent: boolean;
+  type: "calendar" | "schedule";
 }
 
 function ModalItem() {
