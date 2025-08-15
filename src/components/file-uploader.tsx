@@ -54,7 +54,7 @@ function createFileSchema(maxSize?: number, allowedTypes?: string[]) {
         return file.size <= maxSize;
       },
       {
-        message: `O ficheiro excede o tamanho máximo de ${formatFileSize(maxSize!)}`,
+        message: `File exceeds the maximum size of ${formatFileSize(maxSize!)}`,
       },
     )
     .refine(
@@ -65,8 +65,8 @@ function createFileSchema(maxSize?: number, allowedTypes?: string[]) {
       {
         message:
           allowedTypes && allowedTypes.length > 0
-            ? `Tipo de ficheiro não suportado (${getFileTypeCategory(allowedTypes)})`
-            : "Tipo de ficheiro não suportado.",
+            ? `Unsupported file type (${getFileTypeCategory(allowedTypes)})`
+            : "Unsupported file type.",
       },
     );
 }
@@ -235,14 +235,14 @@ export default function FileUploader({
                 ),
               )}
             >
-              Largue aqui o ficheiro para carregar
+              Drag and drop your file here
             </p>
             <p
               className={twMerge(
                 clsx("transition-colors duration-200", "text-black/50"),
               )}
             >
-              ou{" "}
+              or{" "}
               <span
                 className={twMerge(
                   clsx(
@@ -251,15 +251,15 @@ export default function FileUploader({
                   ),
                 )}
               >
-                abra um ficheiro do seu computador
+                open a file from your computer
               </span>
             </p>
             <div className="mt-2 space-y-1 text-xs text-gray-400">
-              {maxSize && <p>Tamanho máximo: {formatFileSize(maxSize)}</p>}
+              {maxSize && <p>Maximum Size: {formatFileSize(maxSize)}</p>}
               {allowedTypes &&
                 allowedTypes.length > 0 &&
                 getFileTypeCategory(allowedTypes) && (
-                  <p>Aceita: {getFileTypeCategory(allowedTypes)}</p>
+                  <p>Supports: {getFileTypeCategory(allowedTypes)}</p>
                 )}
             </div>
           </div>
@@ -272,9 +272,7 @@ export default function FileUploader({
             error
           </span>
           <div className="flex-1">
-            <p className="text-sm font-medium text-red-800">
-              Erro de validação
-            </p>
+            <p className="text-sm font-medium text-red-800">Validation error</p>
             <p className="mt-1 text-sm text-red-700">
               {validationError.message}
             </p>
@@ -291,9 +289,7 @@ export default function FileUploader({
       {}
       {selectedFile && (
         <div className="space-y-3">
-          <h3 className="text-sm font-medium text-gray-700">
-            Ficheiro selecionado
-          </h3>
+          <h3 className="text-sm font-medium text-gray-700">Selected File</h3>
 
           <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-3">
             <div className="flex min-w-0 flex-1 items-center gap-3">
