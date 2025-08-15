@@ -181,7 +181,6 @@ export default function FileUploader({
 
   return (
     <div className={twMerge(clsx("w-full space-y-4", className))}>
-      {}
       <div
         className={twMerge(
           clsx(
@@ -209,7 +208,6 @@ export default function FileUploader({
           disabled={disabled}
         />
 
-        {}
         <div
           className={twMerge(
             clsx(
@@ -224,7 +222,6 @@ export default function FileUploader({
           </span>
         </div>
 
-        {}
         {!isDragOver && (
           <div className="space-y-1 sm:space-y-2">
             <p
@@ -286,7 +283,6 @@ export default function FileUploader({
         </div>
       )}
 
-      {}
       {selectedFile && (
         <div className="space-y-3">
           <h3 className="text-sm font-medium text-gray-700">Selected File</h3>
