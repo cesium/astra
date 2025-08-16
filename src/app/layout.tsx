@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Bai_Jamjuree } from "next/font/google";
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { ToastProvider } from "@/contexts/ToastContext";
 
 const jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -22,7 +25,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${jamjuree.variable} font-jamjuree`}>{children}</body>
+      <body className={`${jamjuree.variable} font-jamjuree`}>
+        <ToastProvider>
+          {children}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            className="!z-[9999]"
+            toastClassName="!bg-white !text-gray-900 !shadow-lg !border !border-gray-200"
+          />
+        </ToastProvider>
+      </body>
     </html>
   );
 }
