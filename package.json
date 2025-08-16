@@ -14,15 +14,16 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
-    "motion": "^12.23.12",
     "@hookform/resolvers": "^5.1.1",
     "axios": "^1.10.0",
     "clsx": "^2.1.1",
     "jwt-decode": "^4.0.0",
+    "motion": "^12.23.12",
     "next": "15.4.5",
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "react-hook-form": "^7.60.0",
+    "react-toastify": "^11.0.5",
     "tailwind-merge": "^3.3.1",
     "zod": "^4.0.9",
     "zustand": "^5.0.6"
