@@ -7,15 +7,19 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { UserContext } from "@/contexts/user-provider";
+import { useAuthStore } from "@/stores/authStore";
 
 const UserDropdown = () => {
   const router = useRouter();
-  const { user, setUser } = use(UserContext);
+  const { user } = use(UserContext);
+  const { clearToken } = useAuthStore();
 
   async function signOut() {
     try {
       await api.post("/auth/sign_out");
-      setUser(undefined);
+
+      clearToken();
+
       router.push("/");
     } catch (error) {
       console.error("Error signing out:", error);

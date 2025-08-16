@@ -28,6 +28,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
+    if (!token) {
+      setUser(undefined);
+    }
+
     if (token && !user) {
       fetchUser();
     }

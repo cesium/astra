@@ -9,6 +9,9 @@ import clsx from "clsx";
 import UserDropdown from "./user-dropdown";
 import Avatar from "./avatar";
 import { UserContext } from "@/contexts/user-provider";
+import { useAuthStore } from "@/stores/authStore";
+import { api } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 const Logo = () => (
   <div className="flex items-center gap-2">
@@ -41,6 +44,7 @@ interface ITabProps {
   href: string;
   currentPage: string;
   isMobile?: boolean;
+  anyActive?: boolean;
   onAnimationEnd?: () => void;
 }
 
@@ -83,11 +87,12 @@ function Tab({
   icon,
   href,
   currentPage,
+  anyActive,
   isMobile = false,
   onAnimationEnd,
-}: ITabProps & {}) {
+}: ITabProps) {
   const isActive = href === currentPage;
-
+  console.log(anyActive);
   return (
     <Link
       className={`relative z-10 inline-flex w-full items-center gap-2 rounded-2xl px-4 py-2 transition-colors duration-200 ease-in-out md:w-fit md:rounded-full ${
@@ -95,6 +100,7 @@ function Tab({
       }`}
       href={href}
       aria-current={isActive ? "page" : undefined}
+      onClick={() => !anyActive && onAnimationEnd && onAnimationEnd()}
     >
       {isActive && (
         <motion.div
@@ -117,12 +123,33 @@ function Tab({
 
 function MobileDropdown({ currentPage }: { currentPage: string }) {
   const [active, setActive] = useState(false);
+  const [currentMenu, setCurrentMenu] = useState<"tabs" | "user">("tabs");
+  const { signedIn, clearToken } = useAuthStore();
   const { user } = use(UserContext);
+  const router = useRouter();
+
+  const openDropdown = () => {
+    setCurrentMenu("tabs");
+    setActive(true);
+  };
+
+  const signOut = async () => {
+    try {
+      await api.post("/auth/sign_out");
+
+      setActive(false);
+      clearToken();
+
+      router.push("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   return (
     <div className="flex items-center md:hidden">
       <button
-        onClick={() => setActive(true)}
+        onClick={() => openDropdown()}
         className="material-symbols-outlined cursor-pointer text-2xl hover:opacity-50"
       >
         menu
@@ -162,7 +189,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                 bounce: 0.2,
                 ease: [0.4, 0, 0.2, 1],
               }}
-              className="bg-muted/50 fixed inset-x-2.5 top-2 z-50 h-72 rounded-4xl border border-black/5 px-2.5 py-5 shadow-xl backdrop-blur-3xl"
+              className="bg-muted/50 fixed inset-x-2.5 top-2 z-50 rounded-4xl border border-black/5 px-2.5 py-5 shadow-xl backdrop-blur-3xl"
             >
               <motion.div
                 initial={{ opacity: 0 }}
@@ -176,7 +203,16 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.15, duration: 0.3 }}
                   >
-                    <Logo />
+                    {currentMenu === "tabs" ? (
+                      <Logo />
+                    ) : (
+                      <button
+                        onClick={() => setCurrentMenu("tabs")}
+                        className="material-symbols-outlined cursor-pointer text-2xl transition-all duration-200 hover:rotate-90 hover:opacity-50"
+                      >
+                        arrow_back
+                      </button>
+                    )}
                   </motion.div>
 
                   <button
@@ -187,33 +223,70 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                   </button>
                 </div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.4 }}
-                  className="mt-6 space-y-2"
-                >
-                  <TabsContainer currentPage={currentPage}>
-                    {tabs.map((tab) => (
-                      <Tab
-                        key={tab.href}
-                        name={tab.name}
-                        icon={tab.icon}
-                        href={tab.href}
-                        currentPage={currentPage}
-                        isMobile={true}
-                        onAnimationEnd={() => setActive(false)}
-                      />
-                    ))}
-                  </TabsContainer>
-                </motion.div>
+                {currentMenu === "tabs" ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.4 }}
+                    className="mt-6 space-y-2"
+                  >
+                    {signedIn && (
+                      <TabsContainer currentPage={currentPage}>
+                        {tabs.map((tab) => (
+                          <Tab
+                            key={tab.href}
+                            name={tab.name}
+                            icon={tab.icon}
+                            href={tab.href}
+                            currentPage={currentPage}
+                            anyActive={tabs.some((t) => t.href === currentPage)}
+                            isMobile={true}
+                            onAnimationEnd={() => setActive(false)}
+                          />
+                        ))}
+                      </TabsContainer>
+                    )}
+                    <button
+                      onClick={() => setCurrentMenu("user")}
+                      className="flex cursor-pointer items-center gap-2 focus:outline-none"
+                    >
+                      <span className="text-dark/50">
+                        {user ? user.name : "Loading..."}
+                      </span>
+                      <Avatar name={user?.name} className="" />
+                    </button>
+                  </motion.div>
+                ) : (
+                  <div className="p-2.5">
+                    <div className="flex items-center gap-2">
+                      <Avatar className="size-14" name={user?.name} />
+                      {user?.name}
+                    </div>
+                    <div className="my-2 border-b border-black/10" />
+                    <div className="flex flex-col gap-2">
+                      <Link
+                        href="/settings"
+                        className="flex items-center gap-2"
+                        onClick={() => setActive(false)}
+                      >
+                        <span className="material-symbols-outlined text-2xl">
+                          settings
+                        </span>
+                        Settings
+                      </Link>
+                      <button
+                        onClick={signOut}
+                        className="text-danger flex cursor-pointer items-center gap-2"
+                      >
+                        <span className="material-symbols-outlined text-2xl">
+                          logout
+                        </span>
+                        Sign out
+                      </button>
+                    </div>
+                  </div>
+                )}
               </motion.div>
-              <div className="flex cursor-pointer items-center gap-2 focus:outline-none">
-                <span className="text-dark/50">
-                  {user ? user.name : "Loading..."}
-                </span>
-                <Avatar name={user?.name} className="" />
-              </div>
             </motion.div>
           </>
         )}
@@ -224,23 +297,26 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
 
 export default function Navbar() {
   const currentPage = usePathname();
+  const { signedIn } = useAuthStore();
 
   return (
-    <nav className="flex w-full items-center justify-between px-5 py-4 md:px-10">
+    <nav className="flex w-full items-center justify-between px-5 py-4 md:h-20 md:px-10">
       <Logo />
 
-      <TabsContainer currentPage={currentPage} className="hidden md:flex">
-        {tabs.map((tab) => (
-          <Tab
-            key={tab.href}
-            name={tab.name}
-            icon={tab.icon}
-            href={tab.href}
-            currentPage={currentPage}
-            isMobile={false}
-          />
-        ))}
-      </TabsContainer>
+      {signedIn && (
+        <TabsContainer currentPage={currentPage} className="hidden md:flex">
+          {tabs.map((tab) => (
+            <Tab
+              key={tab.href}
+              name={tab.name}
+              icon={tab.icon}
+              href={tab.href}
+              currentPage={currentPage}
+              isMobile={false}
+            />
+          ))}
+        </TabsContainer>
+      )}
 
       {/* User dropdown */}
       <div className="hidden md:block">
