@@ -3,15 +3,6 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import { toast, ToastOptions } from "react-toastify";
 
-const defaultOptions: ToastOptions = {
-  position: "top-right",
-  autoClose: 5000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-};
-
 interface ToastContextType {
   showSuccess: (message: string, options?: ToastOptions) => void;
   showError: (message: string, options?: ToastOptions) => void;
@@ -27,19 +18,19 @@ interface ToastProviderProps {
 
 export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
   const showSuccess = (message: string, options?: ToastOptions) => {
-    toast.success(message, { ...defaultOptions, ...options });
+    toast.success(message, options);
   };
 
   const showError = (message: string, options?: ToastOptions) => {
-    toast.error(message, { ...defaultOptions, ...options });
+    toast.error(message, options);
   };
 
   const showWarning = (message: string, options?: ToastOptions) => {
-    toast.warning(message, { ...defaultOptions, ...options });
+    toast.warning(message, options);
   };
 
   const showInfo = (message: string, options?: ToastOptions) => {
-    toast.info(message, { ...defaultOptions, ...options });
+    toast.info(message, options);
   };
 
   const value = {
