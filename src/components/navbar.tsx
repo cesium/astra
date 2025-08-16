@@ -3,9 +3,15 @@
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { use, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
+import UserDropdown from "./user-dropdown";
+import Avatar from "./avatar";
+import { UserContext } from "@/contexts/user-provider";
+import { useAuthStore } from "@/stores/authStore";
+import { api } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 const Logo = () => (
   <div className="flex items-center gap-2">
@@ -36,6 +42,10 @@ interface ITabProps {
   name: string;
   icon: string;
   href: string;
+  currentPage: string;
+  isMobile?: boolean;
+  anyActive?: boolean;
+  onAnimationEnd?: () => void;
 }
 
 const tabs = [
@@ -45,7 +55,7 @@ const tabs = [
     icon: "schedule",
     href: "/schedule",
   },
-  { name: "SWAP", icon: "sync_alt", href: "/swap" },
+  { name: "Exchange", icon: "sync_alt", href: "/exchange" },
 ];
 
 function TabsContainer({
@@ -62,7 +72,7 @@ function TabsContainer({
       key={currentPage}
       className={twMerge(
         clsx(
-          "bg-dark/5 relative z-50 flex h-fit flex-col items-center gap-0.5 rounded-2xl p-1 md:flex-row md:rounded-full",
+          "bg-dark/5 relative z-10 flex h-fit flex-col items-center gap-0.5 rounded-2xl p-1 md:flex-row md:rounded-full",
           className,
         ),
       )}
@@ -77,17 +87,20 @@ function Tab({
   icon,
   href,
   currentPage,
+  anyActive,
   isMobile = false,
-}: ITabProps & { currentPage: string; isMobile?: boolean }) {
+  onAnimationEnd,
+}: ITabProps) {
   const isActive = href === currentPage;
-
+  console.log(anyActive);
   return (
     <Link
-      className={`relative z-50 inline-flex w-full items-center gap-2 rounded-2xl px-4 py-2 transition-colors duration-200 ease-in-out md:w-fit md:rounded-full ${
+      className={`relative z-10 inline-flex w-full items-center gap-2 rounded-2xl px-4 py-2 transition-colors duration-200 ease-in-out md:w-fit md:rounded-full ${
         isActive ? "text-white" : "text-gray-600 hover:text-gray-900"
       }`}
       href={href}
       aria-current={isActive ? "page" : undefined}
+      onClick={() => !anyActive && onAnimationEnd && onAnimationEnd()}
     >
       {isActive && (
         <motion.div
@@ -98,25 +111,45 @@ function Tab({
             bounce: 0.3,
             duration: 0.6,
           }}
+          onLayoutAnimationComplete={onAnimationEnd}
           className="bg-primary-400 absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full"
-          style={{ zIndex: 10 }}
         />
       )}
-      <span className="material-symbols-outlined relative z-50 text-2xl">
-        {icon}
-      </span>
-      <p className="relative z-50">{name}</p>
+      <span className="material-symbols-outlined z-10 text-2xl">{icon}</span>
+      <p className="z-10">{name}</p>
     </Link>
   );
 }
 
 function MobileDropdown({ currentPage }: { currentPage: string }) {
   const [active, setActive] = useState(false);
+  const [currentMenu, setCurrentMenu] = useState<"tabs" | "user">("tabs");
+  const { signedIn, clearToken } = useAuthStore();
+  const { user } = use(UserContext);
+  const router = useRouter();
+
+  const openDropdown = () => {
+    setCurrentMenu("tabs");
+    setActive(true);
+  };
+
+  const signOut = async () => {
+    try {
+      await api.post("/auth/sign_out");
+
+      setActive(false);
+      clearToken();
+
+      router.push("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   return (
     <div className="flex items-center md:hidden">
       <button
-        onClick={() => setActive(true)}
+        onClick={() => openDropdown()}
         className="material-symbols-outlined cursor-pointer text-2xl hover:opacity-50"
       >
         menu
@@ -156,7 +189,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                 bounce: 0.2,
                 ease: [0.4, 0, 0.2, 1],
               }}
-              className="bg-muted/50 fixed inset-x-2.5 top-2 z-50 h-72 rounded-4xl border border-black/5 px-2.5 py-5 shadow-xl backdrop-blur-3xl"
+              className="bg-muted/50 fixed inset-x-2.5 top-2 z-50 rounded-4xl border border-black/5 px-2.5 py-5 shadow-xl backdrop-blur-3xl"
             >
               <motion.div
                 initial={{ opacity: 0 }}
@@ -170,7 +203,16 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.15, duration: 0.3 }}
                   >
-                    <Logo />
+                    {currentMenu === "tabs" ? (
+                      <Logo />
+                    ) : (
+                      <button
+                        onClick={() => setCurrentMenu("tabs")}
+                        className="material-symbols-outlined cursor-pointer text-2xl transition-all duration-200 hover:rotate-90 hover:opacity-50"
+                      >
+                        arrow_back
+                      </button>
+                    )}
                   </motion.div>
 
                   <button
@@ -181,25 +223,69 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                   </button>
                 </div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.4 }}
-                  className="mt-6 space-y-2"
-                >
-                  <TabsContainer currentPage={currentPage}>
-                    {tabs.map((tab) => (
-                      <Tab
-                        key={tab.href}
-                        name={tab.name}
-                        icon={tab.icon}
-                        href={tab.href}
-                        currentPage={currentPage}
-                        isMobile={true}
-                      />
-                    ))}
-                  </TabsContainer>
-                </motion.div>
+                {currentMenu === "tabs" ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.4 }}
+                    className="mt-6 space-y-2"
+                  >
+                    {signedIn && (
+                      <TabsContainer currentPage={currentPage}>
+                        {tabs.map((tab) => (
+                          <Tab
+                            key={tab.href}
+                            name={tab.name}
+                            icon={tab.icon}
+                            href={tab.href}
+                            currentPage={currentPage}
+                            anyActive={tabs.some((t) => t.href === currentPage)}
+                            isMobile={true}
+                            onAnimationEnd={() => setActive(false)}
+                          />
+                        ))}
+                      </TabsContainer>
+                    )}
+                    <button
+                      onClick={() => setCurrentMenu("user")}
+                      className="flex cursor-pointer items-center gap-2 focus:outline-none"
+                    >
+                      <span className="text-dark/50">
+                        {user ? user.name : "Loading..."}
+                      </span>
+                      <Avatar name={user?.name} className="" />
+                    </button>
+                  </motion.div>
+                ) : (
+                  <div className="p-2.5">
+                    <div className="flex items-center gap-2">
+                      <Avatar className="size-14" name={user?.name} />
+                      {user?.name}
+                    </div>
+                    <div className="my-2 border-b border-black/10" />
+                    <div className="flex flex-col gap-2">
+                      <Link
+                        href="/settings"
+                        className="flex items-center gap-2"
+                        onClick={() => setActive(false)}
+                      >
+                        <span className="material-symbols-outlined text-2xl">
+                          settings
+                        </span>
+                        Settings
+                      </Link>
+                      <button
+                        onClick={signOut}
+                        className="text-danger flex cursor-pointer items-center gap-2"
+                      >
+                        <span className="material-symbols-outlined text-2xl">
+                          logout
+                        </span>
+                        Sign out
+                      </button>
+                    </div>
+                  </div>
+                )}
               </motion.div>
             </motion.div>
           </>
@@ -211,27 +297,30 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
 
 export default function Navbar() {
   const currentPage = usePathname();
+  const { signedIn } = useAuthStore();
 
   return (
-    <nav className="flex w-full items-center justify-between px-5 py-4 md:px-10">
+    <nav className="flex w-full items-center justify-between px-5 py-4 md:h-20 md:px-10">
       <Logo />
 
-      <TabsContainer currentPage={currentPage} className="hidden md:flex">
-        {tabs.map((tab) => (
-          <Tab
-            key={tab.href}
-            name={tab.name}
-            icon={tab.icon}
-            href={tab.href}
-            currentPage={currentPage}
-            isMobile={false}
-          />
-        ))}
-      </TabsContainer>
+      {signedIn && (
+        <TabsContainer currentPage={currentPage} className="hidden md:flex">
+          {tabs.map((tab) => (
+            <Tab
+              key={tab.href}
+              name={tab.name}
+              icon={tab.icon}
+              href={tab.href}
+              currentPage={currentPage}
+              isMobile={false}
+            />
+          ))}
+        </TabsContainer>
+      )}
 
       {/* User dropdown */}
-      <div className="hidden items-center justify-center px-4 md:flex">
-        Profile
+      <div className="hidden md:block">
+        <UserDropdown />
       </div>
 
       <MobileDropdown currentPage={currentPage} />
