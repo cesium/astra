@@ -1,7 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, ReactNode } from 'react';
-import { toast, ToastOptions } from 'react-toastify';
+import React, { createContext, useContext, ReactNode } from "react";
+import { toast, ToastOptions } from "react-toastify";
 
 const defaultOptions: ToastOptions = {
   position: "top-right",
@@ -49,13 +49,15 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
     showInfo,
   };
 
-  return <ToastContext.Provider value={value}>{children}</ToastContext.Provider>;
+  return (
+    <ToastContext.Provider value={value}>{children}</ToastContext.Provider>
+  );
 };
 
 export const useToast = (): ToastContextType => {
   const context = useContext(ToastContext);
   if (context === undefined) {
-    throw new Error('useToast must be used within a ToastProvider');
+    throw new Error("useToast must be used within a ToastProvider");
   }
   return context;
 };
