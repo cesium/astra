@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { use, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 import UserDropdown from "./user-dropdown";
+import Avatar from "./avatar";
+import { UserContext } from "@/contexts/user-provider";
 
 const Logo = () => (
   <div className="flex items-center gap-2">
@@ -37,6 +39,9 @@ interface ITabProps {
   name: string;
   icon: string;
   href: string;
+  currentPage: string;
+  isMobile?: boolean;
+  onAnimationEnd?: () => void;
 }
 
 const tabs = [
@@ -79,7 +84,8 @@ function Tab({
   href,
   currentPage,
   isMobile = false,
-}: ITabProps & { currentPage: string; isMobile?: boolean }) {
+  onAnimationEnd,
+}: ITabProps & {}) {
   const isActive = href === currentPage;
 
   return (
@@ -99,6 +105,7 @@ function Tab({
             bounce: 0.3,
             duration: 0.6,
           }}
+          onLayoutAnimationComplete={onAnimationEnd}
           className="bg-primary-400 absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full"
         />
       )}
@@ -110,6 +117,7 @@ function Tab({
 
 function MobileDropdown({ currentPage }: { currentPage: string }) {
   const [active, setActive] = useState(false);
+  const { user } = use(UserContext);
 
   return (
     <div className="flex items-center md:hidden">
@@ -194,12 +202,18 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                         href={tab.href}
                         currentPage={currentPage}
                         isMobile={true}
+                        onAnimationEnd={() => setActive(false)}
                       />
                     ))}
                   </TabsContainer>
                 </motion.div>
               </motion.div>
-              <UserDropdown />
+              <div className="flex cursor-pointer items-center gap-2 focus:outline-none">
+                <span className="text-dark/50">
+                  {user ? user.name : "Loading..."}
+                </span>
+                <Avatar name={user?.name} className="" />
+              </div>
             </motion.div>
           </>
         )}
@@ -229,9 +243,9 @@ export default function Navbar() {
       </TabsContainer>
 
       {/* User dropdown */}
-      {/* <div className="hidden items-center justify-center px-4 md:flex"> */}
-      <UserDropdown />
-      {/* </div> */}
+      <div className="hidden md:block">
+        <UserDropdown />
+      </div>
 
       <MobileDropdown currentPage={currentPage} />
     </nav>

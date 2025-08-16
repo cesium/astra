@@ -25,7 +25,7 @@ const Avatar = ({ src, name, className }: IAvatarProps) => {
     <figure
       className={twMerge(
         clsx(
-          "bg-light size-10 overflow-hidden rounded-full text-[1.1em]",
+          "bg-light size-10 overflow-hidden rounded-full text-[1.1em] select-none",
           className,
         ),
       )}
