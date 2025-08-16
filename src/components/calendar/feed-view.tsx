@@ -11,10 +11,9 @@ interface IFeedViewProps extends ViewProps {
 interface IEventCardProps {
   start: Date;
   title: string;
-  editing: boolean;
 }
 
-function EventCard({ start, title, editing }: IEventCardProps) {
+function EventCard({ start, title }: IEventCardProps) {
   return (
     <div className="flex items-center gap-3.5 rounded-2xl border border-gray-200 p-2.5 py-2">
       <p className="min-w-10.5 text-sm text-gray-500">{start.toString()}</p>
@@ -29,7 +28,6 @@ export default function FeedView({
   events,
   localizer,
   date,
-  editing = false,
 }: IFeedViewProps) {
   const [groupedEvents, setGroupedEvents] = useState<
     Record<string, typeof events>
