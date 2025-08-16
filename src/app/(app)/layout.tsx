@@ -8,7 +8,9 @@ export default function AppLayout({
   return (
     <>
       <Navbar />
-      <main className="px-5 py-3.5 antialiased md:px-7.5">{children}</main>
+      <main className="h-full px-5 py-3.5 antialiased md:px-7.5">
+        {children}
+      </main>
     </>
   );
 }
