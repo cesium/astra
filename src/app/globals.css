@@ -84,11 +84,30 @@ input[type="number"] {
 
 .rbc-calendar {
   width: 100% !important;
+  border-radius: 15px !important;
+  overflow-y: hidden !important;
 }
 
 .rbc-month-view,
 .rbc-time-view {
-  border-radius: 15px;
+  border-radius: 15px !important;
+}
+
+.rbc-time-content > .rbc-day-slot {
+  border-bottom-right-radius: 15px !important;
+}
+
+.rbc-time-content .rbc-timeslot-group:last-of-type {
+  border: none !important;
+}
+
+.rbc-time-content {
+  overflow: hidden !important;
+}
+
+.rbc-time-header {
+  border-top-right-radius: 15px !important;
+  overflow: hidden !important;
 }
 
 .rbc-month-row:last-child .rbc-off-range-bg:last-child {
@@ -134,6 +153,7 @@ input[type="number"] {
   margin-left: 7px !important;
   margin-right: 7px !important;
   width: calc(100% - 14px) !important;
+  position: relative !important;
 }
 
 .rbc-allday-cell {
@@ -151,15 +171,19 @@ input[type="number"] {
   font-weight: 600;
   border-radius: 4px !important;
   overflow: hidden !important;
-  position: relative !important;
 }
 
-.schedule .rbc-event {
+.rbc-event:focus {
+  outline: none !important;
+}
+
+.schedule .rbc-event,
+.rbc-time-view .rbc-event {
   position: absolute !important;
   border: 5px solid transparent !important;
   background-clip: padding-box !important;
   box-sizing: border-box !important;
-  border-radius: 12px !important;
+  border-radius: 11px !important;
   background-origin: padding-box !important;
 }
 
@@ -205,17 +229,17 @@ input[type="number"] {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 8px;
-    font-size: 13px;
+    padding-left: 5px;
+    font-size: 11px;
     position: absolute;
-    left: -49px;
+    left: -36px;
     top: 50%;
     transform: translateY(-50%);
-    width: 51px;
+    width: 39px;
     height: 26px;
     background-color: var(--color-primary-400);
     clip-path: path(
-      "M0 13C0 5.8203 5.8203 0 13 0H25.7015C32.0392 0 38.1829 2.18609 43.0961 6.18943L49 11L51 13L49 15L43.0961 19.8106C38.1829 23.8139 32.0392 26 25.7015 26H13C5.8203 26 0 20.1797 0 13Z"
+      "M0 13C0 5.8203 5.8203 0 13 0H19.66C24.55 0 29.24 2.18609 32.99 6.18943L37.49 11L39 13L37.49 15L32.99 19.8106C29.24 23.8139 24.55 26 19.66 26H13C5.8203 26 0 20.1797 0 13Z"
     );
   }
 }

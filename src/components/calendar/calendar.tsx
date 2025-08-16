@@ -19,6 +19,7 @@ import { useMemo, useState, useEffect } from "react";
 
 import CustomToolbar from "./toolbar";
 import EventModal from "./event-modal";
+import EventCard from "./event-card";
 
 interface ICalendarViewProps {
   type: "calendar" | "schedule";
@@ -222,7 +223,7 @@ export default function CalendarView({
   return (
     <div id="calendar-view" className="w-full">
       <Calendar
-        components={{ toolbar: CustomToolbar }}
+        components={{ toolbar: CustomToolbar, work_week: { event: EventCard } }}
         toolbar={type === "calendar" ? true : false}
         localizer={localizer}
         formats={formats}
@@ -232,7 +233,7 @@ export default function CalendarView({
         startAccessor="start"
         endAccessor="end"
         allDayAccessor="allDay"
-        style={{ height: "min(754px, calc(100vh - 108px))", width: "100%" }}
+        style={{ height: "calc(100vh - 124px)", width: "100%" }}
         view={view}
         views={views}
         onView={handleViewChange}

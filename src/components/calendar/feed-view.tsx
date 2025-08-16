@@ -24,11 +24,7 @@ function EventCard({ start, title }: IEventCardProps) {
   );
 }
 
-export default function FeedView({
-  events,
-  localizer,
-  date,
-}: IFeedViewProps) {
+export default function FeedView({ events, localizer, date }: IFeedViewProps) {
   const [groupedEvents, setGroupedEvents] = useState<
     Record<string, typeof events>
   >({});
@@ -111,7 +107,6 @@ export default function FeedView({
                         key={index}
                         start={localizer.format(event.start, "HH:mm")}
                         title={event.title?.toString() ?? ""}
-                        editing={false}
                       />
                     ))}
                   </ul>
