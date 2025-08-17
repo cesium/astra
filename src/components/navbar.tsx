@@ -92,7 +92,6 @@ function Tab({
   onAnimationEnd,
 }: ITabProps) {
   const isActive = href === currentPage;
-  console.log(anyActive);
   return (
     <Link
       className={`relative z-10 inline-flex w-full items-center gap-2 rounded-2xl px-4 py-2 transition-colors duration-200 ease-in-out md:w-fit md:rounded-full ${
@@ -198,22 +197,28 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                 transition={{ delay: 0.2, duration: 0.3 }}
               >
                 <div className="flex justify-between px-3.5">
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.15, duration: 0.3 }}
-                  >
+                  <AnimatePresence>
                     {currentMenu === "tabs" ? (
-                      <Logo />
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ delay: 0.15, duration: 0.3 }}
+                      >
+                        <Logo />
+                      </motion.div>
                     ) : (
-                      <button
+                      <motion.button
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         onClick={() => setCurrentMenu("tabs")}
-                        className="material-symbols-outlined cursor-pointer text-2xl transition-all duration-200 hover:rotate-90 hover:opacity-50"
+                        className="material-symbols-outlined h-8 cursor-pointer text-2xl"
                       >
                         arrow_back
-                      </button>
+                      </motion.button>
                     )}
-                  </motion.div>
+                  </AnimatePresence>
 
                   <button
                     onClick={() => setActive(false)}
@@ -223,12 +228,13 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                   </button>
                 </div>
 
-                {currentMenu === "tabs" ? (
+                {currentMenu === "tabs" && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.4 }}
-                    className="mt-6 space-y-2"
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ delay: 0.2, duration: 0.2 }}
+                    className="mt-6 space-y-3.5"
                   >
                     {signedIn && (
                       <TabsContainer currentPage={currentPage}>
@@ -246,18 +252,39 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                         ))}
                       </TabsContainer>
                     )}
-                    <button
-                      onClick={() => setCurrentMenu("user")}
-                      className="flex cursor-pointer items-center gap-2 focus:outline-none"
-                    >
-                      <span className="text-dark/50">
-                        {user ? user.name : "Loading..."}
-                      </span>
-                      <Avatar name={user?.name} className="" />
-                    </button>
+                    {signedIn ? (
+                      <button
+                        onClick={() => setCurrentMenu("user")}
+                        className="flex cursor-pointer items-center gap-2 pl-3.5 focus:outline-none"
+                      >
+                        <Avatar name={user?.name} className="" />
+                        <span className="text-dark/50">
+                          {user ? user.name : "Loading..."}
+                        </span>
+                      </button>
+                    ) : (
+                      <Link
+                        href="/auth/sign_in"
+                        className="text-primary-400 flex items-center gap-3 pl-3.5"
+                      >
+                        <div className="bg-primary-400 flex items-center justify-center rounded-full p-0.5 text-center align-middle">
+                          <span className="material-symbols-outlined text-3xl text-white">
+                            add
+                          </span>
+                        </div>
+                        Sign in
+                      </Link>
+                    )}
                   </motion.div>
-                ) : (
-                  <div className="p-2.5">
+                )}
+
+                {currentMenu === "user" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.2 }}
+                    className="p-2.5"
+                  >
                     <div className="flex items-center gap-2">
                       <Avatar className="size-14" name={user?.name} />
                       {user?.name}
@@ -284,7 +311,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                         Sign out
                       </button>
                     </div>
-                  </div>
+                  </motion.div>
                 )}
               </motion.div>
             </motion.div>

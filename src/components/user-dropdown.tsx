@@ -12,7 +12,7 @@ import { useAuthStore } from "@/stores/authStore";
 const UserDropdown = () => {
   const router = useRouter();
   const { user } = use(UserContext);
-  const { clearToken } = useAuthStore();
+  const { signedIn, clearToken } = useAuthStore();
 
   async function signOut() {
     try {
@@ -26,7 +26,7 @@ const UserDropdown = () => {
     }
   }
 
-  return user ? (
+  return signedIn ? (
     <Menu as="div">
       {({ open }) => (
         <>
