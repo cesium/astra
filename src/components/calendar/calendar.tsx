@@ -189,7 +189,7 @@ export default function CalendarView({
   };
 
   const [view, setView] = useState<View>(getInitialView());
-  const [date, setDate] = useState<Date | null>(null);
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     setDate(new Date());
@@ -218,21 +218,16 @@ export default function CalendarView({
     setInspectEvent(!inspectEvent);
   };
 
-  // Use useMemo to ensure consistent dates between server and client
+  // Fix para o erro de Client-side hydration
   const { minDate, maxDate } = useMemo(() => {
     const min = new Date();
     min.setHours(8, 0, 0);
-    
+
     const max = new Date();
     max.setHours(20, 0, 0);
-    
+
     return { minDate: min, maxDate: max };
   }, []);
-
-  // Don't render the calendar until we have a date (client-side only)
-  if (!date) {
-    return <div id="calendar-view" className="w-full h-[calc(100vh-124px)]" />;
-  }
 
   return (
     <div id="calendar-view" className="w-full">
@@ -256,6 +251,7 @@ export default function CalendarView({
         dayLayoutAlgorithm={"no-overlap"}
         min={minDate}
         max={maxDate}
+        key={date.getTime()}
         eventPropGetter={(event) => {
           const { eventColor, bgColor, textColor } = getEventColor(event);
 
