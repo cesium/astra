@@ -33,7 +33,7 @@ export interface IEvent {
   start: string;
   end: string;
   place: string;
-  link?: string;
+  link?: { label: string; href: string };
   eventColor: string;
   textColor: string;
   allDay?: boolean;

@@ -1,4 +1,4 @@
-import { Event, EventProps } from "react-big-calendar";
+import { EventProps } from "react-big-calendar";
 
 export default function EventCard({ event }: EventProps) {
   const building = event.resource?.building || "";
