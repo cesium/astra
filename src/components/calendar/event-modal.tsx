@@ -5,6 +5,7 @@ import {
   Transition,
 } from "@headlessui/react";
 import moment from "moment";
+import Link from "next/link";
 import { Fragment } from "react";
 import { Event } from "react-big-calendar";
 
@@ -71,14 +72,14 @@ function ModalItem({ icon, label, value, href }: IModalItemProps) {
       <div className="flex flex-col gap-1">
         <label className="text-dark/50 text-sm">{label}</label>
         {href ? (
-          <a
+          <Link
             href={href}
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary-400 text-base font-medium transition duration-150 ease-in hover:opacity-70"
           >
             {value}
-          </a>
+          </Link>
         ) : (
           <p className="text-dark text-base font-medium">{value}</p>
         )}
@@ -125,7 +126,7 @@ export default function EventModal({
       >
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
           <DialogPanel
-            className={`bg-muted/50 relative max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl`}
+            className={`bg-muted/65 relative max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl`}
           >
             <ModalHeader
               selectedEvent={selectedEvent}

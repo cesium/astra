@@ -93,10 +93,6 @@ input[type="number"] {
   border-radius: 15px !important;
 }
 
-.rbc-time-content > .rbc-day-slot {
-  border-bottom-right-radius: 15px !important;
-}
-
 .rbc-time-content .rbc-timeslot-group:last-of-type {
   border: none !important;
 }

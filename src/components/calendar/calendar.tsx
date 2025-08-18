@@ -189,7 +189,11 @@ export default function CalendarView({
   };
 
   const [view, setView] = useState<View>(getInitialView());
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setDate(new Date());
+  }, []);
 
   const handleNavigate = (newDate: Date) => {
     setDate(newDate);
@@ -214,11 +218,21 @@ export default function CalendarView({
     setInspectEvent(!inspectEvent);
   };
 
-  const minDate = new Date();
-  minDate.setHours(8, 0, 0);
+  // Use useMemo to ensure consistent dates between server and client
+  const { minDate, maxDate } = useMemo(() => {
+    const min = new Date();
+    min.setHours(8, 0, 0);
+    
+    const max = new Date();
+    max.setHours(20, 0, 0);
+    
+    return { minDate: min, maxDate: max };
+  }, []);
 
-  const maxDate = new Date();
-  maxDate.setHours(20, 0, 0);
+  // Don't render the calendar until we have a date (client-side only)
+  if (!date) {
+    return <div id="calendar-view" className="w-full h-[calc(100vh-124px)]" />;
+  }
 
   return (
     <div id="calendar-view" className="w-full">
