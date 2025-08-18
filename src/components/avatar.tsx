@@ -25,7 +25,7 @@ const Avatar = ({ src, name, className }: IAvatarProps) => {
     <figure
       className={twMerge(
         clsx(
-          "bg-light size-10 overflow-hidden rounded-full text-[1.1em] select-none",
+          "bg-light size-10 overflow-hidden rounded-full text-lg select-none",
           className,
         ),
       )}
@@ -33,7 +33,7 @@ const Avatar = ({ src, name, className }: IAvatarProps) => {
       {src ? (
         <Image
           src={src}
-          alt="User Avatar"
+          alt={name ? `${name}'s avatar` : "User Avatar"}
           width={60}
           height={60}
           className="object-cover"
