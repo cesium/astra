@@ -287,13 +287,13 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                   >
                     <div className="flex items-center gap-2">
                       <Avatar className="size-14" name={user?.name} />
-                      {user?.name}
+                      <span className="text-dark/50">{user?.name}</span>
                     </div>
-                    <div className="my-2 border-b border-black/10" />
+                    <div className="my-3.5 border-b border-black/10" />
                     <div className="flex flex-col gap-2">
                       <Link
                         href="/settings"
-                        className="flex items-center gap-2"
+                        className="text-dark flex items-center gap-2"
                         onClick={() => setActive(false)}
                       >
                         <span className="material-symbols-outlined text-2xl">
