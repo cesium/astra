@@ -26,7 +26,7 @@ const UserDropdown = () => {
     }
   }
 
-  if (signedIn === undefined || user === undefined) {
+  if (signedIn === undefined || (signedIn && user === undefined)) {
     return (
       <div className="flex items-center gap-3">
         <div className="bg-dark/10 h-4 w-24 animate-pulse rounded-md" />
@@ -40,8 +40,8 @@ const UserDropdown = () => {
       {({ open }) => (
         <>
           <MenuButton className="flex cursor-pointer items-center gap-2 focus:outline-none">
-            <span className="text-dark/50">{user.name}</span>
-            <Avatar name={user.name} />
+            <span className="text-dark/50">{user?.name}</span>
+            <Avatar name={user?.name} />
           </MenuButton>
           <AnimatePresence>
             {open && (
@@ -85,8 +85,8 @@ const UserDropdown = () => {
                 anchor="bottom end"
               >
                 <MenuItem as="div" className="flex items-center gap-2">
-                  <Avatar className="size-14" name={user.name} />
-                  <span className="text-dark/50">{user.name}</span>
+                  <Avatar className="size-14" name={user?.name} />
+                  <span className="text-dark/50">{user?.name}</span>
                 </MenuItem>
                 <div className="my-3.5 border-b border-black/10" />
                 <div className="flex flex-col gap-2">
