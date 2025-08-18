@@ -26,15 +26,22 @@ const UserDropdown = () => {
     }
   }
 
+  if (signedIn === undefined || user === undefined) {
+    return (
+      <div className="flex items-center gap-3">
+        <div className="bg-dark/10 h-4 w-24 animate-pulse rounded-md" />
+        <div className="bg-dark/10 h-10 w-10 animate-pulse rounded-full" />
+      </div>
+    );
+  }
+
   return signedIn ? (
     <Menu as="div">
       {({ open }) => (
         <>
           <MenuButton className="flex cursor-pointer items-center gap-2 focus:outline-none">
-            <span className="text-dark/50">
-              {user ? user.name : "Loading..."}
-            </span>
-            <Avatar name={user?.name} className="" />
+            <span className="text-dark/50">{user.name}</span>
+            <Avatar name={user.name} />
           </MenuButton>
           <AnimatePresence>
             {open && (
@@ -78,8 +85,8 @@ const UserDropdown = () => {
                 anchor="bottom end"
               >
                 <MenuItem as="div" className="flex items-center gap-2">
-                  <Avatar className="size-14" name={user?.name} />
-                  <span className="text-dark/50">{user?.name}</span>
+                  <Avatar className="size-14" name={user.name} />
+                  <span className="text-dark/50">{user.name}</span>
                 </MenuItem>
                 <div className="my-3.5 border-b border-black/10" />
                 <div className="flex flex-col gap-2">

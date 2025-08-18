@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 type AuthStoreState = {
   token?: string;
-  signedIn: boolean;
+  signedIn?: boolean;
 };
 
 type AuthStoreActions = {
@@ -17,7 +17,7 @@ export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
       token: undefined,
-      signedIn: false,
+      signedIn: undefined,
       setToken: (nextToken) => set({ token: nextToken, signedIn: true }),
       clearToken: () => set({ token: undefined, signedIn: false }),
     }),

@@ -253,15 +253,20 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                       </TabsContainer>
                     )}
                     {signedIn ? (
-                      <button
-                        onClick={() => setCurrentMenu("user")}
-                        className="flex cursor-pointer items-center gap-2 pl-3.5 focus:outline-none"
-                      >
-                        <Avatar name={user?.name} className="" />
-                        <span className="text-dark/50">
-                          {user ? user.name : "Loading..."}
-                        </span>
-                      </button>
+                      user ? (
+                        <button
+                          onClick={() => setCurrentMenu("user")}
+                          className="flex cursor-pointer items-center gap-2 pl-3.5 focus:outline-none"
+                        >
+                          <Avatar name={user.name} className="" />
+                          <span className="text-dark/50">{user.name}</span>
+                        </button>
+                      ) : (
+                        <div className="flex items-center gap-3">
+                          <div className="bg-dark/10 h-10 w-10 animate-pulse rounded-full" />
+                          <div className="bg-dark/10 h-4 w-24 animate-pulse rounded-md" />
+                        </div>
+                      )
                     ) : (
                       <Link
                         href="/auth/sign_in"
