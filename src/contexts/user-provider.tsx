@@ -16,7 +16,7 @@ export const UserContext = createContext<IUserContextProps>({
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>();
-  const { token } = useAuthStore();
+  const { token, clearToken } = useAuthStore();
 
   useEffect(() => {
     async function fetchUser() {
@@ -30,12 +30,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
     if (!token) {
       setUser(undefined);
+      clearToken();
     }
 
     if (token && !user) {
       fetchUser();
     }
-  }, [user, setUser, token]);
+  }, [user, setUser, token, clearToken]);
 
   return <UserContext value={{ user, setUser }}>{children}</UserContext>;
 }
