@@ -230,6 +230,7 @@ export default function CalendarView({
         min={minDate}
         max={maxDate}
         key={date.getTime()}
+        tooltipAccessor={() => ""}
         eventPropGetter={(event) => {
           const { eventColor, bgColor, textColor } = getEventColor(event);
 

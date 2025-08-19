@@ -36,7 +36,7 @@ function ModalHeader({
   const subtitle =
     type === "schedule"
       ? `Turno ${event.shiftType}${event.shiftNumber}`
-      : event.place;
+      : event.category;
 
   return (
     <div className="pb-1">
@@ -122,7 +122,7 @@ export default function EventModal({
       <Dialog
         onClose={() => setInspectEvent(false)}
         transition
-        className="bg-dark/5 fixed inset-0 z-[100] flex w-screen items-center justify-center p-4 backdrop-blur-sm transition duration-300 ease-out focus:outline-0 data-closed:opacity-0"
+        className="bg-dark/5 fixed inset-0 z-50 flex w-screen items-center justify-center p-4 backdrop-blur-sm transition duration-300 ease-out focus:outline-0 data-closed:opacity-0"
       >
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
           <DialogPanel
@@ -154,6 +154,13 @@ export default function EventModal({
                   label="Website"
                   value={event.link.label}
                   href={event.link.href}
+                />
+              )}
+              {type === "schedule" && event.professor && (
+                <ModalItem
+                  icon="person"
+                  label="Professor"
+                  value={event.professor}
                 />
               )}
             </div>

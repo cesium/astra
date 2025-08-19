@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { Navigate, NavigateAction, ViewProps } from "react-big-calendar";
 
@@ -110,7 +109,7 @@ export default function FeedView({
         ref={scrollableRef}
       >
         {hasEvents ? (
-          <div className="space-y-5">
+          <div className="space-y-10">
             <div className="flex flex-col gap-5">
               {Object.entries(groupedEvents).map(([day, events]) => (
                 <div className="space-y-2.5" key={day}>
@@ -135,19 +134,15 @@ export default function FeedView({
 
             {filteredLength < 6 && (
               <div className="flex flex-col text-center">
-                <p>For now, there are no more events</p>
-                <Link className="text-primary-400 underline" href="/">
-                  Manage your notifications settings
-                </Link>
+                <p className="text-dark/60">
+                  For now, there are no more events...
+                </p>
               </div>
             )}
           </div>
         ) : (
           <div className="flex h-full flex-col justify-center text-center">
-            <p>For now, there are no events</p>
-            <Link className="text-primary-400 underline" href="/">
-              Manage your notifications settings
-            </Link>
+            <p className="text-dark/60">For now, there are no events...</p>
           </div>
         )}
       </div>

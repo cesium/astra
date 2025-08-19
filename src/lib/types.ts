@@ -14,6 +14,7 @@ export interface IShift {
   id: number;
   courseName: string;
   shortCourseName: string;
+  professor?: string;
   day: number;
   start: string; // hour only
   end: string; // hour only
@@ -30,6 +31,7 @@ export interface IShift {
 export interface IEvent {
   id: number;
   title: string;
+  category: string;
   start: string;
   end: string;
   place: string;

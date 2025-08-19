@@ -12,7 +12,8 @@ const shiftsDebug: IShift[] = [
     id: 0,
     courseName: "Programação Imperativa",
     shortCourseName: "PI",
-    day: 1, // Monday
+    professor: "Prof. Name",
+    day: 0, // Monday
     start: "08:00",
     end: "09:00",
     shiftType: "T",
@@ -28,7 +29,8 @@ const shiftsDebug: IShift[] = [
     id: 1,
     courseName: "Sistemas de Computação",
     shortCourseName: "SC",
-    day: 1, // Monday
+    professor: "Prof. Name",
+    day: 0, // Monday
     start: "09:00",
     end: "10:00",
     shiftType: "T",
@@ -44,7 +46,7 @@ const shiftsDebug: IShift[] = [
     id: 2,
     courseName: "Programação Imperativa",
     shortCourseName: "PI",
-    day: 1, // Monday
+    day: 0, // Monday
     start: "10:00",
     end: "12:00",
     shiftType: "TP",
@@ -61,7 +63,8 @@ const shiftsDebug: IShift[] = [
     id: 3,
     courseName: "Elementos de Probabilidade e Teoria dos Números",
     shortCourseName: "EPTN",
-    day: 2, // Tuesday
+    professor: "Prof. Name",
+    day: 1, // Tuesday
     start: "08:00",
     end: "10:00",
     shiftType: "T",
@@ -77,7 +80,8 @@ const shiftsDebug: IShift[] = [
     id: 4,
     courseName: "Lógica",
     shortCourseName: "L",
-    day: 2, // Tuesday
+    professor: "Prof. Name",
+    day: 1, // Tuesday
     start: "10:00",
     end: "12:00",
     shiftType: "T",
@@ -94,7 +98,7 @@ const shiftsDebug: IShift[] = [
     id: 5,
     courseName: "Programação Imperativa",
     shortCourseName: "PI",
-    day: 3, // Wednesday
+    day: 2, // Wednesday
     start: "08:00",
     end: "09:00",
     shiftType: "T",
@@ -110,7 +114,8 @@ const shiftsDebug: IShift[] = [
     id: 6,
     courseName: "Sistemas de Computação",
     shortCourseName: "SC",
-    day: 3, // Wednesday
+    professor: "Prof. Name",
+    day: 2, // Wednesday
     start: "09:00",
     end: "11:00",
     shiftType: "PL",
@@ -126,7 +131,8 @@ const shiftsDebug: IShift[] = [
     id: 7,
     courseName: "Sistemas de Computação",
     shortCourseName: "SC",
-    day: 3, // Wednesday
+    professor: "Prof. Name",
+    day: 2, // Wednesday
     start: "11:00",
     end: "12:00",
     shiftType: "T",
@@ -143,7 +149,7 @@ const shiftsDebug: IShift[] = [
     id: 8,
     courseName: "Laboratórios de Informática II",
     shortCourseName: "LI2",
-    day: 4, // Thursday
+    day: 3, // Thursday
     start: "14:00",
     end: "16:00",
     shiftType: "PL",
@@ -159,7 +165,7 @@ const shiftsDebug: IShift[] = [
     id: 9,
     courseName: "Lógica",
     shortCourseName: "L",
-    day: 4, // Thursday
+    day: 3, // Thursday
     start: "16:00",
     end: "17:00",
     shiftType: "TP",
@@ -176,7 +182,8 @@ const shiftsDebug: IShift[] = [
     id: 10,
     courseName: "Álgebra",
     shortCourseName: "A",
-    day: 5, // Friday
+    professor: "Prof. Name",
+    day: 4, // Friday
     start: "08:00",
     end: "10:00",
     shiftType: "TP",
@@ -192,7 +199,7 @@ const shiftsDebug: IShift[] = [
     id: 11,
     courseName: "Álgebra",
     shortCourseName: "A",
-    day: 5, // Friday
+    day: 4, // Friday
     start: "10:00",
     end: "12:00",
     shiftType: "T",
@@ -204,18 +211,18 @@ const shiftsDebug: IShift[] = [
     eventColor: "#C3E5F9",
     textColor: "#227AAE",
   },
-  // Saturday (August 16, 2025)
   {
     id: 12,
-    courseName: "Elementos de Probabilidade e Teoria dos Números",
-    shortCourseName: "EPTN",
-    day: 6, // Saturday
-    start: "14:00",
-    end: "16:00",
+    courseName: "Álgebra",
+    shortCourseName: "A",
+    professor: "Prof. Name",
+    day: 4, // Friday
+    start: "10:00",
+    end: "12:00",
     shiftType: "TP",
-    shiftNumber: 6,
-    building: "DI",
-    room: "1.20",
+    shiftNumber: 1,
+    building: "CP1",
+    room: "0.21",
     year: 1,
     semester: 1,
     eventColor: "#C3E5F9",
