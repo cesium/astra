@@ -184,14 +184,14 @@ export default function FileUploader({
       <div
         className={twMerge(
           clsx(
-            "relative w-full cursor-pointer rounded-lg border-2 border-dashed transition-all duration-200 ease-in-out",
+            "w-full cursor-pointer rounded-lg border-2 border-dashed transition-all duration-200 ease-in-out",
             "flex min-h-[200px] flex-col items-center justify-center p-4 text-center",
             "sm:min-h-[250px] sm:p-6 md:p-8",
             isDragOver
               ? "border-primary-400 bg-primary-400/20"
               : "border-black/20 bg-gray-50 hover:border-black/30 hover:bg-gray-100",
             disabled && "pointer-events-none opacity-50",
-            validationError && "border-red-300 bg-red-50",
+            validationError && !isDragOver && "border-red-300 bg-red-50",
           ),
         )}
         onDragEnter={handleDragEnter}
@@ -213,7 +213,7 @@ export default function FileUploader({
             clsx(
               "rounded-lg transition-all duration-200 ease-in-out",
               isDragOver ? "text-primary-400" : "text-black/50",
-              validationError && "text-red-400",
+              validationError && !isDragOver && "text-red-400",
             ),
           )}
         >
