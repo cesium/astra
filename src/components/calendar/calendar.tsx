@@ -210,12 +210,22 @@ export default function CalendarView({
     });
   }, [view, date]);
 
-  const [selectedEvent, setSelectedEvent] = useState<Event>(formatedEvents[0]);
+  const [selectedEvent, setSelectedEvent] = useState<Event | undefined>(
+    undefined,
+  );
   const [inspectEvent, setInspectEvent] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (formatedEvents.length > 0) {
+      setSelectedEvent((event) => event ?? formatedEvents[0]);
+    }
+  }, [formatedEvents]);
 
   const handleSelection = (event: Event) => {
     setSelectedEvent(event);
     setInspectEvent(!inspectEvent);
+
+    console.log("Selected event:", event);
   };
 
   // Fix para o erro de Client-side hydration

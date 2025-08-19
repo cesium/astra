@@ -167,6 +167,11 @@ input[type="number"] {
   font-weight: 600;
   border-radius: 4px !important;
   overflow: hidden !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.rbc-event:hover {
+  filter: grayscale(50%) !important;
 }
 
 .rbc-event:focus {

@@ -4,27 +4,38 @@ import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { Navigate, NavigateAction, ViewProps } from "react-big-calendar";
 
-interface IFeedViewProps extends ViewProps {
-  editing?: boolean;
-}
-
 interface IEventCardProps {
   start: Date;
   title: string;
+  eventColor: { bgColor: string; textColor: string };
+  onClick: () => void;
 }
 
-function EventCard({ start, title }: IEventCardProps) {
+function EventCard({ start, title, eventColor, onClick }: IEventCardProps) {
   return (
-    <div className="flex items-center gap-3.5 rounded-2xl border border-gray-200 p-2.5 py-2">
+    <div
+      onClick={onClick}
+      className="hover:bg-smoke ring-primary-200 hover:border-primary-200 shadow-primary-100 flex cursor-pointer items-center gap-3.5 rounded-2xl border border-gray-200 p-2.5 py-2 transition-all duration-300 ease-in-out hover:scale-98 hover:shadow-sm hover:ring"
+    >
       <p className="min-w-10.5 text-sm text-gray-500">{start.toString()}</p>
-      <div className="flex h-10 flex-1 items-center justify-start rounded-md bg-[#F9C2C2] p-2.5">
-        <p className="font-semibold text-[#CB5656]">{title}</p>
+      <div
+        style={{ backgroundColor: eventColor.bgColor }}
+        className={`flex h-10 flex-1 items-center justify-start rounded-md p-2.5`}
+      >
+        <p style={{ color: eventColor.textColor }} className={`font-semibold`}>
+          {title}
+        </p>
       </div>
     </div>
   );
 }
 
-export default function FeedView({ events, localizer, date }: IFeedViewProps) {
+export default function FeedView({
+  events,
+  localizer,
+  date,
+  onSelectEvent,
+}: ViewProps) {
   const [groupedEvents, setGroupedEvents] = useState<
     Record<string, typeof events>
   >({});
@@ -107,6 +118,11 @@ export default function FeedView({ events, localizer, date }: IFeedViewProps) {
                         key={index}
                         start={localizer.format(event.start, "HH:mm")}
                         title={event.title?.toString() ?? ""}
+                        eventColor={{
+                          bgColor: event.resource?.eventColor,
+                          textColor: event.resource?.textColor,
+                        }}
+                        onClick={() => onSelectEvent(event)}
                       />
                     ))}
                   </ul>
