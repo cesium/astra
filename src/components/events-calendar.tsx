@@ -6,7 +6,7 @@ import FeedView from "./calendar/feed-view";
 import { IEvent } from "@/lib/types";
 import moment from "moment";
 
-// FIx remove:
+//Fix remove debug values
 const eventsDebug: IEvent[] = [
   {
     id: 0,
@@ -21,8 +21,8 @@ const eventsDebug: IEvent[] = [
   {
     id: 1,
     title: "Nome bué grande mano bro",
-    start: "2025-08-26T14:00:00",
-    end: "2025-08-26T16:00:00",
+    start: "2025-08-05T14:00:00",
+    end: "2025-08-05T16:00:00",
     place: "Campus",
     link: { label: "Link do insta", href: "https://instagram.com" },
     eventColor: "#C3E5F9",
@@ -30,34 +30,46 @@ const eventsDebug: IEvent[] = [
     allDay: false,
   },
   {
-    id: 2,
-    title: "Evento Dia Inteiro",
-    start: "2025-08-14T09:00:00",
-    end: "2025-08-14T17:00:00",
+    id: 14,
+    title: "Evento Random",
+    start: "2025-08-06T08:00:00",
+    end: "2025-08-08T09:00:00",
     place: "Campus",
     eventColor: "#C3E5F9",
     textColor: "#227AAE",
-    allDay: false,
+    allDay: true,
+  },
+  {
+    id: 2,
+    title: "Evento Dia Inteiro",
+    start: "2025-08-06T08:00:00",
+    end: "2025-08-07T09:00:00",
+    place: "Campus",
+    eventColor: "#C3E5F9",
+    textColor: "#227AAE",
+    allDay: true,
   },
   {
     id: 3,
-    title: "Evento 2 dias",
+    title: "Evento vários dias",
     start: "2025-08-05T11:00:00",
-    end: "2025-08-09T13:00:00",
+    end: "2025-08-07T13:00:00",
     place: "Campus",
     eventColor: "#C3E5F9",
     textColor: "#227AAE",
-    allDay: false,
+    allDay: true,
   },
 ];
 
 export default function EventsCalendar() {
   const [events, setEvents] = useState<IEvent[]>([]);
 
+  //Fix remove debug values
   useEffect(() => {
     setEvents(eventsDebug);
   }, []);
 
+  // Converts an IEvent to an Event
   const formattedEvents = events.map((event) => ({
     title: event.title,
     start: moment(event.start).toDate(),

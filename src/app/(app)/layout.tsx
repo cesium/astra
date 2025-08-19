@@ -6,7 +6,7 @@ export default function AppLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex flex-col">
       <Navbar />
       <main className="flex-1 overflow-y-auto px-5 pt-3.5 pb-7.5 antialiased md:px-7.5">
         {children}

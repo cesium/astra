@@ -179,12 +179,23 @@ input[type="number"] {
 }
 
 .schedule .rbc-event,
-.rbc-time-view .rbc-event {
+.rbc-time-view .rbc-event:not(.rbc-event-allday) {
   position: absolute !important;
   border: 5px solid transparent !important;
   background-clip: padding-box !important;
   box-sizing: border-box !important;
   border-radius: 11px !important;
+  background-origin: padding-box !important;
+}
+
+.rbc-time-view .rbc-event-allday {
+  position: relative !important;
+  border-top: 4px solid transparent !important;
+  border-left: 4px solid transparent !important;
+  border-right: 4px solid transparent !important;
+  background-clip: padding-box !important;
+  box-sizing: border-box !important;
+  border-radius: 10px !important;
   background-origin: padding-box !important;
 }
 

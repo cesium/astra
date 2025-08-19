@@ -20,9 +20,9 @@ function EventCard({ start, title, eventColor, onClick }: IEventCardProps) {
       <p className="min-w-10.5 text-sm text-gray-500">{start.toString()}</p>
       <div
         style={{ backgroundColor: eventColor.bgColor }}
-        className={`flex h-10 flex-1 items-center justify-start rounded-md p-2.5`}
+        className="flex h-10 flex-1 items-center justify-start rounded-md p-2.5"
       >
-        <p style={{ color: eventColor.textColor }} className={`font-semibold`}>
+        <p style={{ color: eventColor.textColor }} className="font-semibold">
           {title}
         </p>
       </div>
@@ -43,6 +43,7 @@ export default function FeedView({
   const [hasEvents, setHasEvents] = useState(false);
 
   useEffect(() => {
+    // filter events based on the selected date
     const filterEvents = () => {
       if (!date) return events ?? [];
 
@@ -60,6 +61,7 @@ export default function FeedView({
 
     const filtered = filterEvents();
 
+    // join events by day
     const groupedEvents = filtered.reduce(
       (group: Record<string, typeof events>, event) => {
         const day = localizer.format(event.start, "d MMMM");
@@ -84,6 +86,7 @@ export default function FeedView({
   const [isScrolledBottom, setIsScrolledBottom] = useState(false);
   const scrollableRef = useRef<HTMLDivElement>(null);
 
+  // Handle scroll events to determine if the user is at the top or bottom
   const handleScroll = () => {
     if (scrollableRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = scrollableRef.current;
@@ -156,10 +159,12 @@ export default function FeedView({
   );
 }
 
+// Sets the title for the FeedView (month and year on the toolbar)
 FeedView.title = (date: Date, { localizer }: ViewProps) => {
   return localizer.format(date, "monthHeaderFormat");
 };
 
+// Defines the navigation behavior for the FeedView
 FeedView.navigate = (
   date: Date,
   action: NavigateAction,

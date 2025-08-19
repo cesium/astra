@@ -38,7 +38,7 @@ export default function CalendarView({
   defaultView: propDefaultView,
   className,
 }: ICalendarViewProps) {
-  // adds transparency and darkness to the normal color
+  // adds transparency and darkness to the normal color by converting hex to rgba
   const getEditingColor = (color: string, opacity: number, darken: number) => {
     const r = Math.floor(parseInt(color.slice(1, 3), 16) * darken);
     const g = Math.floor(parseInt(color.slice(3, 5), 16) * darken);
@@ -58,13 +58,17 @@ export default function CalendarView({
     return { eventColor, bgColor, textColor };
   };
 
+  // Waits for the current time indicator element to load in the DOM
+  // Prevents rendering issues caused by code running before the DOM is fully loaded
   const waitForElement = (selector: string, callback: () => void) => {
+    // Check if the element is already in the DOM
     const element = document.querySelector(selector);
     if (element) {
       callback();
       return;
     }
 
+    // If the element is not found, observe the DOM for changes
     const observer = new MutationObserver((mutations, obs) => {
       const element = document.querySelector(selector);
       if (element) {
@@ -79,6 +83,8 @@ export default function CalendarView({
     });
   };
 
+  // Updates the position and size of the current time indicator
+  // This extends the time indicator width to the entire width of the view port
   const updateTimeIndicator = (view: View) => {
     const timeIndicator = document.querySelector(
       ".rbc-current-time-indicator",
@@ -117,18 +123,22 @@ export default function CalendarView({
     }
   };
 
+  // Date formatting options
   const formats = useMemo(
     () => ({
+      // Removes event time range
       eventTimeRangeFormat: () => {
         return "";
       },
 
+      // Changes the format of the time gutter
       timeGutterFormat: (
         date: Date,
         culture: string | undefined,
         localizer?: DateLocalizer,
       ) => localizer?.format(date, "HH\\h", culture)?.replace(/^0+/, "") || "",
 
+      // Displays only the day of the week for schedule view
       ...(type === "schedule" && {
         dayFormat: (
           date: Date,
@@ -140,6 +150,7 @@ export default function CalendarView({
     [type],
   );
 
+  // Determines the initial view based on the calendar type
   const getInitialView = (): View => {
     if (propDefaultView) {
       // For custom view feed
@@ -155,15 +166,18 @@ export default function CalendarView({
     setDate(new Date());
   }, []);
 
+  // Handles navigation between dates (ex: changing month)
   const handleNavigate = (newDate: Date) => {
     setDate(newDate);
   };
 
+  // Handles view changes (ex: switching between month/week)
   const handleViewChange = (newView: View) => {
     setView(newView);
     updateTimeIndicator(newView);
   };
 
+  // Waits for the current time indicator element to load in the DOM and applies the necessary styles
   useEffect(() => {
     waitForElement(".rbc-current-time-indicator", () => {
       updateTimeIndicator(view);
@@ -175,14 +189,14 @@ export default function CalendarView({
   );
   const [inspectEvent, setInspectEvent] = useState<boolean>(false);
 
+  // Handles event selection
   const handleSelection = (event: Event) => {
     setSelectedEvent(event);
     setInspectEvent(!inspectEvent);
-
-    console.log("Selected event:", event);
   };
 
-  // Fix para o erro de Client-side hydration
+  // Sets the min and max date for the calendar view port
+  // useMemo fixes client-side hydration issues
   const { minDate, maxDate } = useMemo(() => {
     const min = new Date();
     min.setHours(8, 0, 0);
@@ -219,6 +233,7 @@ export default function CalendarView({
         eventPropGetter={(event) => {
           const { eventColor, bgColor, textColor } = getEventColor(event);
 
+          // Applies custom event colors and editing mode styles
           const newStyle = {
             backgroundColor: bgColor,
             color: textColor,
@@ -230,6 +245,7 @@ export default function CalendarView({
         }}
         className={className}
       />
+      {/* Opens the event modal for the selected event */}
       {selectedEvent && (
         <EventModal
           selectedEvent={selectedEvent}

@@ -5,7 +5,7 @@ import CalendarView from "./calendar/calendar";
 import { useEffect, useState } from "react";
 import moment from "moment";
 
-//Fix remove
+//Fix remove debug values
 const shiftsDebug: IShift[] = [
   // Monday (August 11, 2025)
   {
@@ -226,10 +226,12 @@ const shiftsDebug: IShift[] = [
 export default function ScheduleCalendar() {
   const [shifts, setShifts] = useState<IShift[]>([]);
 
+  //Fix remove debug values
   useEffect(() => {
     setShifts(shiftsDebug);
   }, []);
 
+  // Converts an IShift to an Event
   const formattedEvents = shifts.map((shift) => {
     const [startHour, startMinute] = shift.start.split(":");
     const [endHour, endMinute] = shift.end.split(":");
@@ -263,7 +265,7 @@ export default function ScheduleCalendar() {
         events={formattedEvents}
         views={{ work_week: true }}
         editing={false}
-        className="schedule"
+        className="schedule" // This class enables styles for the schedule view
       />
     </div>
   );
