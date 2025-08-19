@@ -122,11 +122,11 @@ export default function EventModal({
       <Dialog
         onClose={() => setInspectEvent(false)}
         transition
-        className="bg-dark/5 fixed inset-0 z-[100] flex w-screen items-center justify-center p-4 backdrop-blur-sm transition duration-300 ease-out data-closed:opacity-0"
+        className="bg-dark/5 fixed inset-0 z-[100] flex w-screen items-center justify-center p-4 backdrop-blur-sm transition duration-300 ease-out focus:outline-0 data-closed:opacity-0"
       >
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
           <DialogPanel
-            className={`bg-muted/65 relative max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl`}
+            className={`bg-muted/65 relative max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl focus:outline-0`}
           >
             <ModalHeader
               selectedEvent={selectedEvent}
