@@ -1,20 +1,21 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
 import { MdKey, MdDownload } from "react-icons/md";
-import Button from '@/components/button';
+import Button from "@/components/button";
 
 type T = typeof Button;
 
 const meta: Meta<T> = {
-  title: 'Components/Button',
+  title: "Components/Button",
   component: Button,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
+  parameters: { layout: "centered" },
   argTypes: {
-    iconPosition: { control: 'radio', options: ['left', 'right'] },
-    onClick: { action: 'clicked' },
-    href: { control: 'text' },
-    disabled: { control: 'boolean' },
-    ariaLabel: { control: 'text' },
+    iconPosition: { control: "radio", options: ["left", "right"] },
+    onClick: { action: "clicked" },
+    href: { control: "text" },
+    disabled: { control: "boolean" },
+    ariaLabel: { control: "text" },
     icon: { control: false },
   },
 };
@@ -27,7 +28,8 @@ export const TextAndIcon: StoryObj<T> = {
     onClick: () => alert("Entrar"),
     icon: <MdDownload />,
     iconPosition: "left",
-    className: "border-black border-0 bg-gray-100 px-4 py-3 text-black rounded-full transition duration-200 ease-in-out hover:scale-105 active:scale-95",
+    className:
+      "border-black border-0 bg-gray-100 px-4 py-3 text-black rounded-full transition duration-200 ease-in-out hover:scale-105 active:scale-95",
   },
 };
 
