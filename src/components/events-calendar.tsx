@@ -1,11 +1,13 @@
 "use client";
 
-import CalendarView from "@/components/calendar/calendar";
-import { useMemo, useState } from "react";
-import FeedView from "@/components/calendar/feed-view";
+import { useEffect, useMemo, useState } from "react";
+import CalendarView from "./calendar/calendar";
+import FeedView from "./calendar/feed-view";
 import { IEvent } from "@/lib/types";
+import moment from "moment";
 
-const events: IEvent[] = [
+// FIx remove:
+const eventsDebug: IEvent[] = [
   {
     id: 0,
     title: "Reunião de Equipa",
@@ -22,6 +24,7 @@ const events: IEvent[] = [
     start: "2025-08-26T14:00:00",
     end: "2025-08-26T16:00:00",
     place: "Campus",
+    link: { label: "Link do insta", href: "https://instagram.com" },
     eventColor: "#C3E5F9",
     textColor: "#227AAE",
     allDay: false,
@@ -48,9 +51,20 @@ const events: IEvent[] = [
   },
 ];
 
-export default function Feed() {
-  const [editing, setEditing] = useState(false);
-  console.log("Editing mode:", editing);
+export default function EventsCalendar() {
+  const [events, setEvents] = useState<IEvent[]>([]);
+
+  useEffect(() => {
+    setEvents(eventsDebug);
+  }, []);
+
+  const formattedEvents = events.map((event) => ({
+    title: event.title,
+    start: moment(event.start).toDate(),
+    end: moment(event.end).toDate(),
+    allDay: event.allDay,
+    resource: event,
+  }));
 
   const views = useMemo(
     () => ({
@@ -63,18 +77,12 @@ export default function Feed() {
   );
 
   return (
-    <div className="flex h-screen w-full gap-8 p-8">
-      <div className="h-full w-94.5 bg-gray-400">
-        <button className="cursor-pointer" onClick={() => setEditing(!editing)}>
-          Edit
-        </button>
-      </div>
+    <div className="w-full">
       <CalendarView
         type="calendar"
-        calendarEvents={events}
+        events={formattedEvents}
+        editing={false}
         views={views}
-        defaultView="feed"
-        editing={editing}
       />
     </div>
   );

@@ -24,9 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body className={`${jamjuree.variable} font-jamjuree h-full`}>
-        <UserProvider>
-        {children}
-      </UserProvider>
+        <UserProvider>{children}</UserProvider>
       </body>
     </html>
   );

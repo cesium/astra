@@ -1,7 +1,5 @@
 "use client";
 
-import { IShift, IEvent } from "@/lib/types";
-
 import {
   Calendar,
   DateLocalizer,
@@ -23,8 +21,7 @@ import EventCard from "./event-card";
 
 interface ICalendarViewProps {
   type: "calendar" | "schedule";
-  calendarEvents?: IEvent[];
-  shifts?: IShift[];
+  events: Event[];
   views: ViewsProps;
   editing: boolean;
   defaultView?: string;
@@ -35,8 +32,7 @@ const localizer = momentLocalizer(moment);
 
 export default function CalendarView({
   type,
-  calendarEvents,
-  shifts,
+  events,
   views,
   editing,
   defaultView: propDefaultView,
@@ -52,42 +48,6 @@ export default function CalendarView({
 
     return rgbaColor;
   };
-
-  const formatedEvents = shifts
-    ? shifts.map((shift) => {
-        const [startHour, startMinute] = shift.start.split(":");
-        const [endHour, endMinute] = shift.end.split(":");
-
-        return {
-          title: `${shift.shortCourseName} - ${shift.shiftType}${shift.shiftNumber}`,
-          start: moment()
-            .day(shift.day + 1)
-            .hour(+startHour)
-            .minute(+startMinute)
-            .toDate(),
-          /* (*) we're subtracting 1 minute here to solve an issue that occurs when
-           * the end time of an event is equal to the start time of another.
-           * this issue causes the event bellow to think it is overlaping with the top one,
-           * when the `dayLayoutAlgorithm` is set to `no-overlap`.
-           */
-          end: moment()
-            .day(shift.day + 1)
-            .hour(+endHour)
-            .minute(+endMinute - 1) // (*)
-            .toDate(),
-          allDay: false,
-          resource: shift,
-        };
-      })
-    : calendarEvents
-      ? calendarEvents.map((event) => ({
-          title: event.title,
-          start: moment(event.start).toDate(),
-          end: moment(event.end).toDate(),
-          allDay: event.allDay,
-          resource: event,
-        }))
-      : [];
 
   const getEventColor = (event: Event) => {
     const eventColor = event.resource?.eventColor;
@@ -215,12 +175,6 @@ export default function CalendarView({
   );
   const [inspectEvent, setInspectEvent] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (formatedEvents.length > 0) {
-      setSelectedEvent((event) => event ?? formatedEvents[0]);
-    }
-  }, [formatedEvents]);
-
   const handleSelection = (event: Event) => {
     setSelectedEvent(event);
     setInspectEvent(!inspectEvent);
@@ -246,7 +200,7 @@ export default function CalendarView({
         toolbar={type === "calendar" ? true : false}
         localizer={localizer}
         formats={formats}
-        events={formatedEvents}
+        events={events}
         selected={selectedEvent}
         onSelectEvent={(event) => handleSelection(event)}
         startAccessor="start"

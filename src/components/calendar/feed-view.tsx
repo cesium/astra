@@ -15,7 +15,7 @@ function EventCard({ start, title, eventColor, onClick }: IEventCardProps) {
   return (
     <div
       onClick={onClick}
-      className="hover:bg-smoke ring-primary-200 hover:border-primary-200 shadow-primary-100 flex cursor-pointer items-center gap-3.5 rounded-2xl border border-gray-200 p-2.5 py-2 transition-all duration-300 ease-in-out hover:scale-98 hover:shadow-sm hover:ring"
+      className="flex cursor-pointer items-center gap-3.5 rounded-2xl border border-gray-200 p-2.5 py-2 transition-all duration-300 ease-in-out"
     >
       <p className="min-w-10.5 text-sm text-gray-500">{start.toString()}</p>
       <div
