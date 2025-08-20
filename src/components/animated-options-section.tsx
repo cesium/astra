@@ -25,7 +25,6 @@ export default function AnimatedOptionsSection({
   classNameOpenedSection,
 }: IAnimatedOptionsSection) {
   const [isOpen, setIsOpen] = useState(false);
-  const [applyClosedClasses, setApplyClosedClasses] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleClose = useCallback(() => {
@@ -33,29 +32,35 @@ export default function AnimatedOptionsSection({
     setIsEditing(false);
   }, []);
 
-  const handleOpen = useCallback(() => {
-    setIsOpen(true);
-    setApplyClosedClasses(false);
-  }, []);
-
   const handleEditClick = useCallback(() => {
     setIsEditing((prev) => !prev);
   }, []);
 
+  const handleMotionClick = useCallback(() => {
+    if (!isOpen) {
+      setIsOpen(true);
+    }
+  }, [isOpen]);
+
   const useIsMobile = () => {
     const [isMobile, setIsMobile] = useState(false);
+    const [viewportHeight, setViewportHeight] = useState(0);
 
     useEffect(() => {
-      const checkMobile = () => setIsMobile(window.innerWidth < 800);
-      checkMobile();
-      window.addEventListener("resize", checkMobile);
-      return () => window.removeEventListener("resize", checkMobile);
+      const updateSizes = () => {
+        setIsMobile(window.innerWidth < 800);
+        setViewportHeight(window.innerHeight);
+      };
+
+      updateSizes();
+      window.addEventListener("resize", updateSizes);
+      return () => window.removeEventListener("resize", updateSizes);
     }, []);
 
-    return isMobile;
+    return { isMobile, viewportHeight };
   };
 
-  const isMobile = useIsMobile();
+  const { isMobile, viewportHeight } = useIsMobile();
 
   const addEditActionToChildren = useCallback(
     (child: ReactNode): ReactNode => {
@@ -92,99 +97,37 @@ export default function AnimatedOptionsSection({
       mobile: {
         closed: {
           width: "100%",
-          height: "5rem",
+          height: 80,
         },
         open: {
           width: "100%",
-          height: "90vh",
-        },
-        editing: {
-          width: "100%",
-          height: "90vh",
+          height: viewportHeight - 75,
         },
       },
       desktop: {
         closed: {
-          width: "5rem",
+          width: 60,
           height: "100%",
         },
         open: {
-          width: "379px",
-          height: "100%",
-        },
-        editing: {
-          width: "756px",
+          width: 380,
           height: "100%",
         },
       },
     }),
-    [],
+    [viewportHeight],
   );
 
   const transition = useMemo(
     () => ({
-      duration: 0.4,
-      ease: [0.4, 0.0, 0.2, 1] as const,
-      editingDuration: 0.3,
+      duration: 0.5,
+      ease: [0.25, 0.45, 0.45, 1] as const,
       type: "tween" as const,
     }),
     [],
   );
 
-  const getAnimationState = useCallback(() => {
-    if (!isOpen) return "closed";
-    return isEditing ? "editing" : "open";
-  }, [isOpen, isEditing]);
-
-  const animationState = getAnimationState();
-  const currentVariants = isMobile ? variants.mobile : variants.desktop;
-  const showClosedState = !isOpen && applyClosedClasses;
-
-  const getContainerClasses = useCallback(() => {
-    const base = isMobile ? "fixed bottom-0 left-0 w-full z-50" : "h-full";
-    const editing = isOpen && !isMobile ? "relative" : "";
-    const background = showClosedState && isMobile ? "bg-white" : "";
-
-    return `${base} ${editing} ${background}`;
-  }, [isMobile, isEditing, showClosedState, isOpen]);
-
-  const getMotionClasses = useCallback(() => {
-    const base = isMobile ? "w-full" : "h-full";
-    const flex = `flex ${isMobile ? "items-end" : "items-start"} justify-end box-border`;
-
-    let state = "";
-    if (showClosedState) {
-      state = "cursor-pointer";
-    } else if (isMobile) {
-      state = "justify-start";
-    } else {
-      state = "justify-start rounded-2xl";
-    }
-
-    const editing = isEditing && !isMobile ? "absolute z-50" : "";
-    const mobile = isMobile ? "rounded-t-2xl" : "";
-
-    const backgroundAndBorder = isOpen
-      ? isMobile
-        ? "bg-muted/50 backdrop-blur-3xl border border-black/5"
-        : "bg-muted/50 backdrop-blur-3xl border border-black/5"
-      : "";
-
-    return `${base} ${flex} ${state} ${editing} ${mobile} ${backgroundAndBorder}`;
-  }, [isMobile, showClosedState, isEditing, isOpen]);
-
-  const getContentClasses = useCallback(() => {
-    const base = isMobile ? "w-full h-full" : "h-full";
-    const flex = "flex flex-col w-full overflow-hidden";
-    const styling = isMobile ? "rounded-t-2xl" : "rounded-2xl";
-    const custom = classNameOpenedSection || "";
-
-    const background = !showClosedState
-      ? "rounded-2xl border border-black/5"
-      : "";
-
-    return `${base} ${flex} ${styling} ${custom} ${background}`;
-  }, [isMobile, showClosedState, classNameOpenedSection]);
+  const containerVariants = isMobile ? variants.mobile : variants.desktop;
 
   const contentVariants = useMemo(
     () => ({
@@ -194,88 +137,66 @@ export default function AnimatedOptionsSection({
       visible: {
         opacity: 1,
       },
-      exit: {
-        opacity: 0,
-      },
     }),
     [],
   );
 
-  const handleAnimationComplete = useCallback((definition: string) => {
-    if (definition === "closed") {
-      setApplyClosedClasses(true);
-    }
-  }, []);
-
-  const handleMotionClick = useCallback(() => {
-    if (showClosedState) {
-      handleOpen();
-    }
-  }, [showClosedState, handleOpen]);
+  const isClosed = !isOpen;
 
   return (
-    <div className={getContainerClasses()}>
+    <div
+      className={`${isMobile ? "fixed bottom-0 left-0 z-20 w-full" : "flex"} ${!isOpen && isMobile ? "bg-white" : ""}`}
+    >
       <motion.div
         onClick={handleMotionClick}
-        className={getMotionClasses()}
-        animate={animationState}
-        variants={currentVariants}
+        className={`${isMobile ? "w-full" : "h-full"} flex ${isMobile ? "items-end" : "items-start"} box-border justify-end ${!isOpen ? "cursor-pointer" : isMobile ? "justify-start" : "justify-start rounded-2xl"} ${isMobile ? "rounded-t-2xl" : ""} ${isOpen ? (isMobile ? "bg-muted/50 border border-black/5 backdrop-blur-3xl" : "bg-muted/50 border border-black/5 backdrop-blur-3xl") : ""}`}
+        animate={isOpen ? "open" : "closed"}
+        variants={containerVariants}
         initial="closed"
-        transition={{
-          duration: isEditing
-            ? transition.editingDuration
-            : transition.duration,
-          ease: transition.ease,
-          type: transition.type,
-        }}
-        onAnimationComplete={handleAnimationComplete}
-        role={showClosedState ? "button" : undefined}
-        tabIndex={showClosedState ? 0 : undefined}
-        onKeyDown={
-          showClosedState
-            ? (e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  handleOpen();
-                }
-              }
-            : undefined
-        }
-        aria-label={showClosedState ? "Abrir opções" : undefined}
+        transition={transition}
+        role={isClosed ? "button" : undefined}
+        tabIndex={isClosed ? 0 : undefined}
+        aria-label={isClosed ? "Abrir opções" : undefined}
+        style={{ overflow: "hidden" }}
       >
-        {showClosedState && (
+        {isClosed && (
           <motion.div
-            className={`flex gap-2 ${isMobile ? "h-20 w-full flex-row-reverse items-start justify-center" : "translate-y-20 -rotate-90"}`}
+            className={`flex gap-2 ${isMobile ? "h-20 w-full flex-row-reverse items-start justify-center" : "h-full w-full items-start justify-center pt-20"}`}
             variants={contentVariants}
             initial="visible"
             animate="visible"
           >
-            <span className="flex items-center justify-center text-sm font-light whitespace-nowrap text-gray-500">
-              Abrir opções
-            </span>
-            <span
-              className={`material-symbols-outlined ml-2 text-center text-gray-500 ${isMobile ? "-rotate-90" : "rotate-90"}`}
+            <div
+              className={`flex gap-2 ${isMobile ? "" : "origin-center -rotate-90"}`}
             >
-              arrow_forward_ios
-            </span>
+              <span className="text-md flex items-center justify-center font-light whitespace-nowrap text-gray-500">
+                Abrir opções
+              </span>
+              <span
+                style={{ fontSize: "24px" }}
+                className={`material-symbols-outlined text-center text-gray-500 ${isMobile ? "-rotate-90" : "rotate-90"}`}
+              >
+                arrow_forward_ios
+              </span>
+            </div>
           </motion.div>
         )}
 
         {isOpen && (
           <motion.div
-            className={getContentClasses()}
+            key="content"
+            className={`${isMobile ? "h-full w-full rounded-t-2xl" : "h-full rounded-2xl"} flex w-full flex-col ${classNameOpenedSection || ""} ${isOpen ? "rounded-2xl border border-black/5" : ""}`}
             variants={contentVariants}
             initial="hidden"
             animate="visible"
-            exit="exit"
-            transition={{ duration: 0.3, delay: 0.1 }}
+            transition={transition}
           >
             {!isEditing && (
               <motion.div
                 className="flex flex-shrink-0 place-items-center justify-between p-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.15 }}
+                transition={transition}
               >
                 <span className="text-2xl font-semibold">{title}</span>
                 <button
@@ -295,7 +216,7 @@ export default function AnimatedOptionsSection({
                 className="flex flex-shrink-0 place-items-center justify-between p-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.15 }}
+                transition={transition}
               >
                 <button
                   className="material-symbols-outlined cursor-pointer border-none p-1 text-gray-500 transition-colors duration-200 hover:text-gray-700"
@@ -312,17 +233,17 @@ export default function AnimatedOptionsSection({
             )}
 
             <motion.div
-              className="min-h-0 flex-1"
+              className="min-h-0 flex-1 overflow-auto"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
+              transition={transition}
             >
-              <div className="box-border h-full w-full overflow-hidden">
+              <div className="box-border h-full w-full">
                 <motion.div
-                  className="box-border h-full w-full overflow-auto rounded-t-none rounded-b-2xl"
+                  className="box-border w-full rounded-t-none rounded-b-2xl"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3, delay: 0.25 }}
+                  transition={transition}
                 >
                   {!isEditing
                     ? addEditActionToChildren(children[0])
