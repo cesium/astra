@@ -1,5 +1,5 @@
 import axios from "axios";
-import { apiWithCredentials } from "./api";
+import { api, apiWithCredentials } from "./api";
 
 export enum UserType {
   student,
@@ -48,9 +48,7 @@ export async function signIn({
 
 export async function signOut() {
   try {
-    const res = await apiWithCredentials.post<{ message: string }>(
-      "/auth/sign_out",
-    );
+    const res = await api.post<{ message: string }>("/auth/sign_out");
     return res.data.message;
   } catch {
     throw new Error("Failed to sign out. Please try again later.");
@@ -59,20 +57,9 @@ export async function signOut() {
 
 export async function forgotPassword({ email }: { email: string }) {
   try {
-    await apiWithCredentials.post("/auth/forgot_password", { email });
+    await api.post("/auth/forgot_password", { email });
   } catch {
     throw new Error("Failed to send password reset email.");
-  }
-}
-
-export async function refreshToken() {
-  try {
-    const res = await apiWithCredentials.post<{ access_token: string }>(
-      "/auth/refresh",
-    );
-    return res.data.access_token;
-  } catch {
-    throw new Error("Failed to refresh token. Please try again later.");
   }
 }
 
@@ -86,10 +73,11 @@ export async function resetPassword({
   password_confirmation: string;
 }) {
   try {
-    const res = await apiWithCredentials.post<{ message: string }>(
-      "/auth/reset_password",
-      { token, password, password_confirmation },
-    );
+    const res = await api.post<{ message: string }>("/auth/reset_password", {
+      token,
+      password,
+      password_confirmation,
+    });
     return res.data.message;
   } catch {
     throw new Error("Failed to reset password. Please try again later.");
