@@ -66,7 +66,7 @@ export default function SettingsLayout({
         </Sidebar>
       </div>
 
-      <div className="px-10">{children}</div>
+      <div className="w-full px-10">{children}</div>
     </div>
   );
 }
