@@ -40,7 +40,7 @@ api.interceptors.response.use(
 
         return axios(originalRequest);
       } catch (refreshError) {
-        useAuthStore.getState().setToken(undefined);
+        useAuthStore.getState().clearToken();
 
         return Promise.reject(refreshError);
       }

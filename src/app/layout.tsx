@@ -4,6 +4,7 @@ import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { ToastProvider } from "@/contexts/ToastContext";
+import { UserProvider } from "@/contexts/user-provider";
 
 const jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export default function RootLayout({
             toastClassName="!bg-white !text-gray-900 !shadow-lg !border !border-gray-200"
           />
         </ToastProvider>
+        <UserProvider>{children}</UserProvider>
       </body>
     </html>
   );
