@@ -39,8 +39,8 @@ const Avatar = ({ src, name, className }: IAvatarProps) => {
           className="object-cover"
         />
       ) : (
-        <div className="flex size-full items-center justify-center bg-gradient-to-b from-black/20 to-black/40">
-          <span className="text-light">{name && getInitials(name)}</span>
+        <div className="container resize flex size-full items-center justify-center bg-gradient-to-b from-black/20 to-black/40 [container-type:size]">
+          <span className="text-light text-[40cqmin]">{name && getInitials(name)}</span>
         </div>
       )}
     </figure>
