@@ -27,24 +27,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${jamjuree.variable} font-jamjuree`}>
-        <ToastProvider>
-          {children}
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-            className="!z-[9999]"
-            toastClassName="!bg-white !text-gray-900 !shadow-lg !border !border-gray-200"
-          />
-        </ToastProvider>
-        <UserProvider>{children}</UserProvider>
+        <UserProvider>
+          <ToastProvider>
+            {children}
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              className="!z-[9999]"
+              toastClassName="!bg-white !text-gray-900 !shadow-lg !border !border-gray-200"
+            />
+          </ToastProvider>
+        </UserProvider>
       </body>
     </html>
   );
