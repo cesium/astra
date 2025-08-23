@@ -10,6 +10,7 @@ export function useSignIn() {
       useAuthStore.getState().setToken(data.access_token);
       localStorage.setItem("session_id", data.session_id.toString());
       qc.invalidateQueries({ refetchType: "all", queryKey: ["session"] });
+      qc.invalidateQueries({ refetchType: "all", queryKey: ["user"] });
     },
   });
 }
@@ -19,9 +20,10 @@ export function useSignOut() {
   return useMutation({
     mutationFn: signOut,
     onSuccess: () => {
-      useAuthStore.getState().setToken(undefined);
+      useAuthStore.getState().clearToken();
       localStorage.removeItem("session_id");
-      qc.removeQueries({ queryKey: ["session"] });
+      qc.invalidateQueries({ refetchType: "all", queryKey: ["session"] });
+      qc.removeQueries({ queryKey: ["user"] });
     },
   });
 }

@@ -18,6 +18,15 @@ export interface SignInResponse {
   session_id: number;
 }
 
+export async function getUserInfo() {
+  try {
+    const res = await api.get<{ user: User }>("/auth/me");
+    return res.data.user;
+  } catch {
+    throw new Error("Failed to fetch user info. Please try again later.");
+  }
+}
+
 export async function signIn({
   email,
   password,

@@ -3,7 +3,6 @@ import { Bai_Jamjuree } from "next/font/google";
 import "./globals.css";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryProvider from "@/providers/react-query";
-import { UserProvider } from "@/contexts/user-provider";
 
 const jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -27,7 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${jamjuree.variable} font-jamjuree`}>
         <ReactQueryProvider>
-          <UserProvider>{children}</UserProvider>
+          {children}
           <ReactQueryDevtools initialIsOpen={false} />
         </ReactQueryProvider>
       </body>
