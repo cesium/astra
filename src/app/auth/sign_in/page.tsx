@@ -1,13 +1,11 @@
 "use client";
+
 import Input from "@/components/input";
 import Label from "@/components/label";
-import { apiWithCredentials } from "@/lib/api";
-import { useAuthStore } from "@/stores/authStore";
+import { useSignIn } from "@/lib/mutations/session";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 
@@ -26,34 +24,15 @@ export default function SignIn() {
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const signIn = useSignIn();
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    setLoading(true);
-
-    try {
-      const res = await apiWithCredentials.post("/auth/sign_in", data);
-      const { access_token } = res.data;
-
-      useAuthStore.getState().setToken(access_token);
-      router.push("/");
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.status === 401) {
-          setError("Incorrect email or password");
-        } else {
-          setError(
-            "Sign in unavailable at the moment. Please try again shortly.",
-          );
-        }
-      } else {
-        setError("Something went wrong");
-      }
-
-      setLoading(false);
-    }
+  const onSubmit: SubmitHandler<FormSchema> = (data) => {
+    signIn.mutate(data, {
+      onSuccess: () => {
+        router.replace("/");
+      },
+    });
   };
 
   return (
@@ -133,12 +112,16 @@ export default function SignIn() {
             </Link>
           </div>
           <div className="flex flex-col gap-1 sm:gap-2">
-            <span className="text-danger px-1 text-center">{error}</span>
+            {signIn.error && (
+              <span className="text-danger px-1 text-center">
+                {signIn.error.message}
+              </span>
+            )}
             <button
               className="bg-primary-400 mx-7 rounded-full p-4 font-bold text-white shadow-lg"
               type="submit"
             >
-              {loading ? "Loading..." : "Sign in"}
+              {signIn.isPending ? "Loading..." : "Sign in"}
             </button>
           </div>
         </form>
