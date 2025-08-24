@@ -19,6 +19,24 @@ interface IAnimatedOptionsSection {
   classNameOpenedSection?: string;
 }
 
+const useIsMobile = () => {
+    const [isMobile, setIsMobile] = useState(false);
+    const [viewportHeight, setViewportHeight] = useState(0);
+
+    useEffect(() => {
+      const updateSizes = () => {
+        setIsMobile(window.innerWidth < 768);
+        setViewportHeight(window.innerHeight);
+      };
+
+      updateSizes();
+      window.addEventListener("resize", updateSizes);
+      return () => window.removeEventListener("resize", updateSizes);
+    }, []);
+
+    return { isMobile, viewportHeight };
+  };
+
 export default function AnimatedOptionsSection({
   children,
   title = "Options",
@@ -42,24 +60,6 @@ export default function AnimatedOptionsSection({
       setIsOpen(true);
     }
   }, [isOpen]);
-
-  const useIsMobile = () => {
-    const [isMobile, setIsMobile] = useState(false);
-    const [viewportHeight, setViewportHeight] = useState(0);
-
-    useEffect(() => {
-      const updateSizes = () => {
-        setIsMobile(window.innerWidth < 768);
-        setViewportHeight(window.innerHeight);
-      };
-
-      updateSizes();
-      window.addEventListener("resize", updateSizes);
-      return () => window.removeEventListener("resize", updateSizes);
-    }, []);
-
-    return { isMobile, viewportHeight };
-  };
 
   const { isMobile, viewportHeight } = useIsMobile();
 
