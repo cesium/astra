@@ -21,13 +21,12 @@ interface IAnimatedOptionsSection {
 
 export default function AnimatedOptionsSection({
   children,
-  title = "Opções",
-  titleEdit = "Editar Opções",
+  title = "Options",
+  titleEdit = "Edit Options",
   classNameOpenedSection,
 }: IAnimatedOptionsSection) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const isClosed = !isOpen;
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
@@ -39,10 +38,10 @@ export default function AnimatedOptionsSection({
   }, []);
 
   const handleMotionClick = useCallback(() => {
-    if (isClosed) {
+    if (!isOpen) {
       setIsOpen(true);
     }
-  }, [isClosed]);
+  }, [isOpen]);
 
   const useIsMobile = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -146,7 +145,7 @@ export default function AnimatedOptionsSection({
   return (
     <div className="bottom-0 left-0 z-20 w-full md:relative md:bottom-auto md:left-auto md:z-auto md:flex md:w-auto">
       <AnimatePresence mode="wait">
-        {isClosed && (
+        {!isOpen && (
           <motion.div
             key="closed"
             onClick={handleMotionClick}
@@ -158,7 +157,7 @@ export default function AnimatedOptionsSection({
             transition={transition}
             role="button"
             tabIndex={0}
-            aria-label="Abrir opções"
+            aria-label="Show options"
             style={{ overflow: "hidden" }}
           >
             <motion.div
@@ -169,7 +168,7 @@ export default function AnimatedOptionsSection({
             >
               <div className="flex gap-2 md:origin-center md:-rotate-90">
                 <span className="text-md flex items-center justify-center font-light whitespace-nowrap text-gray-500">
-                  Abrir opções
+                  Show options
                 </span>
                 <span
                   style={{ fontSize: "24px" }}
@@ -219,7 +218,7 @@ export default function AnimatedOptionsSection({
                     <button
                       className="material-symbols-outlined cursor-pointer border-none p-1 font-bold text-gray-500 transition-colors duration-200 hover:text-gray-700"
                       onClick={handleClose}
-                      aria-label="Fechar opções"
+                      aria-label="Close options"
                       type="button"
                     >
                       {!isMobile && (
@@ -251,7 +250,7 @@ export default function AnimatedOptionsSection({
                     <button
                       className="material-symbols-outlined cursor-pointer border-none p-1 text-gray-500 transition-colors duration-200 hover:text-gray-700"
                       onClick={handleEditClick}
-                      aria-label="Voltar às opções"
+                      aria-label="Back to options"
                       type="button"
                       style={{ fontSize: "20px" }}
                     >
