@@ -36,7 +36,7 @@ export function TabsContainer({ children, className }: IBasicProps) {
     <menu
       className={twMerge(
         clsx(
-          "bg-dark/5 relative z-10 flex h-fit w-fit flex-col items-center gap-0.5 rounded-2xl p-1 md:flex-row md:rounded-full",
+          "bg-dark/5 relative z-10 flex h-fit w-fit flex-row items-center gap-0.5 rounded-full p-1",
           className,
         ),
       )}
@@ -59,7 +59,7 @@ export function Tab({ name, icon, refTo }: ITabProps) {
 
   return (
     <button
-      className={`relative z-10 inline-flex w-full cursor-pointer items-center gap-2 rounded-2xl px-4 py-2 transition-colors duration-200 ease-in-out md:w-fit md:rounded-full ${
+      className={`relative z-10 inline-flex w-fit cursor-pointer items-center gap-2 rounded-full px-4 py-2 transition-colors duration-200 ease-in-out ${
         isActive ? "text-white" : "text-gray-600 hover:text-gray-900"
       }`}
       onClick={() => setCurrentPanel(refTo)}
@@ -73,7 +73,7 @@ export function Tab({ name, icon, refTo }: ITabProps) {
             bounce: 0.3,
             duration: 0.6,
           }}
-          className="bg-primary-400 absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full"
+          className="bg-primary-400 absolute inset-0 z-10 rounded-full shadow-sm"
         />
       )}
       <span className="material-symbols-outlined z-10 text-2xl">{icon}</span>

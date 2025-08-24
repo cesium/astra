@@ -1,4 +1,6 @@
 "use client";
+import { CalendarContext } from "@/contexts/calendar-provider";
+import clsx from "clsx";
 import { motion, AnimatePresence } from "motion/react";
 import {
   cloneElement,
@@ -10,7 +12,9 @@ import {
   useCallback,
   useMemo,
   Children,
+  useContext,
 } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface IAnimatedOptionsSection {
   children: [ReactNode, ReactNode];
@@ -44,16 +48,17 @@ export default function AnimatedOptionsSection({
   classNameOpenedSection,
 }: IAnimatedOptionsSection) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+
+  const { isEditing, setIsEditing } = useContext(CalendarContext);
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
     setIsEditing(false);
-  }, []);
+  }, [setIsEditing]);
 
   const handleEditClick = useCallback(() => {
-    setIsEditing((prev) => !prev);
-  }, []);
+    setIsEditing(!isEditing);
+  }, [isEditing, setIsEditing]);
 
   const handleMotionClick = useCallback(() => {
     if (!isOpen) {
@@ -190,7 +195,7 @@ export default function AnimatedOptionsSection({
             transition={transition}
           >
             <motion.div
-              className="bg-muted/50 box-border flex w-full items-end justify-start rounded-t-2xl border border-black/5 backdrop-blur-3xl md:h-full md:items-start md:justify-start md:rounded-2xl"
+              className="bg-muted box-border flex w-full items-end justify-start rounded-t-2xl border border-black/5 backdrop-blur-3xl md:h-full md:items-start md:justify-start md:rounded-2xl"
               animate="open"
               variants={containerVariants}
               initial="closed"
@@ -200,7 +205,12 @@ export default function AnimatedOptionsSection({
             >
               <motion.div
                 key="content"
-                className={`flex h-full w-full flex-col rounded-t-2xl md:h-full md:rounded-2xl ${classNameOpenedSection || ""} rounded-2xl border border-black/5`}
+                className={twMerge(
+                  clsx(
+                    "flex h-full w-full flex-col rounded-2xl rounded-t-2xl border border-black/5 md:h-full md:rounded-2xl",
+                    classNameOpenedSection,
+                  ),
+                )}
                 variants={contentVariants}
                 initial="hidden"
                 animate="visible"
@@ -209,14 +219,14 @@ export default function AnimatedOptionsSection({
               >
                 {!isEditing && (
                   <motion.div
-                    className="flex flex-shrink-0 place-items-center justify-between p-4"
+                    className="mb-5.5 flex flex-shrink-0 place-items-center justify-between px-2"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={transition}
                   >
                     <span className="text-2xl font-semibold">{title}</span>
                     <button
-                      className="material-symbols-outlined cursor-pointer border-none p-1 font-bold text-gray-500 transition-colors duration-200 hover:text-gray-700"
+                      className="material-symbols-outlined cursor-pointer border-none font-bold text-gray-500 transition-colors duration-200 hover:text-gray-700"
                       onClick={handleClose}
                       aria-label="Close options"
                       type="button"
@@ -242,7 +252,7 @@ export default function AnimatedOptionsSection({
                 )}
                 {isEditing && (
                   <motion.div
-                    className="flex flex-shrink-0 place-items-center justify-between p-4"
+                    className="mb-5.5 flex flex-shrink-0 place-items-center justify-between px-2"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={transition}
