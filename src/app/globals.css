@@ -84,8 +84,15 @@ input[type="number"] {
 
 .rbc-calendar {
   width: 100% !important;
+  height: calc(100vh - 124px) !important;
   border-radius: 15px !important;
   overflow-y: hidden !important;
+}
+
+@media (max-width: 768px) {
+  .rbc-calendar {
+    height: calc(100vh - 154px) !important;
+  }
 }
 
 .rbc-month-view,

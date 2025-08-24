@@ -2,8 +2,9 @@
 
 import { IShift } from "@/lib/types";
 import CalendarView from "./calendar/calendar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import moment from "moment";
+import { CalendarContext } from "@/contexts/calendar-provider";
 
 //Fix remove debug values
 const shiftsDebug: IShift[] = [
@@ -231,6 +232,10 @@ const shiftsDebug: IShift[] = [
 ];
 
 export default function ScheduleCalendar() {
+  const context = useContext(CalendarContext);
+
+  const { isEditing } = context;
+
   const [shifts, setShifts] = useState<IShift[]>([]);
 
   //Fix remove debug values
@@ -271,7 +276,7 @@ export default function ScheduleCalendar() {
         type="schedule"
         events={formattedEvents}
         views={{ work_week: true }}
-        editing={false}
+        editing={isEditing}
         className="schedule" // This class enables styles for the schedule view
       />
     </div>
