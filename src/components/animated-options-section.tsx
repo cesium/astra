@@ -20,22 +20,22 @@ interface IAnimatedOptionsSection {
 }
 
 const useIsMobile = () => {
-    const [isMobile, setIsMobile] = useState(false);
-    const [viewportHeight, setViewportHeight] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [viewportHeight, setViewportHeight] = useState(0);
 
-    useEffect(() => {
-      const updateSizes = () => {
-        setIsMobile(window.innerWidth < 768);
-        setViewportHeight(window.innerHeight);
-      };
+  useEffect(() => {
+    const updateSizes = () => {
+      setIsMobile(window.innerWidth < 768);
+      setViewportHeight(window.innerHeight);
+    };
 
-      updateSizes();
-      window.addEventListener("resize", updateSizes);
-      return () => window.removeEventListener("resize", updateSizes);
-    }, []);
+    updateSizes();
+    window.addEventListener("resize", updateSizes);
+    return () => window.removeEventListener("resize", updateSizes);
+  }, []);
 
-    return { isMobile, viewportHeight };
-  };
+  return { isMobile, viewportHeight };
+};
 
 export default function AnimatedOptionsSection({
   children,
