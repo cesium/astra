@@ -1,11 +1,13 @@
+import clsx from "clsx";
 import type { ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface ILabelProps {
   children: ReactNode;
   disabled?: boolean;
   htmlFor?: string;
   size?: "small" | "medium" | "large";
-  onClick?: () => void;
+  className?: string;
 }
 
 const Label = ({
@@ -13,7 +15,7 @@ const Label = ({
   disabled = false,
   htmlFor,
   size = "medium",
-  onClick,
+  className,
 }: ILabelProps) => {
   const getSizeClasses = () => {
     switch (size) {
@@ -26,14 +28,16 @@ const Label = ({
     }
   };
 
-  const colorClass = disabled ? "text-gray-400" : "text-gray-700";
-  const cursorClass = disabled ? "cursor-not-allowed" : "cursor-pointer";
-
   return (
     <label
       htmlFor={htmlFor}
-      onClick={disabled ? undefined : onClick}
-      className={`${getSizeClasses()} ${colorClass} ${cursorClass}`}
+      className={twMerge(
+        clsx(
+          className,
+          getSizeClasses(),
+          disabled ? "text-gray-400" : "text-gray-700",
+        ),
+      )}
     >
       {children}
     </label>

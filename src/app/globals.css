@@ -13,7 +13,6 @@
   font-family: "Material Symbols Outlined";
   font-weight: 300;
   font-style: normal;
-  font-size: 24px;
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
@@ -47,17 +46,224 @@
 }
 
 @theme {
-  --color-primary: #ee7749;
+  --color-primary-50: #fef4ee;
+  --color-primary-100: #fce7d8;
+  --color-primary-200: #f8cbb0;
+  --color-primary-300: #f4a67d;
+  --color-primary-400: #ee7749;
+  --color-primary-500: #ea5425;
+  --color-primary-600: #db3c1b;
+  --color-primary-700: #b62b18;
+  --color-primary-800: #91251b;
+  --color-primary-900: #752119;
+  --color-primary-950: #3f0d0b;
   --color-light: #ffffff;
   --color-dark: #000000;
-  --color-muted: #fafafa;
+  --color-muted: #f7f7f7;
+  --color-smoke: #f2f2f2;
   --color-university: #971318;
   --color-danger: #ff5e79;
   --color-success: #2edb51;
-
   --font-jamjuree: var(--font-jamjuree);
 }
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/*Calendar View Costumization*/
+
+.rbc-calendar {
+  width: 100% !important;
+  border-radius: 15px !important;
+  overflow-y: hidden !important;
+}
+
+.rbc-month-view,
+.rbc-time-view {
+  border-radius: 15px !important;
+}
+
+.rbc-time-content .rbc-timeslot-group:last-of-type {
+  border: none !important;
+}
+
+.rbc-time-content {
+  overflow: hidden !important;
+}
+
+.rbc-time-header {
+  border-top-right-radius: 15px !important;
+  overflow: hidden !important;
+}
+
+.rbc-month-row:last-child .rbc-off-range-bg:last-child {
+  border-bottom-right-radius: 15px;
+}
+
+.rbc-off-range-bg {
+  background-color: #0000000e !important;
+}
+
+.rbc-header {
+  color: var(--color-dark);
+  opacity: 50%;
+}
+
+.rbc-month-header .rbc-header {
+  padding-bottom: 9px;
+  padding-top: 9px;
+}
+
+.rbc-timeslot-group {
+  padding-top: 7.5px;
+}
+
+.rbc-today {
+  background-color: #ee774926 !important;
+}
+
+.rbc-date-cell .rbc-button-link {
+  font-weight: 400 !important;
+}
+
+.rbc-day-slot .rbc-time-slot {
+  border: none !important;
+}
+
+.rbc-time-slot .rbc-label {
+  color: var(--color-dark);
+  opacity: 50%;
+}
+
+.rbc-month-view .rbc-event {
+  margin-left: 7px !important;
+  margin-right: 7px !important;
+  width: calc(100% - 14px) !important;
+  position: relative !important;
+}
+
+.rbc-allday-cell {
+  padding: 0.5px;
+}
+
+.rbc-events-container {
+  margin: 0 !important;
+  padding: 5px !important;
+}
+
+.rbc-event {
+  box-sizing: border-box !important;
+  border: none !important;
+  font-weight: 600;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.rbc-event:hover {
+  filter: grayscale(50%) !important;
+}
+
+.rbc-event:focus {
+  outline: none !important;
+}
+
+.schedule .rbc-event,
+.rbc-time-view .rbc-event:not(.rbc-event-allday) {
+  position: absolute !important;
+  border: 5px solid transparent !important;
+  background-clip: padding-box !important;
+  box-sizing: border-box !important;
+  border-radius: 11px !important;
+  background-origin: padding-box !important;
+}
+
+.rbc-time-view .rbc-event-allday {
+  position: relative !important;
+  border-top: 4px solid transparent !important;
+  border-left: 4px solid transparent !important;
+  border-right: 4px solid transparent !important;
+  background-clip: padding-box !important;
+  box-sizing: border-box !important;
+  border-radius: 10px !important;
+  background-origin: padding-box !important;
+}
+
+.schedule .rbc-event-content {
+  padding: 2px !important;
+}
+
+.rbc-event::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(249, 194, 194, 0),
+    var(--gradient-color)
+  );
+  border-radius: 0 4px 4px 0;
+}
+
+.rbc-event-content {
+  text-overflow: clip !important;
+}
+
+.rbc-current-time-indicator {
+  --left: 0%;
+  --width: 100%;
+  position: absolute !important;
+
+  left: var(--left) !important;
+  width: var(--width) !important;
+  z-index: 5 !important;
+  height: 4px !important;
+  background-color: var(--color-primary-400) !important;
+  pointer-events: none !important;
+
+  &::before {
+    content: "NOW" !important;
+    color: var(--color-light) !important;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 5px;
+    font-size: 11px;
+    position: absolute;
+    left: -36px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 39px;
+    height: 26px;
+    background-color: var(--color-primary-400);
+    clip-path: path(
+      "M0 13C0 5.8203 5.8203 0 13 0H19.66C24.55 0 29.24 2.18609 32.99 6.18943L37.49 11L39 13L37.49 15L32.99 19.8106C29.24 23.8139 24.55 26 19.66 26H13C5.8203 26 0 20.1797 0 13Z"
+    );
+  }
+}
+
+.rbc-time-content,
+.rbc-time-column {
+  overflow: visible !important;
+}
+
+.schedule .rbc-allday-cell {
+  display: none;
+}
+.schedule .rbc-time-view .rbc-header {
+  border-bottom: none;
 }

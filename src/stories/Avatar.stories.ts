@@ -1,21 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import Card from "../components/card";
+import Avatar from "@/components/avatar";
 
 const meta = {
-  title: "Components/Card",
-  component: Card,
+  title: "Components/Avatar",
+  component: Avatar,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof Card>;
+} satisfies Meta<typeof Avatar>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
-    children: "Card",
-    className: "underline",
+    src: "",
+    name: "John Doe",
+    className: "",
   },
 };

@@ -1,8 +1,10 @@
 "use client";
 
+import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, createContext, useContext, useEffect } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface IParentProps {
   children: React.ReactNode;
@@ -39,7 +41,11 @@ export function SidebarHeader({ children, className }: IParentProps) {
 }
 
 export function SidebarItemList({ children, className }: IParentProps) {
-  return <div className={`flex flex-col gap-2 ${className}`}>{children}</div>;
+  return (
+    <div className={twMerge(clsx(className, "flex flex-col gap-2"))}>
+      {children}
+    </div>
+  );
 }
 
 export function SidebarItem({
@@ -58,14 +64,14 @@ export function SidebarItem({
   const { selected, setSelected } = context;
   const isSelected = selected === href;
 
-  const commonClass = `flex group cursor-pointer items-center font-medium rounded-lg px-3 py-2.5 text-dark/50 transition-all duration-300 ease-in-out ${isSelected ? "bg-primary/10 text-primary ring-1 ring-primary/25" : "hover:bg-gray-100"} ${className || ""}`;
+  const commonClass = `flex group cursor-pointer items-center font-medium rounded-lg px-3 py-2.5 text-dark/50 transition-all duration-300 ease-in-out ${isSelected ? "bg-primary-400/10 text-primary-400 ring-1 ring-primary-400/25" : "hover:bg-gray-100"} ${className || ""}`;
 
   return href ? (
     <Link
       id={id}
       href={href}
       onClick={() => setSelected(href)}
-      className={commonClass}
+      className={twMerge(commonClass)}
       aria-current="page"
     >
       {children}
@@ -115,7 +121,7 @@ export default function Sidebar({ children, defaultSelected }: ISideBarProps) {
   }, [currentPage, defaultSelected]);
 
   return (
-    <div className="h-full px-0.5 py-2">
+    <div className="h-full">
       <SideBarContext.Provider value={{ selected, setSelected }}>
         {children}
       </SideBarContext.Provider>
