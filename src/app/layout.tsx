@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html className="h-full" lang="en">
       <body className={`${jamjuree.variable} font-jamjuree h-full`}>
         <UserProvider>{children}</UserProvider>
       </body>
