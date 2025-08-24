@@ -36,7 +36,7 @@ export function TabsContainer({ children, className }: IBasicProps) {
     <menu
       className={twMerge(
         clsx(
-          "bg-dark/5 relative z-10 flex h-fit flex-col items-center gap-0.5 rounded-2xl p-1 md:flex-row md:rounded-full",
+          "bg-dark/5 relative z-10 flex h-fit w-fit flex-col items-center gap-0.5 rounded-2xl p-1 md:flex-row md:rounded-full",
           className,
         ),
       )}
@@ -106,8 +106,6 @@ export default function TabsGroup({
   defaultPanel,
 }: ITabGroupProps) {
   const [currentPanel, setCurrentPanel] = useState<string>(defaultPanel);
-
-  console.log("Current:", currentPanel);
 
   return (
     <div className={className}>
