@@ -8,13 +8,13 @@ export const metadata: Metadata = {
 
 export default function Schedule() {
   return (
-    <AuthCheck userTypes={['student']}>
-    <div className="flex gap-8">
-      <div className="hidden w-23 bg-gray-400 md:block">
-        <button className="cursor-pointer">Edit</button>
+    <AuthCheck userTypes={["student"]}>
+      <div className="flex gap-8">
+        <div className="hidden w-23 bg-gray-400 md:block">
+          <button className="cursor-pointer">Edit</button>
+        </div>
+        <ScheduleCalendar />
       </div>
-      <ScheduleCalendar />
-    </div>
     </AuthCheck>
   );
 }

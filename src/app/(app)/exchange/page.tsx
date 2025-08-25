@@ -6,5 +6,9 @@ export const metadata: Metadata = {
 };
 
 export default function Exchange() {
-  return (<AuthCheck userTypes={['student']}><div>Exchange Page</div></AuthCheck>);
-} 
+  return (
+    <AuthCheck userTypes={["student"]}>
+      <div>Exchange Page</div>
+    </AuthCheck>
+  );
+}

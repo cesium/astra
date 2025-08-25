@@ -1,24 +1,27 @@
-"use client"
-import { UserContext } from '@/contexts/user-provider';
-import { useRouter } from 'next/navigation';
-import { use, useEffect } from 'react';
+"use client";
+import { UserContext } from "@/contexts/user-provider";
+import { useRouter } from "next/navigation";
+import { use, useEffect } from "react";
 
-export const AuthCheck = ({ children, userTypes }: { 
-  children: React.ReactNode, 
-  userTypes: string[]  
+export const AuthCheck = ({
+  children,
+  userTypes,
+}: {
+  children: React.ReactNode;
+  userTypes: string[];
 }) => {
   const { user } = use(UserContext);
   const router = useRouter();
-  
-  useEffect(() => {    
+
+  useEffect(() => {
     if (!user || !userTypes.includes(user.type)) {
-      router.push('/');
+      router.push("/");
     }
   }, [user, userTypes, router]);
-  
+
   if (!user || (user && !userTypes.includes(user.type))) {
     return null;
   }
-  
+
   return children;
 };
