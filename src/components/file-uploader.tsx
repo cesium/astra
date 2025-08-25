@@ -303,7 +303,7 @@ export default function FileUploader({
             </div>
             <button
               onClick={removeFile}
-              className="flex-shrink-0 rounded-full p-1 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
+              className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full p-1 text-gray-400 transition-colors hover:bg-black/10 hover:text-black"
             >
               <span className="material-symbols-outlined text-base">close</span>
             </button>
