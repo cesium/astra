@@ -3,25 +3,29 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { Dictionary, Language } from "@/internationalization/dictionaries";
 import { getDictionary } from "@/internationalization/dictionaries";
+import { api } from "@/lib/api";
+import { UserContext } from "./user-provider";
 
 export type DictionaryLanguage = Language;
 
 interface DictionaryContextData {
   dictionary: Dictionary;
   language: DictionaryLanguage;
+  setLanguage?: (language: DictionaryLanguage) => void;
 }
 
 const DictionaryContext = createContext<DictionaryContextData | undefined>(
   undefined,
 );
 
-/* FIXME: Check this function when the api is available */
 export async function PreferedLanguage(): Promise<DictionaryLanguage> {
-  const data = await fetch("https://api/preferences/language");
-  if (!data.ok) {
+  const response = await api.get("/auth/preferences/language");
+  console.log(response);
+  if (!response) {
     throw new Error("Failed to fetch preferred language");
   }
-  const { language } = await data.json();
+  const { language } = response.data;
+
   return language as DictionaryLanguage;
 }
 
@@ -43,23 +47,28 @@ export function DictionaryProvider({
     propLanguage || "en-US",
   );
 
+  const { user } = useContext(UserContext);
+
   useEffect(() => {
     if (!propLanguage) {
       (async () => {
         try {
-          const preferredLanguage = await PreferedLanguage();
-          setLanguage(preferredLanguage);
+          if (user) {
+            const preferredLanguage = await PreferedLanguage();
+            setLanguage(preferredLanguage);
+          } else {
+            setLanguage(getBrowserLanguage());
+          }
         } catch {
-          setLanguage(getBrowserLanguage());
+          setLanguage("en-US");
         }
       })();
     }
-  }, [propLanguage]);
+  }, [propLanguage, user]);
 
   const dictionary = getDictionary(language);
-
   return (
-    <DictionaryContext.Provider value={{ dictionary, language }}>
+    <DictionaryContext.Provider value={{ dictionary, language, setLanguage }}>
       {children}
     </DictionaryContext.Provider>
   );

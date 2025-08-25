@@ -3,7 +3,10 @@ import pt from "./dictionaries/pt.json";
 
 const dictionaries = {
   "en-US": en,
+  "en-GB": en,
+  "en-CA": en,
   "pt-PT": pt,
+  "pt-BR": pt
 };
 
 export type Language = keyof typeof dictionaries;
