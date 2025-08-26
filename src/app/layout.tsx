@@ -3,6 +3,7 @@ import { Bai_Jamjuree } from "next/font/google";
 import "./globals.css";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryProvider from "@/providers/react-query";
+import clsx from "clsx";
 
 const jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -23,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${jamjuree.variable} font-jamjuree`}>
+    <html className="h-full" lang="en">
+      <body className={clsx(jamjuree.variable, "font-jamjuree h-full")}>
         <ReactQueryProvider>
           {children}
           <ReactQueryDevtools initialIsOpen={false} />
