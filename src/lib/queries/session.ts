@@ -19,8 +19,10 @@ export function useGetSession() {
 }
 
 export function useGetUserInfo() {
+  const signedIn = useAuthStore((state) => state.signedIn);
   return useQuery({
     queryKey: ["user"],
     queryFn: getUserInfo,
+    enabled: signedIn === true,
   });
 }
