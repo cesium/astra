@@ -4,6 +4,7 @@ import "./globals.css";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryProvider from "@/providers/react-query";
 import clsx from "clsx";
+import { DictionaryProvider } from "@/contexts/dictionary-provider";
 
 const jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -27,8 +28,10 @@ export default function RootLayout({
     <html className="h-full" lang="en">
       <body className={clsx(jamjuree.variable, "font-jamjuree h-full")}>
         <ReactQueryProvider>
-          {children}
+          <DictionaryProvider>
+            {children}
           <ReactQueryDevtools initialIsOpen={false} />
+          </DictionaryProvider>
         </ReactQueryProvider>
       </body>
     </html>

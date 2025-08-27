@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import type { Dictionary, Language } from "@/internationalization/dictionaries";
 import { getDictionary } from "@/internationalization/dictionaries";
 import { api } from "@/lib/api";
-import { UserContext } from "./user-provider";
+import { useGetUserInfo } from "@/lib/queries/session";
 
 export type DictionaryLanguage = Language;
 
@@ -46,10 +46,11 @@ export function DictionaryProvider({
   const [language, setLanguage] = useState<DictionaryLanguage>(
     propLanguage || "en-US",
   );
-
-  const { user } = useContext(UserContext);
+  
+  const user = useGetUserInfo();
 
   useEffect(() => {
+
     if (!propLanguage) {
       (async () => {
         try {
