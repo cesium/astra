@@ -1,0 +1,115 @@
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption,
+} from "@headlessui/react";
+import Card from "../../card";
+import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
+
+interface IExchangeListbox {
+  selectedItem: string;
+  setSelectedItem: (item: string) => void;
+  collection: { id: string; name: string }[];
+  rounded?: boolean;
+  label?: string;
+  highlightText?: boolean;
+  arrowDown?: boolean;
+}
+
+export default function ExchangeListbox({
+  selectedItem,
+  setSelectedItem,
+  collection,
+  rounded,
+  label,
+  highlightText,
+  arrowDown,
+}: IExchangeListbox) {
+  return (
+    <Listbox as="div" value={selectedItem} onChange={setSelectedItem}>
+      <ListboxButton
+        className={twMerge(
+          clsx(
+            "group flex w-full cursor-pointer items-center justify-center rounded-md border border-gray-300 p-2 text-left",
+            { "h-16 sm:h-20 md:h-25 rounded-full p-4 sm:p-6": rounded },
+            {
+              "text-celeste hover:text-celeste/80 transition-all duration-150":
+                highlightText,
+            },
+          ),
+        )}
+      >
+        <div
+          className={clsx(
+            "flex-1",
+            { "text-center": rounded },
+            { "mt-4": rounded && arrowDown },
+          )}
+        >
+          <h3 className="text-xs sm:text-sm">{label}</h3>
+          {selectedItem ? (
+            <span
+              className={clsx("block text-lg", { "font-semibold": rounded })}
+            >
+              {collection.find((item) => item.id === selectedItem)?.name}
+            </span>
+          ) : (
+            "Select an item"
+          )}
+          {arrowDown && rounded && (
+            <span
+              className="material-symbols-outlined text-dark/50 block group-data-open:rotate-180"
+              style={{ fontSize: "20px" }}
+            >
+              keyboard_arrow_down
+            </span>
+          )}
+        </div>
+        {arrowDown && !rounded && (
+          <span
+            className="material-symbols-outlined block group-data-open:rotate-180"
+            style={{ fontSize: "28px" }}
+          >
+            keyboard_arrow_down
+          </span>
+        )}
+      </ListboxButton>
+      <ListboxOptions
+        as={Card}
+        anchor={`${rounded ? "top start" : "bottom start"}`}
+        transition
+        className={twMerge(
+          clsx(
+            "flex w-[310px] origin-top translate-x-2 flex-col gap-4 rounded-2xl border border-gray-300 p-4 transition duration-200 ease-out [--anchor-gap:-8px] data-closed:scale-95 data-closed:opacity-0",
+            { "-translate-x-10": rounded },
+          ),
+        )}
+      >
+        {collection.map((item) => (
+          <ListboxOption
+            key={item.id}
+            value={item.id}
+            className="flex items-center gap-3"
+          >
+            <div
+              className={clsx(
+                "flex h-7 w-7 items-center justify-center rounded-full",
+                { "bg-celeste": selectedItem === item.id },
+                { "border-2 border-gray-300": selectedItem !== item.id },
+              )}
+            >
+              <div
+                className={clsx("flex h-2 w-2 rounded-full", {
+                  "bg-white": selectedItem === item.id,
+                })}
+              ></div>
+            </div>
+            <span className="text-lg leading-5">{item.name}</span>
+          </ListboxOption>
+        ))}
+      </ListboxOptions>
+    </Listbox>
+  );
+}
