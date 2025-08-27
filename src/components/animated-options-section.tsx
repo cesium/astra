@@ -49,7 +49,8 @@ export default function AnimatedOptionsSection({
 }: IAnimatedOptionsSection) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { isEditing, setIsEditing } = useContext(CalendarContext);
+  const { isEditing, setIsEditing, setEditingShifts, currentSchedule } =
+    useContext(CalendarContext);
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
@@ -57,8 +58,9 @@ export default function AnimatedOptionsSection({
   }, [setIsEditing]);
 
   const handleEditClick = useCallback(() => {
+    if (isEditing) setEditingShifts([...currentSchedule]);
     setIsEditing(!isEditing);
-  }, [isEditing, setIsEditing]);
+  }, [isEditing, setIsEditing, setEditingShifts, currentSchedule]);
 
   const handleMotionClick = useCallback(() => {
     if (!isOpen) {
@@ -271,14 +273,14 @@ export default function AnimatedOptionsSection({
                   </motion.div>
                 )}
                 <motion.div
-                  className="min-h-0 flex-1 overflow-auto"
+                  className="min-h-0 flex-1"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={transition}
                 >
                   <div className="box-border h-full w-full">
                     <motion.div
-                      className="box-border w-full rounded-t-none rounded-b-2xl"
+                      className="box-border h-full w-full rounded-t-none rounded-b-2xl"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={transition}

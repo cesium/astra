@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function Schedule() {
   return (
-    <div className="flex flex-col-reverse gap-5 md:flex-row md:gap-8">
+    <div className="flex h-full flex-col-reverse gap-5 md:flex-row md:gap-8">
       <CalendarProvider>
         <CalendarOptions schedule />
         <ScheduleCalendar />

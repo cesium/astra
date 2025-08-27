@@ -13,10 +13,12 @@ interface IBasicProps {
 interface ITabsContext {
   currentPanel: string;
   setCurrentPanel: (panel: string) => void;
+  layoutId: string;
 }
 
 interface ITabGroupProps extends IBasicProps {
   defaultPanel: string;
+  layoutId: string;
 }
 
 interface ITabProps {
@@ -53,7 +55,7 @@ export function Tab({ name, icon, refTo }: ITabProps) {
     throw new Error("Tabs must be used within a TabGroup");
   }
 
-  const { currentPanel, setCurrentPanel } = context;
+  const { currentPanel, setCurrentPanel, layoutId } = context;
 
   const isActive = refTo === currentPanel;
 
@@ -67,7 +69,7 @@ export function Tab({ name, icon, refTo }: ITabProps) {
     >
       {isActive && (
         <motion.div
-          layoutId="activeTabDesktop"
+          layoutId={layoutId}
           transition={{
             type: "spring",
             bounce: 0.3,
@@ -104,12 +106,13 @@ export default function TabsGroup({
   children,
   className,
   defaultPanel,
+  layoutId,
 }: ITabGroupProps) {
   const [currentPanel, setCurrentPanel] = useState<string>(defaultPanel);
 
   return (
     <div className={className}>
-      <TabsContext.Provider value={{ currentPanel, setCurrentPanel }}>
+      <TabsContext.Provider value={{ currentPanel, setCurrentPanel, layoutId }}>
         {children}
       </TabsContext.Provider>
     </div>

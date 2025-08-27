@@ -84,14 +84,14 @@ input[type="number"] {
 
 .rbc-calendar {
   width: 100% !important;
-  height: calc(100vh - 124px) !important;
+  height: calc(100dvh - 124px) !important;
   border-radius: 15px !important;
   overflow-y: hidden !important;
 }
 
 @media (max-width: 768px) {
   .rbc-calendar {
-    height: calc(100vh - 154px) !important;
+    height: calc(100dvh - 154px) !important;
   }
 }
 
@@ -174,7 +174,6 @@ input[type="number"] {
   font-weight: 600;
   border-radius: 4px !important;
   overflow: hidden !important;
-  transition: all 0.2s ease-in-out !important;
 }
 
 .rbc-event:hover {
