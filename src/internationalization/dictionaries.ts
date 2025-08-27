@@ -6,7 +6,7 @@ const dictionaries = {
   "en-GB": en,
   "en-CA": en,
   "pt-PT": pt,
-  "pt-BR": pt
+  "pt-BR": pt,
 };
 
 export type Language = keyof typeof dictionaries;

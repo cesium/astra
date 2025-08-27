@@ -30,7 +30,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           <DictionaryProvider>
             {children}
-          <ReactQueryDevtools initialIsOpen={false} />
+            <ReactQueryDevtools initialIsOpen={false} />
           </DictionaryProvider>
         </ReactQueryProvider>
       </body>

@@ -46,11 +46,10 @@ export function DictionaryProvider({
   const [language, setLanguage] = useState<DictionaryLanguage>(
     propLanguage || "en-US",
   );
-  
+
   const user = useGetUserInfo();
 
   useEffect(() => {
-
     if (!propLanguage) {
       (async () => {
         try {
