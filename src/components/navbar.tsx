@@ -3,15 +3,14 @@
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
-import { use, useState } from "react";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 import UserDropdown from "./user-dropdown";
 import Avatar from "./avatar";
-import { UserContext } from "@/contexts/user-provider";
-import { useAuthStore } from "@/stores/authStore";
-import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
+import { useSignOut } from "@/lib/mutations/session";
 
 const Logo = () => (
   <div className="flex items-center gap-2">
@@ -125,26 +124,14 @@ function Tab({
 function MobileDropdown({ currentPage }: { currentPage: string }) {
   const [active, setActive] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<"tabs" | "user">("tabs");
-  const { signedIn, clearToken } = useAuthStore();
-  const { user } = use(UserContext);
+  const session = useGetSession();
+  const user = useGetUserInfo();
+  const signOut = useSignOut();
   const router = useRouter();
 
   const openDropdown = () => {
     setCurrentMenu("tabs");
     setActive(true);
-  };
-
-  const signOut = async () => {
-    try {
-      await api.post("/auth/sign_out");
-
-      setActive(false);
-      clearToken();
-
-      router.push("/");
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
   };
 
   return (
@@ -230,7 +217,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                   </button>
                 </div>
 
-                {currentMenu === "tabs" && (
+                {currentMenu === "tabs" && session.data && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -238,7 +225,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                     transition={{ delay: 0.2, duration: 0.2 }}
                     className="mt-6 space-y-3.5"
                   >
-                    {signedIn && (
+                    {session.data.signedIn && (
                       <TabsContainer currentPage={currentPage}>
                         {tabs.map((tab) => (
                           <Tab
@@ -255,14 +242,14 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                         ))}
                       </TabsContainer>
                     )}
-                    {signedIn ? (
-                      user ? (
+                    {session.data.signedIn ? (
+                      user.data ? (
                         <button
                           onClick={() => setCurrentMenu("user")}
                           className="flex cursor-pointer items-center gap-2 pl-3.5 focus:outline-none"
                         >
-                          <Avatar name={user.name} className="" />
-                          <span className="text-dark/50">{user.name}</span>
+                          <Avatar name={user.data.name} className="" />
+                          <span className="text-dark/50">{user.data.name}</span>
                         </button>
                       ) : (
                         <div className="flex items-center gap-3">
@@ -294,8 +281,8 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                     className="p-2.5"
                   >
                     <div className="flex items-center gap-2">
-                      <Avatar className="size-14" name={user?.name} />
-                      <span className="text-dark/50">{user?.name}</span>
+                      <Avatar className="size-14" name={user.data?.name} />
+                      <span className="text-dark/50">{user.data?.name}</span>
                     </div>
                     <div className="my-3.5 border-b border-black/10" />
                     <div className="flex flex-col gap-2">
@@ -310,7 +297,14 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                         Settings
                       </Link>
                       <button
-                        onClick={signOut}
+                        onClick={() =>
+                          signOut.mutate(undefined, {
+                            onSuccess: () => {
+                              router.push("/");
+                              setActive(false);
+                            },
+                          })
+                        }
                         className="text-danger flex cursor-pointer items-center gap-2"
                       >
                         <span className="material-symbols-outlined text-2xl">
@@ -332,13 +326,13 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
 
 export default function Navbar() {
   const currentPage = usePathname();
-  const { signedIn } = useAuthStore();
+  const session = useGetSession();
 
   return (
     <nav className="flex w-full items-center justify-between px-5 py-4 md:h-20 md:px-10">
       <Logo />
 
-      {signedIn && (
+      {session.data?.signedIn && (
         <TabsContainer currentPage={currentPage} className="hidden md:flex">
           {tabs.map((tab) => (
             <Tab
