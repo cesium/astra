@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Bai_Jamjuree } from "next/font/google";
 import "./globals.css";
-import { UserProvider } from "@/contexts/user-provider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ReactQueryProvider from "@/providers/react-query";
+import clsx from "clsx";
 
 const jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -23,8 +25,11 @@ export default function RootLayout({
 }>) {
   return (
     <html className="h-dvh" lang="en">
-      <body className={`${jamjuree.variable} font-jamjuree h-full`}>
-        <UserProvider>{children}</UserProvider>
+      <body className={clsx(jamjuree.variable, "font-jamjuree h-full")}>
+        <ReactQueryProvider>
+          {children}
+          <ReactQueryDevtools initialIsOpen={false} />
+        </ReactQueryProvider>
       </body>
     </html>
   );

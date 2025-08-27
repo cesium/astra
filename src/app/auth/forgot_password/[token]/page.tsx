@@ -1,11 +1,11 @@
 "use client";
+
 import Input from "@/components/input";
 import Label from "@/components/label";
-import { api } from "@/lib/api";
+import { useResetPassword } from "@/lib/mutations/session";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 
@@ -26,16 +26,8 @@ const formSchema = z
 
 type FormSchema = z.infer<typeof formSchema>;
 
-enum ResponseStatus {
-  Empty,
-  Loading,
-  Success,
-  Error,
-}
-
 export default function ResetPassword() {
   const { token } = useParams<{ token: string }>();
-  const [status, setStatus] = useState<ResponseStatus>(ResponseStatus.Empty);
 
   const {
     register,
@@ -45,18 +37,13 @@ export default function ResetPassword() {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    try {
-      setStatus(ResponseStatus.Loading);
-      await api.post("/auth/reset_password", {
-        token,
-        ...data,
-      });
-      setStatus(ResponseStatus.Success);
-    } catch {
-      setStatus(ResponseStatus.Error);
-    }
-  };
+  const resetPassword = useResetPassword();
+
+  const onSubmit: SubmitHandler<FormSchema> = (data) =>
+    resetPassword.mutate({
+      token,
+      ...data,
+    });
 
   return (
     <div className="flex h-screen items-center justify-end bg-[url(/images/calendar.svg)] bg-center bg-repeat">
@@ -88,7 +75,7 @@ export default function ResetPassword() {
           <h1 className="text-3xl font-bold sm:text-4xl">Reset password</h1>
           <span className="text-gray-400">Enter the new password below</span>
         </div>
-        {status === ResponseStatus.Success ? (
+        {resetPassword.isSuccess ? (
           <>
             <div className="flex flex-col items-center gap-2 text-center sm:gap-3">
               <span className="material-symbols-outlined text-primary-400 text-6xl">
@@ -152,14 +139,14 @@ export default function ResetPassword() {
             </div>
             <div className="flex flex-col gap-1 sm:gap-2">
               <span className="text-danger px-1 text-center">
-                {status === ResponseStatus.Error &&
+                {resetPassword.isError &&
                   "Something went wrong, please try again."}
               </span>
               <button
                 className="bg-primary-400 mx-7 rounded-full p-4 font-bold text-white shadow-lg"
                 type="submit"
               >
-                {status === ResponseStatus.Loading ? "Loading..." : "Submit"}
+                {resetPassword.isPending ? "Loading..." : "Submit"}
               </button>
             </div>
           </form>
