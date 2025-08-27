@@ -10,7 +10,6 @@ export const AuthCheck = ({
   children: React.ReactNode;
   userTypes: string[];
 }) => {
-
   const user = useGetUserInfo();
   const router = useRouter();
 
