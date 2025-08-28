@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ExchangeListbox from "./utils/exchange-listbox";
+import ExchangeListbox from "./utils/listbox";
 
 const ucs = [
   { id: "uc1", name: "Álgebra Linear" },
@@ -65,7 +65,7 @@ export default function AddExchangeContent() {
           <h2 className="px-2 text-sm font-semibold">
             Select your preferred shift
           </h2>
-          <div className="flex w-full flex-col sm:flex-row items-center gap-4">
+          <div className="flex w-full flex-col items-center gap-4 sm:flex-row">
             <div className="w-1/2">
               <ExchangeListbox
                 selectedItem={selectedAvailableShifts}

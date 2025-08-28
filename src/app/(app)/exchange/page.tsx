@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Exchange() {
   return (
-    <div className="flex w-full flex-col-reverse gap-8 lg:gap-14 lg:flex-row">
+    <div className="flex w-full flex-col-reverse gap-8 lg:flex-row lg:gap-14">
       <SideSection />
       <MainSection />
     </div>

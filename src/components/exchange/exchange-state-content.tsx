@@ -6,14 +6,13 @@ export default function ExchangeStateContent({
   uc,
   from,
   to,
-  shift
+  shift,
 }: {
   uc: string;
   from: string;
   to: string;
   shift: string;
 }) {
-
   const state = "request" as string;
   const loadingStyle =
     "animated-background bg-gradient-to-r from-celeste via-celeste/30 to-celeste";
@@ -80,8 +79,8 @@ export default function ExchangeStateContent({
           O teu pedido de troca está a caminho
         </span>
         <span className="text-gray-500">
-          Soon, the system will receive your request and you'll see the
-          status of it here.
+          Soon, the system will receive your request and you will see the status
+          of it here.
         </span>
       </div>
     </div>

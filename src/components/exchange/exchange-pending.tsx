@@ -1,11 +1,11 @@
-import ExchangeCard from "./utils/exchange-card";
+import ExchangeCard from "./utils/card";
 
 export default function ExchangePending() {
   return (
     <div className="flex flex-col gap-6">
       <h2 className="text-xl font-semibold">Pending</h2>
       <div className="relative">
-        <div className="no-scrollbar flex md:flex-wrap gap-2 overflow-x-auto md:overflow-x-hidden">
+        <div className="no-scrollbar flex gap-2 overflow-x-auto md:flex-wrap md:overflow-x-hidden">
           <ExchangeCard
             uc="Álgebra Linear"
             from="T2"

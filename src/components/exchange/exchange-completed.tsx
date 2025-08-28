@@ -1,4 +1,4 @@
-import ExchangeCard from "./utils/exchange-card";
+import ExchangeCard from "./utils/card";
 
 export default function ExchangePending() {
   return (

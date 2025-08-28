@@ -1,13 +1,8 @@
 "use client";
-import {
-  Popover,
-  PopoverButton,
-  PopoverPanel,
-} from "@headlessui/react";
-import ExchangeModal from "./exchange-modal";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import ExchangeModal from "./modal";
 import ExchangeStateContent from "../exchange-state-content";
-import { useState } from 'react';
-
+import { useState } from "react";
 
 interface IExchangeCardProps {
   uc: string;
@@ -31,11 +26,7 @@ export default function ExchangeCard({
   const stateText = (() => {
     switch (state) {
       case "waiting":
-        return (
-          <span className="text-yellow-500">
-            Waiting for slot.
-          </span>
-        );
+        return <span className="text-yellow-500">Waiting for slot.</span>;
       case "found":
         return (
           <span className="text-green-500">
@@ -61,7 +52,7 @@ export default function ExchangeCard({
         <div className="flex items-center">
           <Popover className="relative">
             <PopoverButton
-              className="material-symbols-outlined outline-none cursor-pointer"
+              className="material-symbols-outlined cursor-pointer outline-none"
               style={{ fontSize: "24px" }}
             >
               more_horiz
@@ -73,7 +64,10 @@ export default function ExchangeCard({
               className="flex w-[310px] origin-top flex-col gap-3 rounded-2xl border border-gray-300 bg-white p-4 transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0"
             >
               {!pending && !completed && (
-                <button className="flex cursor-pointer items-center justify-start gap-2" onClick={() => setModalState(true)}>
+                <button
+                  className="flex cursor-pointer items-center justify-start gap-2"
+                  onClick={() => setModalState(true)}
+                >
                   <span
                     style={{ fontSize: "20px" }}
                     className="material-symbols-outlined"
@@ -86,29 +80,42 @@ export default function ExchangeCard({
 
               {pending && (
                 <>
-                
+                  <button className="flex cursor-pointer items-center justify-start gap-2">
+                    <span
+                      style={{ fontSize: "20px" }}
+                      className="material-symbols-outlined"
+                    >
+                      undo
+                    </span>
+                    <span>Cancelar troca</span>
+                  </button>
+                  <button
+                    onClick={() => setModalState(true)}
+                    className="flex cursor-pointer items-center justify-start gap-2"
+                  >
+                    <span
+                      className="material-symbols-outlined"
+                      style={{ fontSize: "20px" }}
+                    >
+                      info
+                    </span>
+                    <span>See exchange state</span>
+                  </button>
+                </>
+              )}
+              {completed && (
                 <button
                   onClick={() => setModalState(true)}
                   className="flex cursor-pointer items-center justify-start gap-2"
-                  >
+                >
                   <span
                     className="material-symbols-outlined"
                     style={{ fontSize: "20px" }}
-                    >
+                  >
                     info
                   </span>
                   <span>See exchange state</span>
                 </button>
-                              <button className="flex cursor-pointer items-center justify-start gap-2">
-                <span
-                  style={{ fontSize: "20px" }}
-                  className="material-symbols-outlined"
-                >
-                  undo
-                </span>
-                <span>Cancelar troca</span>
-              </button>
-                    </>
               )}
             </PopoverPanel>
           </Popover>
@@ -160,4 +167,3 @@ export default function ExchangeCard({
     </div>
   );
 }
-

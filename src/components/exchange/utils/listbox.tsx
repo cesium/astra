@@ -33,7 +33,7 @@ export default function ExchangeListbox({
         className={twMerge(
           clsx(
             "group flex w-full cursor-pointer items-center justify-center rounded-md border border-gray-300 p-2 text-left",
-            { "h-16 sm:h-20 md:h-25 rounded-full p-4 sm:p-6": rounded },
+            { "h-16 rounded-full p-4 sm:h-20 sm:p-6 md:h-25": rounded },
             {
               "text-celeste hover:text-celeste/80 transition-all duration-150":
                 highlightText,
@@ -82,8 +82,8 @@ export default function ExchangeListbox({
         transition
         className={twMerge(
           clsx(
-            "flex w-[310px] origin-top translate-x-2 flex-col gap-4 rounded-2xl border border-gray-300 p-4 transition duration-200 ease-out [--anchor-gap:-8px] data-closed:scale-95 data-closed:opacity-0",
-            { "-translate-x-10": rounded },
+            "flex w-(--button-width) origin-top flex-col gap-4 rounded-2xl border border-gray-300 p-4 transition duration-200 ease-out [--anchor-gap:-8px] data-closed:scale-95 data-closed:opacity-0 sm:w-[310px] sm:translate-x-2",
+            { "sm:-translate-x-10": rounded },
           ),
         )}
       >
@@ -106,7 +106,7 @@ export default function ExchangeListbox({
                 })}
               ></div>
             </div>
-            <span className="text-lg leading-5">{item.name}</span>
+            <span className="line-clamp-1 text-lg leading-5">{item.name}</span>
           </ListboxOption>
         ))}
       </ListboxOptions>

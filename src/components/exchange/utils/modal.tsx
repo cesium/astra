@@ -11,7 +11,7 @@ export default function ExchangeModal({
   modalState,
   setModalState,
   title,
-  children
+  children,
 }: {
   modalState: boolean;
   setModalState: (state: boolean) => void;
@@ -47,9 +47,9 @@ export default function ExchangeModal({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <DialogPanel className="relative max-w-[586px] flex-1 space-y-4 focus:outline-0 p-4 sm:p-0">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl sm:text-3xl font-semibold">{title}</h2>
+            <DialogPanel className="relative max-w-[586px] flex-1 space-y-4 p-4 focus:outline-0 sm:p-0">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold sm:text-3xl">{title}</h2>
                 <button
                   style={{ fontSize: "36px" }}
                   className="material-symbols-outlined text-dark/50 cursor-pointer text-2xl transition-opacity ease-in-out hover:opacity-70"

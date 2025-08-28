@@ -55,7 +55,12 @@ const tabs = [
     icon: "schedule",
     href: "/schedule",
   },
-  { name: "Exchange", icon: "sync_alt", href: "/exchange", bgColor: "bg-celeste" },
+  {
+    name: "Exchange",
+    icon: "sync_alt",
+    href: "/exchange",
+    bgColor: "bg-celeste",
+  },
 ];
 
 function TabsContainer({
@@ -112,7 +117,10 @@ function Tab({
             duration: 0.6,
           }}
           onLayoutAnimationComplete={onAnimationEnd}
-          className={clsx("absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full", bgColor || "bg-primary-400")}
+          className={clsx(
+            "absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full",
+            bgColor || "bg-primary-400",
+          )}
         />
       )}
       <span className="material-symbols-outlined z-10 text-2xl">{icon}</span>
