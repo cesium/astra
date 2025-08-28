@@ -1,5 +1,5 @@
 "use client";
-import { CalendarContext } from "@/contexts/calendar-provider";
+import { ScheduleContext } from "@/contexts/schedule-provider";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -50,7 +50,7 @@ export default function AnimatedOptionsSection({
   const [isOpen, setIsOpen] = useState(false);
 
   const { isEditing, setIsEditing, setEditingShifts, currentSchedule } =
-    useContext(CalendarContext);
+    useContext(ScheduleContext);
 
   const handleClose = useCallback(() => {
     setIsOpen(false);

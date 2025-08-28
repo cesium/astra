@@ -3,10 +3,10 @@
 import CalendarView from "./calendar/calendar";
 import { useContext } from "react";
 import moment from "moment";
-import { CalendarContext } from "@/contexts/calendar-provider";
+import { ScheduleContext } from "@/contexts/schedule-provider";
 
 export default function ScheduleCalendar() {
-  const context = useContext(CalendarContext);
+  const context = useContext(ScheduleContext);
 
   const { isEditing, editingShifts = [] } = context;
 

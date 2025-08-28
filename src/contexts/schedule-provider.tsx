@@ -1,7 +1,28 @@
 "use client";
 
+import { useUpdateStudentSchedule } from "@/lib/mutations/courses";
+import { useGetAllCourses, useGetStudentSchedule } from "@/lib/queries/courses";
 import { ICourse, IShift, IShiftsSorted } from "@/lib/types";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+
+interface IScheduleProvider {
+  // relative to schedule
+  currentSchedule: IShift[];
+  editingShifts: IShift[];
+  setEditingShifts: (curr: IShift[]) => void;
+  shiftsToAdd: IShift[];
+  removeShift: (id: string) => void;
+  addShift: (id: string) => void;
+  saveChanges: () => void;
+  sortShiftsByYearCourse: (mixedShifts: IShift[]) => IShiftsSorted;
+
+  // relative to calendar
+
+  // global
+  hasChanges: boolean;
+  isEditing: boolean;
+  setIsEditing: (curr: boolean) => void;
+}
 
 function removeShiftById(shifts: IShift[], id: string): IShift[] {
   return shifts.filter((shift) => shift.id !== id);
@@ -67,43 +88,6 @@ function sortShiftsByYearCourse(mixedShifts: IShift[]): IShiftsSorted {
   }));
 }
 
-interface ICalendarProvider {
-  // relative to schedule
-  currentSchedule: IShift[];
-  editingShifts: IShift[];
-  setEditingShifts: (curr: IShift[]) => void;
-  shiftsToAdd: IShift[];
-  removeShift: (id: string) => void;
-  addShift: (id: string) => void;
-  sortShiftsByYearCourse: (mixedShifts: IShift[]) => IShiftsSorted;
-
-  // relative to calendar
-
-  // global
-  isEditing: boolean;
-  setIsEditing: (curr: boolean) => void;
-}
-
-export const CalendarContext = createContext<ICalendarProvider>({
-  currentSchedule: [],
-  editingShifts: [],
-  setEditingShifts: () => {},
-  shiftsToAdd: [],
-  removeShift: () => {},
-  addShift: () => {},
-  sortShiftsByYearCourse: () => [],
-
-  isEditing: false,
-  setIsEditing: () => {},
-});
-
-export function CalendarProvider({ children }: { children: React.ReactNode }) {
-  const [courses, setCourses] = useState<ICourse[]>([]);
-
-  const [currentSchedule, setCurrentSchedule] = useState<IShift[]>([]);
-  const [editingShifts, setEditingShifts] = useState<IShift[]>([]);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-
   function extractShifts(courses: ICourse[]): IShift[] {
     const { parentCourse, normalCourses } = courses.reduce(
       (acc: { parentCourse: ICourse[]; normalCourses: ICourse[] }, course) => {
@@ -163,7 +147,6 @@ export function CalendarProvider({ children }: { children: React.ReactNode }) {
               //todo Get colors from stores preferences
               eventColor: "#C3E5F9",
               textColor: "#227AAE",
-              //todo Add status "active" | "inactive" | "is_overwritten"
             };
           }),
         );
@@ -179,12 +162,60 @@ export function CalendarProvider({ children }: { children: React.ReactNode }) {
     return [...shiftsWithNoParents, ...childShifts];
   }
 
-  function filtercurrentSchedule(
+export const ScheduleContext = createContext<IScheduleProvider>({
+  currentSchedule: [],
+  editingShifts: [],
+  setEditingShifts: () => {},
+  shiftsToAdd: [],
+  removeShift: () => {},
+  addShift: () => {},
+  saveChanges: () => {},
+  sortShiftsByYearCourse: () => [],
+
+  hasChanges: false,
+  isEditing: false,
+  setIsEditing: () => {},
+});
+
+export function ScheduleProvider({ children }: { children: React.ReactNode }) {
+  const { data: allCourses } = useGetAllCourses();
+  const { data: currentCourses } = useGetStudentSchedule();
+  const updateStudentSchedule = useUpdateStudentSchedule();
+
+  const [allShifts, setAllShifts] = useState<IShift[]>([]);
+  const [shiftsToAdd, setShiftsToAdd] = useState<IShift[]>([]);
+  const [currentSchedule, setCurrentSchedule] = useState<IShift[]>([]);
+  const [editingShifts, setEditingShifts] = useState<IShift[]>([]);
+
+  const [hasChanges, setHasChanges] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  function extractIds(shifts: IShift[]): string[] {
+    const Ids = new Set(shifts.map((shift) => shift.id));
+    return Array.from(Ids);
+  }
+
+  function filterCurrentSchedule(
     allShifts: IShift[],
     currentSchedule: IShift[],
   ): IShift[] {
     const currentIds = new Set(currentSchedule.map((s) => s.id));
     return allShifts.filter((shift) => !currentIds.has(shift.id));
+  }
+
+  function lookForChanges(schedule1: IShift[], schedule2: IShift[]) {
+    if (schedule1.length !== schedule2.length) return true;
+
+    const schedule1Ids = new Set(schedule1.map((shift) => shift.id));
+    const schedule2Ids = new Set(schedule2.map((shift) => shift.id));
+
+    if (schedule1Ids.size !== schedule2Ids.size) return true;
+
+    for (const id of schedule1Ids) {
+      if (!schedule2Ids.has(id)) return true;
+    }
+
+    return false;
   }
 
   const removeShift = (id: string) => {
@@ -195,25 +226,48 @@ export function CalendarProvider({ children }: { children: React.ReactNode }) {
     setEditingShifts((prev) => addShiftById(prev, allShifts, id));
   };
 
-  const allShifts = extractShifts(courses);
+  const saveChanges = () => {
+    const newIds = extractIds(editingShifts);
+    updateStudentSchedule.mutate({ shifts: newIds });
+  };
 
-  const shiftsToAdd = filtercurrentSchedule(allShifts, editingShifts);
+  useEffect(() => {
+    setAllShifts(extractShifts(allCourses ?? []));
+  }, [allCourses]);
+
+  useEffect(() => {
+    setCurrentSchedule(extractShifts(currentCourses ?? []));
+  }, [currentCourses]);
+
+  useEffect(() => {
+    setEditingShifts([...currentSchedule]);
+  }, [currentSchedule]);
+
+  useEffect(() => {
+    setHasChanges(lookForChanges(currentSchedule, editingShifts));
+  }, [currentSchedule, editingShifts]);
+
+  useEffect(() => {
+    setShiftsToAdd(filterCurrentSchedule(allShifts, editingShifts));
+  }, [allShifts, editingShifts]);
 
   return (
-    <CalendarContext.Provider
+    <ScheduleContext.Provider
       value={{
         currentSchedule,
         editingShifts,
         setEditingShifts,
         shiftsToAdd,
+        hasChanges,
         isEditing,
         setIsEditing,
         removeShift,
         addShift,
+        saveChanges,
         sortShiftsByYearCourse,
       }}
     >
       {children}
-    </CalendarContext.Provider>
+    </ScheduleContext.Provider>
   );
 }

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import ScheduleCalendar from "@/components/schedule-calendar";
 
-import { CalendarProvider } from "@/contexts/calendar-provider";
+import { ScheduleProvider } from "@/contexts/schedule-provider";
 import CalendarOptions from "@/components/calendar-options";
 
 export const metadata: Metadata = {
@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 export default function Schedule() {
   return (
     <div className="flex h-full flex-col-reverse gap-5 md:flex-row md:gap-8">
-      <CalendarProvider>
+      <ScheduleProvider>
         <CalendarOptions schedule />
         <ScheduleCalendar />
-      </CalendarProvider>
+      </ScheduleProvider>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import TabsGroup, {
   TabPanel,
   TabsContainer,
 } from "./tabs";
-import { CalendarContext } from "@/contexts/calendar-provider";
+import { ScheduleContext } from "@/contexts/schedule-provider";
 import AnimatedOptionsSection from "./animated-options-section";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
@@ -199,7 +199,7 @@ function DisplayCourses({
     return (
       <div className="relative h-full min-h-0">
         {!isScrolledTop && (
-          <div className="pointer-events-none absolute top-0 right-0 left-0 z-10 hidden h-12 bg-gradient-to-b from-red-400 to-transparent md:block" />
+          <div className="from-muted pointer-events-none absolute top-0 right-0 left-0 z-10 hidden h-12 bg-gradient-to-b to-transparent md:block" />
         )}
 
         <div
@@ -224,7 +224,7 @@ function DisplayCourses({
         </div>
 
         {!isScrolledBottom && (
-          <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-10 hidden h-12 bg-gradient-to-t from-red-400 to-transparent md:block" />
+          <div className="from-muted pointer-events-none absolute right-0 bottom-0 left-0 z-10 hidden h-12 bg-gradient-to-t to-transparent md:block" />
         )}
       </div>
     );
@@ -241,7 +241,7 @@ export default function CalendarOptions({
 }: {
   schedule?: boolean;
 }) {
-  const context = useContext(CalendarContext);
+  const context = useContext(ScheduleContext);
 
   const {
     currentSchedule,
@@ -250,6 +250,8 @@ export default function CalendarOptions({
     sortShiftsByYearCourse,
     removeShift,
     addShift,
+    saveChanges,
+    hasChanges,
   } = context;
 
   return (
@@ -317,24 +319,44 @@ export default function CalendarOptions({
             <PanelContainer className="min-h-0 w-full flex-1 self-start">
               <TabPanel id="added" className="flex h-full min-h-0 flex-col">
                 <h3 className="text-dark/50 mb-4 flex-shrink-0">Adicionados</h3>
-                <div className="min-h-0 flex-1">
+                <div className="relative min-h-0 flex-1">
                   <DisplayCourses
                     isEditing
                     shiftsSorted={sortShiftsByYearCourse(editingShifts)}
                     state="remove"
                   />
+                  {hasChanges && (
+                    <div className="absolute bottom-0 flex h-20 w-full items-center justify-center">
+                      <button
+                        onClick={saveChanges}
+                        className="bg-primary-400 text-light w-44 cursor-pointer rounded-full px-2 py-4 font-semibold transition-transform duration-200 hover:scale-95"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  )}
                 </div>
               </TabPanel>
               <TabPanel id="add" className="flex h-full min-h-0 flex-col">
                 <h3 className="text-dark/50 mb-4 flex-shrink-0">
                   Disponíveis para adicionar
                 </h3>
-                <div className="h-full min-h-0">
+                <div className="relative h-full min-h-0">
                   <DisplayCourses
                     isEditing
                     shiftsSorted={sortShiftsByYearCourse(shiftsToAdd)}
                     state="add"
                   />
+                  {hasChanges && (
+                    <div className="absolute bottom-0 flex h-20 w-full items-center justify-center">
+                      <button
+                        onClick={saveChanges}
+                        className="bg-primary-400 text-light w-44 cursor-pointer rounded-full px-2 py-4 font-semibold transition-transform duration-200 hover:scale-95"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  )}
                 </div>
               </TabPanel>
             </PanelContainer>
