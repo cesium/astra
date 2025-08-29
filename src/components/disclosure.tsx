@@ -32,7 +32,7 @@ export default function CustomDisclosure({
             {open && (
               <DisclosurePanel static as={Fragment}>
                 <motion.div
-                  className="overflow-hidden"
+                  className="flex w-full overflow-hidden"
                   initial={{ height: 0 }}
                   animate={
                     disclosureChild
@@ -66,7 +66,7 @@ export default function CustomDisclosure({
                         }
                   }
                 >
-                  <div className="flex w-full overflow-hidden">{children}</div>
+                  {children}
                 </motion.div>
               </DisclosurePanel>
             )}

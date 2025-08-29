@@ -1,12 +1,16 @@
 "use client";
 
 import { useUpdateStudentSchedule } from "@/lib/mutations/courses";
-import { useGetAllCourses, useGetStudentSchedule } from "@/lib/queries/courses";
+import {
+  useGetAllCourses,
+  useGetStudentOriginalSchedule,
+  useGetStudentSchedule,
+} from "@/lib/queries/courses";
 import { ICourse, IShift, IShiftsSorted } from "@/lib/types";
 import React, { createContext, useEffect, useState } from "react";
 
 interface IScheduleProvider {
-  // relative to schedule
+  originalSchedule: IShift[];
   currentSchedule: IShift[];
   editingShifts: IShift[];
   setEditingShifts: (curr: IShift[]) => void;
@@ -16,9 +20,6 @@ interface IScheduleProvider {
   saveChanges: () => void;
   sortShiftsByYearCourse: (mixedShifts: IShift[]) => IShiftsSorted;
 
-  // relative to calendar
-
-  // global
   hasChanges: boolean;
   isEditing: boolean;
   setIsEditing: (curr: boolean) => void;
@@ -41,7 +42,13 @@ function addShiftById(
 }
 
 function sortShiftsByYearCourse(mixedShifts: IShift[]): IShiftsSorted {
-  const byYearSemester = mixedShifts.reduce(
+  const byShifttype = mixedShifts.sort(
+    (shiftA, shiftB) =>
+      shiftA.shiftType.localeCompare(shiftB.shiftType) ||
+      shiftA.shiftNumber - shiftB.shiftNumber,
+  );
+
+  const byYearSemester = byShifttype.reduce(
     (acc, shift) => {
       if (!acc[shift.year]) acc[shift.year] = {};
 
@@ -88,81 +95,80 @@ function sortShiftsByYearCourse(mixedShifts: IShift[]): IShiftsSorted {
   }));
 }
 
-  function extractShifts(courses: ICourse[]): IShift[] {
-    const { parentCourse, normalCourses } = courses.reduce(
-      (acc: { parentCourse: ICourse[]; normalCourses: ICourse[] }, course) => {
-        if (course.courses.length > 0) {
-          acc.parentCourse.push(course);
-        } else {
-          acc.normalCourses.push(course);
-        }
-        return acc;
-      },
-      { parentCourse: [], normalCourses: [] },
-    );
-
-    const shiftsWithNoParents = normalCourses.flatMap((course) => {
-      if (course.shifts && course.shifts.length > 0) {
-        return course.shifts.flatMap((shiftGroup) =>
-          shiftGroup.timeslots.map((shift) => {
-            const WEEK_DAYS = [
-              "monday",
-              "tuesday",
-              "wednesday",
-              "thursday",
-              "friday",
-            ];
-
-            const SHIFT_TYPES: Record<string, "PL" | "T" | "TP" | "OL"> = {
-              theoretical: "T",
-              theoretical_practical: "TP",
-              practical_laboratory: "PL",
-              tutorial_guidance: "OL",
-            };
-
-            const convertShiftType = (
-              type: string,
-            ): "PL" | "T" | "TP" | "OL" => {
-              return SHIFT_TYPES[type as keyof typeof SHIFT_TYPES];
-            };
-
-            return {
-              id: shiftGroup.id,
-              courseName: course.name,
-              courseId: course.id,
-              shortCourseName: course.shortname,
-              professor: shiftGroup.professor ?? undefined,
-              weekday: WEEK_DAYS.indexOf(shift.weekday),
-              start: shift.start,
-              end: shift.end,
-              shiftType: convertShiftType(shiftGroup.type),
-              shiftNumber: shiftGroup.number,
-              building:
-                Number(shift.building) <= 3
-                  ? `CP${shift.building}`
-                  : `Building ${shift.building}`,
-              room: shift.room,
-              year: course.year,
-              semester: course.semester,
-              //todo Get colors from stores preferences
-              eventColor: "#C3E5F9",
-              textColor: "#227AAE",
-            };
-          }),
-        );
+function extractShifts(courses: ICourse[]): IShift[] {
+  const { parentCourse, normalCourses } = courses.reduce(
+    (acc: { parentCourse: ICourse[]; normalCourses: ICourse[] }, course) => {
+      if (course.courses.length > 0) {
+        acc.parentCourse.push(course);
+      } else {
+        acc.normalCourses.push(course);
       }
-      return [];
-    });
+      return acc;
+    },
+    { parentCourse: [], normalCourses: [] },
+  );
 
-    const childShifts =
-      parentCourse.length > 0
-        ? extractShifts(parentCourse.flatMap((c) => c.courses))
-        : [];
+  const shiftsWithNoParents = normalCourses.flatMap((course) => {
+    if (course.shifts && course.shifts.length > 0) {
+      return course.shifts.flatMap((shiftGroup) =>
+        shiftGroup.timeslots.map((shift) => {
+          const WEEK_DAYS = [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+          ];
 
-    return [...shiftsWithNoParents, ...childShifts];
-  }
+          const SHIFT_TYPES: Record<string, "PL" | "T" | "TP" | "OL"> = {
+            theoretical: "T",
+            theoretical_practical: "TP",
+            practical_laboratory: "PL",
+            tutorial_guidance: "OL",
+          };
+
+          const convertShiftType = (type: string): "PL" | "T" | "TP" | "OL" => {
+            return SHIFT_TYPES[type as keyof typeof SHIFT_TYPES];
+          };
+
+          return {
+            id: shiftGroup.id,
+            courseName: course.name,
+            courseId: course.id,
+            shortCourseName: course.shortname,
+            professor: shiftGroup.professor ?? undefined,
+            weekday: WEEK_DAYS.indexOf(shift.weekday),
+            start: shift.start,
+            end: shift.end,
+            shiftType: convertShiftType(shiftGroup.type),
+            shiftNumber: shiftGroup.number,
+            building:
+              Number(shift.building) <= 3
+                ? `CP${shift.building}`
+                : `Building ${shift.building}`,
+            room: shift.room,
+            year: course.year,
+            semester: course.semester,
+            //todo Get colors from stores preferences
+            eventColor: "#C3E5F9",
+            textColor: "#227AAE",
+          };
+        }),
+      );
+    }
+    return [];
+  });
+
+  const childShifts =
+    parentCourse.length > 0
+      ? extractShifts(parentCourse.flatMap((c) => c.courses))
+      : [];
+
+  return [...shiftsWithNoParents, ...childShifts];
+}
 
 export const ScheduleContext = createContext<IScheduleProvider>({
+  originalSchedule: [],
   currentSchedule: [],
   editingShifts: [],
   setEditingShifts: () => {},
@@ -180,6 +186,7 @@ export const ScheduleContext = createContext<IScheduleProvider>({
 export function ScheduleProvider({ children }: { children: React.ReactNode }) {
   const { data: allCourses } = useGetAllCourses();
   const { data: currentCourses } = useGetStudentSchedule();
+  const { data: originalCourses } = useGetStudentOriginalSchedule();
   const updateStudentSchedule = useUpdateStudentSchedule();
 
   const [allShifts, setAllShifts] = useState<IShift[]>([]);
@@ -251,9 +258,12 @@ export function ScheduleProvider({ children }: { children: React.ReactNode }) {
     setShiftsToAdd(filterCurrentSchedule(allShifts, editingShifts));
   }, [allShifts, editingShifts]);
 
+  const originalSchedule = extractShifts(originalCourses ?? []);
+
   return (
     <ScheduleContext.Provider
       value={{
+        originalSchedule,
         currentSchedule,
         editingShifts,
         setEditingShifts,

@@ -40,7 +40,7 @@ function EditButton({
       }
       className={twMerge(
         clsx(
-          "text-light material-symbols-outlined cursor-pointer rounded-full p-0.5 font-semibold transition-all duration-250 hover:p-1",
+          "text-light material-symbols-outlined cursor-pointer rounded-full p-0.5 font-semibold transition-all duration-250 hover:opacity-70",
           state === "add" ? "bg-success" : "bg-danger",
         ),
       )}
@@ -76,7 +76,7 @@ function EventHeader({
         <p className="max-w-2xs flex-1 truncate">{name}</p>
         {!shifts && isEditing && <EditButton state={state!} />}
       </div>
-      <div className="flex w-fit flex-wrap gap-2">
+      <div className="flex w-fit flex-wrap gap-2 pr-2">
         {shifts &&
           shifts.map((shift) => (
             <ShiftTag
@@ -164,7 +164,7 @@ function DisplayCourses({
             label={`${yearGroup.year}º Ano`}
             key={`${yearGroup.year}º Ano`}
           >
-            <div className="mt-1 ml-4 h-full w-full">
+            <div className="mt-1 ml-2 h-full w-full">
               {Object.entries(yearGroup.semesters).map(
                 ([semester, courses]) => (
                   <CustomDisclosure
@@ -244,6 +244,7 @@ export default function CalendarOptions({
   const context = useContext(ScheduleContext);
 
   const {
+    originalSchedule,
     currentSchedule,
     editingShifts,
     shiftsToAdd,
@@ -252,6 +253,7 @@ export default function CalendarOptions({
     addShift,
     saveChanges,
     hasChanges,
+    setEditingShifts,
   } = context;
 
   return (
@@ -308,17 +310,42 @@ export default function CalendarOptions({
             className="flex h-full w-full flex-col items-center space-y-5"
           >
             <TabsContainer>
-              <Tab
-                name="Adicionados"
-                icon="format_list_bulleted"
-                refTo="added"
-              />
-              <Tab name="Adicionar" icon="add_circle" refTo="add" />
+              <Tab name="Selected" icon="format_list_bulleted" refTo="added" />
+              <Tab name="Add New" icon="add_circle" refTo="add" />
             </TabsContainer>
 
             <PanelContainer className="min-h-0 w-full flex-1 self-start">
               <TabPanel id="added" className="flex h-full min-h-0 flex-col">
-                <h3 className="text-dark/50 mb-4 flex-shrink-0">Adicionados</h3>
+                <h3 className="text-dark/50 mb-4 flex-shrink-0 pl-3">
+                  Already Selected
+                </h3>
+
+                <div className="mb-3 space-x-3 px-2">
+                  <button
+                    onClick={() => {
+                      setEditingShifts([]);
+                    }}
+                    className="text-danger group inline-flex cursor-pointer items-center gap-1 transition-all duration-300 hover:opacity-75"
+                  >
+                    <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
+                      delete
+                    </span>
+                    Clear
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setEditingShifts(originalSchedule);
+                    }}
+                    className="group inline-flex cursor-pointer items-center gap-1 text-[#625FEE] transition-all duration-300 hover:opacity-75"
+                  >
+                    <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
+                      autorenew
+                    </span>
+                    Reset
+                  </button>
+                </div>
+
                 <div className="relative min-h-0 flex-1">
                   <DisplayCourses
                     isEditing
@@ -326,7 +353,7 @@ export default function CalendarOptions({
                     state="remove"
                   />
                   {hasChanges && (
-                    <div className="absolute bottom-0 flex h-20 w-full items-center justify-center">
+                    <div className="absolute bottom-0 z-10 flex h-20 w-full items-center justify-center">
                       <button
                         onClick={saveChanges}
                         className="bg-primary-400 text-light w-44 cursor-pointer rounded-full px-2 py-4 font-semibold transition-transform duration-200 hover:scale-95"
@@ -338,9 +365,36 @@ export default function CalendarOptions({
                 </div>
               </TabPanel>
               <TabPanel id="add" className="flex h-full min-h-0 flex-col">
-                <h3 className="text-dark/50 mb-4 flex-shrink-0">
-                  Disponíveis para adicionar
+                <h3 className="text-dark/50 mb-4 flex-shrink-0 pl-3">
+                  Available to add
                 </h3>
+
+                <div className="mb-3 space-x-3 px-2">
+                  <button
+                    onClick={() => {
+                      setEditingShifts([]);
+                    }}
+                    className="text-danger group inline-flex cursor-pointer items-center gap-1 transition-all duration-300 hover:opacity-75"
+                  >
+                    <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
+                      delete
+                    </span>
+                    Clear
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setEditingShifts(originalSchedule);
+                    }}
+                    className="group inline-flex cursor-pointer items-center gap-1 text-[#625FEE] transition-all duration-300 hover:opacity-75"
+                  >
+                    <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
+                      autorenew
+                    </span>
+                    Reset
+                  </button>
+                </div>
+
                 <div className="relative h-full min-h-0">
                   <DisplayCourses
                     isEditing
@@ -348,7 +402,7 @@ export default function CalendarOptions({
                     state="add"
                   />
                   {hasChanges && (
-                    <div className="absolute bottom-0 flex h-20 w-full items-center justify-center">
+                    <div className="absolute bottom-0 z-10 flex h-20 w-full items-center justify-center">
                       <button
                         onClick={saveChanges}
                         className="bg-primary-400 text-light w-44 cursor-pointer rounded-full px-2 py-4 font-semibold transition-transform duration-200 hover:scale-95"
