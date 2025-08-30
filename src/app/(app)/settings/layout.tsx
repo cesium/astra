@@ -62,11 +62,15 @@ export default function SettingsLayout({
             <SidebarItem id="exports" href="/settings/backoffice/exports">
               <SidebarItemLabel icon="ios_share" label="Export" />
             </SidebarItem>
+
+            <SidebarItem id="jobs" href="/settings/backoffice/jobs">
+              <SidebarItemLabel icon="data_table" label="Jobs Monitor" />
+            </SidebarItem>
           </SidebarItemList>
         </Sidebar>
       </div>
 
-      <div className="px-10">{children}</div>
+      <div className="w-full px-10">{children}</div>
     </div>
   );
 }
