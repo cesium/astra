@@ -220,72 +220,78 @@ export default function Jobs() {
   const stateCount = trackStates(jobsList ?? []);
 
   return (
-    <div className="flex h-full flex-col gap-8">
-      <section className="space-y-2">
-        <h2 className="text-2xl font-semibold">Monitor Your Jobs</h2>
-        <p>Track the progress and state of imports and exports in real time</p>
-      </section>
+    <>
+      <title>Pombo | Jobs Monitor</title>
 
-      <section className="flex flex-wrap gap-4">
-        <SummaryCard
-          title="Running"
-          textColor="text-celeste"
-          icon="progress_activity"
-          value={stateCount.executing}
-        ></SummaryCard>
-        <SummaryCard
-          title="Pending"
-          textColor="text-primary-400"
-          icon="schedule"
-          value={stateCount.available}
-        ></SummaryCard>
-        <SummaryCard
-          title="Complete"
-          textColor="text-success"
-          icon="task_alt"
-          value={stateCount.completed}
-        ></SummaryCard>
-        <SummaryCard
-          title="Failed"
-          textColor="text-danger"
-          icon="cancel"
-          value={stateCount.discarded}
-        ></SummaryCard>
-      </section>
+      <div className="flex h-full flex-col gap-8">
+        <section className="space-y-2">
+          <h2 className="text-2xl font-semibold">Monitor Your Jobs</h2>
+          <p>
+            Track the progress and state of imports and exports in real time
+          </p>
+        </section>
 
-      <section className="border-dark/5 scroll- flex h-full min-h-0 w-full flex-col gap-6 rounded-xl border p-3 shadow-sm md:p-6">
-        <h2 className="text-lg font-semibold">Recent Jobs</h2>
+        <section className="flex flex-wrap gap-4">
+          <SummaryCard
+            title="Running"
+            textColor="text-celeste"
+            icon="progress_activity"
+            value={stateCount.executing}
+          ></SummaryCard>
+          <SummaryCard
+            title="Pending"
+            textColor="text-primary-400"
+            icon="schedule"
+            value={stateCount.available}
+          ></SummaryCard>
+          <SummaryCard
+            title="Complete"
+            textColor="text-success"
+            icon="task_alt"
+            value={stateCount.completed}
+          ></SummaryCard>
+          <SummaryCard
+            title="Failed"
+            textColor="text-danger"
+            icon="cancel"
+            value={stateCount.discarded}
+          ></SummaryCard>
+        </section>
 
-        {jobsList && jobsList.length > 0 ? (
-          <div className="h-full overflow-y-scroll">
-            {Object.entries(sortedJobList).map(([groupDate, jobs]) => (
-              <div className="mb-6 flex flex-col gap-2" key={groupDate}>
-                <p className="self-end pr-4 text-sm font-semibold">
-                  {groupDate}
-                </p>
+        <section className="border-dark/5 scroll- flex h-full min-h-0 w-full flex-col gap-6 rounded-xl border p-3 shadow-sm md:p-6">
+          <h2 className="text-lg font-semibold">Recent Jobs</h2>
 
-                <div className="flex flex-col gap-4">
-                  {jobs.map((job) => (
-                    <JobCard
-                      key={job.id}
-                      title={formatTitle(job.type)}
-                      state={job.state}
-                      id={job.id}
-                      created_at={job.inserted_at}
-                      start_at={job.attempted_at}
-                      completed_at={job.completed_at}
-                    />
-                  ))}
+          {jobsList && jobsList.length > 0 ? (
+            <div className="h-full overflow-y-scroll">
+              {Object.entries(sortedJobList).map(([groupDate, jobs]) => (
+                <div className="mb-6 flex flex-col gap-2" key={groupDate}>
+                  <p className="self-end pr-4 text-sm font-semibold">
+                    {groupDate}
+                  </p>
+
+                  <div className="flex flex-col gap-4">
+                    {jobs.map((job) => (
+                      <JobCard
+                        key={job.id}
+                        title={formatTitle(job.type)}
+                        state={job.state}
+                        id={job.id}
+                        created_at={job.inserted_at}
+                        start_at={job.attempted_at}
+                        completed_at={job.completed_at}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-dark/50 flex h-full w-full items-center justify-center pb-24">
-            There are no recent jobs on record
-          </div>
-        )}
-      </section>
-    </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-dark/50 flex h-full w-full items-center justify-center pb-24">
+              There are no recent jobs on record
+            </div>
+          )}
+        </section>
+      </div>
+    </>
   );
 }
