@@ -12,8 +12,8 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex">
-      <div className="flex w-80 flex-col">
+    <div className="flex h-full min-h-0 w-full gap-10">
+      <div className="hidden w-80 flex-col md:flex">
         <h3 className="pl-3 text-4xl font-semibold">Settings</h3>
         <Sidebar>
           <SidebarHeader>Account</SidebarHeader>
@@ -56,11 +56,11 @@ export default function SettingsLayout({
             </SidebarItem>
 
             <SidebarItem id="imports" href="/settings/backoffice/imports">
-              <SidebarItemLabel icon="move_to_inbox" label="Import" />
+              <SidebarItemLabel icon="upload" label="Import" />
             </SidebarItem>
 
             <SidebarItem id="exports" href="/settings/backoffice/exports">
-              <SidebarItemLabel icon="ios_share" label="Export" />
+              <SidebarItemLabel icon="download" label="Export" />
             </SidebarItem>
 
             <SidebarItem id="jobs" href="/settings/backoffice/jobs">
@@ -70,7 +70,7 @@ export default function SettingsLayout({
         </Sidebar>
       </div>
 
-      <div className="w-full px-10">{children}</div>
+      <div className="min-h-0 w-full min-w-0">{children}</div>
     </div>
   );
 }

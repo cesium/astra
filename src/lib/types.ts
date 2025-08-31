@@ -40,3 +40,13 @@ export interface IEvent {
   textColor: string;
   allDay?: boolean;
 }
+
+export interface IJobProps {
+  id: number;
+  type: string;
+  state: string;
+  attempted_at: Date;
+  completed_at: Date;
+  inserted_at: Date;
+  user_id: string;
+}
