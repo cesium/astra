@@ -61,7 +61,8 @@ function EventHeader({
   color: string;
   shifts: {
     id: string;
-    name: string;
+    type: string;
+    number: number;
   }[];
   isEditing: boolean;
   state?: "add" | "remove";
@@ -81,7 +82,7 @@ function EventHeader({
           shifts.map((shift) => (
             <ShiftTag
               key={shift.id}
-              name={shift.name}
+              name={`${shift.type}${shift.number}`}
               id={shift.id}
               isEditing={isEditing}
               state={state!}

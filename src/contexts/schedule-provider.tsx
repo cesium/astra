@@ -42,13 +42,7 @@ function addShiftById(
 }
 
 function sortShiftsByYearCourse(mixedShifts: IShift[]): IShiftsSorted {
-  const byShifttype = mixedShifts.sort(
-    (shiftA, shiftB) =>
-      shiftA.shiftType.localeCompare(shiftB.shiftType) ||
-      shiftA.shiftNumber - shiftB.shiftNumber,
-  );
-
-  const byYearSemester = byShifttype.reduce(
+  const byYearSemester = mixedShifts.reduce(
     (acc, shift) => {
       if (!acc[shift.year]) acc[shift.year] = {};
 
@@ -63,10 +57,44 @@ function sortShiftsByYearCourse(mixedShifts: IShift[]): IShiftsSorted {
         };
       }
 
-      acc[shift.year][shift.semester][shift.courseId].shifts.push({
+      function sortedIndex(
+        array: {
+          id: string;
+          type: string;
+          number: number;
+        }[],
+        shift: {
+          id: string;
+          type: string;
+          number: number;
+        },
+      ) {
+        let l = 0;
+        let d = array.length;
+
+        while (l < d) {
+          const curr = (l + d) >>> 1;
+          if (
+            array[curr].type < shift.type ||
+            (array[curr].type === shift.type &&
+              array[curr].number < shift.number)
+          )
+            l = curr + 1;
+          else d = curr;
+        }
+
+        return l;
+      }
+
+      const shiftsArray =
+        acc[shift.year][shift.semester][shift.courseId].shifts;
+      const newShift = {
         id: shift.id,
-        name: `${shift.shiftType}${shift.shiftNumber}`,
-      });
+        type: shift.shiftType,
+        number: shift.shiftNumber,
+      };
+
+      shiftsArray.splice(sortedIndex(shiftsArray, newShift), 0, newShift);
 
       return acc;
     },
@@ -81,7 +109,8 @@ function sortShiftsByYearCourse(mixedShifts: IShift[]): IShiftsSorted {
             color: string;
             shifts: {
               id: string;
-              name: string;
+              type: string;
+              number: number;
             }[];
           }
         >

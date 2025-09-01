@@ -67,7 +67,8 @@ export type IShiftsSorted = {
         color: string;
         shifts: {
           id: string;
-          name: string;
+          type: string;
+          number: number;
         }[];
       }
     >
