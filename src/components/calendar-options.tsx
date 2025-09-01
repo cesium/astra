@@ -108,7 +108,7 @@ function ShiftTag({
     <div
       className={twMerge(
         clsx(
-          "bg-dark/5 inline-flex w-fit items-center gap-2.5 rounded-2xl py-1.5",
+          "bg-dark/5 inline-flex w-fit items-center gap-2.5 rounded-2xl py-1.5 select-none",
           isEditing ? "pr-1 pl-3" : "px-3",
         ),
       )}
@@ -132,7 +132,8 @@ function DisplayCourses({
   const [isScrolledBottom, setIsScrolledBottom] = useState(false);
   const scrollableRef = useRef<HTMLDivElement>(null);
 
-  // Handle scroll events to determine if the user is at the top or bottom
+  const ordinalNumbers = ["1st", "2nd", "3rd", "4th", "5th"];
+
   const handleScroll = () => {
     if (scrollableRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = scrollableRef.current;
@@ -145,7 +146,6 @@ function DisplayCourses({
     }
   };
 
-  // Check scroll state on mount and when content changes
   useEffect(() => {
     handleScroll();
   }, [shiftsSorted]);
@@ -158,19 +158,19 @@ function DisplayCourses({
     );
   } else if (state === "add") {
     return (
-      <div className="h-full overflow-y-scroll">
+      <div className="no-scrollbar h-full overflow-y-scroll">
         {shiftsSorted.map((yearGroup) => (
           <CustomDisclosure
             disclosureChild
-            label={`${yearGroup.year}º Ano`}
-            key={`${yearGroup.year}º Ano`}
+            label={`${ordinalNumbers[yearGroup.year - 1]} Year`}
+            key={`${ordinalNumbers[yearGroup.year - 1]} Year`}
           >
             <div className="mt-1 ml-2 h-full w-full">
               {Object.entries(yearGroup.semesters).map(
                 ([semester, courses]) => (
                   <CustomDisclosure
-                    label={`${semester}º Semestre`}
-                    key={`${semester}º Semestre`}
+                    label={`${ordinalNumbers[Number(semester) - 1]} Semester`}
+                    key={`${ordinalNumbers[Number(semester) - 1]} Semester`}
                   >
                     <div
                       className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4"
@@ -204,7 +204,7 @@ function DisplayCourses({
         )}
 
         <div
-          className="divide-dark/8 bg-light max-h-full w-full space-y-2 divide-y overflow-y-scroll rounded-lg pt-3 pl-4"
+          className="divide-dark/8 bg-light no-scrollbar max-h-full w-full space-y-2 divide-y overflow-y-scroll rounded-lg pt-3 pl-4"
           onScroll={handleScroll}
           ref={scrollableRef}
         >
