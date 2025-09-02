@@ -261,7 +261,6 @@ export default function CalendarOptions({
     <CalendarOptionsContext.Provider value={{ removeShift, addShift }}>
       <AnimatedOptionsSection classNameOpenedSection="p-4 flex flex-col h-full">
         <section className="box-border flex h-full min-h-0 flex-1 flex-col">
-
           <div className="flex h-full min-h-0 flex-1 flex-col space-y-2.5">
             <div className="flex-shrink-0 px-2">
               <div className="flex items-center justify-between">
