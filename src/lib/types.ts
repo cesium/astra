@@ -10,19 +10,21 @@ export interface User {
   email: string;
 }
 
+export interface ITimeSlot {
+  id: string;
+  start: string;
+  end: string;
+  weekday: string;
+  room: string;
+  building: string;
+}
+
 export interface IShiftResponse {
   id: string;
   type: string;
   number: number;
   professor?: string | null;
-  timeslots: {
-    id: string;
-    start: string;
-    end: string;
-    weekday: string;
-    room: string;
-    building: string;
-  }[];
+  timeslots: ITimeSlot[];
 }
 
 export interface ICourse {

@@ -261,20 +261,6 @@ export default function CalendarOptions({
     <CalendarOptionsContext.Provider value={{ removeShift, addShift }}>
       <AnimatedOptionsSection classNameOpenedSection="p-4 flex flex-col h-full">
         <section className="box-border flex h-full min-h-0 flex-1 flex-col">
-          <div className="text-primary-400 mb-8 inline-flex flex-shrink-0 space-x-3.5 px-2">
-            <div className="inline-flex space-x-2">
-              <span className="material-symbols-outlined z-10 text-2xl">
-                share
-              </span>
-              <p>Share</p>
-            </div>
-            <div className="inline-flex space-x-2">
-              <span className="material-symbols-outlined z-10 text-2xl">
-                download
-              </span>
-              <p>Export {schedule ? "Schedule" : "Calendar"}</p>
-            </div>
-          </div>
 
           <div className="flex h-full min-h-0 flex-1 flex-col space-y-2.5">
             <div className="flex-shrink-0 px-2">

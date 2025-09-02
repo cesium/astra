@@ -178,7 +178,6 @@ function extractShifts(courses: ICourse[]): IShift[] {
             room: shift.room,
             year: course.year,
             semester: course.semester,
-            //todo Get colors from stores preferences
             eventColor: "#C3E5F9",
             textColor: "#227AAE",
           };
