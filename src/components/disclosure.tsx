@@ -1,142 +1,78 @@
-"use client";
-
 import {
-  ElementType,
-  ReactNode,
-  ComponentPropsWithoutRef,
-  forwardRef,
-  useRef,
-  useState,
-  useEffect,
-} from "react";
-import { Disclosure as HeadlessDisclosure } from "@headlessui/react";
+  DisclosureButton,
+  DisclosurePanel,
+  Disclosure,
+} from "@headlessui/react";
+import { AnimatePresence, motion } from "motion/react";
+import { Fragment } from "react";
 
-interface IDisclosureProps<T extends ElementType = "div"> {
-  defaultOpen?: boolean;
-  as?: T;
-  children: ReactNode;
-  onToggle?: (open: boolean) => void;
-  animationDuration?: number;
-  animationEasing?: string;
-  title: string;
-}
-
-type DisclosureComponentProps<T extends ElementType> = IDisclosureProps<T> &
-  Omit<ComponentPropsWithoutRef<T>, keyof IDisclosureProps<T>>;
-
-function ChevronToggle({
-  open,
-  label,
-  ...props
-}: {
-  open: boolean;
+interface ICustomDisclosureProps {
+  disclosureChild?: boolean;
   label: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button
-      type="button"
-      className="mb-1 flex w-full items-center rounded-lg px-2 py-3 transition-colors hover:bg-zinc-100"
-      {...props}
-    >
-      <span
-        className="material-symbols-outlined mr-2 text-zinc-500"
-        style={{ fontSize: 20 }}
-        aria-hidden="true"
-      >
-        {open ? "expand_less" : "expand_more"}
-      </span>
-      <div className="w-full text-left font-medium">{label}</div>
-    </button>
-  );
+  children: React.ReactNode;
 }
 
-function Collapsible({
-  open,
-  duration,
-  easing,
+export default function CustomDisclosure({
+  disclosureChild = false,
+  label,
   children,
-}: {
-  open: boolean;
-  duration: number;
-  easing: string;
-  children: ReactNode;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [maxHeight, setMaxHeight] = useState(open ? "none" : 0);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    if (open) {
-      setMaxHeight(el.scrollHeight);
-      const onEnd = () => {
-        setMaxHeight("none");
-        el.removeEventListener("transitionend", onEnd);
-      };
-      el.addEventListener("transitionend", onEnd);
-      return () => el.removeEventListener("transitionend", onEnd);
-    } else {
-      setMaxHeight(el.scrollHeight);
-      const timeoutId = setTimeout(() => setMaxHeight(0), 10);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [open]);
-
+}: ICustomDisclosureProps) {
   return (
-    <div
-      ref={ref}
-      style={{
-        overflow: "hidden",
-        transition: `max-height ${duration}ms ${easing}`,
-        maxHeight,
-      }}
-    >
-      {children}
-    </div>
+    <Disclosure as="div">
+      {({ open }) => (
+        <>
+          <DisclosureButton className="group hover:bg-dark/5 bg-muted z-10 mb-1 flex w-full cursor-pointer items-center rounded-xl px-2 py-3 transition-colors">
+            <span className="material-symbols-outlined mr-2 text-xl text-zinc-500 opacity-50 transition duration-150 group-data-[open]:-scale-100">
+              keyboard_arrow_down
+            </span>
+            <h2 className="text-dark w-full text-left font-medium">{label}</h2>
+          </DisclosureButton>
+
+          <AnimatePresence>
+            {open && (
+              <DisclosurePanel static as={Fragment}>
+                <motion.div
+                  className="flex w-full overflow-hidden"
+                  initial={{ height: 0 }}
+                  animate={
+                    disclosureChild
+                      ? {
+                          height: "auto",
+                          opacity: 1,
+                        }
+                      : {
+                          height: "auto",
+                          transition: {
+                            type: "spring",
+                            stiffness: 120,
+                            damping: 20,
+                          },
+                        }
+                  }
+                  exit={
+                    disclosureChild
+                      ? {
+                          opacity: 0,
+                          height: 0,
+                        }
+                      : {
+                          height: 0,
+                          transition: {
+                            type: "spring",
+                            stiffness: 2000,
+                            damping: 200,
+                            mass: 5,
+                          },
+                        }
+                  }
+                >
+                  {children}
+                </motion.div>
+              </DisclosurePanel>
+            )}
+          </AnimatePresence>
+        </>
+      )}
+    </Disclosure>
   );
 }
-
-function DisclosureInner<T extends ElementType = "div">({
-  defaultOpen = false,
-  as,
-  children,
-  onToggle,
-  animationDuration = 300,
-  animationEasing = "cubic-bezier(0.4, 0, 0.2, 1)",
-  title,
-  ...rest
-}: DisclosureComponentProps<T>) {
-  const Component = as || ("div" as T);
-  const [open, setOpen] = useState(defaultOpen);
-
-  return (
-    <HeadlessDisclosure
-      as={Component as ElementType}
-      defaultOpen={defaultOpen}
-      onChange={onToggle}
-      {...rest}
-    >
-      <>
-        <ChevronToggle
-          open={open}
-          label={title}
-          onClick={() => setOpen(!open)}
-        />
-        <Collapsible
-          open={open}
-          duration={animationDuration}
-          easing={animationEasing}
-        >
-          {children}
-        </Collapsible>
-      </>
-    </HeadlessDisclosure>
-  );
-}
-
-const Disclosure = forwardRef<HTMLDivElement, DisclosureComponentProps<"div">>(
-  DisclosureInner,
-);
-
-export default Disclosure;

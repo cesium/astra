@@ -9,7 +9,9 @@ export default function EventCard({ event }: EventProps) {
   return (
     <div className="space-y-0.5">
       <h3>{event.title}</h3>
-      <p className="text-sm opacity-70">{location || "No location"}</p>
+      <p className="text-xs opacity-70 sm:text-sm">
+        {location || "No location"}
+      </p>
     </div>
   );
 }

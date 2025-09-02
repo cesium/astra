@@ -1,26 +1,26 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import Disclosure from "@/components/disclosure";
+import CustomDisclosure from "@/components/disclosure";
 
-const meta: Meta<typeof Disclosure> = {
-  title: "Components/Disclosure",
-  component: Disclosure,
+const meta: Meta<typeof CustomDisclosure> = {
+  title: "Components/CustomDisclosure",
+  component: CustomDisclosure,
   parameters: { layout: "fullscreen" },
   tags: ["autodocs"],
   argTypes: {
-    defaultOpen: {
+    disclosureChild: {
       control: "boolean",
-      description: "Controls whether the disclosure is open by default",
+      description:
+        "Uses a different animation when the child is a disclosure to.",
       defaultValue: false,
     },
-    as: {
+    label: {
       control: "text",
-      description:
-        "The HTML element or component to render as the disclosure root",
-      defaultValue: "div",
+      description: "The label shown on the disclosure.",
     },
-    onToggle: {
-      action: "toggled",
-      description: "Callback function called when the disclosure is toggled",
+    children: {
+      control: false,
+      description:
+        "Disclosure child elements that compose the internal content of the disclosure.",
     },
   },
 };
@@ -56,15 +56,11 @@ export const Default: Story = {
   render: () => (
     <div className="w-full max-w-sm rounded-lg bg-zinc-50 p-4 text-sm text-zinc-800 shadow-md">
       {Object.entries(courses).map(([year, semesters]) => (
-        <Disclosure key={year} defaultOpen={year === "1º Ano"} title={year}>
-          <div className="mt-1 ml-4">
+        <CustomDisclosure key={year} label={year}>
+          <div className="mt-1 ml-4 w-full">
             {Object.entries(semesters).map(([semester, units]) => (
-              <Disclosure
-                key={semester}
-                defaultOpen={semester === "1º Semestre"}
-                title={semester}
-              >
-                <div className="mt-1 ml-4 space-y-1 rounded-lg bg-white p-2 shadow-sm">
+              <CustomDisclosure key={semester} label={semester}>
+                <div className="mt-1 mb-4 ml-4 w-full space-y-1 rounded-lg bg-white p-2 shadow-sm">
                   {units.length > 0 &&
                     units.map((unitName) => (
                       <div
@@ -84,10 +80,10 @@ export const Default: Story = {
                       </div>
                     ))}
                 </div>
-              </Disclosure>
+              </CustomDisclosure>
             ))}
           </div>
-        </Disclosure>
+        </CustomDisclosure>
       ))}
     </div>
   ),
