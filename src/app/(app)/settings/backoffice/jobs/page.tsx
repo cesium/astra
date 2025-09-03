@@ -11,14 +11,20 @@ function getStateStyle(state: string) {
     completed: "text-success",
     executing: "text-celeste",
     available: "text-primary-400",
+    retryable: "text-primary-400",
+    scheduled: "text-primary-400",
     discarded: "text-danger",
+    cancelled: "text-danger"
   };
 
   const STATE_ICON = {
     completed: "task_alt",
     executing: "progress_activity",
     available: "schedule",
+    retryable: "update",
+    scheduled: "hourglass" ,
     discarded: "cancel",
+    cancelled: "cancel"
   };
 
   const textColor = STATE_COLORS[state as keyof typeof STATE_COLORS];
