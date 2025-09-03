@@ -1,14 +1,50 @@
-import SettingsWrapper from "@/components/settings-wrapper";
-import { Metadata } from "next";
+'use client'
 
-export const metadata: Metadata = {
-  title: "Pombo | Account",
-};
+import Avatar from "@/components/avatar";
+import Input from "@/components/input";
+import Label from "@/components/label";
+import { use } from "react";
+
+interface IInputLineProps {
+  label: string;
+  value: string;
+}
+
+function InputLine({ label, value }: IInputLineProps) {
+  return (
+    <div className="flex justify-between items-center">
+      <Label size="large" className="text-dark/50">{label}</Label>
+      <Input disabled placeholder={value} className="flex-1 max-w-lg"/>
+    </div>
+  )
+}
 
 export default function Account() {
+    
   return (
-    <SettingsWrapper title="Account and profile">
-      <div>Account Page</div>
-    </SettingsWrapper>
-  );
+      <div className="space-y-10">
+        <title>Pombo | Account</title>
+
+        <section className="flex gap-7.5">
+          <Avatar name={"User Name"} className="size-40"/>
+          <div className="pt-3.5 space-y-1">
+            <h2 className="text-3xl font-semibold text-dark">{"User Name"}</h2>
+            <p className="font-semibold">{"user@example.com"}</p>
+          </div>
+        </section>
+
+        <section className="space-y-3.5">
+          <h2 className="text-2xl font-semibold">Information</h2>
+          <div className="flex flex-col gap-1.5 w-full max-w-3xl">
+            <InputLine label="Full Name" value={"User Name"} />
+            <InputLine label="Email" value={"a145236@alunos.uminho.pt"} />
+            <InputLine label="Student Number" value={"a145236"} />
+            <InputLine label="Course" value={"Licenciatura em Engenharia Informática"} />
+            <InputLine label="Year" value={"1st Year"} />
+            <InputLine label="Statute" value={"No"} />
+
+          </div>
+        </section>
+      </div>
+    );
 }
