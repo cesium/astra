@@ -13,13 +13,13 @@ export default function SettingsLayout({
 }>) {
   return (
     <div className="flex h-full min-h-0 w-full gap-10">
-      <div className="hidden w-80 flex-col md:flex">
+      <div className="hidden w-80 shrink-0 flex-col md:flex">
         <h3 className="pl-3 text-4xl font-semibold">Settings</h3>
         <Sidebar>
           <SidebarHeader>Account</SidebarHeader>
 
           <SidebarItemList>
-            <SidebarItem id="account" href="/settings">
+            <SidebarItem id="account" href="/settings/account">
               <SidebarItemLabel icon="account_circle" label="Your Account" />
             </SidebarItem>
 

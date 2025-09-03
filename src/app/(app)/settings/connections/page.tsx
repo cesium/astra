@@ -1,3 +1,4 @@
+import SettingsWrapper from "@/components/settings-wrapper";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,5 +6,9 @@ export const metadata: Metadata = {
 };
 
 export default function Connections() {
-  return <div>Connections Page</div>;
+  return (
+    <SettingsWrapper title="Connections and services">
+      <div>Connections Page</div>
+    </SettingsWrapper>
+  );
 }
