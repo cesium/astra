@@ -61,6 +61,10 @@ export default function Settings() {
           <SidebarItem id="exports" href="/settings/backoffice/exports">
             <SidebarItemLabel icon="ios_share" label="Export" />
           </SidebarItem>
+
+          <SidebarItem id="jobs" href="/settings/backoffice/jobs">
+            <SidebarItemLabel icon="data_table" label="Jobs Monitor" />
+          </SidebarItem>
         </SidebarItemList>
       </Sidebar>
     </div>

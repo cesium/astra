@@ -1,5 +1,6 @@
 "use client";
 
+import SettingsWrapper from "@/components/settings-wrapper";
 import { useListJobs } from "@/lib/queries/backoffice";
 import { IJobProps } from "@/lib/types";
 import clsx from "clsx";
@@ -86,7 +87,7 @@ function Label({
     <div
       className={`flex flex-col ${side === "left" ? "items-start" : "items-end"}`}
     >
-      <p className="truncate font-medium">{title}</p>
+      <p className="truncate font-medium max-w-46 xl:max-w-none">{title}</p>
       <label className="text-dark/50 text-sm">{label}</label>
     </div>
   );
@@ -110,7 +111,7 @@ function StateTag({
       >
         {icon}
       </span>
-      <div className="bg-smoke border-dark/8 hidden h-fit items-center rounded-full border px-2.5 py-0.5 text-xs xl:inline-flex">
+      <div className="bg-smoke border-dark/8 hidden sm:inline-flex lg:hidden h-fit items-center rounded-full border px-2.5 py-0.5 text-xs xl:inline-flex">
         {state === "available"
           ? "pending"
           : state === "discarded"
@@ -140,7 +141,7 @@ function JobCard({
   const { textColor, icon } = getStateStyle(state);
 
   return (
-    <div className="border-dark/8 flex flex-col gap-6 rounded-xl border p-4 md:flex-row md:gap-0">
+    <div className="border-dark/8 flex flex-col gap-6 rounded-xl border p-4 lg:flex-row lg:gap-0">
       <div className="flex flex-1 items-center gap-4">
         <span className="material-symbols-outlined text-xl">upload</span>
         <Label title={title} label={`ID: ${id}`} side="left" />
@@ -150,7 +151,7 @@ function JobCard({
             state={state}
             color={textColor}
             icon={icon}
-            className="inline-flex md:hidden"
+            className="inline-flex lg:hidden"
           />
         </div>
       </div>
@@ -166,7 +167,7 @@ function JobCard({
           state={state}
           color={textColor}
           icon={icon}
-          className="hidden md:inline-flex"
+          className="hidden lg:inline-flex"
         />
       </div>
     </div>
@@ -229,75 +230,78 @@ export default function Jobs() {
     <>
       <title>Pombo | Jobs Monitor</title>
 
-      <div className="flex h-full flex-col gap-8">
-        <section className="space-y-2">
-          <h2 className="text-2xl font-semibold">Monitor Your Jobs</h2>
-          <p>
-            Track the progress and state of imports and exports in real time
-          </p>
-        </section>
+      <SettingsWrapper title="Current jobs">
 
-        <section className="flex flex-wrap gap-4">
-          <SummaryCard
-            title="Running"
-            textColor="text-celeste"
-            icon="progress_activity"
-            value={stateCount.executing}
-          ></SummaryCard>
-          <SummaryCard
-            title="Pending"
-            textColor="text-primary-400"
-            icon="schedule"
-            value={stateCount.available}
-          ></SummaryCard>
-          <SummaryCard
-            title="Complete"
-            textColor="text-success"
-            icon="task_alt"
-            value={stateCount.completed}
-          ></SummaryCard>
-          <SummaryCard
-            title="Failed"
-            textColor="text-danger"
-            icon="cancel"
-            value={stateCount.discarded}
-          ></SummaryCard>
-        </section>
+        <div className="flex h-full flex-col gap-8">
+          <section className="space-y-2">
+            <h2 className="text-2xl font-semibold">Monitor Your Jobs</h2>
+            <p>
+              Track the progress and state of imports and exports in real time
+            </p>
+          </section>
 
-        <section className="border-dark/5 scroll- flex h-full min-h-0 w-full flex-col gap-6 rounded-xl border p-3 shadow-sm md:p-6">
-          <h2 className="text-lg font-semibold">Recent Jobs</h2>
+          <section className="flex flex-wrap gap-4">
+            <SummaryCard
+              title="Running"
+              textColor="text-celeste"
+              icon="progress_activity"
+              value={stateCount.executing}
+            ></SummaryCard>
+            <SummaryCard
+              title="Pending"
+              textColor="text-primary-400"
+              icon="schedule"
+              value={stateCount.available}
+            ></SummaryCard>
+            <SummaryCard
+              title="Complete"
+              textColor="text-success"
+              icon="task_alt"
+              value={stateCount.completed}
+            ></SummaryCard>
+            <SummaryCard
+              title="Failed"
+              textColor="text-danger"
+              icon="cancel"
+              value={stateCount.discarded}
+            ></SummaryCard>
+          </section>
 
-          {jobsList && jobsList.length > 0 ? (
-            <div className="h-full overflow-y-scroll">
-              {Object.entries(sortedJobList).map(([groupDate, jobs]) => (
-                <div className="mb-6 flex flex-col gap-2" key={groupDate}>
-                  <p className="self-end pr-4 text-sm font-semibold">
-                    {groupDate}
-                  </p>
+          <section className="border-dark/5 scroll- flex h-full min-h-0 w-full flex-col gap-6 rounded-xl border p-3 shadow-sm md:p-6">
+            <h2 className="text-lg font-semibold">Recent Jobs</h2>
 
-                  <div className="flex flex-col gap-4">
-                    {jobs.map((job) => (
-                      <JobCard
-                        key={job.id}
-                        title={formatTitle(job.type)}
-                        state={job.state}
-                        id={job.id}
-                        created_at={job.inserted_at}
-                        start_at={job.attempted_at}
-                        completed_at={job.completed_at}
-                      />
-                    ))}
+            {jobsList && jobsList.length > 0 ? (
+              <div className="h-full overflow-y-scroll">
+                {Object.entries(sortedJobList).map(([groupDate, jobs]) => (
+                  <div className="mb-6 flex flex-col gap-2" key={groupDate}>
+                    <p className="self-end pr-4 text-sm font-semibold">
+                      {groupDate}
+                    </p>
+
+                    <div className="flex flex-col gap-4">
+                      {jobs.map((job) => (
+                        <JobCard
+                          key={job.id}
+                          title={formatTitle(job.type)}
+                          state={job.state}
+                          id={job.id}
+                          created_at={job.inserted_at}
+                          start_at={job.attempted_at}
+                          completed_at={job.completed_at}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-dark/50 flex h-full w-full items-center justify-center pb-24">
-              There are no recent jobs on record
-            </div>
-          )}
-        </section>
-      </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-dark/50 flex h-full w-full items-center justify-center pb-24">
+                There are no recent jobs on record
+              </div>
+            )}
+          </section>
+        </div>
+      </SettingsWrapper>
     </>
   );
 }
