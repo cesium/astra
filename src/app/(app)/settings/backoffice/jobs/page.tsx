@@ -15,7 +15,7 @@ function getStateStyle(state: string) {
     retryable: "text-primary-400",
     scheduled: "text-primary-400",
     discarded: "text-danger",
-    cancelled: "text-danger"
+    cancelled: "text-danger",
   };
 
   const STATE_ICON = {
@@ -23,9 +23,9 @@ function getStateStyle(state: string) {
     executing: "progress_activity",
     available: "schedule",
     retryable: "update",
-    scheduled: "hourglass" ,
+    scheduled: "hourglass",
     discarded: "cancel",
-    cancelled: "cancel"
+    cancelled: "cancel",
   };
 
   const textColor = STATE_COLORS[state as keyof typeof STATE_COLORS];
@@ -87,7 +87,7 @@ function Label({
     <div
       className={`flex flex-col ${side === "left" ? "items-start" : "items-end"}`}
     >
-      <p className="truncate font-medium max-w-46 xl:max-w-none">{title}</p>
+      <p className="max-w-46 truncate font-medium xl:max-w-none">{title}</p>
       <label className="text-dark/50 text-sm">{label}</label>
     </div>
   );
@@ -111,7 +111,7 @@ function StateTag({
       >
         {icon}
       </span>
-      <div className="bg-smoke border-dark/8 hidden sm:inline-flex lg:hidden h-fit items-center rounded-full border px-2.5 py-0.5 text-xs xl:inline-flex">
+      <div className="bg-smoke border-dark/8 hidden h-fit items-center rounded-full border px-2.5 py-0.5 text-xs sm:inline-flex lg:hidden xl:inline-flex">
         {state === "available"
           ? "pending"
           : state === "discarded"
@@ -231,7 +231,6 @@ export default function Jobs() {
       <title>Pombo | Jobs Monitor</title>
 
       <SettingsWrapper title="Current jobs">
-
         <div className="flex h-full flex-col gap-8">
           <section className="space-y-2">
             <h2 className="text-2xl font-semibold">Monitor Your Jobs</h2>

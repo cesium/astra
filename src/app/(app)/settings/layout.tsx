@@ -13,7 +13,7 @@ export default function SettingsLayout({
 }>) {
   return (
     <div className="flex h-full min-h-0 w-full gap-5 lg:gap-10">
-      <div className="hidden w-60 lg:w-80 shrink-0 flex-col md:flex">
+      <div className="hidden w-60 shrink-0 flex-col md:flex lg:w-80">
         <h3 className="pl-3 text-4xl font-semibold">Settings</h3>
         <Sidebar>
           <SidebarHeader>Account</SidebarHeader>
