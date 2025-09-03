@@ -13,13 +13,13 @@ export default function SettingsLayout({
 }>) {
   return (
     <div className="flex">
-      <div className="flex w-80 flex-col">
+      <div className="hidden w-80 shrink-0 flex-col md:flex">
         <h3 className="pl-3 text-4xl font-semibold">Settings</h3>
         <Sidebar>
           <SidebarHeader>Account</SidebarHeader>
 
           <SidebarItemList>
-            <SidebarItem id="account" href="/settings">
+            <SidebarItem id="account" href="/settings/account">
               <SidebarItemLabel icon="account_circle" label="Your Account" />
             </SidebarItem>
 
@@ -66,7 +66,7 @@ export default function SettingsLayout({
         </Sidebar>
       </div>
 
-      <div className="w-full px-10">{children}</div>
+      <div className="w-full md:px-10">{children}</div>
     </div>
   );
 }
