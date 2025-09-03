@@ -1,3 +1,4 @@
+import SettingsWrapper from "@/components/settings-wrapper";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,5 +6,9 @@ export const metadata: Metadata = {
 };
 
 export default function Configurations() {
-  return <div>Configurations Page</div>;
+  return (
+    <SettingsWrapper title="Configuration and management">
+      <div>Configurations Page</div>
+    </SettingsWrapper>
+  );
 }
