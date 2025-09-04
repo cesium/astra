@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import ScheduleCalendar from "@/components/schedule-calendar";
 
 import { ScheduleProvider } from "@/contexts/schedule-provider";
-import CalendarOptions from "@/components/calendar-options";
+import CalendarOptions from "@/components/calendarOptions/schedule-options";
 
 export const metadata: Metadata = {
   title: "Pombo | Schedule",
