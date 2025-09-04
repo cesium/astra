@@ -20,7 +20,7 @@ function getStateStyle(state: string) {
 
   const STATE_ICON = {
     completed: "task_alt",
-    executing: "progress_activity",
+    executing: "keyboard_double_arrow_right",
     available: "schedule",
     retryable: "update",
     scheduled: "hourglass",
@@ -55,21 +55,17 @@ function SummaryCard({
   value: number;
 }) {
   return (
-    <div className="border-dark/5 flex flex-1 items-center justify-between rounded-xl border px-3 py-6 shadow-sm md:min-w-48">
+    <div className="border-dark/5 flex flex-1 items-center justify-between rounded-xl border py-6 pr-5 pl-3 shadow-sm md:min-w-48">
       <div className="flex flex-col">
         <p className="text-dark/50 text-sm font-medium">{title}</p>
-        <p className={twMerge(clsx("text-2xl font-bold", textColor))}>
+        <p className={twMerge(clsx("text-dark/50 text-2xl font-bold"))}>
           {value}
         </p>
       </div>
 
       <span
         className={twMerge(
-          clsx(
-            "material-symbols-outlined text-3xl",
-            textColor,
-            icon === "progress_activity" && `animate-spin`,
-          ),
+          clsx("material-symbols-outlined text-4xl", textColor),
         )}
       >
         {icon}
@@ -247,7 +243,7 @@ export default function Jobs() {
             <SummaryCard
               title="Running"
               textColor="text-celeste"
-              icon="progress_activity"
+              icon="keyboard_double_arrow_right"
               value={stateCount.executing}
             ></SummaryCard>
             <SummaryCard
