@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function Settings() {
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="hidden h-full w-full items-center justify-center md:flex">
       <Link
         href="/settings/account"
         className="text-dark/50 hover:text-primary-400/80 mb-20 transition-colors duration-300"
