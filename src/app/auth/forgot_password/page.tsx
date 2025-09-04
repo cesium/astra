@@ -1,10 +1,10 @@
 "use client";
+
 import Input from "@/components/input";
 import Label from "@/components/label";
-import { api } from "@/lib/api";
+import { useForgotPassword } from "@/lib/mutations/session";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 
@@ -14,13 +14,6 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-enum ResponseStatus {
-  Empty,
-  Loading,
-  Success,
-  Error,
-}
-
 export default function ResetPassword() {
   const {
     register,
@@ -29,17 +22,11 @@ export default function ResetPassword() {
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
   });
-  const [status, setStatus] = useState<ResponseStatus>(ResponseStatus.Empty);
 
-  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    try {
-      setStatus(ResponseStatus.Loading);
-      await api.post("/auth/forgot_password", data);
-      setStatus(ResponseStatus.Success);
-    } catch {
-      setStatus(ResponseStatus.Error);
-    }
-  };
+  const forgotPassword = useForgotPassword();
+
+  const onSubmit: SubmitHandler<FormSchema> = (data) =>
+    forgotPassword.mutate(data);
 
   return (
     <div className="flex h-screen items-center justify-end bg-[url(/images/calendar.svg)] bg-center bg-repeat">
@@ -77,7 +64,7 @@ export default function ResetPassword() {
             </span>
           </div>
         </div>
-        {status === ResponseStatus.Success ? (
+        {forgotPassword.isSuccess ? (
           <>
             <div className="flex flex-col items-center gap-4 text-center">
               <span className="material-symbols-outlined text-primary-400 text-6xl">
@@ -114,14 +101,14 @@ export default function ResetPassword() {
             </div>
             <div className="flex flex-col gap-1 sm:gap-2">
               <span className="text-danger px-1 text-center">
-                {status === ResponseStatus.Error &&
+                {forgotPassword.isError &&
                   "Something went wrong, please try again."}
               </span>
               <button
                 className="bg-primary-400 mx-7 rounded-full p-4 font-bold text-white shadow-lg"
                 type="submit"
               >
-                {status === ResponseStatus.Loading ? "Loading..." : "Submit"}
+                {forgotPassword.isPending ? "Loading..." : "Submit"}
               </button>
             </div>
           </form>

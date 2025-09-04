@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-
 import EventsCalendar from "@/components/events-calendar";
+import CalendarOptions from "@/components/calendar-options";
 
 export const metadata: Metadata = {
   title: "Pombo | Calendar",
@@ -8,10 +8,9 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="flex gap-8">
-      <div className="hidden w-83 bg-gray-400 md:block">
-        <button className="cursor-pointer">Edit</button>
-      </div>
+    <div className="flex h-full flex-col-reverse gap-5 md:flex-row md:gap-8">
+      <CalendarOptions />
+
       <EventsCalendar />
     </div>
   );

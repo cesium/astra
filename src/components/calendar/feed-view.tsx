@@ -19,9 +19,12 @@ function EventCard({ start, title, eventColor, onClick }: IEventCardProps) {
       <p className="min-w-10.5 text-sm text-gray-500">{start.toString()}</p>
       <div
         style={{ backgroundColor: eventColor.bgColor }}
-        className="flex h-10 flex-1 items-center justify-start rounded-md p-2.5"
+        className="flex h-10 flex-1 items-center justify-start overflow-hidden rounded-md p-2.5"
       >
-        <p style={{ color: eventColor.textColor }} className="font-semibold">
+        <p
+          style={{ color: eventColor.textColor }}
+          className="truncate font-semibold"
+        >
           {title}
         </p>
       </div>

@@ -21,7 +21,7 @@ export default function CustomToolbar(toolbar: ToolbarProps) {
         >
           arrow_back
         </button>
-        <span className="font-semibold">{label}</span>
+        <span className="font-semibold select-none">{label}</span>
         <button
           className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer text-2xl transition-all duration-200 ease-in-out hover:translate-x-0.5"
           onClick={goToNext}
@@ -38,16 +38,16 @@ export default function CustomToolbar(toolbar: ToolbarProps) {
           Today
         </button>
 
-        <div className="hidden items-center justify-between gap-4 lg:flex">
+        <div className="hidden items-center justify-between lg:flex">
           <button
-            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer text-2xl transition-all duration-200 ease-in-out hover:-translate-x-0.5"
+            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer px-4 text-2xl transition-all duration-200 ease-in-out hover:-translate-x-0.5"
             onClick={goToBack}
           >
             arrow_back
           </button>
-          <span className="font-semibold">{label}</span>
+          <span className="font-semibold select-none">{label}</span>
           <button
-            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer text-2xl transition-all duration-200 ease-in-out hover:translate-x-0.5"
+            className="material-symbols-outlined text-dark/30 hover:text-dark/50 cursor-pointer px-4 text-2xl transition-all duration-200 ease-in-out hover:translate-x-0.5"
             onClick={goToNext}
           >
             arrow_forward
