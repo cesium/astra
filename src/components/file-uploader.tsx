@@ -13,6 +13,7 @@ interface IFileUploaderProps {
   allowedTypes?: string[];
   className?: string;
   disabled?: boolean;
+  showSelectedFile?: boolean;
 }
 
 interface ValidationError {
@@ -77,6 +78,7 @@ export default function FileUploader({
   allowedTypes,
   className,
   disabled = false,
+  showSelectedFile = true,
 }: IFileUploaderProps) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -283,7 +285,7 @@ export default function FileUploader({
         </div>
       )}
 
-      {selectedFile && (
+      {selectedFile && showSelectedFile && (
         <div className="space-y-3">
           <h3 className="text-sm font-medium text-gray-700">Selected File</h3>
 

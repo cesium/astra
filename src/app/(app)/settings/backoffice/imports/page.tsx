@@ -2,86 +2,159 @@
 
 import { useState } from "react";
 import FileUploader from "@/components/file-uploader";
-import ImportConfirmationDrawer from "@/components/import-drawer";
-import { api } from "@/lib/api";
+import ImportConfirmationModal from "@/components/import-confirmation-modal";
+import {
+  useImportStudentsByCourses,
+  useImportShiftsByCourses,
+} from "@/lib/mutations/courses";
 
 const EXCEL_TYPES = [
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
   "application/vnd.ms-excel", // .xls
 ];
 
-export default function Imports() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadStatus, setUploadStatus] = useState<
-    "idle" | "success" | "error"
-  >("idle");
+type ImportType = "students_by_courses" | "shifts_by_courses";
 
-  const handleFileChange = (file: File | null) => {
-    setSelectedFile(file);
-    setUploadStatus("idle");
+interface ImportState {
+  selectedFile: File | null;
+  type: ImportType | null;
+}
+
+export default function Imports() {
+  const [importState, setImportState] = useState<ImportState>({
+    selectedFile: null,
+    type: null,
+  });
+
+  const importStudentsMutation = useImportStudentsByCourses();
+  const importShiftsMutation = useImportShiftsByCourses();
+
+  const handleFileChange = (file: File | null, type: ImportType) => {
+    setImportState({
+      selectedFile: file,
+      type: file ? type : null,
+    });
   };
 
-  const handleConfirmUpload = async () => {
-    if (!selectedFile) return;
+  const handleConfirmUpload = () => {
+    if (!importState.selectedFile || !importState.type) return;
 
-    setIsUploading(true);
-    setUploadStatus("idle");
+    const mutation =
+      importState.type === "students_by_courses"
+        ? importStudentsMutation
+        : importShiftsMutation;
 
-    try {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-
-      await api.post("import/students_by_courses", formData);
-
-      setUploadStatus("success");
-      setSelectedFile(null);
-    } catch (error) {
-      console.error("Upload error:", error);
-      setUploadStatus("error");
-    } finally {
-      setIsUploading(false);
-    }
+    mutation.mutate(
+      { file: importState.selectedFile },
+      {
+        onSuccess: () => {
+          setTimeout(() => {
+            setImportState({ selectedFile: null, type: null });
+          }, 2000);
+        },
+        onError: () => {},
+      },
+    );
   };
 
   const handleCancelUpload = () => {
-    setSelectedFile(null);
-    setUploadStatus("idle");
+    setImportState({ selectedFile: null, type: null });
+    importStudentsMutation.reset();
+    importShiftsMutation.reset();
+  };
+
+  const getCurrentMutation = () => {
+    if (!importState.type) return null;
+    return importState.type === "students_by_courses"
+      ? importStudentsMutation
+      : importShiftsMutation;
+  };
+
+  const currentMutation = getCurrentMutation();
+  const isAnyMutationPending =
+    importStudentsMutation.isPending || importShiftsMutation.isPending;
+
+  const getModalTitle = () => {
+    switch (importState.type) {
+      case "students_by_courses":
+        return "Import Students by Courses";
+      case "shifts_by_courses":
+        return "Import Shifts by Courses";
+      default:
+        return "Import Data";
+    }
+  };
+
+  const getModalDescription = () => {
+    switch (importState.type) {
+      case "students_by_courses":
+        return "This will update student enrollment data organized by courses.";
+      case "shifts_by_courses":
+        return "This will update class schedule data organized by courses.";
+      default:
+        return "This will update the system data.";
+    }
   };
 
   return (
     <>
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div>
           <h1 className="text-2xl font-semibold">Import Data</h1>
           <p className="mt-2 text-gray-600">
-            To enable schedule generation for students, you must import the
-            schedules provided by the Academic Services. The file must follow
-            the following{" "}
-            <a
-              href="#"
-              className="text-primary-400 underline hover:no-underline"
-            >
-              format
-            </a>
-            .
+            Import Excel files to update the system data. Each import can be
+            done independently as needed.
           </p>
         </div>
 
-        <FileUploader
-          onFileChange={handleFileChange}
-          allowedTypes={EXCEL_TYPES}
-          maxSize={10 * 1024 * 1024}
-          disabled={isUploading}
-        />
+        <div className="rounded-lg bg-white p-6">
+          <div className="mb-4">
+            <h2 className="text-lg font-semibold">Students by Courses</h2>
+            <p className="mt-1 text-sm text-gray-600">
+              Import student enrollment data organized by courses. Use this when
+              students change courses or new enrollments are added.
+            </p>
+          </div>
+
+          <FileUploader
+            onFileChange={(file) =>
+              handleFileChange(file, "students_by_courses")
+            }
+            allowedTypes={EXCEL_TYPES}
+            maxSize={10 * 1024 * 1024}
+            disabled={isAnyMutationPending}
+            showSelectedFile={false}
+          />
+        </div>
+
+        <div className="rounded-lg bg-white p-6">
+          <div className="mb-4">
+            <h2 className="text-lg font-semibold">Shifts by Courses</h2>
+            <p className="mt-1 text-sm text-gray-600">
+              Import class schedule data organized by courses. Use this when
+              schedules change or new shifts are created.
+            </p>
+          </div>
+
+          <FileUploader
+            onFileChange={(file) => handleFileChange(file, "shifts_by_courses")}
+            allowedTypes={EXCEL_TYPES}
+            maxSize={10 * 1024 * 1024}
+            disabled={isAnyMutationPending}
+            showSelectedFile={false}
+          />
+        </div>
       </div>
 
-      <ImportConfirmationDrawer
-        selectedFile={selectedFile}
-        isUploading={isUploading}
-        uploadStatus={uploadStatus}
+      <ImportConfirmationModal
+        selectedFile={importState.selectedFile}
         onConfirm={handleConfirmUpload}
         onCancel={handleCancelUpload}
+        title={getModalTitle()}
+        description={getModalDescription()}
+        isLoading={currentMutation?.isPending ?? false}
+        isSuccess={currentMutation?.isSuccess ?? false}
+        isError={currentMutation?.isError ?? false}
       />
     </>
   );
