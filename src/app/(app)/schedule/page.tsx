@@ -12,12 +12,12 @@ export const metadata: Metadata = {
 export default function Schedule() {
   return (
     <AuthCheck userTypes={["student"]}>
-    <div className="flex h-full flex-col-reverse gap-5 md:flex-row md:gap-8">
-      <ScheduleProvider>
-        <CalendarOptions schedule />
-        <ScheduleCalendar />
-      </ScheduleProvider>
+      <div className="flex h-full flex-col-reverse gap-5 md:flex-row md:gap-8">
+        <ScheduleProvider>
+          <CalendarOptions schedule />
+          <ScheduleCalendar />
+        </ScheduleProvider>
+      </div>
     </AuthCheck>
-    </div>
   );
 }
