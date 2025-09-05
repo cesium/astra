@@ -158,42 +158,46 @@ function DisplayCourses({
     );
   } else if (state === "add") {
     return (
-      <div className="no-scrollbar h-full overflow-y-scroll">
-        {shiftsSorted.map((yearGroup) => (
-          <CustomDisclosure
-            disclosureChild
-            label={`${ordinalNumbers[yearGroup.year - 1]} Year`}
-            key={`${ordinalNumbers[yearGroup.year - 1]} Year`}
-          >
-            <div className="mt-1 ml-2 h-full w-full">
-              {Object.entries(yearGroup.semesters).map(
-                ([semester, courses]) => (
-                  <CustomDisclosure
-                    label={`${ordinalNumbers[Number(semester) - 1]} Semester`}
-                    key={`${ordinalNumbers[Number(semester) - 1]} Semester`}
-                  >
-                    <div
-                      className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4"
-                      onScroll={handleScroll}
-                      ref={scrollableRef}
+      <div className="no-scrollbar h-full overflow-y-scroll pb-14">
+        <div>
+          {shiftsSorted.map((yearGroup) => (
+            <CustomDisclosure
+              disclosureChild
+              label={`${ordinalNumbers[yearGroup.year - 1]} Year`}
+              key={`${ordinalNumbers[yearGroup.year - 1]} Year`}
+            >
+              <div className="mt-1 ml-2 h-full w-full">
+                {Object.entries(yearGroup.semesters).map(
+                  ([semester, courses]) => (
+                    <CustomDisclosure
+                      label={`${ordinalNumbers[Number(semester) - 1]} Semester`}
+                      key={`${ordinalNumbers[Number(semester) - 1]} Semester`}
                     >
-                      {Object.entries(courses).map(([courseID, courseData]) => (
-                        <EventHeader
-                          key={courseID}
-                          name={courseData.courseName}
-                          color={courseData.color}
-                          shifts={courseData.shifts}
-                          isEditing={isEditing}
-                          state={state}
-                        />
-                      ))}
-                    </div>
-                  </CustomDisclosure>
-                ),
-              )}
-            </div>
-          </CustomDisclosure>
-        ))}
+                      <div
+                        className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4"
+                        onScroll={handleScroll}
+                        ref={scrollableRef}
+                      >
+                        {Object.entries(courses).map(
+                          ([courseID, courseData]) => (
+                            <EventHeader
+                              key={courseID}
+                              name={courseData.courseName}
+                              color={courseData.color}
+                              shifts={courseData.shifts}
+                              isEditing={isEditing}
+                              state={state}
+                            />
+                          ),
+                        )}
+                      </div>
+                    </CustomDisclosure>
+                  ),
+                )}
+              </div>
+            </CustomDisclosure>
+          ))}
+        </div>
       </div>
     );
   } else {
@@ -204,24 +208,26 @@ function DisplayCourses({
         )}
 
         <div
-          className="divide-dark/8 bg-light no-scrollbar max-h-full w-full space-y-2 divide-y overflow-y-scroll rounded-lg pt-3 pl-4"
+          className="no-scrollbar max-h-full w-full overflow-y-scroll pb-14"
           onScroll={handleScroll}
           ref={scrollableRef}
         >
-          {shiftsSorted.map((yearGroup) =>
-            Object.entries(yearGroup.semesters).map(([, courses]) =>
-              Object.entries(courses).map(([courseID, courseData]) => (
-                <EventHeader
-                  key={courseID}
-                  name={courseData.courseName}
-                  color={courseData.color}
-                  shifts={courseData.shifts}
-                  isEditing={isEditing}
-                  state={state}
-                />
-              )),
-            ),
-          )}
+          <div className="divide-dark/8 bg-light space-y-2 divide-y rounded-lg pt-3 pl-4">
+            {shiftsSorted.map((yearGroup) =>
+              Object.entries(yearGroup.semesters).map(([, courses]) =>
+                Object.entries(courses).map(([courseID, courseData]) => (
+                  <EventHeader
+                    key={courseID}
+                    name={courseData.courseName}
+                    color={courseData.color}
+                    shifts={courseData.shifts}
+                    isEditing={isEditing}
+                    state={state}
+                  />
+                )),
+              ),
+            )}
+          </div>
         </div>
 
         {!isScrolledBottom && (
@@ -306,7 +312,7 @@ export default function CalendarOptions({
                   Already Selected
                 </h3>
 
-                <div className="mb-3 space-x-3 px-2">
+                <div className="mb-3 flex items-center gap-3 px-2">
                   <button
                     onClick={() => {
                       setEditingShifts([]);
@@ -339,10 +345,10 @@ export default function CalendarOptions({
                     state="remove"
                   />
                   {hasChanges && (
-                    <div className="absolute bottom-0 z-10 flex h-20 w-full items-center justify-center">
+                    <div className="pointer-events-none absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 items-center justify-center">
                       <button
                         onClick={saveChanges}
-                        className="bg-primary-400 text-light w-44 cursor-pointer rounded-full px-2 py-4 font-semibold transition-transform duration-200 hover:scale-95"
+                        className="bg-primary-400 text-light pointer-events-auto w-36 cursor-pointer rounded-full px-1 py-2 font-semibold transition-transform duration-200 hover:scale-95"
                       >
                         Save
                       </button>
@@ -388,10 +394,10 @@ export default function CalendarOptions({
                     state="add"
                   />
                   {hasChanges && (
-                    <div className="absolute bottom-0 z-10 flex h-20 w-full items-center justify-center">
+                    <div className="pointer-events-none absolute bottom-2 z-10 flex w-full items-center justify-center">
                       <button
                         onClick={saveChanges}
-                        className="bg-primary-400 text-light w-44 cursor-pointer rounded-full px-2 py-4 font-semibold transition-transform duration-200 hover:scale-95"
+                        className="bg-primary-400 text-light pointer-events-auto w-36 cursor-pointer rounded-full px-2 py-2 font-semibold transition-transform duration-200 hover:scale-95"
                       >
                         Save
                       </button>
