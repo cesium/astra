@@ -220,7 +220,6 @@ export default function CalendarView({
         startAccessor="start"
         endAccessor="end"
         allDayAccessor="allDay"
-        style={{ height: "calc(100vh - 124px)", width: "100%" }}
         view={view}
         views={views}
         onView={handleViewChange}

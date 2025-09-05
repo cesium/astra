@@ -1,5 +1,8 @@
 import { Metadata } from "next";
 import ScheduleCalendar from "@/components/schedule-calendar";
+
+import { ScheduleProvider } from "@/contexts/schedule-provider";
+import CalendarOptions from "@/components/calendar-options";
 import { AuthCheck } from "@/components/auth_check";
 
 export const metadata: Metadata = {
@@ -9,12 +12,12 @@ export const metadata: Metadata = {
 export default function Schedule() {
   return (
     <AuthCheck userTypes={["student"]}>
-      <div className="flex gap-8">
-        <div className="hidden w-23 bg-gray-400 md:block">
-          <button className="cursor-pointer">Edit</button>
-        </div>
+    <div className="flex h-full flex-col-reverse gap-5 md:flex-row md:gap-8">
+      <ScheduleProvider>
+        <CalendarOptions schedule />
         <ScheduleCalendar />
-      </div>
+      </ScheduleProvider>
     </AuthCheck>
+    </div>
   );
 }
