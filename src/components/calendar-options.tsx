@@ -397,7 +397,7 @@ export default function CalendarOptions({
                     <div className="pointer-events-none absolute bottom-2 z-10 flex w-full items-center justify-center">
                       <button
                         onClick={saveChanges}
-                        className="bg-primary-400 text-light w-36 cursor-pointer rounded-full px-2 py-2 font-semibold transition-transform duration-200 hover:scale-95"
+                        className="bg-primary-400 text-light pointer-events-auto w-36 cursor-pointer rounded-full px-2 py-2 font-semibold transition-transform duration-200 hover:scale-95"
                       >
                         Save
                       </button>
