@@ -37,6 +37,7 @@ function getStateStyle(state: string) {
 interface IJobCardProps {
   state: string;
   title: string;
+  type: string;
   id: number;
   created_at: Date;
   start_at: Date;
@@ -125,6 +126,7 @@ function StateTag({
 function JobCard({
   state,
   title,
+  type,
   id,
   created_at,
   start_at,
@@ -138,12 +140,18 @@ function JobCard({
   const minutes = duration ? Math.floor(duration.asMinutes()) : 0;
   const seconds = duration ? Math.floor(duration.asSeconds() % 60) : 0;
 
+  const typeIcon =
+    type === "import"
+      ? "upload"
+      : type === "generate"
+        ? "edit_calendar"
+        : "info";
   const { textColor, icon } = getStateStyle(state);
 
   return (
     <div className="border-dark/8 flex flex-col gap-6 rounded-xl border p-4 lg:flex-row lg:gap-0">
       <div className="flex flex-1 items-center gap-4">
-        <span className="material-symbols-outlined text-xl">upload</span>
+        <span className="material-symbols-outlined text-xl">{typeIcon}</span>
         <Label title={title} label={`ID: ${id}`} side="left" />
 
         <div className="flex flex-1 justify-end pb-4">
@@ -282,6 +290,7 @@ export default function Jobs() {
                         <JobCard
                           key={job.id}
                           title={formatTitle(job.type)}
+                          type={job.type.split("_")[0]}
                           state={job.state}
                           id={job.id}
                           created_at={job.inserted_at}
