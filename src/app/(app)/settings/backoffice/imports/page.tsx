@@ -1,5 +1,6 @@
 "use client";
 
+import SettingsWrapper from "@/components/settings-wrapper";
 import { useState } from "react";
 import FileUploader from "@/components/file-uploader";
 import ImportConfirmationModal from "@/components/import-confirmation-modal";
@@ -97,7 +98,7 @@ export default function Imports() {
   };
 
   return (
-    <>
+    <SettingsWrapper title="Import data">
       <div className="space-y-4">
         <div>
           <h1 className="text-2xl font-semibold">Import Data</h1>
@@ -156,6 +157,6 @@ export default function Imports() {
         isSuccess={currentMutation?.isSuccess ?? false}
         isError={currentMutation?.isError ?? false}
       />
-    </>
+    </SettingsWrapper>
   );
 }
