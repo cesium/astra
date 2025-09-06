@@ -108,7 +108,7 @@ export default function Imports() {
           </p>
         </div>
 
-        <div className="rounded-lg bg-white p-6">
+        <div className="max-w-3xl rounded-lg bg-white p-6">
           <div className="mb-4">
             <h2 className="text-lg font-semibold">Students by Courses</h2>
             <p className="mt-1 text-sm text-black">
@@ -128,7 +128,7 @@ export default function Imports() {
           />
         </div>
 
-        <div className="rounded-lg bg-white p-6">
+        <div className="max-w-3xl rounded-lg bg-white p-6">
           <div className="mb-4">
             <h2 className="text-lg font-semibold">Shifts by Courses</h2>
             <p className="mt-1 text-sm text-black">
