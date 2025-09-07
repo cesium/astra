@@ -62,6 +62,10 @@ export default function SettingsLayout({
             <SidebarItem id="exports" href="/settings/backoffice/exports">
               <SidebarItemLabel icon="ios_share" label="Export" />
             </SidebarItem>
+
+            <SidebarItem id="generator" href="/settings/backoffice/generator">
+              <SidebarItemLabel icon="ios_share" label="Generate" />
+            </SidebarItem>
           </SidebarItemList>
         </Sidebar>
       </div>
