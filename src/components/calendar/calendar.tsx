@@ -136,7 +136,7 @@ export default function CalendarView({
         date: Date,
         culture: string | undefined,
         localizer?: DateLocalizer,
-      ) => localizer?.format(date, "HH\\h", culture)?.replace(/^0+/, "") || "",
+      ) => localizer?.format(date, "HH\\", culture)?.replace(/^0+/, "") || "",
 
       // Displays only the day of the week for schedule view
       ...(type === "schedule" && {

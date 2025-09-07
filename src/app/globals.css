@@ -86,7 +86,6 @@ input[type="number"] {
   width: 100% !important;
   height: calc(100dvh - 124px) !important;
   border-radius: 15px !important;
-  overflow-y: hidden !important;
 }
 
 @media (max-width: 768px) {
@@ -97,7 +96,22 @@ input[type="number"] {
 
 .rbc-month-view,
 .rbc-time-view {
+  position: relative !important;
   border-radius: 15px !important;
+  border: 1px solid #e5e5e5 !important;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    border-radius: 15px !important;
+    pointer-events: none;
+    outline: white 4px solid;
+    z-index: 1;
+  }
 }
 
 .rbc-time-content .rbc-timeslot-group:last-of-type {
@@ -118,17 +132,69 @@ input[type="number"] {
 }
 
 .rbc-off-range-bg {
-  background-color: #0000000e !important;
+  background-color: #00000007 !important;
 }
 
 .rbc-header {
-  color: var(--color-dark);
-  opacity: 50%;
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 400 !important;
+}
+
+.rbc-header + .rbc-header {
+  border-left: none !important;
+}
+
+.rbc-day-bg + .rbc-day-bg {
+  border-left: 1px solid #e5e5e5 !important;
+}
+
+.rbc-month-row + .rbc-month-row {
+  border-top: 1px solid #e5e5e5 !important;
+}
+
+.rbc-date-cell {
+  text-align: left !important;
+  padding: 6px 0px 3px 9px !important;
+}
+
+.rbc-row + .rbc-row {
+  margin-bottom: 4px;
+}
+
+.rbc-time-content {
+  border-top: 1px solid #e5e5e5 !important;
+}
+
+.rbc-time-content > * + * > * {
+  border-left: 1px solid #e5e5e5 !important;
+}
+
+.rbc-timeslot-group {
+  border-bottom: none !important;
+}
+
+.rbc-timeslot-group:not(:has(+ .rbc-events-container)) {
+  border-bottom: 1px solid #e5e5e5 !important;
+}
+
+.rbc-time-view .rbc-time-gutter {
+  text-align: left !important;
+}
+
+.rbc-time-view .rbc-row {
+  min-height: fit-content !important;
+}
+
+.rbc-row-bg {
+  right: 0 !important;
 }
 
 .rbc-month-header .rbc-header {
-  padding-bottom: 9px;
-  padding-top: 9px;
+  padding: 9px 0px 9px 0px !important;
+}
+
+.rbc-time-header-cell .rbc-header {
+  padding: 9px 0px 9px 0px !important;
 }
 
 .rbc-timeslot-group {
@@ -153,8 +219,8 @@ input[type="number"] {
 }
 
 .rbc-month-view .rbc-event {
-  margin-left: 7px !important;
-  margin-right: 7px !important;
+  margin-left: 5px !important;
+  margin-right: 5px !important;
   width: calc(100% - 14px) !important;
   position: relative !important;
 }
@@ -172,7 +238,7 @@ input[type="number"] {
   box-sizing: border-box !important;
   border: none !important;
   font-weight: 600;
-  border-radius: 4px !important;
+  border-radius: 6px !important;
   overflow: hidden !important;
 }
 
@@ -193,22 +259,25 @@ input[type="number"] {
 .schedule .rbc-event,
 .rbc-time-view .rbc-event:not(.rbc-event-allday) {
   position: absolute !important;
-  border: 5px solid transparent !important;
+  border: 4px solid transparent !important;
   background-clip: padding-box !important;
   box-sizing: border-box !important;
-  border-radius: 11px !important;
+  border-radius: 12px !important;
   background-origin: padding-box !important;
 }
 
 .rbc-time-view .rbc-event-allday {
   position: relative !important;
-  border-top: 4px solid transparent !important;
-  border-left: 4px solid transparent !important;
-  border-right: 4px solid transparent !important;
+  border: 4px solid transparent !important;
+  /* border-right: 4px solid transparent !important; */
   background-clip: padding-box !important;
   box-sizing: border-box !important;
-  border-radius: 10px !important;
+  border-radius: 12px !important;
   background-origin: padding-box !important;
+}
+
+.rbc-row + .rbc-row {
+  translate: 0 -4px;
 }
 
 .schedule .rbc-event-content {
