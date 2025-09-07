@@ -274,7 +274,7 @@ export default function Jobs() {
             ></SummaryCard>
           </section>
 
-          <section className="border-dark/5 scroll- flex h-full min-h-0 w-full flex-col gap-6 rounded-xl border p-3 shadow-sm md:p-6">
+          <section className="border-dark/5 flex h-full min-h-0 w-full flex-col gap-6 overflow-y-scroll rounded-xl border p-3 shadow-sm md:p-6">
             <h2 className="text-lg font-semibold">Recent Jobs</h2>
 
             {jobsList && jobsList.length > 0 ? (
