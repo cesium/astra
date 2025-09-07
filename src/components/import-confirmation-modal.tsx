@@ -106,9 +106,7 @@ export default function ImportConfirmationModal({
                       </DialogTitle>
                       <p className="mb-1 text-sm text-gray-600">
                         Are you sure you want to import the file{" "}
-                        <span className="font-medium">
-                          "{selectedFile.name}"
-                        </span>
+                        <span className="font-medium">{selectedFile.name}</span>
                         ?
                       </p>
                       <p className="text-xs text-gray-500">{description}</p>
@@ -198,8 +196,7 @@ export default function ImportConfirmationModal({
                     </DialogTitle>
                     <p className="mb-1 text-sm text-gray-600">
                       Are you sure you want to import the file{" "}
-                      <span className="font-medium">"{selectedFile.name}"</span>
-                      ?
+                      <span className="font-medium">{selectedFile.name}</span>?
                     </p>
                     <p className="text-xs text-gray-500">{description}</p>
 
