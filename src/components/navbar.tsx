@@ -14,7 +14,7 @@ import { useSignOut } from "@/lib/mutations/session";
 
 const Logo = () => (
   <Link href="/" className="flex cursor-pointer items-center gap-2">
-    <img src="/images/logo.svg" alt="Logo" className="size-32" />
+    <img src="/images/logo.svg" alt="Pombo Logo" className="size-32" />
   </Link>
 );
 
