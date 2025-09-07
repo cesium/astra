@@ -11,10 +11,17 @@ import Avatar from "./avatar";
 import { useRouter } from "next/navigation";
 import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
 import { useSignOut } from "@/lib/mutations/session";
+import Image from "next/image";
 
 const Logo = () => (
   <Link href="/" className="flex cursor-pointer items-center gap-2">
-    <img src="/images/logo.svg" alt="Pombo Logo" className="size-32" />
+    <Image
+      src="/images/logo.svg"
+      alt="Pombo Logo"
+      width={128}
+      height={128}
+      className="w-32"
+    />
   </Link>
 );
 
