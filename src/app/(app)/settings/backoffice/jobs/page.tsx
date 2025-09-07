@@ -114,10 +114,10 @@ function StateTag({
       </span>
       <div className="bg-smoke border-dark/8 hidden h-fit items-center rounded-full border px-2.5 py-0.5 text-xs sm:inline-flex lg:hidden xl:inline-flex">
         {state === "available"
-          ? "pending"
+          ? "Pending"
           : state === "discarded"
-            ? "failed"
-            : state}
+            ? "Failed"
+            : state.charAt(0).toUpperCase() + state.slice(1)}
       </div>
     </div>
   );
@@ -274,7 +274,7 @@ export default function Jobs() {
             ></SummaryCard>
           </section>
 
-          <section className="border-dark/5 flex h-full min-h-0 w-full flex-col gap-6 overflow-y-scroll rounded-xl border p-3 shadow-sm md:p-6">
+          <section className="border-dark/5 flex h-full min-h-0 w-full flex-col gap-6 rounded-xl border p-3 shadow-sm md:p-6">
             <h2 className="text-lg font-semibold">Recent Jobs</h2>
 
             {jobsList && jobsList.length > 0 ? (

@@ -21,7 +21,7 @@ export default function SettingsWrapper({
           {title}
         </h2>
       </div>
-      <div className="min-h-0 flex-1 overflow-auto px-1.5 pt-7 md:px-0 md:pt-0">
+      <div className="min-h-0 flex-1 px-1.5 pt-7 md:px-0 md:pt-0">
         {children}
       </div>
     </div>
