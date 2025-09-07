@@ -73,6 +73,10 @@ export default function SidebarSettings() {
           <SidebarItem id="jobs" href="/settings/backoffice/jobs">
             <SidebarItemLabel icon="data_table" label="Jobs Monitor" />
           </SidebarItem>
+
+          <SidebarItem id="generator" href="/settings/backoffice/generator">
+            <SidebarItemLabel icon="sdk" label="Schedule Generetor" />
+          </SidebarItem>
         </SidebarItemList>
       </Sidebar>
     </div>
