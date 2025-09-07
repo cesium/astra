@@ -13,7 +13,7 @@ import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
 import { useSignOut } from "@/lib/mutations/session";
 
 const Logo = () => (
-  <div className="flex items-center gap-2">
+  <Link href="/" className="flex cursor-pointer items-center gap-2">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="32"
@@ -34,7 +34,7 @@ const Logo = () => (
       <path d="M7 18a6 6 0 0 0 3.84-10.61" />
     </svg>
     <span className="text-xl font-bold select-none">pombo</span>
-  </div>
+  </Link>
 );
 
 interface ITabProps {
