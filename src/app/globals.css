@@ -276,7 +276,7 @@ input[type="number"] {
   background-origin: padding-box !important;
 }
 
-.rbc-row + .rbc-row {
+.rbc-allday-cell .rbc-row + .rbc-row {
   translate: 0 -4px;
 }
 
