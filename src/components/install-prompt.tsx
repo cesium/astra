@@ -36,6 +36,7 @@ export default function InstallPrompt() {
       const { outcome } = await (deferredPrompt as any).userChoice;
       setDeferredPrompt(null);
       setIsInstallable(false);
+      closePrompt();
       console.log(`User response to the install prompt: ${outcome}`);
     }
   };
