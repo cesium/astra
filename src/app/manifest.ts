@@ -482,7 +482,7 @@ export default function manifest(): MetadataRoute.Manifest {
         name: "Exchange",
         url: "/exchange",
         description: "A shortcut to the exchange page",
-      }
+      },
     ],
   };
 }
