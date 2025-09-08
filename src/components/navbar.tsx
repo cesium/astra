@@ -11,6 +11,7 @@ import Avatar from "./avatar";
 import { useRouter } from "next/navigation";
 import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
 import { useSignOut } from "@/lib/mutations/session";
+import { firstLastName } from "@/lib/utils";
 
 const Logo = () => (
   <Link href="/" className="flex cursor-pointer items-center gap-2">
@@ -246,7 +247,9 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                           className="flex cursor-pointer items-center gap-2 pl-3.5 focus:outline-none"
                         >
                           <Avatar name={user.data.name} className="" />
-                          <span className="text-dark/50">{user.data.name}</span>
+                          <span className="text-dark/50">
+                            {firstLastName(user.data.name)}
+                          </span>
                         </button>
                       ) : (
                         <div className="flex items-center gap-3">
@@ -279,12 +282,14 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                   >
                     <div className="flex items-center gap-2">
                       <Avatar className="size-14" name={user.data?.name} />
-                      <span className="text-dark/50">{user.data?.name}</span>
+                      <span className="text-dark/50">
+                        {firstLastName(user.data?.name)}
+                      </span>
                     </div>
                     <div className="my-3.5 border-b border-black/10" />
                     <div className="flex flex-col gap-2">
                       <Link
-                        href="/settings"
+                        href="/settings/account"
                         className="text-dark flex items-center gap-2"
                         onClick={() => setActive(false)}
                       >
@@ -326,30 +331,36 @@ export default function Navbar() {
   const session = useGetSession();
 
   return (
-    <nav className="flex w-full items-center justify-between px-5 py-4 md:h-20 md:px-10">
-      <Logo />
-
-      {session.data?.signedIn && (
-        <TabsContainer currentPage={currentPage} className="hidden md:flex">
-          {tabs.map((tab) => (
-            <Tab
-              key={tab.href}
-              name={tab.name}
-              icon={tab.icon}
-              href={tab.href}
-              currentPage={currentPage}
-              isMobile={false}
-            />
-          ))}
-        </TabsContainer>
-      )}
-
-      {/* User dropdown */}
-      <div className="hidden md:block">
-        <UserDropdown />
+    <nav className="grid w-full grid-cols-3 items-center px-5 py-4 md:h-20 md:px-10">
+      <div className="flex items-center">
+        <Logo />
       </div>
 
-      <MobileDropdown currentPage={currentPage} />
+      {session.data?.signedIn && (
+        <div className="flex justify-center">
+          <TabsContainer currentPage={currentPage} className="hidden md:flex">
+            {tabs.map((tab) => (
+              <Tab
+                key={tab.href}
+                name={tab.name}
+                icon={tab.icon}
+                href={tab.href}
+                currentPage={currentPage}
+                isMobile={false}
+              />
+            ))}
+          </TabsContainer>
+        </div>
+      )}
+
+      <div className="flex items-center justify-end">
+        {/* User dropdown */}
+        <div className="hidden md:block">
+          <UserDropdown />
+        </div>
+
+        <MobileDropdown currentPage={currentPage} />
+      </div>
     </nav>
   );
 }
