@@ -462,15 +462,13 @@ export default function manifest(): MetadataRoute.Manifest {
         sizes: "1024x1024",
       },
     ],
-    // TODO
-    // screenshots: [
-    //   {
-    //     src: "https://www.pwabuilder.com/assets/screenshots/screen1.png",
-    //     sizes: "2880x1800",
-    //     type: "image/png",
-    //     description: "A screenshot of the home page",
-    //   },
-    // ],
+    screenshots: [
+      {
+        src: "https://www.pwabuilder.com/assets/screenshots/screen1.png",
+        sizes: "2880x1800",
+        type: "image/png",
+      },
+    ],
     prefer_related_applications: false,
     shortcuts: [
       {
