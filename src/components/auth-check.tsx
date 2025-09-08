@@ -20,7 +20,9 @@ export const AuthCheck = ({
   const pathname = usePathname();
   const token = useAuthStore((state) => state.token);
   const [isMounted, setIsMounted] = useState(false);
-  const loadingState = <div className="w-full h-full bg-[url(/images/calendar.svg)] bg-center bg-repeat"></div>
+  const loadingState = (
+    <div className="h-full w-full bg-[url(/images/calendar.svg)] bg-center bg-repeat"></div>
+  );
 
   useEffect(() => {
     setIsMounted(true);
@@ -52,7 +54,16 @@ export const AuthCheck = ({
         return;
       }
     }
-  }, [isMounted, shouldBeLoggedIn, token, pathname, router, user.data, user.error, userTypes]);
+  }, [
+    isMounted,
+    shouldBeLoggedIn,
+    token,
+    pathname,
+    router,
+    user.data,
+    user.error,
+    userTypes,
+  ]);
 
   if (!isMounted) return null;
 
@@ -70,7 +81,8 @@ export const AuthCheck = ({
   }
 
   if (userTypes && userTypes.length > 0) {
-    if (user.isLoading || !user.data || !userTypes.includes(user.data.type)) return <></>;
+    if (user.isLoading || !user.data || !userTypes.includes(user.data.type))
+      return <></>;
   }
 
   return <>{children}</>;

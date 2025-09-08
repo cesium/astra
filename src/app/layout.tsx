@@ -29,8 +29,8 @@ export default function RootLayout({
       <body className={clsx(jamjuree.variable, "font-jamjuree h-full")}>
         <ReactQueryProvider>
           <AuthCheck shouldBeLoggedIn>
-              {children}
-              <ReactQueryDevtools initialIsOpen={false} />
+            {children}
+            <ReactQueryDevtools initialIsOpen={false} />
           </AuthCheck>
         </ReactQueryProvider>
       </body>
