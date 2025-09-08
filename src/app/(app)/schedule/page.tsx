@@ -3,7 +3,7 @@ import ScheduleCalendar from "@/components/schedule-calendar";
 
 import { ScheduleProvider } from "@/contexts/schedule-provider";
 import CalendarOptions from "@/components/calendar-options";
-import { AuthCheck } from "@/components/auth_check";
+import { AuthCheck } from "@/components/auth-check";
 
 export const metadata: Metadata = {
   title: "Pombo | Schedule",
