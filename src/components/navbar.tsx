@@ -15,13 +15,7 @@ import Image from "next/image";
 
 const Logo = () => (
   <Link href="/" className="flex cursor-pointer items-center gap-2">
-    <Image
-      src="/images/logo.svg"
-      alt="Pombo Logo"
-      width={128}
-      height={128}
-      className="w-32"
-    />
+    <Image src="/images/logo.svg" alt="Pombo Logo" width={128} height={128} />
   </Link>
 );
 

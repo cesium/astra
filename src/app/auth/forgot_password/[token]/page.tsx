@@ -48,13 +48,12 @@ export default function ResetPassword() {
 
   return (
     <div className="flex h-screen items-center justify-end bg-[url(/images/calendar.svg)] bg-center bg-repeat">
-      <div className="absolute top-0 left-6 flex items-center gap-1 select-none sm:gap-2">
+      <div className="absolute top-4 left-6 flex items-center gap-1 select-none sm:gap-2">
         <Image
           src="/images/logo.svg"
           alt="Pombo Logo"
-          width={64}
-          height={64}
-          className="h-20 w-40"
+          width={160}
+          height={80}
         />
       </div>
 
