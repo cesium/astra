@@ -87,8 +87,15 @@ input[type="number"] {
 
 .rbc-calendar {
   width: 100% !important;
+  height: calc(100dvh - 124px) !important;
   border-radius: 15px !important;
   overflow-y: hidden !important;
+}
+
+@media (max-width: 768px) {
+  .rbc-calendar {
+    height: calc(100dvh - 154px) !important;
+  }
 }
 
 .rbc-month-view,
@@ -170,7 +177,12 @@ input[type="number"] {
   font-weight: 600;
   border-radius: 4px !important;
   overflow: hidden !important;
-  transition: all 0.2s ease-in-out !important;
+}
+
+@media (max-width: 640px) {
+  .rbc-event {
+    font-size: 12px !important;
+  }
 }
 
 .rbc-event:hover {
@@ -206,18 +218,14 @@ input[type="number"] {
   padding: 2px !important;
 }
 
-.rbc-event::after {
+.rbc-month-view .rbc-event::after {
   content: "";
   position: absolute;
   top: 0;
   right: 0;
   width: 40px;
   height: 100%;
-  background: linear-gradient(
-    to right,
-    rgba(249, 194, 194, 0),
-    var(--gradient-color)
-  );
+  background: linear-gradient(to right, transparent, var(--gradient-color));
   border-radius: 0 4px 4px 0;
 }
 
