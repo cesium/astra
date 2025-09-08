@@ -256,7 +256,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                       )
                     ) : (
                       <Link
-                        href="/auth/sign_in"
+                        href="/auth/sign-in"
                         className="text-primary-400 flex items-center gap-3 pl-3.5"
                       >
                         <div className="bg-primary-400 flex items-center justify-center rounded-full p-0.5 text-center align-middle">

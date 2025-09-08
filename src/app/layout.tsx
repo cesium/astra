@@ -124,8 +124,6 @@ export const metadata: Metadata = {
       },
       {
         url: "/icons/ios/512.png",
-        sizes: "512x512",
-        type: "image/png",
       },
     ],
   },

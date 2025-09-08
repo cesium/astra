@@ -1,9 +1,4 @@
 import SettingsWrapper from "@/components/settings-wrapper";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Pombo | Account",
-};
 
 export default function Account() {
   return (

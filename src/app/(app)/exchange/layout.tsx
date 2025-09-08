@@ -1,15 +1,15 @@
 import { Metadata } from "next";
-import SidebarSettings from "@/components/sidebar-settings";
 
 export const metadata: Metadata = {
-  title: "Settings | Pombo",
-  description: "Tweak your preferences and configure Pombo to suit your needs",
+  title: "Exchange | Pombo",
+  description:
+    "Don't like your schedule? Easily swap classes with other students",
   openGraph: {
-    url: "/settings",
+    url: "/exchange",
     type: "website",
-    title: "Settings | Pombo",
+    title: "Exchange | Pombo",
     description:
-      "Tweak your preferences and configure Pombo to suit your needs",
+      "Don't like your schedule? Easily swap classes with other students",
     // images: [
     //   {
     //     url: "/images/og.jpg",
@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Settings | Pombo",
+    title: "Exchange | Pombo",
     description:
-      "Tweak your preferences and configure Pombo to suit your needs",
+      "Don't like your schedule? Easily swap classes with other students",
     // images: [
     //   {
     //     url: "/images/og.jpg",
@@ -39,15 +39,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SettingsLayout({
+export default function ExchangeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <div className="flex h-full min-h-0 w-full gap-5 lg:gap-10">
-      <SidebarSettings />
-      <div className="min-h-0 w-full min-w-0">{children}</div>
-    </div>
-  );
+  return children;
 }

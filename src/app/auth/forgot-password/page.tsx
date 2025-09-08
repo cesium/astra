@@ -77,7 +77,7 @@ export default function ResetPassword() {
             </div>
             <Link
               className="bg-primary-400 mx-7 rounded-full p-4 text-center font-bold text-white shadow-lg"
-              href="/auth/sign_in"
+              href="/auth/sign-in"
             >
               Go back to sign in
             </Link>
