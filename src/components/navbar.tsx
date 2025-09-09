@@ -331,7 +331,9 @@ export default function Navbar() {
   const session = useGetSession();
 
   return (
-    <nav className="grid w-full grid-cols-3 items-center px-5 py-4 md:h-20 md:px-10">
+    <nav
+      className={`grid w-full ${session.data?.signedIn ? "grid-cols-3" : "grid-cols-2"} items-center px-5 py-4 md:h-20 md:px-10`}
+    >
       <div className="flex items-center">
         <Logo />
       </div>

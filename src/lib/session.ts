@@ -92,3 +92,24 @@ export async function resetPassword({
     throw new Error("Failed to reset password. Please try again later.");
   }
 }
+
+export async function changePassword({
+  current_password,
+  password,
+  password_confirmation,
+}: {
+  current_password: string;
+  password: string;
+  password_confirmation: string;
+}) {
+  try {
+    const res = await api.post("/auth/update_password", {
+      current_password,
+      password,
+      password_confirmation,
+    });
+    return res.status;
+  } catch {
+    throw new Error("Failed to change password. Please try again later.");
+  }
+}
