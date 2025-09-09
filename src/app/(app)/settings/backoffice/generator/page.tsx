@@ -90,7 +90,9 @@ export default function GenerateSchedule() {
           )}
 
           {generateSchedule.isError && (
-            <p className="text-dark/50 font-semibold">Something went wrong</p>
+            <p className="text-dark/50 font-semibold">
+              {generateSchedule.error.message}
+            </p>
           )}
         </section>
       </div>

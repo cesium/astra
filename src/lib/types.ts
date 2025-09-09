@@ -99,9 +99,3 @@ export interface IJobProps {
   inserted_at: Date;
   user_id: string;
 }
-
-export interface IDegreeProps {
-  code: string;
-  id: string;
-  name: string;
-}
