@@ -1,22 +1,20 @@
-import clsx from 'clsx';
-import React from 'react'
-import { twMerge } from 'tailwind-merge';
-import ActionButton from './action-button';
+import clsx from "clsx";
+import React from "react";
+import { twMerge } from "tailwind-merge";
+import ActionButton from "./action-button";
 
 function ShiftTag({
   name,
   id,
   isEditing,
   state,
-  onAdd,
-  onRemove
+  onAction,
 }: {
   name: string;
   id: string;
   isEditing: boolean;
   state: "add" | "remove";
-  onAdd: (id:string) => void,
-  onRemove: (id:string) => void,
+  onAction?: (id: string) => void;
 }) {
   return (
     <div
@@ -28,7 +26,7 @@ function ShiftTag({
       )}
     >
       <p>{name}</p>
-      {isEditing && <ActionButton id={id} state={state} onAdd={onAdd} onRemove={onRemove}/>}
+      {isEditing && <ActionButton id={id} state={state} onAction={onAction} />}
     </div>
   );
 }
@@ -39,8 +37,7 @@ export default function EventHeader({
   shifts,
   isEditing,
   state,
-  onAdd,
-  onRemove
+  onAction,
 }: {
   name: string;
   color: string;
@@ -51,8 +48,7 @@ export default function EventHeader({
   }[];
   isEditing: boolean;
   state?: "add" | "remove";
-  onAdd: (id:string) => void,
-  onRemove: (id:string) => void,
+  onAction?: (id: string) => void;
 }) {
   return (
     <div className={twMerge(clsx("flex flex-col pb-3", shifts && "gap-2"))}>
@@ -62,7 +58,9 @@ export default function EventHeader({
           style={{ backgroundColor: color }}
         />
         <p className="max-w-2xs flex-1 truncate">{name}</p>
-        {!shifts && isEditing && <ActionButton state={state!} onAdd={onAdd} onRemove={onRemove} />}
+        {!shifts && isEditing && (
+          <ActionButton state={state!} onAction={onAction} />
+        )}
       </div>
       <div className="flex w-fit flex-wrap gap-2 pr-2">
         {shifts &&
@@ -73,8 +71,7 @@ export default function EventHeader({
               id={shift.id}
               isEditing={isEditing}
               state={state!}
-              onAdd={onAdd}
-              onRemove={onRemove}
+              onAction={onAction}
             />
           ))}
       </div>

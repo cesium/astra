@@ -237,7 +237,7 @@ export default function CalendarView({
           const newStyle = {
             backgroundColor: bgColor,
             color: textColor,
-            boxShadow: editing ? `inset 0 0 0 2px ${eventColor}` : "none",
+            boxShadow: editing ? `inset 0 0 0 2px ${eventColor}` : "",
             "--gradient-color": bgColor,
           } as React.CSSProperties & { "--gradient-color": string };
 

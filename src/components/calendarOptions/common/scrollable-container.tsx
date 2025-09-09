@@ -1,33 +1,32 @@
-'use client'
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 
 interface ScrollableContainerProps {
   children: React.ReactNode;
   className?: string;
-	items: any[]; //fixme 
+  items: any[]; //fixme
 }
 
 export default function ScrollableContainer({
   children,
   className,
-	items,
+  items,
 }: ScrollableContainerProps) {
-
   const [isScrolledTop, setIsScrolledTop] = useState(true);
   const [isScrolledBottom, setIsScrolledBottom] = useState(false);
   const scrollableRef = useRef<HTMLDivElement>(null);
 
-	const handleScroll = () => {
-	if (scrollableRef.current) {
-		const { scrollTop, scrollHeight, clientHeight } = scrollableRef.current;
+  const handleScroll = () => {
+    if (scrollableRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollableRef.current;
 
-		const isTop = scrollableRef.current.scrollTop === 0;
-		setIsScrolledTop(isTop);
-		const isBottom = scrollTop + clientHeight >= scrollHeight;
-		const hasOverflow = scrollHeight > clientHeight;
-		setIsScrolledBottom(isBottom || !hasOverflow);
-	}
+      const isTop = scrollableRef.current.scrollTop === 0;
+      setIsScrolledTop(isTop);
+      const isBottom = scrollTop + clientHeight >= scrollHeight;
+      const hasOverflow = scrollHeight > clientHeight;
+      setIsScrolledBottom(isBottom || !hasOverflow);
+    }
   };
 
   useEffect(() => {
@@ -41,11 +40,13 @@ export default function ScrollableContainer({
       )}
 
       <div
-        className={`divide-dark/8 bg-light no-scrollbar max-h-full w-full space-y-2 divide-y overflow-y-scroll rounded-lg pt-3 pl-4 ${className}`}
+        className={`no-scrollbar max-h-full w-full overflow-y-scroll pb-14 ${className}`}
         onScroll={handleScroll}
         ref={scrollableRef}
       >
-        {children}
+        <div className="divide-dark/8 bg-light space-y-2 divide-y rounded-lg pt-3 pl-4">
+          {children}
+        </div>
       </div>
 
       {!isScrolledBottom && (
