@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { IDegreeProps, IJobProps } from "./types";
+import { IJobProps } from "./types";
 
 export async function listJobs() {
   try {
