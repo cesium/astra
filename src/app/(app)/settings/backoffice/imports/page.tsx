@@ -13,6 +13,11 @@ const EXCEL_TYPES = [
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
 ];
 
+const CSV_TYPES = [
+  "text/csv", // .csv
+  "application/csv",
+];
+
 type ImportType = "students_by_courses" | "shifts_by_courses";
 
 interface ImportState {
@@ -138,7 +143,7 @@ export default function Imports() {
 
           <FileUploader
             onFileChange={(file) => handleFileChange(file, "shifts_by_courses")}
-            allowedTypes={EXCEL_TYPES}
+            allowedTypes={CSV_TYPES}
             maxSize={10 * 1024 * 1024}
             disabled={isAnyMutationPending}
             showSelectedFile={false}
