@@ -114,12 +114,12 @@ input[type="number"] {
   }
 }
 
-.rbc-time-content .rbc-timeslot-group:last-of-type {
-  border: none !important;
+.rbc-calendar > * + .rbc-time-view {
+  overflow: hidden !important;
 }
 
-.rbc-time-content {
-  overflow: hidden !important;
+.rbc-time-content .rbc-timeslot-group:last-of-type {
+  border: none !important;
 }
 
 .rbc-time-header {
@@ -138,6 +138,15 @@ input[type="number"] {
 .rbc-header {
   color: rgba(0, 0, 0, 0.5);
   font-weight: 400 !important;
+  border-bottom: 1px solid #e5e5e5 !important;
+  padding: 9px 0px 9px 0px !important;
+}
+
+@media (max-width: 640px) {
+  .rbc-header {
+    font-size: small !important;
+    padding: 5px 0px 5px 0px !important;
+  }
 }
 
 .rbc-header + .rbc-header {
@@ -154,11 +163,14 @@ input[type="number"] {
 
 .rbc-date-cell {
   text-align: left !important;
-  padding: 6px 0px 3px 9px !important;
+  padding: 6px 0px 6px 10px !important;
 }
 
-.rbc-row + .rbc-row {
-  margin-bottom: 4px;
+@media (max-width: 640px) {
+  .rbc-date-cell {
+    font-size: small !important;
+    padding: 2px 0px 1.5px 6px !important;
+  }
 }
 
 .rbc-time-content {
@@ -189,14 +201,6 @@ input[type="number"] {
   right: 0 !important;
 }
 
-.rbc-month-header .rbc-header {
-  padding: 9px 0px 9px 0px !important;
-}
-
-.rbc-time-header-cell .rbc-header {
-  padding: 9px 0px 9px 0px !important;
-}
-
 .rbc-timeslot-group {
   padding-top: 7.5px;
 }
@@ -213,16 +217,32 @@ input[type="number"] {
   border: none !important;
 }
 
+@media (max-width: 640px) {
+  .rbc-time-slot {
+    font-size: small !important;
+  }
+}
+
 .rbc-time-slot .rbc-label {
   color: var(--color-dark);
   opacity: 50%;
 }
 
 .rbc-month-view .rbc-event {
-  margin-left: 5px !important;
-  margin-right: 5px !important;
-  width: calc(100% - 14px) !important;
   position: relative !important;
+  margin-bottom: 4px !important;
+  width: calc(100% - 4px) !important;
+}
+
+@media (max-width: 640px) {
+  .rbc-month-view .rbc-event {
+    margin-bottom: 2px !important;
+    width: calc(100% - 2px) !important;
+  }
+}
+
+.rbc-month-view .rbc-row-segment {
+  @apply overflow-hidden pl-0.5 sm:pl-1;
 }
 
 .rbc-allday-cell {
@@ -231,7 +251,6 @@ input[type="number"] {
 
 .rbc-events-container {
   margin: 0 !important;
-  padding: 5px !important;
 }
 
 .rbc-event {
@@ -262,22 +281,39 @@ input[type="number"] {
   border: 4px solid transparent !important;
   background-clip: padding-box !important;
   box-sizing: border-box !important;
-  border-radius: 12px !important;
+  border-radius: 11px !important;
   background-origin: padding-box !important;
 }
 
-.rbc-time-view .rbc-event-allday {
+.rbc-show-more {
+  font-weight: 500 !important;
+  color: rgba(0, 0, 0, 0.4) !important;
+  font-size: small !important;
+  padding-left: 6px !important;
+}
+
+@media (max-width: 640px) {
+  .rbc-show-more {
+    font-size: x-small !important;
+    padding-left: 4px !important;
+  }
+}
+
+.rbc-show-more:hover {
+  color: rgba(0, 0, 0, 0.6) !important;
+  @apply transition-colors;
+}
+
+.rbc-allday-cell .rbc-row-content {
   position: relative !important;
-  border: 4px solid transparent !important;
-  /* border-right: 4px solid transparent !important; */
-  background-clip: padding-box !important;
-  box-sizing: border-box !important;
-  border-radius: 12px !important;
-  background-origin: padding-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  padding: 4px 0px 4px 0px !important;
 }
 
-.rbc-allday-cell .rbc-row + .rbc-row {
-  translate: 0 -4px;
+.rbc-allday-cell .rbc-row-segment {
+  padding: 0px 4px 0px 4px !important;
 }
 
 .schedule .rbc-event-content {
@@ -331,11 +367,6 @@ input[type="number"] {
       "M0 13C0 5.8203 5.8203 0 13 0H19.66C24.55 0 29.24 2.18609 32.99 6.18943L37.49 11L39 13L37.49 15L32.99 19.8106C29.24 23.8139 24.55 26 19.66 26H13C5.8203 26 0 20.1797 0 13Z"
     );
   }
-}
-
-.rbc-time-content,
-.rbc-time-column {
-  overflow: visible !important;
 }
 
 .schedule .rbc-allday-cell {
