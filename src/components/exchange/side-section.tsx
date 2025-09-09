@@ -20,11 +20,10 @@ const getShortShiftType = (shiftType: string) => {
 };
 export default function SideSection() {
   const { data: originalCourses } = useGetStudentOriginalSchedule();
-  console.log("JONAS", originalCourses);
   return (
     <div className="flex flex-col gap-2 lg:w-[412px]">
       <SideSectionDisclosure title="Deadline for exchanges">
-        You can exchange your shifts until September 21th, 2025. Hurry up!
+        You can exchange your shifts until September 12th, 2025 (23h:00).
       </SideSectionDisclosure>
       <SideSectionDisclosure title="Current state">
         <div className="my-2 flex w-full items-center gap-2">
@@ -47,7 +46,7 @@ export default function SideSection() {
                 {uc.shifts.map((shift, index) => (
                   <Fragment key={index}>
                     <span className="rounded-full px-2 py-1 text-xs font-medium">
-                      {getShortShiftType(shift.type)}
+                      {`${getShortShiftType(shift.type)}${shift.number}`}
                     </span>
                     {index < uc.shifts.length - 1 && (
                       <div className="h-full w-[2px] bg-black/5"></div>
@@ -56,7 +55,7 @@ export default function SideSection() {
                 ))}
               </div>
             </div>
-          ))}
+          ))} 
         </div>
       </SideSectionDisclosure>
     </div>

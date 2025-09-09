@@ -184,8 +184,7 @@ export default function AddExchangeContent({
       )}
 
       <p className="text-center text-sm text-black/50">
-        Vais entrar numa fila de espera para este turno e, se possível, o SWAP
-        trocar-te-á automaticamente com alguém que não queira estar no TP2.
+        Vais entrar numa fila de espera para este turno.
       </p>
 
       <button

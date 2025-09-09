@@ -39,18 +39,18 @@ export interface IExchange {
       | "tutorial_guidance";
     number: number;
   };
+  course: { id: string; name: string };
 }
 
 export default function MainSection() {
   const { data: response } = useGetExchanges();
 
   const exchanges = response?.data?.requests ?? [];
-
   const pending_exchanges = exchanges
     .filter((exchange: IExchange) => exchange.status === "pending")
     .map((exchange: IExchange) => ({
       id: exchange.id,
-      uc: "UC", // Placeholder
+      uc: exchange.course.name, // Placeholder
       status: exchange.status,
       from: `${getShortShiftType(exchange.from.type)}${exchange.from.number}`,
       to: `${getShortShiftType(exchange.to.type)}${exchange.to.number}`,

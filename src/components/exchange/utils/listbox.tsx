@@ -56,7 +56,7 @@ export default function ExchangeListbox({
               {collection.find((item) => item.id === selectedItem)?.name}
             </span>
           ) : (
-            "Select an item"
+            <span className="hidden sm:block">"Select an item"</span>
           )}
           {arrowDown && rounded && (
             <span
