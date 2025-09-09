@@ -56,7 +56,7 @@ export default function ExchangeListbox({
               {collection.find((item) => item.id === selectedItem)?.name}
             </span>
           ) : (
-            <span className={clsx("sm:block", { "hidden": rounded })}>
+            <span className={clsx("sm:block", { hidden: rounded })}>
               Select an item
             </span>
           )}

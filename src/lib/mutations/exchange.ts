@@ -1,5 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createExchange, deleteExchange, updateExchangeDate } from "../exchange";
+import {
+  createExchange,
+  deleteExchange,
+  updateExchangeDate,
+} from "../exchange";
 
 export function useCreateExchange() {
   const queryClient = useQueryClient();

@@ -55,7 +55,7 @@ export default function SideSection() {
                 ))}
               </div>
             </div>
-          ))} 
+          ))}
         </div>
       </SideSectionDisclosure>
     </div>

@@ -10,7 +10,7 @@ export default function Configurations() {
   return (
     <SettingsWrapper title="Configuration and management">
       <div>
-      <ExchangePeriodForm />
+        <ExchangePeriodForm />
       </div>
     </SettingsWrapper>
   );
