@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createExchange, deleteExchange } from "../exchange";
+import { createExchange, deleteExchange, updateExchangeDate } from "../exchange";
 
 export function useCreateExchange() {
   const queryClient = useQueryClient();
@@ -16,7 +16,17 @@ export function useDeleteExchange() {
   return useMutation({
     mutationFn: deleteExchange,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["exchanges"] });
+      queryClient.invalidateQueries({ queryKey: ["delete_exchange"] });
+    },
+  });
+}
+
+export function useUpdateExchangeDate() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateExchangeDate,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["exchange_date"] });
     },
   });
 }

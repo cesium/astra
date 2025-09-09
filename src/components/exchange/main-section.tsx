@@ -50,7 +50,7 @@ export default function MainSection() {
     .filter((exchange: IExchange) => exchange.status === "pending")
     .map((exchange: IExchange) => ({
       id: exchange.id,
-      uc: exchange.course.name, // Placeholder
+      uc: exchange.course.name,
       status: exchange.status,
       from: `${getShortShiftType(exchange.from.type)}${exchange.from.number}`,
       to: `${getShortShiftType(exchange.to.type)}${exchange.to.number}`,
@@ -61,7 +61,7 @@ export default function MainSection() {
     .filter((exchange: IExchange) => exchange.status === "approved")
     .map((exchange: IExchange) => ({
       id: exchange.id,
-      uc: "UC", // Placeholder
+      uc: exchange.course.name,
       status: exchange.status,
       from: `${getShortShiftType(exchange.from.type)}${exchange.from.number}`,
       to: `${getShortShiftType(exchange.to.type)}${exchange.to.number}`,
@@ -70,7 +70,7 @@ export default function MainSection() {
 
   return (
     <div className="flex w-full flex-col gap-8">
-      <h1 className="text-2xl font-semibold">Exchanges</h1>
+      <h1 className="text-2xl font-semibold">Exchange Requests</h1>
       <CardsSection drafts />
       <CardsSection title="Pending" pending data={pending_exchanges} />
       <CardsSection title="Completed" completed data={approved_exchanges} />

@@ -1,3 +1,4 @@
+import ExchangePeriodForm from "@/components/exchange-period-form";
 import SettingsWrapper from "@/components/settings-wrapper";
 import { Metadata } from "next";
 
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
 export default function Configurations() {
   return (
     <SettingsWrapper title="Configuration and management">
-      <div>Configurations Page</div>
+      <div>
+      <ExchangePeriodForm />
+      </div>
     </SettingsWrapper>
   );
 }

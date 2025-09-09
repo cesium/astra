@@ -13,3 +13,9 @@ export async function createExchange(data: {
 export async function deleteExchange(id: string) {
   return await api.delete(`/shift_exchanges/${id}`);
 }
+
+export async function updateExchangeDate(data: {
+  request: { start: string; end: string };
+}) {
+  return await api.post(`/shift_exchanges/exchange_period`, data.request);
+}
