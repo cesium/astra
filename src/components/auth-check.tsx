@@ -58,6 +58,7 @@ export const AuthCheck = ({
     token,
     pathname,
     router,
+    user,
     user.data,
     user.error,
     userTypes,
