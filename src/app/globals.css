@@ -205,6 +205,12 @@ input[type="number"] {
   padding-top: 7.5px;
 }
 
+@media (max-width: 640px) {
+  .rbc-timeslot-group {
+    padding-top: 2px;
+  }
+}
+
 .rbc-today {
   background-color: #ee774926 !important;
 }
@@ -366,6 +372,13 @@ input[type="number"] {
     clip-path: path(
       "M0 13C0 5.8203 5.8203 0 13 0H19.66C24.55 0 29.24 2.18609 32.99 6.18943L37.49 11L39 13L37.49 15L32.99 19.8106C29.24 23.8139 24.55 26 19.66 26H13C5.8203 26 0 20.1797 0 13Z"
     );
+  }
+}
+
+@media (max-width: 640px) {
+  .rbc-current-time-indicator::before {
+    font-size: 10px;
+    left: -31.5px;
   }
 }
 
