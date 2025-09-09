@@ -99,13 +99,16 @@ export function SidebarItemLabel({
   label: string;
 }) {
   return (
-    <div className="inline-flex gap-2">
+    <div className="flex w-full gap-2">
       <span className="material-symbols-outlined-filled origin-center transition-all duration-200 ease-in-out group-hover:scale-105 group-hover:-rotate-12">
         {icon}
       </span>
-      <p className="transition-all duration-200 ease-in-out group-hover:translate-x-1">
+      <p className="flex-1 transition-all duration-200 ease-in-out group-hover:translate-x-1 md:flex-none">
         {label}
       </p>
+      <span className="material-symbols-outlined-filled origin-center transition-all duration-200 ease-in-out group-hover:translate-x-1 md:!hidden">
+        chevron_right
+      </span>
     </div>
   );
 }

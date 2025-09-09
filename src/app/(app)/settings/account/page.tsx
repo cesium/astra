@@ -2,13 +2,13 @@ import SettingsWrapper from "@/components/settings-wrapper";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pombo | Notifications",
+  title: "Pombo | Account",
 };
 
-export default function Notifications() {
+export default function Account() {
   return (
-    <SettingsWrapper title="Notifications and alerts">
-      <div>Notifications Page</div>
+    <SettingsWrapper title="Account and profile">
+      <div>Account Page</div>
     </SettingsWrapper>
   );
 }
