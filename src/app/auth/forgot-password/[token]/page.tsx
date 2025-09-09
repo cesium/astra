@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
+import Image from "next/image";
 
 const formSchema = z
   .object({
@@ -48,26 +49,12 @@ export default function ResetPassword() {
   return (
     <div className="flex h-screen items-center justify-end bg-[url(/images/calendar.svg)] bg-center bg-repeat">
       <div className="absolute top-4 left-6 flex items-center gap-1 select-none sm:gap-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="lucide lucide-bird-icon lucide-bird stroke-primary-400 size-14"
-        >
-          <path d="M16 7h.01" />
-          <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
-          <path d="m20 7 2 .5-2 .5" />
-          <path d="M10 18v3" />
-          <path d="M14 17.75V21" />
-          <path d="M7 18a6 6 0 0 0 3.84-10.61" />
-        </svg>
-        <span className="text-3xl font-bold">pombo</span>
+        <Image
+          src="/images/logo.svg"
+          alt="Pombo Logo"
+          width={160}
+          height={80}
+        />
       </div>
 
       <div className="bg-light ring-smoke mx-4 flex flex-col gap-2 rounded-3xl p-4 ring-4 sm:mx-32 sm:min-w-md sm:gap-12 sm:p-8">
