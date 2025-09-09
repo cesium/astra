@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ExchangeListbox from "./utils/listbox";
 import {
   useGetAllCourses,
@@ -29,8 +29,7 @@ export default function AddExchangeContent({
   const { data: originalCourses } = useGetStudentOriginalSchedule();
   const { data: allCourses } = useGetAllCourses();
   const createExchange = useCreateExchange();
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const ucs =
     originalCourses?.map((course) => ({ id: course.id, name: course.name })) ||
@@ -49,31 +48,34 @@ export default function AddExchangeContent({
       ].map((shiftType) => ({ id: shiftType, name: shiftType }))
     : [];
   const [selectedShift, setSelectedShift] = useState("");
-
-  const shiftsToLeave = originalCourses
-    ? originalCourses
-        .filter((course) => course.id === selectedUC)
-        .flatMap((course) => course.shifts)
-        .filter((shift) => getShortShiftType(shift.type) === selectedShift)
-        .map((shift) => ({
-          id: shift.id,
-          name: `${getShortShiftType(shift.type)}${shift.number}`,
-        }))
-    : [];
-
+  const shiftsToLeave = useMemo(() => {
+    return originalCourses
+      ? originalCourses
+          .filter((course) => course.id === selectedUC)
+          .flatMap((course) => course.shifts)
+          .filter((shift) => getShortShiftType(shift.type) === selectedShift)
+          .map((shift) => ({
+            id: shift.id,
+            name: `${getShortShiftType(shift.type)}${shift.number}`,
+          }))
+      : [];
+  }, [originalCourses, selectedUC, selectedShift]);
   const [selectedShiftFrom, setSelectedShiftFrom] = useState("");
 
-  const shiftsToJoin = allCourses
-    ? allCourses
-        .filter((course) => course.id === selectedUC)
-        .flatMap((course) => course.shifts)
-        .filter((shift) => getShortShiftType(shift.type) === selectedShift)
-        .filter((shift) => shift.id !== selectedShiftFrom)
-        .map((shift) => ({
-          id: shift.id,
-          name: `${getShortShiftType(shift.type)}${shift.number}`,
-        }))
-    : [];
+  const shiftsToJoin = useMemo(() => {
+    return allCourses
+      ? allCourses
+          .filter((course) => course.id === selectedUC)
+          .flatMap((course) => course.shifts)
+          .filter((shift) => getShortShiftType(shift.type) === selectedShift)
+          .filter((shift) => shift.id !== selectedShiftFrom)
+          .map((shift) => ({
+            id: shift.id,
+            name: `${getShortShiftType(shift.type)}${shift.number}`,
+          }))
+      : [];
+  }, [allCourses, selectedUC, selectedShift, selectedShiftFrom]);
+
   const [selectedShiftTo, setSelectedShiftTo] = useState("");
 
   useEffect(() => {
@@ -83,7 +85,14 @@ export default function AddExchangeContent({
     if (!selectedShiftTo && shiftsToJoin.length) {
       setSelectedShiftTo(shiftsToJoin[0].id);
     }
-  }, [selectedUC, selectedShift, shiftsToLeave, shiftsToJoin]);
+  }, [
+    selectedUC,
+    selectedShift,
+    shiftsToLeave,
+    shiftsToJoin,
+    selectedShiftFrom,
+    selectedShiftTo,
+  ]);
 
   useEffect(() => {
     setSelectedShift("");
@@ -108,7 +117,8 @@ export default function AddExchangeContent({
       { request: { shift_from: selectedShiftFrom, shift_to: selectedShiftTo } },
       {
         onSuccess: () => setModalState(false),
-        onError: () => setErrorMessage("Esta troca já existe ou ocorreu um erro."),
+        onError: () =>
+          setErrorMessage("Esta troca já existe ou ocorreu um erro."),
       },
     );
   };
@@ -170,7 +180,7 @@ export default function AddExchangeContent({
       </div>
 
       {errorMessage && (
-        <p className="text-sm text-center text-danger mt-2">{errorMessage}</p>
+        <p className="text-danger mt-2 text-center text-sm">{errorMessage}</p>
       )}
 
       <p className="text-center text-sm text-black/50">

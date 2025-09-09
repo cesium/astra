@@ -94,10 +94,7 @@ export default function CardsSection({
         setModalState={setExchangeModalState}
         title="Add an exchange"
       >
-        <AddExchangeContent
-          modalState={exchangeModalState}
-          setModalState={setExchangeModalState}
-        />
+        <AddExchangeContent setModalState={setExchangeModalState} />
       </ExchangeModal>
     </div>
   );

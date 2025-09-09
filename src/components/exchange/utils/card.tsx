@@ -31,7 +31,7 @@ export default function ExchangeCard({
 
   const handleCancelExchange = (close: () => void) => {
     cancelExchange.mutate(exchange_id as string, {
-      onSuccess: () => close()
+      onSuccess: () => close(),
     });
   };
 

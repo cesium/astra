@@ -11,9 +11,6 @@ import Avatar from "./avatar";
 import { useRouter } from "next/navigation";
 import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
 import { useSignOut } from "@/lib/mutations/session";
-import { useGetExchanges } from "@/lib/queries/exchange";
-import getExchangesSocket from "@/lib/sockets/exchange";
-import useSubscribeToExchanges from "@/lib/sockets/exchange";
 
 const Logo = () => (
   <Link href="/" className="flex cursor-pointer items-center gap-2">
