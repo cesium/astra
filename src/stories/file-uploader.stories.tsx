@@ -34,6 +34,12 @@ const meta: Meta<typeof FileUploader> = {
       description: "Whether the file uploader is disabled",
       defaultValue: false,
     },
+    showSelectedFile: {
+      control: "boolean",
+      description:
+        "Whether to show the selected file details below the uploader",
+      defaultValue: true,
+    },
     className: {
       control: "text",
       description: "Additional CSS classes for the container",
@@ -135,6 +141,19 @@ export const Disabled: Story = {
   ),
   args: {
     disabled: true,
+  },
+};
+
+export const HiddenFilePreview: Story = {
+  render: (args) => (
+    <div className="w-full max-w-md">
+      <FileUploader {...args} />
+    </div>
+  ),
+  args: {
+    showSelectedFile: false,
+    allowedTypes: ["image/jpeg", "image/png"],
+    maxSize: 5 * 1024 * 1024, // 5MB limit
   },
 };
 
