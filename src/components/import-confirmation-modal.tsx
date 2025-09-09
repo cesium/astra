@@ -141,7 +141,7 @@ export default function ImportConfirmationModal({
                     </button>
                     <button
                       onClick={onConfirm}
-                      disabled={isLoading}
+                      disabled={isLoading || isSuccess}
                       className={`flex-1 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${buttonState.color}`}
                     >
                       {buttonState.text}
@@ -223,7 +223,7 @@ export default function ImportConfirmationModal({
                 <div className="mt-6 flex gap-3 sm:flex-row-reverse">
                   <button
                     onClick={onConfirm}
-                    disabled={isLoading}
+                    disabled={isLoading || isSuccess}
                     className={`flex-1 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50 sm:flex-initial sm:px-6 ${buttonState.color}`}
                   >
                     {buttonState.text}
