@@ -4,8 +4,6 @@ import { useAuthStore } from "@/stores/authStore";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const OPEN_ROUTES = ["/auth/sign_in", "/auth/forgot_password"];
-
 export const AuthCheck = ({
   children,
   userTypes,
@@ -31,8 +29,8 @@ export const AuthCheck = ({
   useEffect(() => {
     if (!isMounted) return;
 
-    const isOpenRoute = OPEN_ROUTES.includes(pathname);
-
+    const isOpenRoute = pathname.startsWith("/auth/");
+    console.log(pathname, { isOpenRoute, token, user });
     if (shouldBeLoggedIn && !token && !isOpenRoute) {
       router.replace("/auth/sign_in");
       return;
@@ -43,7 +41,7 @@ export const AuthCheck = ({
       return;
     }
 
-    if (shouldBeLoggedIn && token && pathname === "/auth/sign_in") {
+    if (shouldBeLoggedIn && token && isOpenRoute) {
       router.replace("/");
       return;
     }
@@ -67,11 +65,11 @@ export const AuthCheck = ({
 
   if (!isMounted) return null;
 
-  if (pathname === "/auth/sign_in") {
+  if (pathname.startsWith("/auth/")) {
     return token ? loadingState : <>{children}</>;
   }
 
-  if (OPEN_ROUTES.includes(pathname) && !shouldBeLoggedIn) {
+  if (pathname.startsWith("/auth/") && !shouldBeLoggedIn) {
     return token ? loadingState : <>{children}</>;
   }
 
