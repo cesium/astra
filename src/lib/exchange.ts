@@ -1,6 +1,15 @@
 import { api } from "./api";
 
 export async function getExchanges() {
-    return await api.get("/auth/preferences/language");
-    // THIS WILL BE REMOVED AND THE ACTUAL ENDPOINT FOR THE EXCHANGES WILL TAKE PLACE
+  return await api.get(`/shift_exchanges`);
+}
+
+export async function createExchange(data: {
+  request: { shift_from: string; shift_to: string };
+}) {
+  return await api.post(`/shift_exchanges`, data);
+}
+
+export async function deleteExchange(id: string) {
+  return await api.delete(`/shift_exchanges/${id}`);
 }

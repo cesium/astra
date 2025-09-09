@@ -1,109 +1,189 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ExchangeListbox from "./utils/listbox";
+import {
+  useGetAllCourses,
+  useGetStudentOriginalSchedule,
+} from "@/lib/queries/courses";
+import { useCreateExchange } from "@/lib/mutations/exchange";
 
-const ucs = [
-  { id: "uc1", name: "Álgebra Linear" },
-  { id: "uc2", name: "Cálculo" },
-  { id: "uc3", name: "Tópicos de Matemática Discreta" },
-  { id: "uc4", name: "Geometria Analítica" },
-];
+const getShortShiftType = (shiftType: string) => {
+  switch (shiftType) {
+    case "theoretical":
+      return "T";
+    case "theoretical_practical":
+      return "TP";
+    case "practical_laboratory":
+      return "PL";
+    case "tutorial_guidance":
+      return "TG";
+    default:
+      return shiftType;
+  }
+};
 
-const shifts = [
-  { id: "turno1", name: "Teórico" },
-  { id: "turno2", name: "Teórico-Prático" },
-];
+export default function AddExchangeContent({
+  setModalState,
+}: {
+  setModalState: (state: boolean) => void;
+}) {
+  const { data: originalCourses } = useGetStudentOriginalSchedule();
+  const { data: allCourses } = useGetAllCourses();
+  const createExchange = useCreateExchange();
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  
 
-const myShifts = [
-  { id: "1", name: "TP1" },
-  { id: "2", name: "TP2" },
-  { id: "3", name: "TP3" },
-  { id: "4", name: "TP4" },
-  { id: "5", name: "TP5" },
-  { id: "6", name: "TP6" },
-];
+  const ucs =
+    originalCourses?.map((course) => ({ id: course.id, name: course.name })) ||
+    [];
+  const [selectedUC, setSelectedUC] = useState("");
 
-const availableShifts = [
-  { id: "1", name: "TP1" },
-  { id: "2", name: "TP2" },
-  { id: "3", name: "TP3" },
-  { id: "4", name: "TP4" },
-  { id: "5", name: "TP5" },
-];
+  const shiftsTypesToTrade = originalCourses
+    ? [
+        ...new Set(
+          originalCourses
+            .filter((course) => course.id === selectedUC)
+            .flatMap((course) =>
+              course.shifts.map((shift) => getShortShiftType(shift.type)),
+            ),
+        ),
+      ].map((shiftType) => ({ id: shiftType, name: shiftType }))
+    : [];
+  const [selectedShift, setSelectedShift] = useState("");
 
-export default function AddExchangeContent() {
-  const [selectedUC, setSelectedUC] = useState(ucs[0].id);
-  const [selectedShift, setSelectedShift] = useState(shifts[0].id);
-  const [selectedAvailableShifts, setSelectedAvailableShifts] = useState(
-    availableShifts[0].id,
-  );
-  const [selectedMyShifts, setSelectedMyShifts] = useState(myShifts[0].id);
+  const shiftsToLeave = originalCourses
+    ? originalCourses
+        .filter((course) => course.id === selectedUC)
+        .flatMap((course) => course.shifts)
+        .filter((shift) => getShortShiftType(shift.type) === selectedShift)
+        .map((shift) => ({
+          id: shift.id,
+          name: `${getShortShiftType(shift.type)}${shift.number}`,
+        }))
+    : [];
+
+  const [selectedShiftFrom, setSelectedShiftFrom] = useState("");
+
+  const shiftsToJoin = allCourses
+    ? allCourses
+        .filter((course) => course.id === selectedUC)
+        .flatMap((course) => course.shifts)
+        .filter((shift) => getShortShiftType(shift.type) === selectedShift)
+        .filter((shift) => shift.id !== selectedShiftFrom)
+        .map((shift) => ({
+          id: shift.id,
+          name: `${getShortShiftType(shift.type)}${shift.number}`,
+        }))
+    : [];
+  const [selectedShiftTo, setSelectedShiftTo] = useState("");
+
+  useEffect(() => {
+    if (!selectedShiftFrom && shiftsToLeave.length) {
+      setSelectedShiftFrom(shiftsToLeave[0].id);
+    }
+    if (!selectedShiftTo && shiftsToJoin.length) {
+      setSelectedShiftTo(shiftsToJoin[0].id);
+    }
+  }, [selectedUC, selectedShift, shiftsToLeave, shiftsToJoin]);
+
+  useEffect(() => {
+    setSelectedShift("");
+    setSelectedShiftFrom("");
+    setSelectedShiftTo("");
+  }, [selectedUC]);
+
+  useEffect(() => {
+    setSelectedShiftFrom("");
+    setSelectedShiftTo("");
+  }, [selectedShift]);
+
+  const handleSubmit = () => {
+    setErrorMessage(null);
+
+    if (!selectedShiftFrom || !selectedShiftTo) {
+      setErrorMessage("Please select both shifts.");
+      return;
+    }
+
+    createExchange.mutate(
+      { request: { shift_from: selectedShiftFrom, shift_to: selectedShiftTo } },
+      {
+        onSuccess: () => setModalState(false),
+        onError: () => setErrorMessage("Esta troca já existe ou ocorreu um erro."),
+      },
+    );
+  };
 
   return (
     <div className="flex flex-col gap-4">
-      <form action="" className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <h2 className="px-2 py-1 text-sm font-semibold">
-            Select the curricular unit
-          </h2>
-          <ExchangeListbox
-            selectedItem={selectedUC}
-            setSelectedItem={setSelectedUC}
-            collection={ucs}
-            arrowDown
-          />
-          <h2 className="px-2 py-1 text-sm font-semibold">
-            Select the shift to leave
-          </h2>
-          <ExchangeListbox
-            selectedItem={selectedShift}
-            setSelectedItem={setSelectedShift}
-            collection={shifts}
-            arrowDown
-          />
-        </div>
-        <div className="flex flex-col justify-center gap-4">
-          <h2 className="px-2 text-sm font-semibold">
-            Select your preferred shift
-          </h2>
-          <div className="flex w-full flex-col items-center gap-4 sm:flex-row">
-            <div className="w-1/2">
-              <ExchangeListbox
-                selectedItem={selectedAvailableShifts}
-                setSelectedItem={setSelectedAvailableShifts}
-                collection={availableShifts}
-                rounded
-                label="Current shift"
-              />
-            </div>
-            <span
-              className="material-symbols-outlined rotate-90 sm:rotate-0"
-              style={{ fontSize: "28px" }}
-            >
-              arrow_forward
-            </span>
-            <div className="w-1/2">
-              <ExchangeListbox
-                selectedItem={selectedMyShifts}
-                setSelectedItem={setSelectedMyShifts}
-                collection={myShifts}
-                rounded
-                label="Preferred shift"
-                highlightText
-              />
-            </div>
+      <div className="flex flex-col gap-2">
+        <h2 className="px-2 py-1 text-sm font-semibold">
+          Select the curricular unit
+        </h2>
+        <ExchangeListbox
+          selectedItem={selectedUC}
+          setSelectedItem={setSelectedUC}
+          collection={ucs}
+          arrowDown
+        />
+        <h2 className="px-2 py-1 text-sm font-semibold">
+          Select the shift type
+        </h2>
+        <ExchangeListbox
+          selectedItem={selectedShift}
+          setSelectedItem={setSelectedShift}
+          collection={shiftsTypesToTrade}
+          arrowDown
+        />
+      </div>
+
+      <div className="flex flex-col justify-center gap-4">
+        <h2 className="px-2 text-sm font-semibold">
+          Select your preferred shift
+        </h2>
+        <div className="flex w-full flex-col items-center gap-4 sm:flex-row">
+          <div className="w-1/2">
+            <ExchangeListbox
+              selectedItem={selectedShiftFrom}
+              setSelectedItem={setSelectedShiftFrom}
+              collection={shiftsToLeave}
+              rounded
+              label="Current shift"
+            />
+          </div>
+          <span
+            className="material-symbols-outlined rotate-90 sm:rotate-0"
+            style={{ fontSize: "28px" }}
+          >
+            arrow_forward
+          </span>
+          <div className="w-1/2">
+            <ExchangeListbox
+              selectedItem={selectedShiftTo}
+              setSelectedItem={setSelectedShiftTo}
+              collection={shiftsToJoin}
+              rounded
+              label="Preferred shift"
+              highlightText
+            />
           </div>
         </div>
-        <p className="text-center text-sm text-black/50">
-          Vais entrar numa fila de espera para este turno e, se possível, o SWAP
-          trocar-te-á automaticamente com alguém que não queira estar no TP2.
-        </p>
-        <button
-          type="submit"
-          className="bg-celeste hover:bg-celeste/80 mt-4 cursor-pointer rounded-lg px-4 py-2 text-white/90 transition-all duration-150"
-        >
-          Add this exchange
-        </button>
-      </form>
+      </div>
+
+      {errorMessage && (
+        <p className="text-sm text-center text-danger mt-2">{errorMessage}</p>
+      )}
+
+      <p className="text-center text-sm text-black/50">
+        Vais entrar numa fila de espera para este turno e, se possível, o SWAP
+        trocar-te-á automaticamente com alguém que não queira estar no TP2.
+      </p>
+
+      <button
+        onClick={handleSubmit}
+        className="bg-celeste hover:bg-celeste/80 mt-4 cursor-pointer rounded-lg px-4 py-2 text-white/90 transition-all duration-150"
+      >
+        Add this exchange
+      </button>
     </div>
   );
 }

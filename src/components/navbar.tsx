@@ -15,7 +15,6 @@ import { useGetExchanges } from "@/lib/queries/exchange";
 import getExchangesSocket from "@/lib/sockets/exchange";
 import useSubscribeToExchanges from "@/lib/sockets/exchange";
 
-
 const Logo = () => (
   <Link href="/" className="flex cursor-pointer items-center gap-2">
     <svg
@@ -339,7 +338,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
 export default function Navbar() {
   const currentPage = usePathname();
   const session = useGetSession();
-  
+
   return (
     <nav className="flex w-full items-center justify-between px-5 py-4 md:h-20 md:px-10">
       <Logo />

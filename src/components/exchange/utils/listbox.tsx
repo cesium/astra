@@ -87,28 +87,36 @@ export default function ExchangeListbox({
           ),
         )}
       >
-        {collection.map((item) => (
-          <ListboxOption
-            key={item.id}
-            value={item.id}
-            className="flex items-center gap-3"
-          >
-            <div
-              className={clsx(
-                "flex h-7 w-7 items-center justify-center rounded-full",
-                { "bg-celeste": selectedItem === item.id },
-                { "border-2 border-gray-300": selectedItem !== item.id },
-              )}
+        {collection.length === 0 ? (
+          <div className="text-center text-sm text-gray-500">
+            No options available
+          </div>
+        ) : (
+          collection.map((item) => (
+            <ListboxOption
+              key={item.id}
+              value={item.id}
+              className="flex items-center gap-3"
             >
               <div
-                className={clsx("flex h-2 w-2 rounded-full", {
-                  "bg-white": selectedItem === item.id,
-                })}
-              ></div>
-            </div>
-            <span className="line-clamp-1 text-lg leading-5">{item.name}</span>
-          </ListboxOption>
-        ))}
+                className={clsx(
+                  "flex h-7 w-7 items-center justify-center rounded-full",
+                  { "bg-celeste": selectedItem === item.id },
+                  { "border-2 border-gray-300": selectedItem !== item.id },
+                )}
+              >
+                <div
+                  className={clsx("flex h-2 w-2 rounded-full", {
+                    "bg-white": selectedItem === item.id,
+                  })}
+                ></div>
+              </div>
+              <span className="line-clamp-1 text-lg leading-5">
+                {item.name}
+              </span>
+            </ListboxOption>
+          ))
+        )}
       </ListboxOptions>
     </Listbox>
   );

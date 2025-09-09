@@ -19,12 +19,10 @@ export default function ExchangeStateContent({
 
   const n = (() => {
     switch (state) {
-      case "request":
+      case "pending":
         return 1;
-      case "finding":
-        return 2;
       case "completed":
-        return 3;
+        return 2;
       default:
         return 1;
     }
@@ -43,7 +41,7 @@ export default function ExchangeStateContent({
           <div className="flex flex-col justify-between gap-1">
             <span>{uc}</span>
             <span>{shift}</span>
-            <div className="inline-block items-center">
+            <div className="flex items-center gap-1">
               <span>{from}</span>
               <span className="material-symbols-outlined">arrow_forward</span>
               <span>{to}</span>
@@ -54,21 +52,15 @@ export default function ExchangeStateContent({
       <div className="flex flex-col gap-2">
         <h2 className="font-semibold">State</h2>
         <div className="flex gap-4">
-          <div className="flex w-1/4 flex-col items-center gap-1">
+          <div className="flex w-1/2 flex-col items-center gap-1">
             <div
               className={`h-2 w-full rounded-full ${isEqual({ n, x: 1 }) ? loadingStyle : 1 < n ? "bg-celeste" : "bg-gray-300"}`}
             ></div>
-            <span className="text-sm">Delivering request</span>
+            <span className="text-sm">Pending</span>
           </div>
-          <div className="flex w-1/4 flex-col items-center gap-1">
+          <div className="flex w-1/2 flex-col items-center gap-1">
             <div
               className={`h-2 w-full rounded-full ${isEqual({ n, x: 2 }) ? loadingStyle : 2 < n ? "bg-celeste" : "bg-gray-300"}`}
-            ></div>
-            <span className="text-sm">Finding slot</span>
-          </div>
-          <div className="flex w-1/4 flex-col items-center gap-1">
-            <div
-              className={`h-2 w-full rounded-full ${isEqual({ n, x: 3 }) ? "bg-celeste" : "bg-gray-300"}`}
             ></div>
             <span className="text-sm">Completed</span>
           </div>
