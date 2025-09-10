@@ -3,6 +3,7 @@ import {
   DialogPanel,
   DialogTitle,
   Transition,
+  TransitionChild,
 } from "@headlessui/react";
 import moment from "moment";
 import Link from "next/link";
@@ -109,62 +110,71 @@ export default function EventModal({
       : event.place;
 
   return (
-    <Transition
-      show={inspectEvent}
-      enter="transition duration-100 ease-out"
-      enterFrom="transform scale-95 opacity-0"
-      enterTo="transform scale-100 opacity-100"
-      leave="transition duration-75 ease-out"
-      leaveFrom="transform scale-100 opacity-100"
-      leaveTo="transform scale-95 opacity-0"
-      as={Fragment}
-    >
+    <Transition appear show={inspectEvent} as={Fragment}>
       <Dialog
+        as="div"
+        className="relative z-50"
         onClose={() => setInspectEvent(false)}
-        transition
-        className="bg-dark/5 fixed inset-0 z-50 flex w-screen items-center justify-center p-4 backdrop-blur-sm transition duration-300 ease-out focus:outline-0 data-closed:opacity-0"
       >
+        <TransitionChild
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="bg-dark/5 fixed inset-0 backdrop-blur-sm" />
+        </TransitionChild>
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-          <DialogPanel
-            className={`bg-muted/65 relative max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl focus:outline-0`}
+          <TransitionChild
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
           >
-            <ModalHeader
-              selectedEvent={selectedEvent}
-              setInspectEvent={setInspectEvent}
-              type={type}
-            />
-
-            <div className="divide-dark/10 flex flex-col gap-3 divide-y">
-              {type === "calendar" && (
-                <ModalItem
-                  icon="calendar_today"
-                  label="Data"
-                  value={eventDate}
-                />
-              )}
-              <ModalItem icon="schedule" label="Hora" value={eventTime} />
-              <ModalItem
-                icon="location_on"
-                label="Local"
-                value={eventLocation}
+            <DialogPanel className="bg-muted/65 relative max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl focus:outline-0">
+              <ModalHeader
+                selectedEvent={selectedEvent}
+                setInspectEvent={setInspectEvent}
+                type={type}
               />
-              {type === "calendar" && event.link && (
+              <div className="divide-dark/10 flex flex-col gap-3 divide-y">
+                {type === "calendar" && (
+                  <ModalItem
+                    icon="calendar_today"
+                    label="Data"
+                    value={eventDate}
+                  />
+                )}
+                <ModalItem icon="schedule" label="Hora" value={eventTime} />
                 <ModalItem
-                  icon="explore"
-                  label="Website"
-                  value={event.link.label}
-                  href={event.link.href}
+                  icon="location_on"
+                  label="Local"
+                  value={eventLocation}
                 />
-              )}
-              {type === "schedule" && event.professor && (
-                <ModalItem
-                  icon="person"
-                  label="Professor"
-                  value={event.professor}
-                />
-              )}
-            </div>
-          </DialogPanel>
+                {type === "calendar" && event.link && (
+                  <ModalItem
+                    icon="explore"
+                    label="Website"
+                    value={event.link.label}
+                    href={event.link.href}
+                  />
+                )}
+                {type === "schedule" && event.professor && (
+                  <ModalItem
+                    icon="person"
+                    label="Professor"
+                    value={event.professor}
+                  />
+                )}
+              </div>
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </Dialog>
     </Transition>
