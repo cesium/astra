@@ -170,6 +170,7 @@ export default function ExchangeCard({
           from={from}
           to={to}
           shift={getShift(from)}
+          status={pending ? "pending" : "completed"}
         />
       </ExchangeModal>
     </div>

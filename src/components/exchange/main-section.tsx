@@ -2,6 +2,7 @@
 
 import { useGetExchanges } from "@/lib/queries/exchange";
 import CardsSection from "./cards-section";
+import { useGetUserInfo } from "@/lib/queries/session";
 
 const getShortShiftType = (shiftType: string) => {
   switch (shiftType) {
@@ -71,6 +72,7 @@ export default function MainSection() {
   return (
     <div className="flex w-full flex-col gap-8">
       <h1 className="text-2xl font-semibold">Exchange Requests</h1>
+
       <CardsSection drafts />
       <CardsSection title="Pending" pending data={pending_exchanges} />
       <CardsSection title="Completed" completed data={approved_exchanges} />

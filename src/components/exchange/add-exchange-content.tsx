@@ -47,7 +47,9 @@ export default function AddExchangeContent({
         ),
       ].map((shiftType) => ({ id: shiftType, name: shiftType }))
     : [];
+
   const [selectedShift, setSelectedShift] = useState("");
+
   const shiftsToLeave = useMemo(() => {
     return originalCourses
       ? originalCourses
@@ -101,9 +103,13 @@ export default function AddExchangeContent({
   }, [selectedUC]);
 
   useEffect(() => {
-    setSelectedShiftFrom("");
+    if (shiftsToLeave.length === 1) {
+      setSelectedShiftFrom(shiftsToLeave[0].id);
+    } else {
+      setSelectedShiftFrom("");
+    }
     setSelectedShiftTo("");
-  }, [selectedShift]);
+  }, [selectedShift, shiftsToLeave]);
 
   const handleSubmit = () => {
     setErrorMessage(null);
@@ -184,7 +190,7 @@ export default function AddExchangeContent({
       )}
 
       <p className="text-center text-sm text-black/50">
-        Vais entrar numa fila de espera para este turno.
+        You will be notified when you are matched with a suitable shift.
       </p>
 
       <button

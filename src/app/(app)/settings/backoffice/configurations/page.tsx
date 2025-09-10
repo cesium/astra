@@ -9,9 +9,8 @@ export const metadata: Metadata = {
 export default function Configurations() {
   return (
     <SettingsWrapper title="Configuration and management">
-      <div>
-        <ExchangePeriodForm />
-      </div>
+      <h2 className="text-xl font-semibold">Exchange Period</h2>
+      <ExchangePeriodForm />
     </SettingsWrapper>
   );
 }

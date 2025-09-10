@@ -3,6 +3,18 @@
 import { Fragment } from "react";
 import SideSectionDisclosure from "./side-section-disclosure";
 import { useGetStudentOriginalSchedule } from "@/lib/queries/courses";
+import { useGetExchangeDate } from "@/lib/queries/exchange";
+
+function parseDate(iso: string) {
+  const date = new Date(iso);
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth(),
+    day: date.getDate(),
+    hour: date.getHours(),
+    minute: date.getMinutes(),
+  };
+}
 
 const getShortShiftType = (shiftType: string) => {
   switch (shiftType) {
@@ -18,12 +30,17 @@ const getShortShiftType = (shiftType: string) => {
       return shiftType;
   }
 };
+
 export default function SideSection() {
   const { data: originalCourses } = useGetStudentOriginalSchedule();
+  const { data: exchangeDate } = useGetExchangeDate();
+  const parsed = parseDate(exchangeDate?.data.end ?? new Date().toISOString());
+
   return (
     <div className="flex flex-col gap-2 lg:w-[412px]">
       <SideSectionDisclosure title="Deadline for exchanges">
-        You can exchange your shifts until September 12th, 2025 (23h:00).
+        You can exchange your shifts until {parsed.month}/{parsed.day}/
+        {parsed.year}, {parsed.hour}:{parsed.minute}.
       </SideSectionDisclosure>
       <SideSectionDisclosure title="Current state">
         <div className="my-2 flex w-full items-center gap-2">

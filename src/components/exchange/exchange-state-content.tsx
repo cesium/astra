@@ -7,18 +7,20 @@ export default function ExchangeStateContent({
   from,
   to,
   shift,
+  status,
 }: {
   uc: string;
   from: string;
   to: string;
   shift: string;
+  status: "pending" | "completed";
 }) {
-  const state = "request" as string;
+  const isPending = status === "pending";
   const loadingStyle =
     "animated-background bg-gradient-to-r from-celeste via-celeste/30 to-celeste";
 
   const n = (() => {
-    switch (state) {
+    switch (status) {
       case "pending":
         return 1;
       case "completed":
@@ -31,12 +33,12 @@ export default function ExchangeStateContent({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex w-full flex-col gap-2">
-        <h2 className="font-semibold">Informações da troca</h2>
+        <h2 className="font-semibold">Exchange request info</h2>
         <div className="flex w-full gap-20">
           <div className="flex flex-col justify-between gap-1">
-            <span className="text-gray-500">UC em causa</span>
-            <span className="text-gray-500">Turno a trocar</span>
-            <span className="text-gray-500">Troca</span>
+            <span className="text-gray-500">Curricular Unit</span>
+            <span className="text-gray-500">Shift to exchange</span>
+            <span className="text-gray-500">Exchange</span>
           </div>
           <div className="flex flex-col justify-between gap-1">
             <span>{uc}</span>
@@ -60,7 +62,7 @@ export default function ExchangeStateContent({
           </div>
           <div className="flex w-1/2 flex-col items-center gap-1">
             <div
-              className={`h-2 w-full rounded-full ${isEqual({ n, x: 2 }) ? loadingStyle : 2 < n ? "bg-celeste" : "bg-gray-300"}`}
+              className={`h-2 w-full rounded-full ${isEqual({ n, x: 2 }) ? "bg-celeste" : "bg-gray-300"}`}
             ></div>
             <span className="text-sm">Completed</span>
           </div>
@@ -68,11 +70,14 @@ export default function ExchangeStateContent({
       </div>
       <div className="mt-4 flex flex-col items-center gap-2 p-4 text-center">
         <span className="text-xl font-semibold">
-          O teu pedido de troca está a caminho
+          {isPending
+            ? "Your request is being processed"
+            : "Your request has been completed"}
         </span>
         <span className="text-gray-500">
-          Soon, the system will receive your request and you will see the status
-          of it here.
+          {isPending
+            ? "Soon, the system will receive your request and you will see the status of it here."
+            : "You can view the details of your completed request here."}
         </span>
       </div>
     </div>
