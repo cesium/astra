@@ -1,17 +1,6 @@
 import axios from "axios";
 import { api, apiWithCredentials } from "./api";
-
-export enum UserType {
-  student,
-  admin,
-  professor,
-}
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-}
+import { User } from "./types";
 
 export interface SignInResponse {
   access_token: string;

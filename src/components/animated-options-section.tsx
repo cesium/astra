@@ -150,7 +150,7 @@ export default function AnimatedOptionsSection({
   );
 
   return (
-    <div className="bottom-0 left-0 z-20 w-full md:relative md:bottom-auto md:left-auto md:z-auto md:flex md:w-auto">
+    <div className="bottom-0 left-0 z-20 h-6 w-full md:relative md:bottom-auto md:left-auto md:z-auto md:flex md:h-full md:w-auto">
       <AnimatePresence mode="wait">
         {!isOpen && (
           <motion.div
@@ -209,7 +209,7 @@ export default function AnimatedOptionsSection({
                 key="content"
                 className={twMerge(
                   clsx(
-                    "flex h-full w-full flex-col rounded-2xl rounded-t-2xl border border-black/5 md:h-full md:rounded-2xl",
+                    "flex h-full w-full flex-col md:h-full",
                     classNameOpenedSection,
                   ),
                 )}
