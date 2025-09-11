@@ -24,7 +24,7 @@ export default function Input({
         clsx(
           className,
           textAlignment,
-          "rounded-xl border border-black/10 px-3 py-2.5 text-lg text-black outline-none placeholder:text-black/30 invalid:border-red-500 invalid:text-red-600",
+          "rounded-xl border border-black/10 px-2 py-1.5 text-black outline-none placeholder:text-black/30 invalid:border-red-500 invalid:text-red-600 md:px-3 md:py-2.5",
         ),
       )}
       min={type === "number" ? min : undefined}

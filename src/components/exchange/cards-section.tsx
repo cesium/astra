@@ -92,7 +92,7 @@ export default function CardsSection({
       <ExchangeModal
         modalState={exchangeModalState}
         setModalState={setExchangeModalState}
-        title="Add an exchange"
+        title="Create a shift exchange request"
       >
         <AddExchangeContent setModalState={setExchangeModalState} />
       </ExchangeModal>

@@ -5,6 +5,7 @@ import {
   useGetStudentOriginalSchedule,
 } from "@/lib/queries/courses";
 import { useCreateExchange } from "@/lib/mutations/exchange";
+import clsx from "clsx";
 
 const getShortShiftType = (shiftType: string) => {
   switch (shiftType) {
@@ -131,6 +132,8 @@ export default function AddExchangeContent({
     );
   };
 
+  const isFormFilled = !!selectedUC && !!selectedShift && !!selectedShiftFrom && !!selectedShiftTo;
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
@@ -197,7 +200,10 @@ export default function AddExchangeContent({
 
       <button
         onClick={handleSubmit}
-        className="bg-celeste hover:bg-celeste/80 mt-4 cursor-pointer rounded-lg px-4 py-2 text-white/90 transition-all duration-150 select-none"
+        disabled={!isFormFilled}
+        className={clsx("bg-celeste hover:bg-celeste/80 mt-4 cursor-pointer rounded-lg px-4 py-2 text-white/90 transition-all duration-150 select-none", {
+          "opacity-50 cursor-not-allowed pointer-events-none": !isFormFilled,
+        })}
       >
         Create request
       </button>
