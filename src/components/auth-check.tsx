@@ -27,9 +27,15 @@ export const AuthCheck = ({
   }, []);
 
   useEffect(() => {
+        const openRoutes = [
+      /^\/auth\/sign_in$/,
+      /^\/auth\/forgot_password\/?$/,
+      /^\/auth\/forgot_password\/[^/]+$/,
+    ];
+
     if (!isMounted) return;
 
-    const isOpenRoute = pathname.startsWith("/auth/");
+    const isOpenRoute = openRoutes.some((route) => pathname.match(route));
     console.log(pathname, { isOpenRoute, token, user });
     if (shouldBeLoggedIn && !token && !isOpenRoute) {
       router.replace("/auth/sign_in");
@@ -67,10 +73,6 @@ export const AuthCheck = ({
   if (!isMounted) return null;
 
   if (pathname.startsWith("/auth/")) {
-    return token ? loadingState : <>{children}</>;
-  }
-
-  if (pathname.startsWith("/auth/") && !shouldBeLoggedIn) {
     return token ? loadingState : <>{children}</>;
   }
 
