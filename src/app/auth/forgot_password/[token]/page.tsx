@@ -57,17 +57,18 @@ export default function ResetPassword() {
         />
       </div>
 
-      <div className="bg-light ring-smoke mx-4 flex flex-col gap-2 rounded-3xl p-4 ring-4 sm:mx-32 sm:min-w-md sm:gap-12 sm:p-8">
-        <div className="flex flex-col gap-0.5 sm:gap-1.5">
-          <h1 className="text-3xl font-bold sm:text-4xl">Reset password</h1>
-          <span className="text-gray-400">Enter the new password below</span>
-        </div>
+      <div className="bg-light ring-smoke mx-4 flex flex-col gap-2 rounded-3xl p-4 ring-4 sm:mx-32 sm:min-w-md sm:gap-8 sm:p-8">
         {resetPassword.isSuccess ? (
           <>
-            <div className="flex flex-col items-center gap-2 text-center sm:gap-3">
+            <div className="flex justify-center">
               <span className="material-symbols-outlined text-primary-400 text-6xl">
                 check_circle
               </span>
+            </div>
+            <div className="flex w-full flex-col gap-0.5 text-center sm:gap-1.5">
+              <h1 className="text-3xl font-bold sm:text-4xl">It's done</h1>
+            </div>
+            <div className="flex flex-col items-center gap-2 text-center sm:gap-3">
               <p className="max-w-sm text-gray-500">
                 The password was successfully changed!
               </p>
@@ -80,63 +81,76 @@ export default function ResetPassword() {
             </Link>
           </>
         ) : (
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-9"
-          >
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-1">
-                <Label
-                  htmlFor="password"
-                  className="text-dark pl-2 font-semibold"
-                >
-                  Password
-                </Label>
-                <Input
-                  {...register("password", {
-                    required: true,
-                  })}
-                  className="bg-dark/5 border-0 placeholder:text-black/50"
-                  type="password"
-                  placeholder="Password"
-                  id="password"
-                />
-                <span className="text-danger px-1">
-                  {errors.password?.message}
+          <>
+            <div className="flex flex-col gap-0.5 sm:gap-1.5">
+              <div className="flex justify-center">
+                <span className="material-symbols-outlined text-primary-400 text-6xl">
+                  key
                 </span>
               </div>
-              <div className="flex flex-col gap-1">
-                <Label
-                  htmlFor="password_confirmation"
-                  className="text-dark pl-2 font-semibold"
-                >
-                  Confirm Password
-                </Label>
-                <Input
-                  {...register("password_confirmation", { required: true })}
-                  className="bg-dark/5 border-0 placeholder:text-black/50"
-                  type="password"
-                  placeholder="Confirm Password"
-                  id="password_confirmation"
-                />
-                <span className="text-danger px-1">
-                  {errors.password_confirmation?.message}
-                </span>
-              </div>
-            </div>
-            <div className="flex flex-col gap-1 sm:gap-2">
-              <span className="text-danger px-1 text-center">
-                {resetPassword.isError &&
-                  "Something went wrong, please try again."}
+              <h1 className="text-3xl font-bold sm:text-4xl">Reset password</h1>
+              <span className="text-gray-400">
+                Enter the new password below
               </span>
-              <button
-                className="bg-primary-400 mx-7 rounded-full p-4 font-bold text-white shadow-lg"
-                type="submit"
-              >
-                {resetPassword.isPending ? "Loading..." : "Submit"}
-              </button>
             </div>
-          </form>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col gap-9"
+            >
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-1">
+                  <Label
+                    htmlFor="password"
+                    className="text-dark pl-2 font-semibold"
+                  >
+                    Password
+                  </Label>
+                  <Input
+                    {...register("password", {
+                      required: true,
+                    })}
+                    className="bg-dark/5 border-0 placeholder:text-black/50"
+                    type="password"
+                    placeholder="Password"
+                    id="password"
+                  />
+                  <span className="text-danger px-1">
+                    {errors.password?.message}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <Label
+                    htmlFor="password_confirmation"
+                    className="text-dark pl-2 font-semibold"
+                  >
+                    Confirm Password
+                  </Label>
+                  <Input
+                    {...register("password_confirmation", { required: true })}
+                    className="bg-dark/5 border-0 placeholder:text-black/50"
+                    type="password"
+                    placeholder="Confirm Password"
+                    id="password_confirmation"
+                  />
+                  <span className="text-danger px-1">
+                    {errors.password_confirmation?.message}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 sm:gap-2">
+                <span className="text-danger px-1 text-center">
+                  {resetPassword.isError &&
+                    "Something went wrong, please try again."}
+                </span>
+                <button
+                  className="bg-primary-400 mx-7 cursor-pointer rounded-full p-4 font-bold text-white shadow-lg"
+                  type="submit"
+                >
+                  {resetPassword.isPending ? "Loading..." : "Submit"}
+                </button>
+              </div>
+            </form>
+          </>
         )}
       </div>
     </div>

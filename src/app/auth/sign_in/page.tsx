@@ -105,7 +105,7 @@ export default function SignIn() {
               </span>
             )}
             <button
-              className="bg-primary-400 mx-7 rounded-full p-4 font-bold text-white shadow-lg"
+              className="bg-primary-400 mx-7 cursor-pointer rounded-full p-4 font-bold text-white shadow-lg"
               type="submit"
             >
               {signIn.isPending ? "Loading..." : "Sign in"}
