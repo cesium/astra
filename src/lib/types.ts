@@ -100,3 +100,8 @@ export interface IJobProps {
   inserted_at: Date;
   user_id: string;
 }
+
+export interface IItemProps {
+  id: string;
+  name: string;
+}
