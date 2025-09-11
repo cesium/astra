@@ -124,7 +124,9 @@ export default function AddExchangeContent({
       {
         onSuccess: () => setModalState(false),
         onError: () =>
-          setErrorMessage("Esta troca já existe ou ocorreu um erro."),
+          setErrorMessage(
+            "This exchange request already exists or an error occurred.",
+          ),
       },
     );
   };

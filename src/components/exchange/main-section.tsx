@@ -2,7 +2,6 @@
 
 import { useGetExchanges } from "@/lib/queries/exchange";
 import CardsSection from "./cards-section";
-import { useGetUserInfo } from "@/lib/queries/session";
 
 const getShortShiftType = (shiftType: string) => {
   switch (shiftType) {
