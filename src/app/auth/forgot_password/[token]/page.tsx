@@ -47,7 +47,7 @@ export default function ResetPassword() {
     });
 
   return (
-    <div className="flex h-screen items-center justify-end bg-[url(/images/calendar.svg)] bg-center bg-repeat">
+    <div className="flex h-screen items-center justify-end bg-[url(/images/pombo-background.svg)] bg-center bg-repeat">
       <div className="absolute top-4 left-6 flex items-center gap-1 select-none sm:gap-2">
         <Image
           src="/images/logo.svg"
