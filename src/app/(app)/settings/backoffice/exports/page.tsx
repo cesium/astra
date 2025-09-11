@@ -1,3 +1,4 @@
+import { AuthCheck } from "@/components/auth-check";
 import SettingsWrapper from "@/components/settings-wrapper";
 import { Metadata } from "next";
 
@@ -7,8 +8,10 @@ export const metadata: Metadata = {
 
 export default function Exports() {
   return (
-    <SettingsWrapper title="Export data">
-      <div>Exports Page</div>
-    </SettingsWrapper>
+    <AuthCheck userTypes={["admin", "professor"]}>
+      <SettingsWrapper title="Export data">
+        <div>Exports Page</div>
+      </SettingsWrapper>
+    </AuthCheck>
   );
 }
