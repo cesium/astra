@@ -169,7 +169,7 @@ export default function EventModal({
                     gpp_maybe
                   </span>
                   <p className="text-sm font-light">
-                    This is a custom shift that overrides your official
+                    This is a custom shift and does not reflect your official
                     schedule.
                   </p>
                 </div>

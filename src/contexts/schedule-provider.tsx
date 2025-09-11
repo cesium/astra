@@ -36,7 +36,7 @@ function addShiftById(
 ): IShift[] {
   const newShift = allShifts.find((shift) => shift.id === id);
   if (newShift && !shifts.some((s) => s.id === id)) {
-    return [...shifts, newShift];
+    return [...shifts, { ...newShift, status: "override" }];
   }
   return shifts;
 }
@@ -180,7 +180,7 @@ function extractShifts(courses: ICourse[]): IShift[] {
             semester: course.semester,
             eventColor: "#C3E5F9",
             textColor: "#227AAE",
-            status: "active" as const, //todo
+            status: shiftGroup.enrollment_status,
           };
         }),
       );
