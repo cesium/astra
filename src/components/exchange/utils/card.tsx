@@ -163,7 +163,7 @@ export default function ExchangeCard({
       <ExchangeModal
         modalState={modalState}
         setModalState={setModalState}
-        title="Exchange state"
+        title="Exchange request state"
       >
         <ExchangeStateContent
           uc={uc}

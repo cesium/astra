@@ -33,11 +33,11 @@ export default function ExchangeStateContent({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex w-full flex-col gap-2">
-        <h2 className="font-semibold">Exchange request info</h2>
+        <h2 className="font-semibold">Exchange request information</h2>
         <div className="flex w-full gap-20">
           <div className="flex flex-col justify-between gap-1">
             <span className="text-gray-500">Curricular Unit</span>
-            <span className="text-gray-500">Shift to exchange</span>
+            <span className="text-gray-500">Shift type</span>
             <span className="text-gray-500">Exchange</span>
           </div>
           <div className="flex flex-col justify-between gap-1">
@@ -71,12 +71,12 @@ export default function ExchangeStateContent({
       <div className="mt-4 flex flex-col items-center gap-2 p-4 text-center">
         <span className="text-xl font-semibold">
           {isPending
-            ? "Your request is being processed"
-            : "Your request has been completed"}
+            ? "Your request is being processed."
+            : "This request has been completed."}
         </span>
         <span className="text-gray-500">
           {isPending
-            ? "Soon, the system will receive your request and you will see the status of it here."
+            ? "If a suitable exchange is found, you will be notified."
             : "You can view the details of your completed request here."}
         </span>
       </div>

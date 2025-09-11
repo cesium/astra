@@ -70,7 +70,7 @@ export default function MainSection() {
 
   return (
     <div className="flex w-full flex-col gap-8">
-      <h1 className="text-2xl font-semibold">Exchange Requests</h1>
+      <h1 className="text-2xl font-semibold">Shift Exchange Requests</h1>
 
       <CardsSection drafts />
       <CardsSection title="Pending" pending data={pending_exchanges} />

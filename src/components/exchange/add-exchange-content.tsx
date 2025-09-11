@@ -192,14 +192,14 @@ export default function AddExchangeContent({
       )}
 
       <p className="text-center text-sm text-black/50">
-        You will be notified when you are matched with a suitable shift.
+        You will be notified if the request is fulfilled successfully.
       </p>
 
       <button
         onClick={handleSubmit}
-        className="bg-celeste hover:bg-celeste/80 mt-4 cursor-pointer rounded-lg px-4 py-2 text-white/90 transition-all duration-150"
+        className="bg-celeste hover:bg-celeste/80 mt-4 cursor-pointer rounded-lg px-4 py-2 text-white/90 transition-all duration-150 select-none"
       >
-        Add this exchange
+        Create request
       </button>
     </div>
   );

@@ -32,7 +32,7 @@ export default function ExchangeListbox({
       <ListboxButton
         className={twMerge(
           clsx(
-            "group flex w-full cursor-pointer items-center justify-center rounded-md border border-gray-300 p-2 text-left",
+            "group flex w-full cursor-pointer items-center justify-center rounded-md border border-gray-300 p-2 text-left select-none",
             { "h-16 rounded-full p-4 sm:h-20 sm:p-6 md:h-25": rounded },
             {
               "text-celeste hover:text-celeste/80 transition-all duration-150":
@@ -84,7 +84,7 @@ export default function ExchangeListbox({
         transition
         className={twMerge(
           clsx(
-            "flex w-(--button-width) origin-top flex-col gap-4 rounded-2xl border border-gray-300 p-4 transition duration-200 ease-out [--anchor-gap:-8px] data-closed:scale-95 data-closed:opacity-0 sm:w-[310px] sm:translate-x-2",
+            "flex w-(--button-width) origin-top flex-col gap-4 rounded-2xl border border-gray-300 p-4 transition duration-200 ease-out [--anchor-gap:-8px] data-closed:scale-95 data-closed:opacity-0 sm:translate-x-2",
             { "sm:-translate-x-10": rounded },
           ),
         )}
@@ -98,7 +98,7 @@ export default function ExchangeListbox({
             <ListboxOption
               key={item.id}
               value={item.id}
-              className="flex items-center gap-3"
+              className="flex cursor-pointer items-center gap-3 select-none"
             >
               <div
                 className={clsx(

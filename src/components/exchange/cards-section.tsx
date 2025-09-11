@@ -42,7 +42,7 @@ export default function CardsSection({
           >
             add
           </span>
-          <span>Add an exchange</span>
+          <span>Create a shift exchange request</span>
         </button>
       )}
       <div className="relative">
@@ -62,10 +62,10 @@ export default function CardsSection({
           {!drafts && data && data.length === 0 && (
             <>
               {pending && (
-                <p className="text-gray-500">No pending exchanges to show.</p>
+                <p className="text-gray-500">No pending requests to show.</p>
               )}
               {completed && (
-                <p className="text-gray-500">No completed exchanges to show.</p>
+                <p className="text-gray-500">No completed requests to show.</p>
               )}
             </>
           )}
@@ -81,7 +81,7 @@ export default function CardsSection({
                 >
                   add
                 </span>
-                <span>Add an exchange</span>
+                <span>Create a shift exchange request</span>
               </button>
             </>
           )}
