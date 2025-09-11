@@ -31,16 +31,36 @@ const getShortShiftType = (shiftType: string) => {
   }
 };
 
+const getExchangeDateStateText = (
+  exchangeDate: { data: { start: string; end: string } } | undefined
+) => {
+  if (!exchangeDate?.data.end) return "No deadline available";
+
+  const now = new Date();
+  const opening = new Date(exchangeDate.data.start);
+  const deadline = new Date(exchangeDate.data.end);
+  const parsedStart = parseDate(exchangeDate?.data.start ?? new Date().toISOString());
+  const parsedEnd = parseDate(exchangeDate?.data.end ?? new Date().toISOString());
+
+  if (opening < now && now < deadline) {
+    return "The exchange period ends on " + parsedEnd.day.toString() + "/" + (parsedEnd.month + 1).toString().padStart(2, "0") + "/" + parsedEnd.year + " at " + parsedEnd.hour.toString().padStart(2, "0") + ":" + parsedEnd.minute.toString().padStart(2, "0");
+  } else if (
+    now < opening
+  ) {
+    return "The exchange period starts at " + parsedStart.day.toString() + "/" + (parsedStart.month + 1).toString().padStart(2, "0") + "/" + parsedStart.year + " at " + parsedStart.hour.toString().padStart(2, "0") + ":" + parsedStart.minute.toString().padStart(2, "0");
+  } else {
+    return "The exchange period has ended.";
+  }
+};
+
 export default function SideSection() {
   const { data: originalCourses } = useGetStudentOriginalSchedule();
   const { data: exchangeDate } = useGetExchangeDate();
-  const parsed = parseDate(exchangeDate?.data.end ?? new Date().toISOString());
 
   return (
     <div className="flex flex-col gap-2 lg:w-[412px]">
       <SideSectionDisclosure title="Deadline for exchanges">
-        You can exchange your shifts until {parsed.month}/{parsed.day}/
-        {parsed.year}, {parsed.hour}:{parsed.minute}.
+        {getExchangeDateStateText(exchangeDate)}
       </SideSectionDisclosure>
       <SideSectionDisclosure title="Current state">
         <div className="my-2 flex w-full items-center gap-2">
