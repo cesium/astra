@@ -14,7 +14,6 @@
         "mime-types": "^3.0.1",
         "motion": "^12.23.12",
         "next": "15.4.5",
-        "phoenix-websocket": "^2.0.18",
         "react": "19.1.1",
         "react-big-calendar": "^1.19.4",
         "react-dom": "19.1.1",
@@ -1070,8 +1069,6 @@
     "path-scurry": ["path-scurry@1.11.1", "", { "dependencies": { "lru-cache": "^10.2.0", "minipass": "^5.0.0 || ^6.0.2 || ^7.0.0" } }, "sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA=="],
 
     "pathval": ["pathval@2.0.1", "", {}, "sha512-//nshmD55c46FuFw26xV/xFAaB5HF9Xdap7HJBBnrKdAd6/GxDBaNA1870O79+9ueg61cZLSVc+OaFlfmObYVQ=="],
-
-    "phoenix-websocket": ["phoenix-websocket@2.0.18", "", {}, "sha512-2EBJzb8clUYUV9qzYV8gWCRWyOfMoK0AIUGPR9yVHImv4jxkzJGbCzC1bvwKY9kOmwJeu26u6OPgri5ueLahDw=="],
 
     "picocolors": ["picocolors@1.1.1", "", {}, "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="],
 

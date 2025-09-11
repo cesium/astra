@@ -74,7 +74,7 @@ export default function ExchangeCard({
                         >
                           undo
                         </span>
-                        <span>Cancelar troca</span>
+                        <span>Cancel request</span>
                       </button>
                       <button
                         onClick={() => {
