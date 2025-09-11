@@ -101,7 +101,7 @@ export default function FeedView({
   };
 
   return (
-    <div className="relative flex h-full flex-col">
+    <div className="relative flex h-full min-h-0 flex-col">
       {!isScrolledTop && (
         <div className="pointer-events-none absolute top-0 right-0 left-0 z-10 h-12 bg-gradient-to-b from-white to-transparent" />
       )}
