@@ -1,6 +1,6 @@
 import axios from "axios";
 import { api, apiWithCredentials } from "./api";
-import { User, UserType } from "./types";
+import { User } from "./types";
 
 export interface SignInResponse {
   access_token: string;
