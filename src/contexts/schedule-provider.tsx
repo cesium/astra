@@ -180,6 +180,7 @@ function extractShifts(courses: ICourse[]): IShift[] {
             semester: course.semester,
             eventColor: "#C3E5F9",
             textColor: "#227AAE",
+            status: "active" as const, //todo
           };
         }),
       );

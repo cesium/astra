@@ -55,7 +55,7 @@ export interface IShift {
   semester: number;
   eventColor: string;
   textColor: string;
-  status?: "active" | "inactive" | "is_overwritten";
+  status?: "active" | "inactive" | "override";
 }
 
 export type IShiftsSorted = {
