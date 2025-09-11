@@ -11,30 +11,12 @@ import Avatar from "./avatar";
 import { useRouter } from "next/navigation";
 import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
 import { useSignOut } from "@/lib/mutations/session";
+import Image from "next/image";
 import { firstLastName } from "@/lib/utils";
 
 const Logo = () => (
   <Link href="/" className="flex cursor-pointer items-center gap-2">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="32"
-      height="32"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-bird-icon lucide-bird stroke-primary-400 size-8"
-    >
-      <path d="M16 7h.01" />
-      <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
-      <path d="m20 7 2 .5-2 .5" />
-      <path d="M10 18v3" />
-      <path d="M14 17.75V21" />
-      <path d="M7 18a6 6 0 0 0 3.84-10.61" />
-    </svg>
-    <span className="text-xl font-bold select-none">pombo</span>
+    <Image src="/images/logo.svg" alt="Pombo Logo" width={128} height={128} />
   </Link>
 );
 
