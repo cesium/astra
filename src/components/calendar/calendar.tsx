@@ -244,6 +244,9 @@ export default function CalendarView({
 
           return { style: newStyle };
         }}
+        messages={{
+          showMore: (total) => `+${total}`,
+        }}
         className={className}
       />
       {/* Opens the event modal for the selected event */}

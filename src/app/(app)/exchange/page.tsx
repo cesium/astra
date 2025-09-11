@@ -1,3 +1,4 @@
+import { AuthCheck } from "@/components/auth-check";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,5 +6,9 @@ export const metadata: Metadata = {
 };
 
 export default function Exchange() {
-  return <div>Exchange Page</div>;
+  return (
+    <AuthCheck userTypes={["student"]}>
+      <div>Exchange Page</div>
+    </AuthCheck>
+  );
 }
