@@ -150,7 +150,7 @@ export default function AnimatedOptionsSection({
   );
 
   return (
-    <div className="bottom-0 left-0 z-20 w-full md:relative md:bottom-auto md:left-auto md:z-auto md:flex md:w-auto">
+    <div className="bottom-0 left-0 z-20 h-6 w-full md:relative md:bottom-auto md:left-auto md:z-auto md:flex md:h-full md:w-auto">
       <AnimatePresence mode="wait">
         {!isOpen && (
           <motion.div
