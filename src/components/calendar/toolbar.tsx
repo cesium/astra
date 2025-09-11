@@ -30,7 +30,7 @@ export default function CustomToolbar(toolbar: ToolbarProps) {
         </button>
       </div>
 
-      <div className="mb-4.5 flex items-center justify-center gap-4 lg:justify-between">
+      <div className="mb-4.5 flex items-center justify-center gap-4 p-0.5 lg:justify-between">
         <button
           className="text-primary-400 bg-primary-400/20 hover:ring-primary-400/40 shadow-primary-400/15 inline-flex cursor-pointer items-center gap-2 rounded-full px-4 py-1.5 transition-all duration-200 ease-in-out hover:shadow-md hover:ring-1 lg:mr-38.5"
           onClick={goToToday}

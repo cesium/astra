@@ -311,6 +311,9 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
 export default function Navbar() {
   const currentPage = usePathname();
   const session = useGetSession();
+  const { data: user } = useGetUserInfo();
+  const userHasPrivileges =
+    user?.type === "admin" || user?.type === "professor";
 
   return (
     <nav
@@ -320,7 +323,7 @@ export default function Navbar() {
         <Logo />
       </div>
 
-      {session.data?.signedIn && (
+      {session.data?.signedIn && !userHasPrivileges && (
         <div className="flex justify-center">
           <TabsContainer currentPage={currentPage} className="hidden md:flex">
             {tabs.map((tab) => (
