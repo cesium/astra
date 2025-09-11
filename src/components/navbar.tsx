@@ -328,7 +328,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`grid w-full ${!session.data?.signedIn || ["admin", "professor"].includes(user?.type!) ? "grid-cols-2" : "grid-cols-3"} items-center px-5 py-4 md:h-20 md:px-10`}
+      className={`grid w-full ${!session.data?.signedIn || !user || ["admin", "professor"].includes(user.type) ? "grid-cols-2" : "grid-cols-3"} items-center px-5 py-4 md:h-20 md:px-10`}
     >
       <div className="flex items-center">
         <Logo />
