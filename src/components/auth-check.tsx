@@ -27,7 +27,7 @@ export const AuthCheck = ({
   }, []);
 
   useEffect(() => {
-        const openRoutes = [
+    const openRoutes = [
       /^\/auth\/sign_in$/,
       /^\/auth\/forgot_password\/?$/,
       /^\/auth\/forgot_password\/[^/]+$/,
