@@ -36,7 +36,6 @@ export const AuthCheck = ({
     if (!isMounted) return;
 
     const isOpenRoute = openRoutes.some((route) => pathname.match(route));
-    console.log(pathname, { isOpenRoute, token, user });
     if (shouldBeLoggedIn && !token && !isOpenRoute) {
       router.replace("/auth/sign_in");
       return;
