@@ -66,7 +66,7 @@ export default function ResetPassword() {
               </span>
             </div>
             <div className="flex w-full flex-col gap-0.5 text-center sm:gap-1.5">
-              <h1 className="text-3xl font-bold sm:text-4xl">It's done</h1>
+              <h1 className="text-3xl font-bold sm:text-4xl">{`It's done`}</h1>
             </div>
             <div className="flex flex-col items-center gap-2 text-center sm:gap-3">
               <p className="max-w-sm text-gray-500">
