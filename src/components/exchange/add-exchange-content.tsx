@@ -132,7 +132,8 @@ export default function AddExchangeContent({
     );
   };
 
-  const isFormFilled = !!selectedUC && !!selectedShift && !!selectedShiftFrom && !!selectedShiftTo;
+  const isFormFilled =
+    !!selectedUC && !!selectedShift && !!selectedShiftFrom && !!selectedShiftTo;
 
   return (
     <div className="flex flex-col gap-4">
@@ -201,9 +202,12 @@ export default function AddExchangeContent({
       <button
         onClick={handleSubmit}
         disabled={!isFormFilled}
-        className={clsx("bg-celeste hover:bg-celeste/80 mt-4 cursor-pointer rounded-lg px-4 py-2 text-white/90 transition-all duration-150 select-none", {
-          "opacity-50 cursor-not-allowed pointer-events-none": !isFormFilled,
-        })}
+        className={clsx(
+          "bg-celeste hover:bg-celeste/80 mt-4 cursor-pointer rounded-lg px-4 py-2 text-white/90 transition-all duration-150 select-none",
+          {
+            "pointer-events-none cursor-not-allowed opacity-50": !isFormFilled,
+          },
+        )}
       >
         Create request
       </button>
