@@ -47,8 +47,19 @@ export default function ResetPassword() {
     });
 
   return (
-    <div className="flex h-screen items-center justify-end bg-[url(/images/pombo-background.svg)] bg-center bg-repeat">
-      <div className="absolute top-4 left-6 flex items-center gap-1 select-none sm:gap-2">
+    <div className="flex h-screen items-center justify-end bg-[url(/images/pombo-background.svg)] bg-center bg-repeat sm:flex sm:h-screen sm:items-center sm:justify-end">
+      <div className="absolute top-0 right-0 left-0 flex h-16 items-center bg-white sm:hidden">
+        <div className="relative left-6 flex items-center gap-1 select-none">
+          <Image
+            src="/images/logo.svg"
+            alt="Pombo Logo"
+            width={120}
+            height={60}
+          />
+        </div>
+      </div>
+
+      <div className="absolute top-4 left-6 z-10 hidden items-center gap-1 select-none sm:flex sm:gap-2">
         <Image
           src="/images/logo.svg"
           alt="Pombo Logo"
@@ -57,7 +68,7 @@ export default function ResetPassword() {
         />
       </div>
 
-      <div className="bg-light ring-smoke mx-4 flex flex-col gap-2 rounded-3xl p-4 ring-4 sm:mx-32 sm:min-w-md sm:gap-8 sm:p-8">
+      <div className="bg-light ring-smoke fixed right-0 bottom-0 left-0 flex h-[80vh] flex-col gap-2 p-4 ring-4 sm:relative sm:mx-32 sm:h-auto sm:min-w-md sm:gap-12 sm:rounded-3xl sm:p-8">
         {resetPassword.isSuccess ? (
           <>
             <div className="flex justify-center">
