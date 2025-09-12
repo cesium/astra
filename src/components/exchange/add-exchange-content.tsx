@@ -7,6 +7,7 @@ import {
 import { useCreateExchange } from "@/lib/mutations/exchange";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
+import { ICourse } from "@/lib/types";
 
 const getShortShiftType = (shiftType: string) => {
   switch (shiftType) {
@@ -32,9 +33,12 @@ export default function AddExchangeContent({
   const { data: allCourses } = useGetAllCourses();
   const createExchange = useCreateExchange();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const normalCourses: ICourse[] = originalCourses
+    ? originalCourses.filter((course) => course.courses.length === 0)
+    : [];
 
   const ucs =
-    originalCourses?.map((course) => ({ id: course.id, name: course.name })) ||
+    normalCourses?.map((course) => ({ id: course.id, name: course.name })) ||
     [];
   const [selectedUC, setSelectedUC] = useState("");
 
