@@ -28,6 +28,7 @@ interface ITabProps {
   isMobile?: boolean;
   anyActive?: boolean;
   onAnimationEnd?: () => void;
+  bgColor?: string;
 }
 
 const tabs = [
@@ -37,7 +38,12 @@ const tabs = [
     icon: "schedule",
     href: "/schedule",
   },
-  { name: "Exchange", icon: "sync_alt", href: "/exchange" },
+  {
+    name: "Exchange",
+    icon: "sync_alt",
+    href: "/exchange",
+    bgColor: "bg-celeste",
+  },
 ];
 
 function TabsContainer({
@@ -71,6 +77,7 @@ function Tab({
   currentPage,
   anyActive,
   isMobile = false,
+  bgColor,
   onAnimationEnd,
 }: ITabProps) {
   const isActive = href === currentPage;
@@ -93,7 +100,10 @@ function Tab({
             duration: 0.6,
           }}
           onLayoutAnimationComplete={onAnimationEnd}
-          className="bg-primary-400 absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full"
+          className={clsx(
+            "absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full",
+            bgColor || "bg-primary-400",
+          )}
         />
       )}
       <span className="material-symbols-outlined z-10 text-2xl">{icon}</span>
@@ -218,6 +228,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                             anyActive={tabs.some((t) => t.href === currentPage)}
                             isMobile={true}
                             onAnimationEnd={() => setActive(false)}
+                            bgColor={tab.bgColor}
                           />
                         ))}
                       </TabsContainer>
@@ -332,6 +343,7 @@ export default function Navbar() {
                 name={tab.name}
                 icon={tab.icon}
                 href={tab.href}
+                bgColor={tab.bgColor}
                 currentPage={currentPage}
                 isMobile={false}
               />
