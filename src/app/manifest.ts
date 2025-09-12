@@ -464,7 +464,32 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     screenshots: [
       {
-        src: "https://www.pwabuilder.com/assets/screenshots/screen1.png",
+        src: "/screenshots/1.png",
+        sizes: "2880x1800",
+        type: "image/png",
+      },
+      {
+        src: "/screenshots/2.png",
+        sizes: "2880x1800",
+        type: "image/png",
+      },
+      {
+        src: "/screenshots/3.png",
+        sizes: "2880x1800",
+        type: "image/png",
+      },
+      {
+        src: "/screenshots/4.png",
+        sizes: "2880x1800",
+        type: "image/png",
+      },
+      {
+        src: "/screenshots/5.png",
+        sizes: "2880x1800",
+        type: "image/png",
+      },
+      {
+        src: "/screenshots/6.png",
         sizes: "2880x1800",
         type: "image/png",
       },

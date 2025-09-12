@@ -35,7 +35,6 @@ export default function CardsSection({
   const now = new Date();
   const opening = new Date(exchangeDate?.data?.start ?? "");
   const deadline = new Date(exchangeDate?.data?.end ?? "");
-  console.log({ now, opening, deadline });
   const hasExchangeDateClosed = now > deadline || now < opening;
 
   return (
