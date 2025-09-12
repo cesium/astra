@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
 import { useSignOut } from "@/lib/mutations/session";
 import Image from "next/image";
+import { firstLastName } from "@/lib/utils";
 
 const Logo = () => (
   <Link href="/" className="flex cursor-pointer items-center gap-2">
@@ -27,6 +28,7 @@ interface ITabProps {
   isMobile?: boolean;
   anyActive?: boolean;
   onAnimationEnd?: () => void;
+  bgColor?: string;
 }
 
 const tabs = [
@@ -36,7 +38,12 @@ const tabs = [
     icon: "schedule",
     href: "/schedule",
   },
-  { name: "Exchange", icon: "sync_alt", href: "/exchange" },
+  {
+    name: "Exchange",
+    icon: "sync_alt",
+    href: "/exchange",
+    bgColor: "bg-celeste",
+  },
 ];
 
 function TabsContainer({
@@ -70,6 +77,7 @@ function Tab({
   currentPage,
   anyActive,
   isMobile = false,
+  bgColor,
   onAnimationEnd,
 }: ITabProps) {
   const isActive = href === currentPage;
@@ -92,7 +100,10 @@ function Tab({
             duration: 0.6,
           }}
           onLayoutAnimationComplete={onAnimationEnd}
-          className="bg-primary-400 absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full"
+          className={clsx(
+            "absolute inset-0 z-10 rounded-2xl shadow-sm md:rounded-full",
+            bgColor || "bg-primary-400",
+          )}
         />
       )}
       <span className="material-symbols-outlined z-10 text-2xl">{icon}</span>
@@ -217,6 +228,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                             anyActive={tabs.some((t) => t.href === currentPage)}
                             isMobile={true}
                             onAnimationEnd={() => setActive(false)}
+                            bgColor={tab.bgColor}
                           />
                         ))}
                       </TabsContainer>
@@ -228,7 +240,9 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                           className="flex cursor-pointer items-center gap-2 pl-3.5 focus:outline-none"
                         >
                           <Avatar name={user.data.name} className="" />
-                          <span className="text-dark/50">{user.data.name}</span>
+                          <span className="text-dark/50">
+                            {firstLastName(user.data.name)}
+                          </span>
                         </button>
                       ) : (
                         <div className="flex items-center gap-3">
@@ -261,12 +275,14 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                   >
                     <div className="flex items-center gap-2">
                       <Avatar className="size-14" name={user.data?.name} />
-                      <span className="text-dark/50">{user.data?.name}</span>
+                      <span className="text-dark/50">
+                        {firstLastName(user.data?.name)}
+                      </span>
                     </div>
                     <div className="my-3.5 border-b border-black/10" />
                     <div className="flex flex-col gap-2">
                       <Link
-                        href="/settings"
+                        href="/settings/account"
                         className="text-dark flex items-center gap-2"
                         onClick={() => setActive(false)}
                       >
@@ -306,32 +322,44 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
 export default function Navbar() {
   const currentPage = usePathname();
   const session = useGetSession();
+  const { data: user } = useGetUserInfo();
+  const userHasPrivileges =
+    user?.type === "admin" || user?.type === "professor";
 
   return (
-    <nav className="flex w-full items-center justify-between px-5 py-4 md:h-20 md:px-10">
-      <Logo />
-
-      {session.data?.signedIn && (
-        <TabsContainer currentPage={currentPage} className="hidden md:flex">
-          {tabs.map((tab) => (
-            <Tab
-              key={tab.href}
-              name={tab.name}
-              icon={tab.icon}
-              href={tab.href}
-              currentPage={currentPage}
-              isMobile={false}
-            />
-          ))}
-        </TabsContainer>
-      )}
-
-      {/* User dropdown */}
-      <div className="hidden md:block">
-        <UserDropdown />
+    <nav
+      className={`grid w-full ${!session.data?.signedIn || !user || ["admin", "professor"].includes(user.type) ? "grid-cols-2" : "grid-cols-3"} items-center px-5 py-4 md:h-20 md:px-10`}
+    >
+      <div className="flex items-center">
+        <Logo />
       </div>
 
-      <MobileDropdown currentPage={currentPage} />
+      {session.data?.signedIn && !userHasPrivileges && (
+        <div className="flex justify-center">
+          <TabsContainer currentPage={currentPage} className="hidden md:flex">
+            {tabs.map((tab) => (
+              <Tab
+                key={tab.href}
+                name={tab.name}
+                icon={tab.icon}
+                href={tab.href}
+                bgColor={tab.bgColor}
+                currentPage={currentPage}
+                isMobile={false}
+              />
+            ))}
+          </TabsContainer>
+        </div>
+      )}
+
+      <div className="flex items-center justify-end">
+        {/* User dropdown */}
+        <div className="hidden md:block">
+          <UserDropdown />
+        </div>
+
+        <MobileDropdown currentPage={currentPage} />
+      </div>
     </nav>
   );
 }

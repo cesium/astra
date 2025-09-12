@@ -8,6 +8,7 @@ import {
   useImportStudentsByCourses,
   useImportShiftsByCourses,
 } from "@/lib/mutations/courses";
+import { AuthCheck } from "@/components/auth-check";
 
 const EXCEL_TYPES = [
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
@@ -104,68 +105,70 @@ export default function Imports() {
   return (
     <>
       <title>Imports | Backoffice | Pombo</title>
-      <SettingsWrapper title="Import data">
-        <div className="space-y-4">
-          <div>
-            <h1 className="text-2xl font-semibold">Import Data</h1>
-            <p className="mt-2 text-black">
-              Import Excel files to update the system data. Each import can be
-              done independently as needed.
-            </p>
-          </div>
-
-          <div className="max-w-3xl rounded-lg bg-white p-6">
-            <div className="mb-4">
-              <h2 className="text-lg font-semibold">Students by Courses</h2>
-              <p className="mt-1 text-sm text-black">
-                Import student enrollment data organized by courses. Use this
-                when students change courses or new enrollments are added.
+      <AuthCheck userTypes={["admin", "professor"]}>
+        <SettingsWrapper title="Import data">
+          <div className="space-y-4">
+            <div>
+              <h1 className="text-2xl font-semibold">Import Data</h1>
+              <p className="mt-2 text-black">
+                Import Excel files to update the system data. Each import can be
+                done independently as needed.
               </p>
             </div>
 
-            <FileUploader
-              onFileChange={(file) =>
-                handleFileChange(file, "students_by_courses")
-              }
-              allowedTypes={EXCEL_TYPES}
-              maxSize={10 * 1024 * 1024}
-              disabled={isAnyMutationPending}
-              showSelectedFile={false}
-            />
-          </div>
+            <div className="max-w-3xl rounded-lg bg-white p-6">
+              <div className="mb-4">
+                <h2 className="text-lg font-semibold">Students by Courses</h2>
+                <p className="mt-1 text-sm text-black">
+                  Import student enrollment data organized by courses. Use this
+                  when students change courses or new enrollments are added.
+                </p>
+              </div>
 
-          <div className="max-w-3xl rounded-lg bg-white p-6">
-            <div className="mb-4">
-              <h2 className="text-lg font-semibold">Shifts by Courses</h2>
-              <p className="mt-1 text-sm text-black">
-                Import class schedule data organized by courses. Use this when
-                schedules change or new shifts are created.
-              </p>
+              <FileUploader
+                onFileChange={(file) =>
+                  handleFileChange(file, "students_by_courses")
+                }
+                allowedTypes={EXCEL_TYPES}
+                maxSize={10 * 1024 * 1024}
+                disabled={isAnyMutationPending}
+                showSelectedFile={false}
+              />
             </div>
 
-            <FileUploader
-              onFileChange={(file) =>
-                handleFileChange(file, "shifts_by_courses")
-              }
-              allowedTypes={CSV_TYPES}
-              maxSize={10 * 1024 * 1024}
-              disabled={isAnyMutationPending}
-              showSelectedFile={false}
-            />
-          </div>
-        </div>
+            <div className="max-w-3xl rounded-lg bg-white p-6">
+              <div className="mb-4">
+                <h2 className="text-lg font-semibold">Shifts by Courses</h2>
+                <p className="mt-1 text-sm text-black">
+                  Import class schedule data organized by courses. Use this when
+                  schedules change or new shifts are created.
+                </p>
+              </div>
 
-        <ImportConfirmationModal
-          selectedFile={importState.selectedFile}
-          onConfirm={handleConfirmUpload}
-          onCancel={handleCancelUpload}
-          title={getModalTitle()}
-          description={getModalDescription()}
-          isLoading={currentMutation?.isPending ?? false}
-          isSuccess={currentMutation?.isSuccess ?? false}
-          isError={currentMutation?.isError ?? false}
-        />
-      </SettingsWrapper>
+              <FileUploader
+                onFileChange={(file) =>
+                  handleFileChange(file, "shifts_by_courses")
+                }
+                allowedTypes={CSV_TYPES}
+                maxSize={10 * 1024 * 1024}
+                disabled={isAnyMutationPending}
+                showSelectedFile={false}
+              />
+            </div>
+          </div>
+
+          <ImportConfirmationModal
+            selectedFile={importState.selectedFile}
+            onConfirm={handleConfirmUpload}
+            onCancel={handleCancelUpload}
+            title={getModalTitle()}
+            description={getModalDescription()}
+            isLoading={currentMutation?.isPending ?? false}
+            isSuccess={currentMutation?.isSuccess ?? false}
+            isError={currentMutation?.isError ?? false}
+          />
+        </SettingsWrapper>
+      </AuthCheck>
     </>
   );
 }

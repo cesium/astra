@@ -4,6 +4,7 @@ import "./globals.css";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryProvider from "@/providers/react-query";
 import clsx from "clsx";
+import { AuthCheck } from "@/components/auth-check";
 
 const jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -170,8 +171,10 @@ export default function RootLayout({
     <html className="h-dvh" lang="en">
       <body className={clsx(jamjuree.variable, "font-jamjuree h-full")}>
         <ReactQueryProvider>
-          {children}
-          <ReactQueryDevtools initialIsOpen={false} />
+          <AuthCheck shouldBeLoggedIn>
+            {children}
+            <ReactQueryDevtools initialIsOpen={false} />
+          </AuthCheck>
         </ReactQueryProvider>
       </body>
     </html>

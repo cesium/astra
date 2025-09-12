@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
 import { useSignOut } from "@/lib/mutations/session";
+import { firstLastName } from "@/lib/utils";
 
 const UserDropdown = () => {
   const router = useRouter();
@@ -32,7 +33,9 @@ const UserDropdown = () => {
         {({ open }) => (
           <>
             <MenuButton className="flex cursor-pointer items-center gap-2 focus:outline-none">
-              <span className="text-dark/50">{user.data?.name}</span>
+              <span className="text-dark/50">
+                {firstLastName(user.data?.name)}
+              </span>
               <Avatar name={user.data?.name} />
             </MenuButton>
             <AnimatePresence>
@@ -78,13 +81,15 @@ const UserDropdown = () => {
                 >
                   <MenuItem as="div" className="flex items-center gap-2">
                     <Avatar className="size-14" name={user.data?.name} />
-                    <span className="text-dark/50">{user.data?.name}</span>
+                    <span className="text-dark/50">
+                      {firstLastName(user.data?.name)}
+                    </span>
                   </MenuItem>
                   <div className="my-3.5 border-b border-black/10" />
                   <div className="flex flex-col gap-2">
                     <MenuItem
                       as={Link}
-                      href="/settings"
+                      href="/settings/account"
                       className="text-dark flex items-center gap-2"
                     >
                       <span className="material-symbols-outlined text-2xl">

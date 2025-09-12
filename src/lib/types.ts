@@ -8,6 +8,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  type: string;
 }
 
 export interface ITimeSlot {
@@ -25,6 +26,7 @@ export interface IShiftResponse {
   number: number;
   professor?: string | null;
   timeslots: ITimeSlot[];
+  enrollment_status: "active" | "inactive" | "override" | null;
 }
 
 export interface ICourse {
@@ -55,7 +57,7 @@ export interface IShift {
   semester: number;
   eventColor: string;
   textColor: string;
-  status?: "active" | "inactive" | "is_overwritten";
+  status: "active" | "inactive" | "override" | null;
 }
 
 export type IShiftsSorted = {
