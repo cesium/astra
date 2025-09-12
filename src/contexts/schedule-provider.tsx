@@ -171,11 +171,12 @@ function extractShifts(courses: ICourse[]): IShift[] {
             end: shift.end,
             shiftType: convertShiftType(shiftGroup.type),
             shiftNumber: shiftGroup.number,
-            building:
-              Number(shift.building) <= 3
+            building: shift.building
+              ? Number(shift.building) <= 3
                 ? `CP${shift.building}`
-                : `Building ${shift.building}`,
-            room: shift.room,
+                : `Building ${shift.building}`
+              : null,
+            room: shift.room || null,
             year: course.year,
             semester: course.semester,
             eventColor: "#C3E5F9",

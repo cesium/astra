@@ -2,8 +2,8 @@ import { EventProps } from "react-big-calendar";
 import { editColor } from "@/lib/utils";
 
 export default function EventCard({ event }: EventProps) {
-  const building = event.resource?.building || "";
-  const room = event.resource?.room || "";
+  const building = event.resource?.building;
+  const room = event.resource?.room;
   const textColor = event.resource?.textColor;
 
   const location = `${building} - ${room}`;
@@ -26,9 +26,9 @@ export default function EventCard({ event }: EventProps) {
     >
       <div className="space-y-0.5">
         <h3>{event.title}</h3>
-        <p className="text-xs opacity-70 sm:text-sm">
-          {location || "No location"}
-        </p>
+        {building && room && (
+          <p className="text-xs opacity-70 sm:text-sm">{location}</p>
+        )}
       </div>
     </div>
   );
