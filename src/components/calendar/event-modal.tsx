@@ -172,7 +172,18 @@ export default function EventModal({
                     value={event.professor}
                   />
                 )}
-              </div>
+                {type == "schedule" && event.status == "override" && (
+                <div className="text-dark/90 mt-3 inline-flex items-center gap-2 self-center">
+                  <span className="material-symbols-outlined text-lg">
+                    gpp_maybe
+                  </span>
+                  <p className="text-sm font-light">
+                    This is a custom shift and does not reflect your official
+                    schedule.
+                  </p>
+                </div>
+              )}
+            </div>
             </DialogPanel>
           </TransitionChild>
         </div>
