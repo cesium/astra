@@ -33,10 +33,14 @@ export default function CardsSection({
   const { data: exchangeDate } = useGetExchangeDate();
 
   const now = new Date();
-  const opening = new Date(exchangeDate?.data?.start ?? "");
-  const deadline = new Date(exchangeDate?.data?.end ?? "");
+  const opening = new Date(exchangeDate?.data?.start);
+  const deadline = new Date(exchangeDate?.data?.end);
   console.log({ now, opening, deadline });
-  const hasExchangeDateClosed = now > deadline || now < opening;
+  const hasExchangeDateClosed =
+    now > deadline ||
+    now < opening ||
+    !exchangeDate?.data?.end ||
+    !exchangeDate?.data?.start;
 
   return (
     <div className={twMerge("flex flex-col gap-6", drafts ? "gap-0" : "")}>

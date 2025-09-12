@@ -1,3 +1,4 @@
+import { IItemProps } from "@/lib/types";
 import {
   Listbox,
   ListboxButton,
@@ -5,11 +6,6 @@ import {
   ListboxOptions,
 } from "@headlessui/react";
 import clsx from "clsx";
-
-interface IItemProps {
-  id: string;
-  name: string;
-}
 
 interface ICustomSelectProps {
   items: IItemProps[];

@@ -32,3 +32,25 @@ export async function generateSchedule(params: {
     );
   }
 }
+
+export async function exportShiftGroups(course_id: string) {
+  try {
+    const res = await api.get(`/export/blackboard/${course_id}/groups`);
+    return res.data;
+  } catch {
+    throw new Error("Failed to export Shift Groups. Please try again later.");
+  }
+}
+
+export async function exportGroupEnrollments(course_id: string) {
+  try {
+    const res = await api.get(
+      `/export/blackboard/${course_id}/group_enrollments`,
+    );
+    return res.data;
+  } catch {
+    throw new Error(
+      "Failed to export Group Enrollment. Please try again later.",
+    );
+  }
+}
