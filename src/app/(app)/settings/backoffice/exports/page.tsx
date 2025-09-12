@@ -13,21 +13,6 @@ import clsx from "clsx";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-// const downloadFile = ({ data, fileName, fileType }: {data: string, fileName: string, fileType: string}) => {
-//   const blob = new Blob([data], { type: fileType })
-
-//   const a = document.createElement('a')
-//   a.download = fileName
-//   a.href = window.URL.createObjectURL(blob)
-//   const clickEvt = new MouseEvent('click', {
-//     view: window,
-//     bubbles: true,
-//     cancelable: true,
-//   })
-//   a.dispatchEvent(clickEvt)
-//   a.remove()
-// }
-
 function downloadFile({
   data,
   fileName,
@@ -77,7 +62,7 @@ export default function Exports() {
     const result = await getShiftGroups();
     downloadFile({
       data: result.data,
-      fileName: "ShiftsGroup.csv",
+      fileName: `${selectedCourse?.name}-turmas.csv`,
       fileType: "text/csv",
     });
   };
@@ -86,7 +71,7 @@ export default function Exports() {
     const result = await getGroupEnrollment();
     downloadFile({
       data: result.data,
-      fileName: "GroupEnrollments.csv",
+      fileName: `${selectedCourse?.name}-inscrições.csv`,
       fileType: "text/csv",
     });
   };
