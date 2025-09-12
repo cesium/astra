@@ -1,3 +1,5 @@
+import MainSection from "@/components/exchange/main-section";
+import SideSection from "@/components/exchange/side-section";
 import { AuthCheck } from "@/components/auth-check";
 import { Metadata } from "next";
 
@@ -8,7 +10,10 @@ export const metadata: Metadata = {
 export default function Exchange() {
   return (
     <AuthCheck userTypes={["student"]}>
-      <div>Exchange Page</div>
+      <div className="flex w-full flex-col-reverse gap-8 lg:flex-row lg:gap-14">
+        <SideSection />
+        <MainSection />
+      </div>
     </AuthCheck>
   );
 }

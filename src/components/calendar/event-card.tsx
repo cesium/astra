@@ -1,5 +1,5 @@
 import { EventProps } from "react-big-calendar";
-import { editColor } from "./calendar";
+import { editColor } from "@/lib/utils";
 
 export default function EventCard({ event }: EventProps) {
   const building = event.resource?.building || "";
