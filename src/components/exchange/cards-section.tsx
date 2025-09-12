@@ -4,7 +4,9 @@ import { useState } from "react";
 import ExchangeCard from "./utils/card";
 import ExchangeModal from "./utils/modal";
 import AddExchangeContent from "./add-exchange-content";
+import { useGetExchangeDate } from "@/lib/queries/exchange";
 import { twMerge } from "tailwind-merge";
+import { clsx } from "clsx";
 
 interface ICardSectionProps {
   title?: string;
@@ -28,13 +30,27 @@ export default function CardsSection({
   data,
 }: ICardSectionProps) {
   const [exchangeModalState, setExchangeModalState] = useState(false);
+  const { data: exchangeDate } = useGetExchangeDate();
+
+  const now = new Date();
+  const opening = new Date(exchangeDate?.data?.start ?? "");
+  const deadline = new Date(exchangeDate?.data?.end ?? "");
+  console.log({ now, opening, deadline });
+  const hasExchangeDateClosed = now > deadline || now < opening;
+
   return (
     <div className={twMerge("flex flex-col gap-6", drafts ? "gap-0" : "")}>
       <h2 className="text-xl font-semibold">{title}</h2>
       {drafts && (
         <button
           onClick={() => setExchangeModalState(true)}
-          className="mb-2 flex w-full cursor-pointer place-items-center justify-center gap-2 rounded-2xl border border-gray-100 bg-gray-100 p-4 transition-all duration-150 hover:border-gray-200 hover:bg-gray-200 lg:hidden lg:min-w-[294px]"
+          className={twMerge(
+            clsx(
+              "mb-2 flex w-full cursor-pointer place-items-center justify-center gap-2 rounded-2xl border border-gray-100 bg-gray-100 p-4 transition-all duration-150 hover:border-gray-200 hover:bg-gray-200 lg:hidden lg:min-w-[294px]",
+              hasExchangeDateClosed && "cursor-not-allowed opacity-50",
+            ),
+          )}
+          disabled={hasExchangeDateClosed}
         >
           <span
             className="material-symbols-outlined"
@@ -73,7 +89,15 @@ export default function CardsSection({
             <>
               <button
                 onClick={() => setExchangeModalState(true)}
-                className="hidden cursor-pointer place-items-center justify-center gap-2 rounded-2xl border border-gray-100 bg-gray-100 p-4 transition-all duration-150 hover:border-gray-200 hover:bg-gray-200 lg:flex lg:min-w-[294px]"
+                className={twMerge(
+                  clsx(
+                    "hidden cursor-pointer place-items-center justify-center gap-2 rounded-2xl border border-gray-100 bg-gray-100 p-4 transition-all duration-150 lg:flex lg:min-w-[294px]",
+                    hasExchangeDateClosed
+                      ? "cursor-not-allowed opacity-50"
+                      : "hover:border-gray-200 hover:bg-gray-200",
+                  ),
+                )}
+                disabled={hasExchangeDateClosed}
               >
                 <span
                   className="material-symbols-outlined"

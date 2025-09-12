@@ -31,8 +31,12 @@ const getShortShiftType = (shiftType: string) => {
   }
 };
 
+interface DateStateTextProps {
+  exchangeDate: { data: { start: string; end: string } } | undefined;
+}
+
 const getExchangeDateStateText = (
-  exchangeDate: { data: { start: string; end: string } } | undefined,
+  exchangeDate: DateStateTextProps["exchangeDate"],
 ) => {
   if (!exchangeDate?.data.end) return "No deadline available";
 

@@ -6,6 +6,7 @@ import {
 } from "@/lib/queries/courses";
 import { useCreateExchange } from "@/lib/mutations/exchange";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 const getShortShiftType = (shiftType: string) => {
   switch (shiftType) {
@@ -202,11 +203,13 @@ export default function AddExchangeContent({
       <button
         onClick={handleSubmit}
         disabled={!isFormFilled}
-        className={clsx(
-          "bg-celeste hover:bg-celeste/80 mt-4 cursor-pointer rounded-lg px-4 py-2 text-white/90 transition-all duration-150 select-none",
-          {
-            "pointer-events-none cursor-not-allowed opacity-50": !isFormFilled,
-          },
+        className={twMerge(
+          clsx(
+            "bg-celeste mt-4 cursor-pointer rounded-lg px-4 py-2 text-white/90 transition-all duration-150 select-none",
+            !isFormFilled
+              ? "cursor-not-allowed opacity-50"
+              : "hover:bg-celeste/80",
+          ),
         )}
       >
         Create request
