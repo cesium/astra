@@ -32,7 +32,7 @@ export default function ResetPassword() {
   return (
     <>
       <title>Pombo | Forgot Password</title>
-      <div className="flex h-screen items-center justify-end bg-[url(/images/pombo-background.svg)] bg-center bg-repeat sm:flex sm:h-screen sm:items-center sm:justify-end">
+      <div className="flex h-screen flex-col bg-center bg-repeat sm:h-screen sm:flex-row sm:items-center sm:justify-end md:bg-[url(/images/pombo-background.svg)]">
         <div className="absolute top-0 right-0 left-0 flex h-16 items-center bg-white sm:hidden">
           <div className="relative left-6 flex items-center gap-1 select-none">
             <Image
@@ -52,6 +52,7 @@ export default function ResetPassword() {
             height={80}
           />
         </div>
+        <div className="absolute top-16 right-0 bottom-[80vh] left-0 bg-[url(/images/pombo-stripe.svg)] bg-cover bg-center sm:hidden"></div>
 
         <div className="bg-light ring-smoke fixed right-0 bottom-0 left-0 flex h-[80vh] flex-col gap-2 p-4 ring-4 sm:relative sm:mx-32 sm:h-auto sm:min-w-md sm:gap-12 sm:rounded-3xl sm:p-8">
           {forgotPassword.isSuccess ? (
