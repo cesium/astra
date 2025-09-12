@@ -68,10 +68,8 @@ export default function Exports() {
   const { data: allCourses } = useGetAllCourses();
   const { refetch: getShiftGroups, isError: exportShiftsGroupError } =
     useExportShiftGroups(selectedCourse?.id || "");
-  const {
-    refetch: getGroupEnrollment,
-    isError: exportGroupEnrollmentsError,
-  } = useExportGroupEnrollments(selectedCourse?.id || "");
+  const { refetch: getGroupEnrollment, isError: exportGroupEnrollmentsError } =
+    useExportGroupEnrollments(selectedCourse?.id || "");
 
   const formattedCourses = formatCourses(allCourses);
 
