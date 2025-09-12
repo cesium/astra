@@ -37,94 +37,102 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-end bg-[url(/images/pombo-background.svg)] bg-center bg-repeat sm:flex sm:h-screen sm:items-center sm:justify-end">
-      <div className="absolute top-0 right-0 left-0 flex h-16 items-center bg-white sm:hidden">
-        <div className="relative left-6 flex items-center gap-1 select-none">
+    <>
+      <title>Pombo | Sign In</title>
+      <div className="flex h-screen items-center justify-end bg-[url(/images/pombo-background.svg)] bg-center bg-repeat sm:flex sm:h-screen sm:items-center sm:justify-end">
+        <div className="absolute top-0 right-0 left-0 flex h-16 items-center bg-white sm:hidden">
+          <div className="relative left-6 flex items-center gap-1 select-none">
+            <Image
+              src="/images/logo.svg"
+              alt="Pombo Logo"
+              width={120}
+              height={60}
+            />
+          </div>
+        </div>
+
+        <div className="absolute top-4 left-6 z-10 hidden items-center gap-1 select-none sm:flex sm:gap-2">
           <Image
             src="/images/logo.svg"
             alt="Pombo Logo"
-            width={120}
-            height={60}
+            width={160}
+            height={80}
           />
         </div>
-      </div>
 
-      <div className="absolute top-4 left-6 z-10 hidden items-center gap-1 select-none sm:flex sm:gap-2">
-        <Image
-          src="/images/logo.svg"
-          alt="Pombo Logo"
-          width={160}
-          height={80}
-        />
-      </div>
+        <div className="bg-light ring-smoke fixed right-0 bottom-0 left-0 flex h-[80vh] flex-col gap-2 p-4 ring-4 sm:relative sm:mx-32 sm:h-auto sm:min-w-md sm:gap-12 sm:rounded-3xl sm:p-8">
+          <div className="flex flex-col gap-0.5 sm:gap-1.5">
+            <h1 className="text-4xl font-semibold sm:text-4xl">
+              Welcome! Sign in to Pombo
+            </h1>
+            <span className="text-gray-400">
+              Acess your account to view all the info you need
+            </span>
+          </div>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-9"
+          >
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-1">
+                <Label htmlFor="email" className="text-dark pl-2 font-semibold">
+                  Email
+                </Label>
+                <Input
+                  {...register("email")}
+                  id="email"
+                  className="bg-dark/5 border-0 placeholder:text-black/50"
+                  placeholder="Email"
+                />
+                <span className="text-danger pl-2">
+                  {errors.email?.message}
+                </span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <Label
+                  htmlFor="password"
+                  className="text-dark pl-2 font-semibold"
+                >
+                  Password
+                </Label>
 
-      <div className="bg-light ring-smoke fixed right-0 bottom-0 left-0 flex h-[80vh] flex-col gap-2 p-4 ring-4 sm:relative sm:mx-32 sm:h-auto sm:min-w-md sm:gap-12 sm:rounded-3xl sm:p-8">
-        <div className="flex flex-col gap-0.5 sm:gap-1.5">
-          <h1 className="text-4xl font-semibold sm:text-4xl">
-            Welcome! Sign in to Pombo
-          </h1>
-          <span className="text-gray-400">
-            Acess your account to view all the info you need
-          </span>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-9">
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-1">
-              <Label htmlFor="email" className="text-dark pl-2 font-semibold">
-                Email
-              </Label>
-              <Input
-                {...register("email")}
-                id="email"
-                className="bg-dark/5 border-0 placeholder:text-black/50"
-                placeholder="Email"
-              />
-              <span className="text-danger pl-2">{errors.email?.message}</span>
+                <Input
+                  {...register("password")}
+                  id="password"
+                  className="bg-dark/5 border-0 placeholder:text-black/50"
+                  type="password"
+                  placeholder="Password"
+                />
+                <span className="text-danger pl-2">
+                  {errors.password?.message}
+                </span>
+              </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <Label
-                htmlFor="password"
-                className="text-dark pl-2 font-semibold"
+            <div className="flex flex-col pl-2 sm:flex-row sm:gap-1">
+              <span>Did you forget your password?</span>
+              <Link
+                href="/auth/forgot_password"
+                className="text-primary-400 underline"
               >
-                Password
-              </Label>
-
-              <Input
-                {...register("password")}
-                id="password"
-                className="bg-dark/5 border-0 placeholder:text-black/50"
-                type="password"
-                placeholder="Password"
-              />
-              <span className="text-danger pl-2">
-                {errors.password?.message}
-              </span>
+                Click here
+              </Link>
             </div>
-          </div>
-          <div className="flex flex-col pl-2 sm:flex-row sm:gap-1">
-            <span>Did you forget your password?</span>
-            <Link
-              href="/auth/forgot_password"
-              className="text-primary-400 underline"
-            >
-              Click here
-            </Link>
-          </div>
-          <div className="flex flex-col gap-1 sm:gap-2">
-            {signIn.error && (
-              <span className="text-danger px-1 text-center">
-                {signIn.error.message}
-              </span>
-            )}
-            <button
-              className="bg-primary-400 mx-7 cursor-pointer rounded-full p-4 font-bold text-white shadow-lg"
-              type="submit"
-            >
-              {signIn.isPending ? "Loading..." : "Sign in"}
-            </button>
-          </div>
-        </form>
+            <div className="flex flex-col gap-1 sm:gap-2">
+              {signIn.error && (
+                <span className="text-danger px-1 text-center">
+                  {signIn.error.message}
+                </span>
+              )}
+              <button
+                className="bg-primary-400 mx-7 cursor-pointer rounded-full p-4 font-bold text-white shadow-lg"
+                type="submit"
+              >
+                {signIn.isPending ? "Loading..." : "Sign in"}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
