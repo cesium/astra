@@ -39,8 +39,8 @@ export default function SignIn() {
   return (
     <>
       <title>Pombo | Sign In</title>
-      <div className="flex h-screen flex-col bg-center bg-repeat sm:h-screen sm:flex-row sm:items-center sm:justify-end md:bg-[url(/images/pombo-background.svg)]">
-        <div className="absolute top-0 right-0 left-0 flex h-16 items-center bg-white sm:hidden">
+      <div className="flex h-screen flex-col overflow-hidden bg-center bg-repeat sm:h-screen sm:flex-row sm:items-center sm:justify-end sm:overflow-visible md:bg-[url(/images/pombo-background.svg)]">
+        <div className="flex h-16 items-center bg-white sm:hidden">
           <div className="relative left-6 flex items-center gap-1 select-none">
             <Image
               src="/images/logo.svg"
@@ -60,15 +60,15 @@ export default function SignIn() {
           />
         </div>
 
-        <div className="absolute top-16 right-0 bottom-[80vh] left-0 bg-[url(/images/pombo-stripe.svg)] bg-cover bg-center sm:hidden"></div>
+        <div className="h-28 bg-[url(/images/pombo-stripe.svg)] bg-cover bg-center sm:hidden"></div>
 
-        <div className="bg-light ring-smoke fixed right-0 bottom-0 left-0 flex h-[80vh] flex-col gap-2 p-4 ring-4 sm:relative sm:mx-32 sm:h-auto sm:min-w-md sm:gap-12 sm:rounded-3xl sm:p-8">
+        <div className="bg-light ring-smoke flex min-h-0 flex-1 flex-col gap-2 p-4 ring-4 sm:relative sm:mx-32 sm:h-auto sm:min-w-md sm:flex-none sm:gap-12 sm:rounded-3xl sm:p-8">
           <div className="flex flex-col gap-0.5 sm:gap-1.5">
             <h1 className="text-4xl font-semibold sm:text-4xl">
               Welcome! Sign in to Pombo
             </h1>
             <span className="text-gray-400">
-              Acess your account to view all the info you need
+              Access your account to view all the info you need
             </span>
           </div>
           <form
