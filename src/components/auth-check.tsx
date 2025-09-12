@@ -28,21 +28,21 @@ export const AuthCheck = ({
 
   useEffect(() => {
     const openRoutes = [
-      /^\/auth\/sign_in$/,
-      /^\/auth\/forgot_password\/?$/,
-      /^\/auth\/forgot_password\/[^/]+$/,
+      /^\/auth\/sign-in$/,
+      /^\/auth\/forgot-password\/?$/,
+      /^\/auth\/forgot-password\/[^/]+$/,
     ];
 
     if (!isMounted) return;
 
     const isOpenRoute = openRoutes.some((route) => pathname.match(route));
     if (shouldBeLoggedIn && !token && !isOpenRoute) {
-      router.replace("/auth/sign_in");
+      router.replace("/auth/sign-in");
       return;
     }
 
     if (shouldBeLoggedIn && token && user.error) {
-      router.replace("/auth/sign_in");
+      router.replace("/auth/sign-in");
       return;
     }
 

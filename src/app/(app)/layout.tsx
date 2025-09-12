@@ -1,5 +1,42 @@
+import { Metadata } from "next";
 import { AuthCheck } from "@/components/auth-check";
 import Navbar from "@/components/navbar";
+
+export const metadata: Metadata = {
+  title: "Calendar | Pombo",
+  description: "Keep track of your calendar and don't miss a single deadline",
+  openGraph: {
+    url: "/",
+    type: "website",
+    title: "Calendar | Pombo",
+    description: "Keep track of your calendar and don't miss a single deadline",
+    images: [
+      {
+        url: "/images/og.png",
+        width: 1200,
+        height: 630,
+        alt: "pombo.di.uminho.pt",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Calendar | Pombo",
+    description: "Keep track of your calendar and don't miss a single deadline",
+    images: [
+      {
+        url: "/images/og.png",
+        width: 1200,
+        height: 630,
+        alt: "pombo.di.uminho.pt",
+      },
+    ],
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function AppLayout({
   children,

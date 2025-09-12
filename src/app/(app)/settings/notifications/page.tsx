@@ -1,14 +1,12 @@
 import SettingsWrapper from "@/components/settings-wrapper";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Pombo | Notifications",
-};
 
 export default function Notifications() {
   return (
-    <SettingsWrapper title="Notifications and alerts">
-      <div>Notifications Page</div>
-    </SettingsWrapper>
+    <>
+      <title>Notifications | Settings | Pombo</title>
+      <SettingsWrapper title="Notifications and alerts">
+        <div>Notifications Page</div>
+      </SettingsWrapper>
+    </>
   );
 }
