@@ -1,5 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getDegrees, listJobs } from "../backoffice";
+import {
+  exportGroupEnrollments,
+  exportShiftGroups,
+  getDegrees,
+  listJobs,
+} from "../backoffice";
 
 export function useListJobs() {
   return useQuery({
@@ -13,5 +18,19 @@ export function useGetDegrees() {
   return useQuery({
     queryKey: ["available-degrees"],
     queryFn: getDegrees,
+  });
+}
+
+export function useExportShiftGroups(courseId: string) {
+  return useQuery({
+    queryKey: ["shift-groups-export", courseId],
+    queryFn: () => exportShiftGroups(courseId),
+  });
+}
+
+export function useExportGroupEnrollments(courseId: string) {
+  return useQuery({
+    queryKey: ["group-enrollments-export", courseId],
+    queryFn: () => exportGroupEnrollments(courseId),
   });
 }

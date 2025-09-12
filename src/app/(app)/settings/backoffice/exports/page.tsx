@@ -3,22 +3,39 @@
 import { AuthCheck } from "@/components/auth-check";
 import CustomCombobox from "@/components/combobox";
 import SettingsWrapper from "@/components/settings-wrapper";
+import { useGetAllCourses } from "@/lib/queries/courses";
+import { ICourse } from "@/lib/types";
 import clsx from "clsx";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-const DebugItems = [
-  { id: "lei", name: "Licenciatura em Engenharia Informática" },
-  { id: "miei", name: "Mestrado Integrado em Engenharia Informática" },
-  { id: "mei", name: "Mestrado em Engenharia Informática" },
-  { id: "lcc", name: "Licenciatura em Ciências da Computação" },
-];
+function formatCourses(courses: ICourse[] | undefined) {
+  if (!courses) return [];
+
+  return courses.map((course) => {
+    return { id: course.id, name: course.name };
+  });
+}
 
 export default function Exports() {
   const [selectedCourse, setSelectedCourse] = useState<{
     id: string;
     name: string;
   } | null>(null);
+
+  const { data: allCourses } = useGetAllCourses();
+
+  const formattedCourses = formatCourses(allCourses);
+
+  // const handleShiftsGroupExport = () => {
+  //   const {data: exportShiftsGroup} = useExportShiftGroups(selectedCourse?.id || "")
+  //   console.log(exportShiftsGroup)
+  // }
+
+  // const handleGroupEnrollmentsExport = () => {
+  //   const {data: exportGroupEnrollments} = useExportGroupEnrollments(selectedCourse?.id || "")
+  //   console.log(exportGroupEnrollments)
+  // }
 
   const validCourse = selectedCourse !== null;
 
@@ -38,7 +55,7 @@ export default function Exports() {
               <div className="space-y-1">
                 <p className="pl-2 font-semibold select-none">Courses</p>
                 <CustomCombobox
-                  items={DebugItems}
+                  items={formattedCourses}
                   selectedItem={selectedCourse}
                   setSelectedItem={setSelectedCourse}
                 />
