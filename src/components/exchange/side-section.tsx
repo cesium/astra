@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import SideSectionDisclosure from "./side-section-disclosure";
 import { useGetStudentOriginalSchedule } from "@/lib/queries/courses";
 import { useGetExchangeDate } from "@/lib/queries/exchange";
+import { ICourse } from "@/lib/types";
 
 function parseDate(iso: string) {
   const date = new Date(iso);
@@ -84,10 +85,13 @@ const getExchangeDateStateText = (
 export default function SideSection() {
   const { data: originalCourses } = useGetStudentOriginalSchedule();
   const { data: exchangeDate } = useGetExchangeDate();
+  const normalCourses: ICourse[] = originalCourses
+    ? originalCourses.filter((course) => course.courses.length === 0)
+    : [];
 
   return (
     <div className="flex flex-col gap-2 lg:w-[412px]">
-      <SideSectionDisclosure title="Deadline for exchanges">
+      <SideSectionDisclosure title="Exchange period">
         {getExchangeDateStateText(exchangeDate)}
       </SideSectionDisclosure>
       <SideSectionDisclosure title="Current state">
@@ -100,7 +104,7 @@ export default function SideSection() {
           </span>
         </div>
         <div className="flex flex-col gap-2">
-          {originalCourses?.map((uc, index) => (
+          {normalCourses.map((uc, index) => (
             <div key={index} className="flex w-full items-center gap-2">
               <div className="line-clamp-1 flex h-12 w-1/2 items-center rounded-2xl bg-black/5 px-3 text-sm sm:w-2/3">
                 <span className="line-clamp-1">{uc.shortname}</span>
