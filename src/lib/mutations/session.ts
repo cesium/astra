@@ -1,5 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { forgotPassword, resetPassword, signIn, signOut } from "../session";
+import {
+  changePassword,
+  forgotPassword,
+  resetPassword,
+  signIn,
+  signOut,
+} from "../session";
 import { useAuthStore } from "@/stores/authStore";
 
 export function useSignIn() {
@@ -37,5 +43,11 @@ export function useForgotPassword() {
 export function useResetPassword() {
   return useMutation({
     mutationFn: resetPassword,
+  });
+}
+
+export function useChangePassword() {
+  return useMutation({
+    mutationFn: changePassword,
   });
 }
