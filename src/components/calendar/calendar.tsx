@@ -18,6 +18,7 @@ import { useMemo, useState, useEffect } from "react";
 import CustomToolbar from "./toolbar";
 import EventModal from "./event-modal";
 import EventCard from "./event-card";
+import { editColor } from "@/lib/utils";
 
 interface ICalendarViewProps {
   type: "calendar" | "schedule";
@@ -39,21 +40,12 @@ export default function CalendarView({
   className,
 }: ICalendarViewProps) {
   // adds transparency and darkness to the normal color by converting hex to rgba
-  const getEditingColor = (color: string, opacity: number, darken: number) => {
-    const r = Math.floor(parseInt(color.slice(1, 3), 16) * darken);
-    const g = Math.floor(parseInt(color.slice(3, 5), 16) * darken);
-    const b = Math.floor(parseInt(color.slice(5, 7), 16) * darken);
-    const a = opacity;
-    const rgbaColor = `rgba(${r}, ${g}, ${b}, ${a})`;
-
-    return rgbaColor;
-  };
 
   const getEventColor = (event: Event) => {
     const eventColor = event.resource?.eventColor;
     const textColor = event.resource?.textColor;
 
-    const bgColor = editing ? getEditingColor(eventColor, 0.4, 1) : eventColor;
+    const bgColor = editing ? editColor(eventColor, 0.4, 1) : eventColor;
 
     return { eventColor, bgColor, textColor };
   };

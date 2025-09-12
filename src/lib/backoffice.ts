@@ -12,7 +12,7 @@ export async function listJobs() {
 
 export async function getDegrees() {
   try {
-    const res = await api.get("/schedule/degrees");
+    const res = await api.get("/degrees");
     return res.data.degrees;
   } catch {
     throw new Error("Failed to fetch Degrees list. Please try again later.");
