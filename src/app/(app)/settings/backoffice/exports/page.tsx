@@ -3,11 +3,53 @@
 import { AuthCheck } from "@/components/auth-check";
 import CustomCombobox from "@/components/combobox";
 import SettingsWrapper from "@/components/settings-wrapper";
+import {
+  useExportGroupEnrollments,
+  useExportShiftGroups,
+} from "@/lib/queries/backoffice";
 import { useGetAllCourses } from "@/lib/queries/courses";
 import { ICourse } from "@/lib/types";
 import clsx from "clsx";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+
+// const downloadFile = ({ data, fileName, fileType }: {data: string, fileName: string, fileType: string}) => {
+//   const blob = new Blob([data], { type: fileType })
+
+//   const a = document.createElement('a')
+//   a.download = fileName
+//   a.href = window.URL.createObjectURL(blob)
+//   const clickEvt = new MouseEvent('click', {
+//     view: window,
+//     bubbles: true,
+//     cancelable: true,
+//   })
+//   a.dispatchEvent(clickEvt)
+//   a.remove()
+// }
+
+function downloadFile({
+  data,
+  fileName,
+  fileType,
+}: {
+  data: string;
+  fileName: string;
+  fileType: string;
+}) {
+  const blob = new Blob([data], { type: fileType });
+
+  const a = document.createElement("a");
+  a.download = fileName;
+  a.href = window.URL.createObjectURL(blob);
+  const clickEvt = new MouseEvent("click", {
+    view: window,
+    bubbles: true,
+    cancelable: true,
+  });
+  a.dispatchEvent(clickEvt);
+  a.remove();
+}
 
 function formatCourses(courses: ICourse[] | undefined) {
   if (!courses) return [];
@@ -24,18 +66,32 @@ export default function Exports() {
   } | null>(null);
 
   const { data: allCourses } = useGetAllCourses();
+  const { refetch: getShiftGroups, isError: exportShiftsGroupError } =
+    useExportShiftGroups(selectedCourse?.id || "");
+  const {
+    refetch: getGroupEnrollment,
+    isError: exportGroupEnrollmentsError,
+  } = useExportGroupEnrollments(selectedCourse?.id || "");
 
   const formattedCourses = formatCourses(allCourses);
 
-  // const handleShiftsGroupExport = () => {
-  //   const {data: exportShiftsGroup} = useExportShiftGroups(selectedCourse?.id || "")
-  //   console.log(exportShiftsGroup)
-  // }
+  const handleShiftsGroupExport = async () => {
+    const result = await getShiftGroups();
+    downloadFile({
+      data: result.data,
+      fileName: "ShiftsGroup.csv",
+      fileType: "text/csv",
+    });
+  };
 
-  // const handleGroupEnrollmentsExport = () => {
-  //   const {data: exportGroupEnrollments} = useExportGroupEnrollments(selectedCourse?.id || "")
-  //   console.log(exportGroupEnrollments)
-  // }
+  const handleGroupEnrollmentsExport = async () => {
+    const result = await getGroupEnrollment();
+    downloadFile({
+      data: result.data,
+      fileName: "GroupEnrollments.csv",
+      fileType: "text/csv",
+    });
+  };
 
   const validCourse = selectedCourse !== null;
 
@@ -62,55 +118,51 @@ export default function Exports() {
               </div>
             </div>
 
-            <div className="mt-6 inline-flex w-full items-center gap-4">
+            <div className="mt-6 inline-flex w-full max-w-2xl items-center gap-4">
               <button
                 disabled={!validCourse}
-                onClick={() => {}}
+                onClick={handleShiftsGroupExport}
                 className={twMerge(
                   clsx(
-                    "w-1/3 rounded-lg px-4 py-2 font-semibold text-white transition-all duration-200",
+                    "w-1/2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
                     !validCourse
                       ? "cursor-not-allowed bg-gray-400"
                       : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
                   ),
                 )}
               >
-                Download Shift Groups
+                Shift Groups
               </button>
 
               <span className="text-dark/80 font-semibold">or</span>
 
               <button
                 disabled={!validCourse}
-                onClick={() => {}}
+                onClick={handleGroupEnrollmentsExport}
                 className={twMerge(
                   clsx(
-                    "w-1/3 rounded-lg px-4 py-2 font-semibold text-white transition-all duration-200",
+                    "w-1/2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
                     !validCourse
                       ? "cursor-not-allowed bg-gray-400"
                       : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
                   ),
                 )}
               >
-                Download Group Enrollments
+                Group Enrollments
               </button>
             </div>
 
-            {/* {generateSchedule.isPending && (
-              <p className="text-dark/50 font-semibold">Pending...</p>
-            )}
-
-            {generateSchedule.isSuccess && (
+            {exportShiftsGroupError && (
               <p className="text-dark/50 font-semibold">
-                {generateSchedule.data.message}
+                Failed to download Shifts Group!
               </p>
             )}
 
-            {generateSchedule.isError && (
+            {exportGroupEnrollmentsError && (
               <p className="text-dark/50 font-semibold">
-                {generateSchedule.error.message}
+                Failed to download Group Enrollment!
               </p>
-            )} */}
+            )}
           </section>
         </div>
       </SettingsWrapper>

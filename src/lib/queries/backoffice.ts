@@ -23,14 +23,16 @@ export function useGetDegrees() {
 
 export function useExportShiftGroups(courseId: string) {
   return useQuery({
-    queryKey: ["shift-groups-export", courseId],
+    queryKey: ["shift-groups-export"],
     queryFn: () => exportShiftGroups(courseId),
+    enabled: false,
   });
 }
 
 export function useExportGroupEnrollments(courseId: string) {
   return useQuery({
-    queryKey: ["group-enrollments-export", courseId],
+    queryKey: ["group-enrollments-export"],
     queryFn: () => exportGroupEnrollments(courseId),
+    enabled: false,
   });
 }
