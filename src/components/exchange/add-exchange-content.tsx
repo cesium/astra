@@ -86,6 +86,15 @@ export default function AddExchangeContent({
 
   const [selectedShiftTo, setSelectedShiftTo] = useState("");
 
+  const orderedShiftsToJoin = useMemo(() => {
+    return shiftsToJoin.sort((a, b) => {
+      const numberA = parseInt(a.name.match(/\d+/g)?.[0] || "0", 10);
+      const numberB = parseInt(b.name.match(/\d+/g)?.[0] || "0", 10);
+
+      return numberA - numberB;
+    });
+  }, [shiftsToJoin]);
+
   useEffect(() => {
     if (!selectedShiftFrom && shiftsToLeave.length) {
       setSelectedShiftFrom(shiftsToLeave[0].id);
@@ -187,7 +196,7 @@ export default function AddExchangeContent({
             <ExchangeListbox
               selectedItem={selectedShiftTo}
               setSelectedItem={setSelectedShiftTo}
-              collection={shiftsToJoin}
+              collection={orderedShiftsToJoin}
               rounded
               label="Preferred shift"
               highlightText
