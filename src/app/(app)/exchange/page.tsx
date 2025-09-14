@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Exchange() {
   return (
     <AuthCheck userTypes={["student"]}>
-      <div className="flex w-full h-full flex-col-reverse gap-8 lg:flex-row lg:gap-14 overflow-scroll no-scrollbar">
+      <div className="flex w-full flex-col-reverse gap-8 pb-8 lg:flex-row lg:gap-14">
         <SideSection />
         <MainSection />
       </div>

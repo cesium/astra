@@ -1,6 +1,5 @@
 "use client";
 
-import { Fragment } from "react";
 import SideSectionDisclosure from "./side-section-disclosure";
 import { useGetStudentOriginalSchedule } from "@/lib/queries/courses";
 import { useGetExchangeDate } from "@/lib/queries/exchange";
@@ -66,7 +65,7 @@ const getExchangeDateStateText = (
     );
   } else if (now < opening) {
     return (
-      "The exchange period starts at " +
+      "The exchange period starts on " +
       parsedStart.day.toString() +
       "/" +
       (parsedStart.month + 1).toString().padStart(2, "0") +
@@ -90,7 +89,7 @@ export default function SideSection() {
     : [];
 
   return (
-    <div className="flex flex-col gap-2 lg:w-[412px]">
+    <div className="flex flex-shrink-0 flex-col gap-2 lg:w-[317px]">
       <SideSectionDisclosure title="Exchange period">
         {getExchangeDateStateText(exchangeDate)}
       </SideSectionDisclosure>
@@ -112,16 +111,26 @@ export default function SideSection() {
               <div
                 className={`flex h-12 w-1/2 flex-wrap items-center justify-center gap-1 rounded-full bg-black/5 sm:w-1/2`}
               >
-                {uc.shifts.map((shift, index) => (
-                  <Fragment key={index}>
-                    <span className="rounded-full px-2 py-1 text-xs font-medium">
-                      {`${getShortShiftType(shift.type)}${shift.number}`}
-                    </span>
-                    {index < uc.shifts.length - 1 && (
-                      <div className="h-full w-[2px] bg-black/5"></div>
-                    )}
-                  </Fragment>
-                ))}
+                {uc.shifts.length > 1 && (
+                  <div className="flex h-full justify-between gap-4">
+                    <div className="flex w-4 flex-1 items-center justify-center">
+                      {getShortShiftType(uc.shifts[0].type)}
+                      {uc.shifts[0].number}
+                    </div>
+                    <div className="w-[2px] bg-black/10"></div>
+                    <div className="flex w-4 flex-1 items-center justify-center">
+                      {getShortShiftType(uc.shifts[1].type)}
+                      {uc.shifts[1].number}
+                    </div>
+                  </div>
+                )}
+
+                {uc.shifts.length === 1 && (
+                  <div className="">
+                    {getShortShiftType(uc.shifts[0].type)}
+                    {uc.shifts[0].number}
+                  </div>
+                )}
               </div>
             </div>
           ))}

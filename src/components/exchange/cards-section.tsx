@@ -35,7 +35,6 @@ export default function CardsSection({
   const now = new Date();
   const opening = new Date(exchangeDate?.data?.start);
   const deadline = new Date(exchangeDate?.data?.end);
-  console.log({ now, opening, deadline });
   const hasExchangeDateClosed =
     now > deadline ||
     now < opening ||
@@ -66,7 +65,7 @@ export default function CardsSection({
         </button>
       )}
       <div className="relative">
-        <div className="no-scrollbar flex gap-2 overflow-x-auto lg:flex-wrap">
+        <div className="no-scrollbar flex w-full flex-1 gap-2 overflow-x-auto pr-12">
           {data &&
             data.map((exchange, index) => (
               <ExchangeCard
