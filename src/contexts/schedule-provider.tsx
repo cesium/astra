@@ -7,7 +7,7 @@ import {
   useGetStudentSchedule,
 } from "@/lib/queries/courses";
 import { ICourse, IShift, IShiftsSorted } from "@/lib/types";
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 interface IScheduleProvider {
   originalSchedule: IShift[];

@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { motion } from "motion/react";
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface IBasicProps {
