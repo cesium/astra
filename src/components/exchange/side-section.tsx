@@ -96,21 +96,21 @@ export default function SideSection() {
       </SideSectionDisclosure>
       <SideSectionDisclosure title="Current state">
         <div className="my-2 flex w-full items-center gap-2">
-          <span className="w-1/2 text-center font-semibold text-black/50 sm:w-2/3">
+          <span className="w-1/2 text-center font-semibold text-black/50 sm:w-1/2">
             Your curricular units
           </span>
-          <span className="w-1/2 text-center font-semibold text-black/50 sm:w-1/3">
+          <span className="w-1/2 text-center font-semibold text-black/50 sm:w-1/2">
             Shifts
           </span>
         </div>
         <div className="flex flex-col gap-2">
           {normalCourses.map((uc, index) => (
             <div key={index} className="flex w-full items-center gap-2">
-              <div className="line-clamp-1 flex h-12 w-1/2 items-center rounded-2xl bg-black/5 px-3 text-sm sm:w-2/3">
+              <div className="line-clamp-1 flex h-12 w-1/2 items-center justify-center rounded-2xl bg-black/5 px-3 text-sm sm:w-1/2">
                 <span className="line-clamp-1">{uc.shortname}</span>
               </div>
               <div
-                className={`flex h-12 w-1/2 flex-wrap items-center justify-center gap-1 rounded-full bg-black/5 sm:w-1/3`}
+                className={`flex h-12 w-1/2 flex-wrap items-center justify-center gap-1 rounded-full bg-black/5 sm:w-1/2`}
               >
                 {uc.shifts.map((shift, index) => (
                   <Fragment key={index}>
