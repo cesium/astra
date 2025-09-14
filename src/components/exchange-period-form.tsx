@@ -94,7 +94,7 @@ export default function ExchangePeriodForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex max-w-sm flex-col gap-4"
+      className="mt-4 flex max-w-sm flex-col gap-3"
     >
       <label>Start Date:</label>
       <Input
@@ -121,7 +121,7 @@ export default function ExchangePeriodForm() {
       <span className="text-danger px-1">{errors.end?.message}</span>
       <button
         type="submit"
-        className="bg-primary-500 hover:bg-primary-400 cursor-pointer rounded-xl px-4 py-2 text-white transition"
+        className="bg-primary-400 hover:bg-primary-400/95 mt-2 cursor-pointer rounded-lg px-4 py-2 font-semibold text-white transition-all duration-200 hover:scale-98 md:w-1/3"
       >
         Submit
       </button>
