@@ -65,7 +65,7 @@ export default function CardsSection({
         </button>
       )}
       <div className="relative">
-        <div className="no-scrollbar flex w-full flex-1 gap-2 overflow-x-auto pr-12">
+        <div className="no-scrollbar exchange-scrollbar flex w-full flex-1 gap-2 overflow-x-auto pr-12 lg:pb-4">
           {data &&
             data.map((exchange, index) => (
               <ExchangeCard
