@@ -1,5 +1,3 @@
-"use client";
-
 import EventsCalendar from "@/components/events-calendar";
 import CalendarOptions from "@/components/calendar-options";
 import InstallPrompt from "@/components/install-prompt";
