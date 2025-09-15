@@ -122,7 +122,7 @@ const UserDropdown = () => {
       </Menu>
     ) : (
       <Link
-        href="/auth/sign-in"
+        href="/auth/sign_in"
         className="text-primary-400 flex items-center gap-3"
       >
         Sign in

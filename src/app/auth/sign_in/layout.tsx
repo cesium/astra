@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: "Sign in | Pombo",
   description: "Sign in to manage your calendar and schedule",
   openGraph: {
-    url: "/auth/sign-in",
+    url: "/auth/sign_in",
     type: "website",
     title: "Sign in | Pombo",
     description: "Sign in to manage your calendar and schedule",

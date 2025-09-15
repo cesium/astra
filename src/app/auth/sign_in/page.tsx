@@ -113,7 +113,7 @@ export default function SignIn() {
             <div className="flex flex-col pl-2 sm:flex-row sm:gap-1">
               <span>Did you forget your password?</span>
               <Link
-                href="/auth/forgot-password"
+                href="/auth/forgot_password"
                 className="text-primary-400 underline"
               >
                 Click here

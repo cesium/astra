@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: "Forgot Password | Pombo",
   description: "Reset your password to regain access to your account",
   openGraph: {
-    url: "/auth/forgot-password",
+    url: "/auth/forgot_password",
     type: "website",
     title: "Forgot Password | Pombo",
     description: "Reset your password to regain access to your account",
