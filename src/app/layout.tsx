@@ -13,7 +13,7 @@ const jamjuree = Bai_Jamjuree({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://pombo.di.uminho.pt"),
+  metadataBase: new URL("https://pombo.cesium.pt"),
   title: "Pombo",
   description: "Your hub for everything LEI and MEI",
   keywords: [
@@ -139,7 +139,7 @@ export const metadata: Metadata = {
         url: "/images/og.png",
         width: 1200,
         height: 630,
-        alt: "pombo.di.uminho.pt",
+        alt: "pombo.cesium.pt",
       },
     ],
   },
@@ -152,7 +152,7 @@ export const metadata: Metadata = {
         url: "/images/og.png",
         width: 1200,
         height: 630,
-        alt: "pombo.di.uminho.pt",
+        alt: "pombo.cesium.pt",
       },
     ],
   },
