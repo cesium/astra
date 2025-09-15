@@ -69,9 +69,8 @@ export default function MainSection() {
     }));
 
   return (
-    <div className="flex w-full flex-col gap-8">
+    <div className="flex w-full min-w-0 flex-col gap-8 lg:pr-4">
       <h1 className="text-2xl font-semibold">Shift Exchange Requests</h1>
-
       <CardsSection drafts />
       <CardsSection title="Pending" pending data={pending_exchanges} />
       <CardsSection title="Completed" completed data={approved_exchanges} />

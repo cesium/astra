@@ -33,9 +33,13 @@ export default function CardsSection({
   const { data: exchangeDate } = useGetExchangeDate();
 
   const now = new Date();
-  const opening = new Date(exchangeDate?.data?.start ?? "");
-  const deadline = new Date(exchangeDate?.data?.end ?? "");
-  const hasExchangeDateClosed = now > deadline || now < opening;
+  const opening = new Date(exchangeDate?.data?.start);
+  const deadline = new Date(exchangeDate?.data?.end);
+  const hasExchangeDateClosed =
+    now > deadline ||
+    now < opening ||
+    !exchangeDate?.data?.end ||
+    !exchangeDate?.data?.start;
 
   return (
     <div className={twMerge("flex flex-col gap-6", drafts ? "gap-0" : "")}>
@@ -61,7 +65,7 @@ export default function CardsSection({
         </button>
       )}
       <div className="relative">
-        <div className="no-scrollbar flex gap-2 overflow-x-auto lg:flex-wrap">
+        <div className="no-scrollbar exchange-scrollbar flex w-full flex-1 gap-2 overflow-x-auto pr-12 lg:pb-4">
           {data &&
             data.map((exchange, index) => (
               <ExchangeCard

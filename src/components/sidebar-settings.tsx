@@ -32,10 +32,6 @@ export default function SidebarSettings() {
           <SidebarItem id="account" href="/settings/account">
             <SidebarItemLabel icon="account_circle" label="Your Account" />
           </SidebarItem>
-
-          <SidebarItem id="preferences" href="/settings/preferences">
-            <SidebarItemLabel icon="sync_alt" label="Preferences" />
-          </SidebarItem>
         </SidebarItemList>
 
         {user.data && ["admin", "professor"].includes(user.data.type) && (

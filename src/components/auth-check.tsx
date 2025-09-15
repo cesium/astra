@@ -19,7 +19,7 @@ export const AuthCheck = ({
   const token = useAuthStore((state) => state.token);
   const [isMounted, setIsMounted] = useState(false);
   const loadingState = (
-    <div className="h-full w-full bg-[url(/images/calendar.svg)] bg-center bg-repeat"></div>
+    <div className="h-full w-full bg-[url(/images/pombo-background.svg)] bg-center bg-repeat"></div>
   );
 
   useEffect(() => {

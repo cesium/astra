@@ -16,8 +16,8 @@ export interface ITimeSlot {
   start: string;
   end: string;
   weekday: string;
-  room: string;
-  building: string;
+  room: string | null;
+  building: string | null;
 }
 
 export interface IShiftResponse {
@@ -51,8 +51,8 @@ export interface IShift {
   end: string; // hour only
   shiftType: "T" | "TP" | "PL" | "OL";
   shiftNumber: number;
-  building: string;
-  room: string;
+  building: string | null;
+  room: string | null;
   year: number;
   semester: number;
   eventColor: string;
@@ -100,4 +100,9 @@ export interface IJobProps {
   completed_at: Date;
   inserted_at: Date;
   user_id: string;
+}
+
+export interface IItemProps {
+  id: string;
+  name: string;
 }
