@@ -81,7 +81,7 @@ export default function ResetPassword() {
               </div>
               <Link
                 className="bg-primary-400 mx-7 rounded-full p-4 text-center font-bold text-white shadow-lg"
-                href="/auth/sign_in"
+                href="/auth/sign-in"
               >
                 Go back to sign in
               </Link>
@@ -90,7 +90,7 @@ export default function ResetPassword() {
             <>
               <div className="flex flex-col">
                 <Link
-                  href="/auth/sign_in"
+                  href="/auth/sign-in"
                   className="text-primary-400 hover:text-primary-500 flex w-fit items-center gap-2"
                 >
                   <span className="material-symbols-outlined">arrow_back</span>
