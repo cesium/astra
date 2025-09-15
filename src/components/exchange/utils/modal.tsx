@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Transition,
   TransitionChild,

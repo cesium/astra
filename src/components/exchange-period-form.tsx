@@ -1,10 +1,21 @@
 "use client";
-import React from "react";
+import { useEffect, useState } from "react";
 import Input from "./input";
 import { useUpdateExchangeDate } from "@/lib/mutations/exchange";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useGetExchangeDate } from "@/lib/queries/exchange";
+
+const toDateTimeLocal = (date: Date | undefined | null) => {
+  if (!date) return "";
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
 
 const formSchema = z
   .object({
@@ -27,30 +38,46 @@ const formSchema = z
 type FormSchema = z.infer<typeof formSchema>;
 
 export default function ExchangePeriodForm() {
+  const { data: exchangeDate } = useGetExchangeDate();
+  const startDate = exchangeDate?.data.start;
+  const endDate = exchangeDate?.data.end;
+
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      start: exchangeDate?.data.start ? new Date(startDate) : undefined,
+      end: exchangeDate?.data.end ? new Date(endDate) : undefined,
+    },
   });
 
+  useEffect(() => {
+    if (exchangeDate?.data.start && exchangeDate?.data.end) {
+      setValue("start", new Date(exchangeDate.data.start));
+      setValue("end", new Date(exchangeDate.data.end));
+    }
+  }, [exchangeDate, setValue]);
+
   const updateExchangeDate = useUpdateExchangeDate();
-  const [alert, setAlert] = React.useState<string | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
+  const [alert, setAlert] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const onSubmit: SubmitHandler<FormSchema> = (data: FormSchema) => {
     setAlert(null);
     setError(null);
-
-    const startUTC = new Date(data.start);
-    const endUTC = new Date(data.end);
+    const startUTC = new Date(data.start).toISOString();
+    const endUTC = new Date(data.end).toISOString();
 
     updateExchangeDate.mutate(
       {
         request: {
-          start: startUTC.toISOString(),
-          end: endUTC.toISOString(),
+          start: startUTC,
+          end: endUTC,
         },
       },
       {
@@ -67,7 +94,7 @@ export default function ExchangePeriodForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex max-w-sm flex-col gap-4"
+      className="mt-4 flex max-w-sm flex-col gap-3"
     >
       <label>Start Date:</label>
       <Input
@@ -76,6 +103,7 @@ export default function ExchangePeriodForm() {
         name="start"
         id="start"
         required
+        value={toDateTimeLocal(watch("start"))}
         className="rounded border p-2"
       />
       <span className="text-danger px-1">{errors.start?.message}</span>
@@ -87,12 +115,13 @@ export default function ExchangePeriodForm() {
         name="end"
         id="end"
         required
+        value={toDateTimeLocal(watch("end"))}
         className="rounded border p-2"
       />
       <span className="text-danger px-1">{errors.end?.message}</span>
       <button
         type="submit"
-        className="bg-primary-500 hover:bg-primary-400 cursor-pointer rounded-xl px-4 py-2 text-white transition"
+        className="bg-primary-400 hover:bg-primary-400/95 mt-2 cursor-pointer rounded-lg px-4 py-2 font-semibold text-white transition-all duration-200 hover:scale-98 md:w-1/3"
       >
         Submit
       </button>

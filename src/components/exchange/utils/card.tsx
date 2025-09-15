@@ -58,7 +58,7 @@ export default function ExchangeCard({
             <PopoverPanel
               anchor="bottom"
               transition
-              className="flex w-[310px] origin-top flex-col gap-3 rounded-2xl border border-gray-300 bg-white p-4 transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0"
+              className="z-30 flex origin-top flex-col gap-3 rounded-2xl border border-gray-300 bg-white p-4 transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0 sm:w-[310px]"
             >
               {({ close }) => (
                 <>
