@@ -1,14 +1,15 @@
 "use client";
 
+import { SubmitHandler, useForm } from "react-hook-form";
+
+import Image from "next/image";
 import Input from "@/components/input";
 import Label from "@/components/label";
-import { useSignIn } from "@/lib/mutations/session";
-import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useSignIn } from "@/lib/mutations/session";
 import z from "zod";
-import Image from "next/image";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
   email: z.email(),
@@ -104,6 +105,7 @@ export default function SignIn() {
                   className="bg-dark/5 border-0 placeholder:text-black/50"
                   type="password"
                   placeholder="Password"
+                  hideable
                 />
                 <span className="text-danger pl-2">
                   {errors.password?.message}
