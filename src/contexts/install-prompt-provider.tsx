@@ -106,10 +106,6 @@ export function InstallPromptProvider({
     );
   }
 
-  if (isStandalone || (!isIOS && !isAndroid)) {
-    return null; // Don't show install button if already installed
-  }
-
   return (
     <InstallPromptContext.Provider value={{ open, setOpen, isStandalone }}>
       {children}
