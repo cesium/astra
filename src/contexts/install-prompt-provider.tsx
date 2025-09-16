@@ -75,15 +75,20 @@ export function InstallPromptProvider({
       (currentDate.getTime() - promptStateDate.getTime()) /
         (1000 * 60 * 60 * 24),
     );
+    const acc = parseInt(
+      localStorage.getItem("installPromptDismissedAcc") || "0",
+    );
 
     // Prompts user to install app if:
     // - compatible device (iOS or Android)
     // - app is not already installed
     // - hasn't been shown the prompt in the last 7 days
+    // - hasn't dismissed the prompt more than 3 times
     if (
       !isStandalone &&
       (isIOS || isAndroid) &&
-      (promptState === null || daysDifference > 7)
+      (promptState === null || daysDifference > 7) &&
+      acc < 3
     ) {
       setTimeout(() => {
         setOpen(true);
@@ -94,6 +99,11 @@ export function InstallPromptProvider({
   function closePrompt() {
     setOpen(false);
     localStorage.setItem("installPromptDismissed", new Date().toISOString());
+    const acc = localStorage.getItem("installPromptDismissedAcc") || "0";
+    localStorage.setItem(
+      "installPromptDismissedAcc",
+      (parseInt(acc) + 1).toString(),
+    );
   }
 
   if (isStandalone || (!isIOS && !isAndroid)) {
