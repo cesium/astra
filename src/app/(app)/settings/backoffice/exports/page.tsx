@@ -80,7 +80,7 @@ export default function Exports() {
 
   return (
     <>
-      <title>Exports | Backoffice | Pombo</title>
+      <title>Exports | Pombo</title>
       <AuthCheck userTypes={["admin", "professor"]}>
         <SettingsWrapper title="Schedule Generator">
           <div className="flex h-full flex-col gap-8">

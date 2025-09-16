@@ -237,7 +237,7 @@ export default function Jobs() {
 
   return (
     <>
-      <title>Jobs | Backoffice | Pombo</title>
+      <title>Jobs | Pombo</title>
       <AuthCheck userTypes={["admin", "professor"]}>
         <SettingsWrapper title="Current jobs">
           <div className="flex h-full flex-col gap-8">

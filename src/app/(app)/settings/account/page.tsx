@@ -102,7 +102,7 @@ export default function Account() {
 
   return (
     <>
-      <title>Account | Settings | Pombo</title>
+      <title>Account | Pombo</title>
       <SettingsWrapper title="Account and profile">
         <div className="flex flex-col items-center md:items-start">
           <div className="w-full max-w-md space-y-5 md:max-w-none md:space-y-10">
