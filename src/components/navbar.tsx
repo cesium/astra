@@ -13,6 +13,7 @@ import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
 import { useSignOut } from "@/lib/mutations/session";
 import Image from "next/image";
 import { firstLastName } from "@/lib/utils";
+import { useInstallPrompt } from "../contexts/install-prompt-provider";
 
 const Logo = () => (
   <Link href="/" className="flex cursor-pointer items-center gap-2">
@@ -119,6 +120,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
   const user = useGetUserInfo();
   const signOut = useSignOut();
   const router = useRouter();
+  const { setOpen, isStandalone } = useInstallPrompt();
 
   const openDropdown = () => {
     setCurrentMenu("tabs");
@@ -281,6 +283,17 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                     </div>
                     <div className="my-3.5 border-b border-black/10" />
                     <div className="flex flex-col gap-2">
+                      {!isStandalone && (
+                        <button
+                          onClick={() => setOpen(true)}
+                          className="text-primary-400 flex cursor-pointer items-center gap-2"
+                        >
+                          <span className="material-symbols-outlined text-2xl">
+                            download
+                          </span>
+                          Install app
+                        </button>
+                      )}
                       <Link
                         href="/settings/account"
                         className="text-dark flex items-center gap-2"

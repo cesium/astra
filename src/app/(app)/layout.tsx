@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { AuthCheck } from "@/components/auth-check";
 import Navbar from "@/components/navbar";
+import { InstallPromptProvider } from "@/contexts/install-prompt-provider";
 
 export const metadata: Metadata = {
   title: "Calendar | Pombo",
@@ -45,12 +46,14 @@ export default function AppLayout({
 }>) {
   return (
     <AuthCheck shouldBeLoggedIn>
-      <div className="flex h-dvh flex-col">
-        <Navbar />
-        <main className="min-h-0 flex-1 px-5 pt-3.5 pb-7.5 antialiased md:px-7.5">
-          {children}
-        </main>
-      </div>
+      <InstallPromptProvider>
+        <div className="flex h-dvh flex-col">
+          <Navbar />
+          <main className="min-h-0 flex-1 px-5 pt-3.5 pb-7.5 antialiased md:px-7.5">
+            {children}
+          </main>
+        </div>
+      </InstallPromptProvider>
     </AuthCheck>
   );
 }
