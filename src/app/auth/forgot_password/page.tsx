@@ -31,8 +31,6 @@ export default function ResetPassword() {
 
   return (
     <>
-      <title>Pombo | Forgot Password</title>
-
       <div className="border-warning fixed top-14 z-50 mx-4 rounded-lg border bg-yellow-100 px-4 py-3 text-sm text-yellow-800 shadow-lg xl:right-4">
         ⚠️ Some emails are taking longer to appear because the university system
         is placing some messages in quarantine. They may take a while before
