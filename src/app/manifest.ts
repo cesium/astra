@@ -500,11 +500,23 @@ export default function manifest(): MetadataRoute.Manifest {
         name: "Schedule",
         url: "/schedule",
         description: "A shortcut to the schedule page",
+        icons: [
+          {
+            src: "/icons/schedule-512x512.png",
+            sizes: "512x512",
+          },
+        ],
       },
       {
         name: "Exchange",
         url: "/exchange",
         description: "A shortcut to the exchange page",
+        icons: [
+          {
+            src: "/icons/exchange-512x512.png",
+            sizes: "512x512",
+          },
+        ],
       },
     ],
   };
