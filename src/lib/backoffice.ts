@@ -54,3 +54,14 @@ export async function exportGroupEnrollments(course_id: string) {
     );
   }
 }
+
+export async function getStatistics(course_id: string) {
+  try {
+    const res = await api.get(
+      `/statistics/course_shifts_capacity/${course_id}`,
+    );
+    return res.data;
+  } catch {
+    throw new Error("Failed to fetch statistics. Please try again later.");
+  }
+}

@@ -59,7 +59,14 @@ export default function SidebarSettings() {
               </SidebarItem>
 
               <SidebarItem id="generator" href="/settings/backoffice/generator">
-                <SidebarItemLabel icon="sdk" label="Schedule Generetor" />
+                <SidebarItemLabel icon="sdk" label="Schedule Generator" />
+              </SidebarItem>
+
+              <SidebarItem
+                id="statistics"
+                href="/settings/backoffice/statistics"
+              >
+                <SidebarItemLabel icon="insights" label="Statistics" />
               </SidebarItem>
             </SidebarItemList>
           </>
