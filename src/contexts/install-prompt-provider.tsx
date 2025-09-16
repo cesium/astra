@@ -83,12 +83,12 @@ export function InstallPromptProvider({
     // - compatible device (iOS or Android)
     // - app is not already installed
     // - hasn't been shown the prompt in the last 7 days
-    // - hasn't dismissed the prompt more than 3 times
+    // - hasn't dismissed the prompt more than 2 times
     if (
       !isStandalone &&
       (isIOS || isAndroid) &&
       (promptState === null || daysDifference > 7) &&
-      acc < 3
+      acc < 2
     ) {
       setTimeout(() => {
         setOpen(true);
