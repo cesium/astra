@@ -37,7 +37,7 @@ function addShiftById(
 ): IShift[] {
   const newShift = allShifts.find((shift) => shift.id === id);
   const isOriginal = originalShifts.some(
-    (shift) => shift.id === id && shift.status === "inactive",
+    (shift) => shift.id === id && (shift.status === "inactive" || shift.status === "active"),
   );
   if (newShift && !shifts.some((s) => s.id === id)) {
     return [
