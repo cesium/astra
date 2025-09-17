@@ -18,7 +18,7 @@ const getShortShiftType = (shiftType: string) => {
     case "practical_laboratory":
       return "PL";
     case "tutorial_guidance":
-      return "TG";
+      return "OT";
     default:
       return shiftType;
   }
@@ -72,7 +72,7 @@ export default function Statistics() {
   const plShifts: IShift[] = shifts.filter(
     (shift: IShift) => shift.type === "practical_laboratory",
   );
-  const tgShifts: IShift[] = shifts.filter(
+  const otShifts: IShift[] = shifts.filter(
     (shift: IShift) => shift.type === "tutorial_guidance",
   );
 
@@ -191,14 +191,14 @@ export default function Statistics() {
                   mode="shifts_comparison"
                 />
                 <CustomPieChart
-                  data={tgShifts.map((shift) => ({
+                  data={otShifts.map((shift) => ({
                     name: `${getShortShiftType(shift.type)}${shift.number}`,
                     value: shift.occupation,
                     number: shift.number,
                     capacity: shift.capacity,
                   }))}
                   colors={["#ee7749", "#f4a67d"]}
-                  label="TG"
+                  label="OT"
                   mode="shifts_comparison"
                 />
                 {shifts.length === 0 && (
