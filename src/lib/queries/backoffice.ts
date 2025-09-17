@@ -3,6 +3,7 @@ import {
   exportGroupEnrollments,
   exportShiftGroups,
   getDegrees,
+  getStatistics,
   listJobs,
 } from "../backoffice";
 
@@ -34,5 +35,13 @@ export function useExportGroupEnrollments(courseId: string) {
     queryKey: ["group-enrollments-export"],
     queryFn: () => exportGroupEnrollments(courseId),
     enabled: false,
+  });
+}
+
+export function useGetStatistics(courseId?: string) {
+  return useQuery({
+    queryKey: ["statistics", courseId],
+    queryFn: () => getStatistics(courseId as string),
+    enabled: !!courseId,
   });
 }

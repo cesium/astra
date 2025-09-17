@@ -103,7 +103,7 @@ export default function Imports() {
   };
 
   return (
-    <AuthCheck userTypes={["admin", "professor"]}>
+    <AuthCheck userTypes={["admin"]}>
       <SettingsWrapper title="Import data">
         <div className="space-y-4">
           <div>

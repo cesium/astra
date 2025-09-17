@@ -16,6 +16,7 @@ interface ICustomCombobox {
   selectedItem: IItemProps | null;
   setSelectedItem: (item: IItemProps | null) => void;
   className?: string;
+  placeholder?: string;
 }
 
 export default function CustomCombobox({
@@ -23,6 +24,7 @@ export default function CustomCombobox({
   selectedItem,
   setSelectedItem,
   className,
+  placeholder,
 }: ICustomCombobox) {
   const [query, setQuery] = useState("");
 
@@ -42,6 +44,7 @@ export default function CustomCombobox({
       <div className={clsx("relative", className)}>
         <ComboboxInput
           aria-label="Assignee"
+          placeholder={placeholder}
           displayValue={(item: IItemProps) => item?.name || ""}
           onChange={(event) => setQuery(event.target.value)}
           className={clsx(
