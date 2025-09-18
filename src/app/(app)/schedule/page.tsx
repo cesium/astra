@@ -1,17 +1,23 @@
 import { Metadata } from "next";
 import ScheduleCalendar from "@/components/schedule-calendar";
 
+import { ScheduleProvider } from "@/contexts/schedule-provider";
+import CalendarOptions from "@/components/calendar-options";
+import { AuthCheck } from "@/components/auth-check";
+
 export const metadata: Metadata = {
   title: "Pombo | Schedule",
 };
 
 export default function Schedule() {
   return (
-    <div className="flex gap-8">
-      <div className="hidden w-23 bg-gray-400 md:block">
-        <button className="cursor-pointer">Edit</button>
+    <AuthCheck userTypes={["student"]}>
+      <div className="flex h-full flex-col-reverse gap-5 md:flex-row md:gap-8">
+        <ScheduleProvider>
+          <CalendarOptions schedule />
+          <ScheduleCalendar />
+        </ScheduleProvider>
       </div>
-      <ScheduleCalendar />
-    </div>
+    </AuthCheck>
   );
 }

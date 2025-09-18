@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryProvider from "@/providers/react-query";
 import clsx from "clsx";
 import { DictionaryProvider } from "@/contexts/dictionary-provider";
+import UmamiAnalytics from "@/components/umami-analytics";
 
 const jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -14,7 +15,6 @@ const jamjuree = Bai_Jamjuree({
 });
 
 export const metadata: Metadata = {
-  title: "Pombo",
   description:
     "Exams, events and schedules. Your hub to everything for LEI and MEI!",
 };
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="h-full" lang="en">
+    <html className="h-dvh" lang="en">
       <body className={clsx(jamjuree.variable, "font-jamjuree h-full")}>
         <ReactQueryProvider>
           <DictionaryProvider>
@@ -33,6 +33,7 @@ export default function RootLayout({
             <ReactQueryDevtools initialIsOpen={false} />
           </DictionaryProvider>
         </ReactQueryProvider>
+        <UmamiAnalytics />
       </body>
     </html>
   );

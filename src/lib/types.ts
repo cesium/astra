@@ -8,25 +8,76 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  type: string;
+}
+
+export interface ITimeSlot {
+  id: string;
+  start: string;
+  end: string;
+  weekday: string;
+  room: string | null;
+  building: string | null;
+}
+
+export interface IShiftResponse {
+  id: string;
+  type: string;
+  number: number;
+  professor?: string | null;
+  timeslots: ITimeSlot[];
+  enrollment_status: "active" | "inactive" | "override" | null;
+}
+
+export interface ICourse {
+  code: string;
+  id: string;
+  name: string;
+  year: number;
+  courses: ICourse[];
+  semester: number;
+  shortname: string;
+  shifts: IShiftResponse[];
 }
 
 export interface IShift {
-  id: number;
+  id: string;
   courseName: string;
+  courseId: string;
   shortCourseName: string;
   professor?: string;
-  day: number;
+  weekday: number;
   start: string; // hour only
   end: string; // hour only
   shiftType: "T" | "TP" | "PL" | "OL";
   shiftNumber: number;
-  building: string;
-  room: string;
+  building: string | null;
+  room: string | null;
   year: number;
   semester: number;
   eventColor: string;
   textColor: string;
+  status: "active" | "inactive" | "override" | null;
 }
+
+export type IShiftsSorted = {
+  year: number;
+  semesters: Record<
+    number,
+    Record<
+      string,
+      {
+        courseName: string;
+        color: string;
+        shifts: {
+          id: string;
+          type: string;
+          number: number;
+        }[];
+      }
+    >
+  >;
+}[];
 
 export interface IEvent {
   id: number;
@@ -39,4 +90,19 @@ export interface IEvent {
   eventColor: string;
   textColor: string;
   allDay?: boolean;
+}
+
+export interface IJobProps {
+  id: number;
+  type: string;
+  state: string;
+  attempted_at: Date;
+  completed_at: Date;
+  inserted_at: Date;
+  user_id: string;
+}
+
+export interface IItemProps {
+  id: string;
+  name: string;
 }

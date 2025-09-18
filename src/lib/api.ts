@@ -23,24 +23,33 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
+let isRefreshing = false;
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !isRefreshing
+    ) {
       originalRequest._retry = true;
 
       try {
+        isRefreshing = true;
         const res = await apiWithCredentials.post("/auth/refresh");
         const { access_token } = res.data;
 
         useAuthStore.getState().setToken(access_token);
         originalRequest.headers.Authorization = `Bearer ${access_token}`;
 
+        isRefreshing = false;
         return axios(originalRequest);
       } catch (refreshError) {
         useAuthStore.getState().clearToken();
+        isRefreshing = false;
 
         return Promise.reject(refreshError);
       }
