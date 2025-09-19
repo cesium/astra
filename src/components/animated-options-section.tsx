@@ -211,7 +211,7 @@ export default function AnimatedOptionsSection({
                   clsx(
                     "flex h-full w-full flex-col md:h-full",
                     classNameOpenedSection,
-                    isMobile ? "" : "min-w-[379px]"
+                    isMobile ? "" : "min-w-[379px]",
                   ),
                 )}
                 variants={contentVariants}
