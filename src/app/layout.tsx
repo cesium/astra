@@ -4,7 +4,7 @@ import "./globals.css";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryProvider from "@/providers/react-query";
 import clsx from "clsx";
-import { DictionaryProvider } from "@/contexts/dictionary-provider";
+import { DictionaryProvider } from "@/providers/dictionary-provider";
 import UmamiAnalytics from "@/components/umami-analytics";
 
 const jamjuree = Bai_Jamjuree({
@@ -30,8 +30,8 @@ export default function RootLayout({
         <ReactQueryProvider>
           <DictionaryProvider>
             {children}
-            <ReactQueryDevtools initialIsOpen={false} />
           </DictionaryProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
         </ReactQueryProvider>
         <UmamiAnalytics />
       </body>

@@ -3,8 +3,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { Dictionary, Language } from "@/internationalization/dictionaries";
 import { getDictionary } from "@/internationalization/dictionaries";
-import { api } from "@/lib/api";
 import { useGetUserInfo } from "@/lib/queries/session";
+import { useGetUserPreference } from "@/lib/queries/preferences";
 
 export type DictionaryLanguage = Language;
 
@@ -18,19 +18,14 @@ const DictionaryContext = createContext<DictionaryContextData | undefined>(
   undefined,
 );
 
-export async function PreferedLanguage(): Promise<DictionaryLanguage> {
-  const response = await api.get("/auth/preferences/language");
-  console.log(response);
-  if (!response) {
-    throw new Error("Failed to fetch preferred language");
-  }
-  const { language } = response.data;
-
-  return language as DictionaryLanguage;
+export function usePreferredLanguage(): DictionaryLanguage {
+  const { data: language} = useGetUserPreference("language");
+  return language?.data.language;
 }
 
 export function getBrowserLanguage(): DictionaryLanguage {
   if (typeof navigator !== "undefined" && navigator.language) {
+    console.log("NAVIGATOr",navigator.language)
     return navigator.language as DictionaryLanguage;
   }
   return "en-US";
@@ -38,34 +33,26 @@ export function getBrowserLanguage(): DictionaryLanguage {
 
 export function DictionaryProvider({
   children,
-  language: propLanguage,
 }: {
   children: React.ReactNode;
-  language?: DictionaryLanguage;
 }) {
-  const [language, setLanguage] = useState<DictionaryLanguage>(
-    propLanguage || "en-US",
-  );
+  const [language, setLanguage] = useState<DictionaryLanguage>("en-US");
 
   const user = useGetUserInfo();
+  const preferredLanguage = usePreferredLanguage();
 
   useEffect(() => {
-    if (!propLanguage) {
-      (async () => {
-        try {
-          if (user) {
-            const preferredLanguage = await PreferedLanguage();
-            setLanguage(preferredLanguage);
-          } else {
-            setLanguage(getBrowserLanguage());
-          }
-        } catch {
-          setLanguage("en-US");
+      try {
+        if (user && preferredLanguage) {
+          setLanguage(preferredLanguage);
+        } else {
+          setLanguage(getBrowserLanguage());
         }
-      })();
+      } catch {
+        setLanguage("en-US");
     }
-  }, [propLanguage, user]);
-
+  }, [user, preferredLanguage]);
+  console.log("FINAL", language)
   const dictionary = getDictionary(language);
   return (
     <DictionaryContext.Provider value={{ dictionary, language, setLanguage }}>

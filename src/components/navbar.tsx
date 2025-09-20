@@ -13,6 +13,7 @@ import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
 import { useSignOut } from "@/lib/mutations/session";
 import Image from "next/image";
 import { firstLastName } from "@/lib/utils";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 const Logo = () => (
   <Link href="/" className="flex cursor-pointer items-center gap-2">
@@ -320,6 +321,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
 }
 
 export default function Navbar() {
+  const d = useDictionary()
   const currentPage = usePathname();
   const session = useGetSession();
   const { data: user } = useGetUserInfo();
@@ -351,6 +353,10 @@ export default function Navbar() {
           </TabsContainer>
         </div>
       )}
+
+      <div>
+        {d.calendar.day}
+      </div>
 
       <div className="flex items-center justify-end">
         {/* User dropdown */}

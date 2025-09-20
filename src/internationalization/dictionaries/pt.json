@@ -1,3 +1,208 @@
 {
-  "greeting": "Olá"
+  "events": {
+    "title": "Events",
+    "options": {
+      "title": "Eventos",
+      "description": "Escolhe o tipo de evento que queres ver no teu calendário",
+      "no_content": "Não há eventos para mostrar"
+    }
+  },
+  "schedule": {
+    "title": "Horário",
+
+    "options": {
+      "title": "Horário",
+      "description": "Escolhe os cursos e os respetivos turnos que pretendes frequentar",
+      "no_content": "Não há turnos para mostrar",
+      "edit": "Editar Horário",
+      "selected": "Selecionado",
+      "add": "Adicionar",
+      "already_selected": "Já selecionados"
+    }
+  },
+  "exchange": {
+    "title": "Trocas",
+    "create": "Criar um novo pedido de troca",
+    "see_state": "See exchange state",
+    "states": {
+      "pending": "Pendentes",
+      "completed": "Completos"
+    },
+    "period": {
+      "title": "Período de trocas",
+      "description": "O período de trocas se encerra em",
+      "at": "às"
+    },
+    "state": {
+      "title": "Current state",
+      "curricular_units": "Tuas unidades curriculares",
+      "shifts": "Turnos"
+    },
+    "add_request": {
+      "title": "Criar um novo pedido de troca",
+      "select": {
+        "curricular_unit": "Seleciona uma unidade curricular",
+        "shift_type": "Seleciona o tipo de turno",
+        "preferred_shift": "Seleciona o turno que queres",
+        "placeholder": "Seleciona um item"
+      },
+      "current_shift": "Turno atual",
+      "preferred_shift": "Turno preferido",
+      "notification": "Você será notificado quando a troca for realizada",
+      "submit": "Criar pedido",
+      "popover": {
+        "cancel_request": "Cancelar pedido",
+        "exchange_state": "Ver estado da troca"
+      }
+    },
+    "exchange_state": {
+      "title": "Estado do pedido de troca",
+      "description": "Informação do pedido",
+      "curricular_unit": "Unidade Curricular",
+      "shift_type": "Tipo de turno",
+      "exchange": "Troca",
+      "state": "Estado",
+      "pending": "Pendente",
+      "completed": "Completo",
+      "info": "O teu pedido está sendo processada",
+      "notification": "Se um turno correspondente for encontrado, você será notificado(a)"
+    }
+  },
+  "calendar": {
+    "today": "Hoje",
+    "month": "Mês",
+    "week": "Semana",
+    "day": "Dia"
+  },
+  "options": {
+    "open_button": "Mostrar opções",
+    "title": "Opções",
+    "edit": "Editar",
+    "clear": "Limpar",
+    "reset": "Resetar",
+    "year": {
+      "first": "1º ano",
+      "second": "2º ano",
+      "third": "3º ano"
+    },
+    "semester": {
+      "first": "1º semestre",
+      "second": "2º semestre"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "account_title": "Account",
+    "backoffice_title": "Backoffice",
+    "account": {
+      "title": "Tua conta",
+      "information": "Informação",
+      "full_name": "Nome completo",
+      "email": "Email",
+      "current_password": "Palavra-passe atual",
+      "new_password": "Nova palavra-passe",
+      "confirm_password": "Confirma a palavra-passe",
+      "change_password": "Alterar Palavra-passe"
+    },
+    "configurations": {
+      "exchange": {
+        "title": "Período de Troca",
+        "start_date": "Data de Início",
+        "end_date": "Data de Encerramento",
+        "submit": "Submit"
+      }
+    },
+    "export": {
+      "title": "Exportar grupos da Blackboard",
+      "description": "Acione a exportação dos grupos da Blackboard em alguns cliques",
+      "courses": "Unidades Curriculares",
+      "shift_groups": "Grupos de Turnos",
+      "group_enrollments": "Inscrições de Grupo"
+    },
+    "jobs_monitor": {
+      "title": "Monitora os teus Jobs",
+      "description": "Acompanha o progresso e o estado das importações e exportações em tempo real",
+      "recent_jobs": {
+        "title": "Jobs Recentes",
+        "types": {
+            "import": {
+                "shifts_by_courses": "Importar turnos por unidades curriculares",
+                "students_by_courses": "Importar alunos por unidades curriculares"
+            },
+            "export": {
+                "shifts_by_courses": "Exportar turnos por unidades curriculares",
+                "students_by_courses": "Exportar alunos por unidades curriculares"
+            }
+        },
+        "label": {
+            "completed": "Completo",
+            "executing": "Executando",
+            "available": "Disponível",
+            "retryable": "Repetível",
+            "scheduled": "Programado",
+            "discarded": "Discartado",
+            "cancelled": "Cancelado"
+        }
+      },
+      "state": {
+        "running": "A correr",
+        "pending": "Pendentes",
+        "complete": "Completos",
+        "failed": "Falhas"
+      },
+      "time": {
+        "created": "Criado",
+        "started": "Começou",
+        "duration": "Duração"
+      }
+    },
+    "statistics": {
+        "title": "Estatísticas",
+        "description": "Visualiza e analisa estatísticas das unidades curriculares",
+        "courses": "Unidades Curriculares",
+        "select_placeholder": "Seleciona uma unidade curricular",
+        "shift_statistics": {
+          "title": "Estatísticas dos Turnos",
+          "description": "Sem estatísticas para a UC selecionada"
+        },
+        "overall_statistics": {
+          "title": "Estatísticas Gerais dos Turnos",
+          "description": "Sem estatísticas para a UC selecionada"
+        }
+    },
+    "import": {
+      "title": "Importar Dados",
+      "description": "Importa ficheiros Excel para atualizar os dados do sistema. Cada importação pode ser feita independentemente.",
+      "students_by_courses": {
+        "title": "Alunos por Unidades Curriculares",
+        "description": "Importa dados de matrículas de alunos organizados por cursos. Usar quando os alunos mudarem de curso ou novas matrículas forem adicionadas."
+      },
+      "shifts_by_courses": {
+        "title": "Turnos por Unidades Curriculares",
+        "description": "Importe dados de horários de aulas organizados por cursos. Usar quando os horários forem alterados ou novos turnos forem criados."
+      }
+    },
+    "schedule_generator": {
+      "title": "Gerar novo horário",
+      "description": "Acione o gerador com alguns cliques",
+      "degree": {
+        "title": "Curso",
+        "select_placeholder": "Seleciona um curso"
+      },
+      "semester": {
+        "title": "Semester",
+        "select_placeholder": "Seleciona um semestre"
+      },
+      "submit": "Gerar Horário"
+    },
+    "upload": {
+      "drag": "Arraste e solte aqui o teu ficheiro",
+      "or": "ou",
+      "open": "abra o ficheiro do teu computador",
+      "max_size": "Tamanho Máximo",
+      "supports": "Suporta"
+    }
+  }
 }
+
+
