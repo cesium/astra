@@ -209,9 +209,8 @@ export default function AnimatedOptionsSection({
                 key="content"
                 className={twMerge(
                   clsx(
-                    "flex h-full w-full flex-col md:h-full",
+                    "flex h-full w-full flex-col md:h-full md:min-w-[379px]",
                     classNameOpenedSection,
-                    isMobile ? "" : "min-w-[379px]",
                   ),
                 )}
                 variants={contentVariants}
