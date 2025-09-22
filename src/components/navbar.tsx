@@ -120,7 +120,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
   const user = useGetUserInfo();
   const signOut = useSignOut();
   const router = useRouter();
-  const { setOpen, isStandalone } = useInstallPrompt();
+  const { setOpen, isCompatible } = useInstallPrompt();
 
   const openDropdown = () => {
     setCurrentMenu("tabs");
@@ -283,7 +283,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                     </div>
                     <div className="my-3.5 border-b border-black/10" />
                     <div className="flex flex-col gap-2">
-                      {!isStandalone && (
+                      {isCompatible && (
                         <button
                           onClick={() => setOpen(true)}
                           className="text-primary-400 flex cursor-pointer items-center gap-2"

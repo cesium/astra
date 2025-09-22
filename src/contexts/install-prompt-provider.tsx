@@ -9,7 +9,7 @@ import { createContext } from "react";
 interface InstallPromptContextData {
   open: boolean;
   setOpen: (open: boolean) => void;
-  isStandalone: boolean;
+  isCompatible: boolean;
 }
 
 const InstallPromptContext = createContext<
@@ -67,47 +67,18 @@ export function InstallPromptProvider({
     setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
   }, []);
 
-  useEffect(() => {
-    const promptState = localStorage.getItem("installPromptDismissed");
-    const promptStateDate = promptState ? new Date(promptState) : new Date();
-    const currentDate = new Date();
-    const daysDifference = Math.floor(
-      (currentDate.getTime() - promptStateDate.getTime()) /
-        (1000 * 60 * 60 * 24),
-    );
-    const acc = parseInt(
-      localStorage.getItem("installPromptDismissedAcc") || "0",
-    );
-
-    // Prompts user to install app if:
-    // - compatible device (iOS or Android)
-    // - app is not already installed
-    // - hasn't been shown the prompt in the last 7 days
-    // - hasn't dismissed the prompt more than 2 times
-    if (
-      !isStandalone &&
-      (isIOS || isAndroid) &&
-      (promptState === null || daysDifference > 7) &&
-      acc < 2
-    ) {
-      setTimeout(() => {
-        setOpen(true);
-      }, 2000);
-    }
-  }, [isStandalone, isIOS, isAndroid]);
-
   function closePrompt() {
     setOpen(false);
-    localStorage.setItem("installPromptDismissed", new Date().toISOString());
-    const acc = localStorage.getItem("installPromptDismissedAcc") || "0";
-    localStorage.setItem(
-      "installPromptDismissedAcc",
-      (parseInt(acc) + 1).toString(),
-    );
   }
 
   return (
-    <InstallPromptContext.Provider value={{ open, setOpen, isStandalone }}>
+    <InstallPromptContext.Provider
+      value={{
+        open,
+        setOpen,
+        isCompatible: !isStandalone && (isIOS || isAndroid),
+      }}
+    >
       {children}
       <AnimatePresence>
         {open && (
@@ -342,6 +313,6 @@ export function useInstallPrompt() {
   return {
     open: context.open,
     setOpen: context.setOpen,
-    isStandalone: context.isStandalone,
+    isCompatible: context.isCompatible,
   };
 }
