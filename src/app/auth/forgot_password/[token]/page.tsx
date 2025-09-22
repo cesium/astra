@@ -1,14 +1,14 @@
 "use client";
 
+import { SubmitHandler, useForm } from "react-hook-form";
+import Image from "next/image";
 import Input from "@/components/input";
 import Label from "@/components/label";
-import { useResetPassword } from "@/lib/mutations/session";
-import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useResetPassword } from "@/lib/mutations/session";
 import z from "zod";
-import Image from "next/image";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z
   .object({
@@ -124,6 +124,7 @@ export default function ResetPassword() {
                     })}
                     className="bg-dark/5 border-0 placeholder:text-black/50"
                     type="password"
+                    hideable
                     placeholder="Password"
                     id="password"
                   />
@@ -142,6 +143,7 @@ export default function ResetPassword() {
                     {...register("password_confirmation", { required: true })}
                     className="bg-dark/5 border-0 placeholder:text-black/50"
                     type="password"
+                    hideable
                     placeholder="Confirm Password"
                     id="password_confirmation"
                   />

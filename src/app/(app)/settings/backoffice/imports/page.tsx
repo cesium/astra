@@ -105,7 +105,7 @@ export default function Imports() {
   return (
     <>
       <title>Imports | Pombo</title>
-      <AuthCheck userTypes={["admin", "professor"]}>
+      <AuthCheck userTypes={["admin"]}>
         <SettingsWrapper title="Import data">
           <div className="space-y-4">
             <div>

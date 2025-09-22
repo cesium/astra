@@ -4,6 +4,7 @@ import "./globals.css";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryProvider from "@/providers/react-query";
 import clsx from "clsx";
+import UmamiAnalytics from "@/components/umami-analytics";
 
 const jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -173,6 +174,7 @@ export default function RootLayout({
           {children}
           <ReactQueryDevtools initialIsOpen={false} />
         </ReactQueryProvider>
+        <UmamiAnalytics />
       </body>
     </html>
   );

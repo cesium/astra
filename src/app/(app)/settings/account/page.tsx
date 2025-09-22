@@ -1,17 +1,18 @@
 "use client";
 
+import { SubmitHandler, useForm } from "react-hook-form";
+
 import Avatar from "@/components/avatar";
 import Input from "@/components/input";
 import Label from "@/components/label";
 import SettingsWrapper from "@/components/settings-wrapper";
+import clsx from "clsx";
+import { firstLastName } from "@/lib/utils";
+import { twMerge } from "tailwind-merge";
 import { useChangePassword } from "@/lib/mutations/session";
 import { useGetUserInfo } from "@/lib/queries/session";
-import { firstLastName } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import clsx from "clsx";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { twMerge } from "tailwind-merge";
 import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface IInputLineProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;

@@ -34,7 +34,7 @@ export default function GenerateSchedule() {
   return (
     <>
       <title>Generator | Pombo</title>
-      <AuthCheck userTypes={["admin", "professor"]}>
+      <AuthCheck userTypes={["admin"]}>
         <SettingsWrapper title="Schedule Generator">
           <div className="flex h-full flex-col gap-8">
             <section className="space-y-2">

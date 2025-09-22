@@ -18,7 +18,7 @@ const getShortShiftType = (shiftType: string) => {
     case "practical_laboratory":
       return "PL";
     case "tutorial_guidance":
-      return "TG";
+      return "OT";
     default:
       return shiftType;
   }

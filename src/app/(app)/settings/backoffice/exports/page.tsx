@@ -85,8 +85,10 @@ export default function Exports() {
         <SettingsWrapper title="Schedule Generator">
           <div className="flex h-full flex-col gap-8">
             <section className="space-y-2">
-              <h2 className="text-2xl font-semibold">Generate new schedule</h2>
-              <p>Trigger the schedule generator with a few clicks</p>
+              <h2 className="text-2xl font-semibold">
+                Export Blackboard groups
+              </h2>
+              <p>Trigger the export of Blackboard groups with a few clicks</p>
             </section>
 
             <section className="space-y-6">
