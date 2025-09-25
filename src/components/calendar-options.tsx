@@ -1,19 +1,20 @@
 "use client";
 
-import { useContext, useRef, useState, createContext, useEffect } from "react";
 import TabsGroup, {
   PanelContainer,
   Tab,
   TabPanel,
   TabsContainer,
 } from "./tabs";
-import { ScheduleContext } from "@/contexts/schedule-provider";
-import AnimatedOptionsSection from "./animated-options-section";
-import { twMerge } from "tailwind-merge";
-import clsx from "clsx";
-import { IShiftsSorted } from "@/lib/types";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
+import AnimatedOptionsSection from "./animated-options-section";
 import CustomDisclosure from "./disclosure";
+import ExportButton from "@/components/calendar/export-button";
+import { IShiftsSorted } from "@/lib/types";
+import { ScheduleContext } from "@/contexts/schedule-provider";
+import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 interface ICalendarOptionsProvider {
   removeShift: (id: string) => void;
@@ -276,6 +277,9 @@ export default function CalendarOptions({
                 <h3 className="text-2xl font-semibold">
                   {schedule ? "Schedule" : "Calendar"}
                 </h3>
+                <div>
+                  <ExportButton />
+                </div>
                 <button
                   data-edit-button
                   className="text-primary-400 cursor-pointer transition duration-300 hover:opacity-70"
