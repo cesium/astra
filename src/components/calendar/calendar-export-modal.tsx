@@ -7,7 +7,7 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { Fragment, ReactNode, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 
 interface ModalProps {
   modalState: boolean;
@@ -110,7 +110,6 @@ export default function CalendarExportModal({
         className="relative z-50"
         onClose={() => setModalState(false)}
       >
-        {/* Background Overlay */}
         <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
@@ -123,7 +122,6 @@ export default function CalendarExportModal({
           <div className="bg-dark/5 fixed inset-0 backdrop-blur-sm" />
         </TransitionChild>
 
-        {/* Modal Container */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <TransitionChild
             as={Fragment}
@@ -135,7 +133,6 @@ export default function CalendarExportModal({
             leaveTo="opacity-0 scale-95"
           >
             <DialogPanel className="bg-muted/65 relative w-full max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl focus:outline-0">
-              {/* Optional Title */}
               {title && (
                 <div className="flex items-center justify-between pb-4">
                   <DialogTitle className="text-dark text-2xl font-semibold">
@@ -150,7 +147,6 @@ export default function CalendarExportModal({
                 </div>
               )}
 
-              {/* URL Box */}
               <div
                 onClick={copyToClipboard}
                 className={`text-dark bg-light/70 border-dark/10 w-full cursor-pointer rounded-lg border px-3 py-2 transition-colors duration-200 ${
@@ -169,7 +165,6 @@ export default function CalendarExportModal({
                 </div>
               </div>
 
-              {/* Accordion */}
               <div className="divide-dark/10 divide-y">
                 {sections.map((section) => (
                   <div key={section.key} className="py-2">
@@ -203,7 +198,6 @@ export default function CalendarExportModal({
                 ))}
               </div>
 
-              {/* Footer */}
               <div className="text-dark/80 mt-4 flex items-center gap-2 text-sm">
                 <span className="material-symbols-outlined text-base">
                   lightbulb
