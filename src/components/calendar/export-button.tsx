@@ -16,8 +16,7 @@ export default function ExportButton() {
       const res = await api.get("/export/student/calendar-url");
       return res.data.calendar_url;
     },
-    onSuccess: (data) => {
-      const url = typeof data === "string" ? data : data.url;
+    onSuccess: (url) => {
       if (!url) {
         setButtonLabel("Failed to export");
         return;
