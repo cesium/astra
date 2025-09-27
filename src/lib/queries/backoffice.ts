@@ -3,8 +3,11 @@ import {
   exportGroupEnrollments,
   exportShiftGroups,
   getDegrees,
+  getStudentScheduleById,
   listJobs,
+  listStudents,
 } from "../backoffice";
+import { FlopMetaParams } from "../types";
 
 export function useListJobs() {
   return useQuery({
@@ -34,5 +37,20 @@ export function useExportGroupEnrollments(courseId: string) {
     queryKey: ["group-enrollments-export"],
     queryFn: () => exportGroupEnrollments(courseId),
     enabled: false,
+  });
+}
+
+export function useListStudents(params: FlopMetaParams) {
+  return useQuery({
+    queryKey: ["students-list", params],
+    queryFn: () => listStudents(params),
+    placeholderData: (previousData) => previousData,
+  });
+}
+
+export function useGetStudentScheduleById(studentId: string) {
+  return useQuery({
+    queryKey: [`student-${studentId}-schedule`, studentId],
+    queryFn: () => getStudentScheduleById(studentId),
   });
 }

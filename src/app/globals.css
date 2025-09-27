@@ -110,13 +110,13 @@ input[type="number"] {
 
 .rbc-calendar {
   width: 100% !important;
-  height: calc(100dvh - 124px) !important;
+  height: calc(100dvh - var(--desktop_height_var, 124px)) !important;
   border-radius: 15px !important;
 }
 
 @media (max-width: 768px) {
   .rbc-calendar {
-    height: calc(100dvh - 154px) !important;
+    height: calc(100dvh - var(--mobile_height_var, 154px)) !important;
   }
 }
 

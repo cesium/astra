@@ -14,7 +14,7 @@ export default function Schedule() {
     <AuthCheck userTypes={["student"]}>
       <div className="flex h-full flex-col-reverse gap-5 md:flex-row md:gap-8">
         <ScheduleProvider>
-          <CalendarOptions schedule />
+          <CalendarOptions />
           <ScheduleCalendar />
         </ScheduleProvider>
       </div>
