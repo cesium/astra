@@ -464,32 +464,32 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     screenshots: [
       {
-        src: "/screenshots/1.png",
+        src: "/images/screenshots/1.png",
         sizes: "2880x1800",
         type: "image/png",
       },
       {
-        src: "/screenshots/2.png",
+        src: "/images/screenshots/2.png",
         sizes: "2880x1800",
         type: "image/png",
       },
       {
-        src: "/screenshots/3.png",
+        src: "/images/screenshots/3.png",
         sizes: "2880x1800",
         type: "image/png",
       },
       {
-        src: "/screenshots/4.png",
+        src: "/images/screenshots/4.png",
         sizes: "2880x1800",
         type: "image/png",
       },
       {
-        src: "/screenshots/5.png",
+        src: "/images/screenshots/5.png",
         sizes: "2880x1800",
         type: "image/png",
       },
       {
-        src: "/screenshots/6.png",
+        src: "/images/screenshots/6.png",
         sizes: "2880x1800",
         type: "image/png",
       },
