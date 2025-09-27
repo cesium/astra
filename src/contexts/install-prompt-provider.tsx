@@ -48,11 +48,10 @@ export function InstallPromptProvider({
   const handleInstallClick = async () => {
     if (deferredPrompt) {
       (deferredPrompt as any).prompt();
-      const { outcome } = await (deferredPrompt as any).userChoice;
+      await (deferredPrompt as any).userChoice;
       setDeferredPrompt(null);
       setIsInstallable(false);
       closePrompt();
-      console.log(`User response to the install prompt: ${outcome}`);
     }
   };
 
@@ -122,7 +121,7 @@ export function InstallPromptProvider({
                   ease: [0.4, 0, 0.2, 1],
                 },
               }}
-              className="bg-muted/90 drop-shadow-dark/phone_iphone5 border-dark/10 pointer-events-auto relative mx-5 flex max-w-prose origin-top flex-col gap-4 rounded-2xl border p-4 drop-shadow-2xl backdrop-blur-3xl focus:outline-0"
+              className="bg-muted/90 drop-shadow-dark/5 border-dark/10 pointer-events-auto relative mx-5 flex max-w-prose origin-top flex-col gap-4 rounded-2xl border p-4 drop-shadow-2xl backdrop-blur-3xl focus:outline-0"
             >
               <div className="flex w-full items-start justify-between">
                 <span className="flex items-center gap-3">
