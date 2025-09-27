@@ -1,9 +1,10 @@
 import {
-  Transition,
-  TransitionChild,
   Dialog,
   DialogPanel,
+  Transition,
+  TransitionChild,
 } from "@headlessui/react";
+
 import { Fragment } from "react";
 
 export default function ExchangeModal({
@@ -49,13 +50,6 @@ export default function ExchangeModal({
             <DialogPanel className="relative max-w-[586px] flex-1 space-y-4 p-4 focus:outline-0 sm:p-0">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold sm:text-3xl">{title}</h2>
-                <button
-                  style={{ fontSize: "36px" }}
-                  className="material-symbols-outlined text-dark/50 cursor-pointer text-2xl transition-opacity ease-in-out hover:opacity-70"
-                  onClick={() => setModalState(false)}
-                >
-                  close
-                </button>
               </div>
               {children}
             </DialogPanel>

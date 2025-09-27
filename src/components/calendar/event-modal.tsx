@@ -5,10 +5,11 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import moment from "moment";
-import Link from "next/link";
-import { Fragment } from "react";
+
 import { Event } from "react-big-calendar";
+import { Fragment } from "react";
+import Link from "next/link";
+import moment from "moment";
 
 interface IModalCommonProps {
   selectedEvent: Event;
