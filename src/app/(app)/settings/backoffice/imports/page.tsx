@@ -107,31 +107,31 @@ export default function Imports() {
   return (
     <>
       <title>Pombo | Imports</title>
-    <AuthCheck userTypes={["admin"]}>
-      <SettingsWrapper title="Import data">
-        <div className="space-y-4">
-          <div>
-            <h1 className="text-2xl font-semibold">
-              {dict.settings.sections.backoffice.modules.import.title}
-            </h1>
-            <p className="mt-2 text-black">
-              {dict.settings.sections.backoffice.modules.import.description}
-            </p>
-          </div>
+      <AuthCheck userTypes={["admin"]}>
+        <SettingsWrapper title="Import data">
+          <div className="space-y-4">
+            <div>
+              <h1 className="text-2xl font-semibold">
+                {dict.settings.sections.backoffice.modules.import.title}
+              </h1>
+              <p className="mt-2 text-black">
+                {dict.settings.sections.backoffice.modules.import.description}
+              </p>
+            </div>
 
             <div className="max-w-3xl rounded-lg bg-white p-6">
               <div className="mb-4">
                 <h2 className="text-lg font-semibold">
-                {
-                  dict.settings.sections.backoffice.modules.import.types
-                    .shifts_by_courses.title
-                }
-              </h2>
+                  {
+                    dict.settings.sections.backoffice.modules.import.types
+                      .shifts_by_courses.title
+                  }
+                </h2>
                 <p className="mt-1 text-sm text-black">
                   {
-                  dict.settings.sections.backoffice.modules.import.types
+                    dict.settings.sections.backoffice.modules.import.types
                       .shifts_by_courses.description
-                }
+                  }
                 </p>
               </div>
 
@@ -149,15 +149,15 @@ export default function Imports() {
             <div className="max-w-3xl rounded-lg bg-white p-6">
               <div className="mb-4">
                 <h2 className="text-lg font-semibold">
-                {
-                  dict.settings.sections.backoffice.modules.import.types
-                    .students_by_courses.title
-                }
-              </h2>
+                  {
+                    dict.settings.sections.backoffice.modules.import.types
+                      .students_by_courses.title
+                  }
+                </h2>
                 <p className="mt-1 text-sm text-black">
                   {
-                  dict.settings.sections.backoffice.modules.import.types
-                    .shifts_by_courses.description
+                    dict.settings.sections.backoffice.modules.import.types
+                      .shifts_by_courses.description
                   }
                 </p>
               </div>

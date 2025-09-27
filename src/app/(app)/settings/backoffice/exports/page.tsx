@@ -83,77 +83,76 @@ export default function Exports() {
   return (
     <>
       <title>Pombo | Exports</title>
-    <AuthCheck userTypes={["admin", "professor"]}>
+      <AuthCheck userTypes={["admin", "professor"]}>
+        <SettingsWrapper title="Schedule Generator">
+          <div className="flex h-full flex-col gap-8">
+            <section className="space-y-2">
+              <h2 className="text-2xl font-semibold">
+                {dict.settings.sections.backoffice.modules.export.title}
+              </h2>
+              <p>
+                {dict.settings.sections.backoffice.modules.export.description}
+              </p>
+            </section>
 
-      <SettingsWrapper title="Schedule Generator">
-        <div className="flex h-full flex-col gap-8">
-          <section className="space-y-2">
-            <h2 className="text-2xl font-semibold">
-              {dict.settings.sections.backoffice.modules.export.title}
-            </h2>
-            <p>
-              {dict.settings.sections.backoffice.modules.export.description}
-            </p>
-          </section>
+            <section className="space-y-6">
+              <div className="max-w-2xl space-y-6">
+                <div className="space-y-1">
+                  <p className="pl-2 font-semibold select-none">
+                    {
+                      dict.settings.sections.backoffice.modules.export.options
+                        .courses
+                    }
+                  </p>
+                  <CustomCombobox
+                    items={formattedCourses}
+                    selectedItem={selectedCourse}
+                    setSelectedItem={setSelectedCourse}
+                  />
+                </div>
+              </div>
 
-          <section className="space-y-6">
-            <div className="max-w-2xl space-y-6">
-              <div className="space-y-1">
-                <p className="pl-2 font-semibold select-none">
+              <div className="mt-6 inline-flex w-full max-w-2xl items-center gap-4">
+                <button
+                  disabled={!validCourse}
+                  onClick={handleShiftsGroupExport}
+                  className={twMerge(
+                    clsx(
+                      "w-1/2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
+                      !validCourse
+                        ? "cursor-not-allowed bg-gray-400"
+                        : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
+                    ),
+                  )}
+                >
                   {
                     dict.settings.sections.backoffice.modules.export.options
-                      .courses
+                      .shift_groups
                   }
-                </p>
-                <CustomCombobox
-                  items={formattedCourses}
-                  selectedItem={selectedCourse}
-                  setSelectedItem={setSelectedCourse}
-                />
+                </button>
+
+                <span className="text-dark/80 font-semibold">
+                  {dict.ui.common.or}
+                </span>
+
+                <button
+                  disabled={!validCourse}
+                  onClick={handleGroupEnrollmentsExport}
+                  className={twMerge(
+                    clsx(
+                      "w-1/2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
+                      !validCourse
+                        ? "cursor-not-allowed bg-gray-400"
+                        : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
+                    ),
+                  )}
+                >
+                  {
+                    dict.settings.sections.backoffice.modules.export.options
+                      .group_enrollments
+                  }
+                </button>
               </div>
-            </div>
-
-            <div className="mt-6 inline-flex w-full max-w-2xl items-center gap-4">
-              <button
-                disabled={!validCourse}
-                onClick={handleShiftsGroupExport}
-                className={twMerge(
-                  clsx(
-                    "w-1/2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
-                    !validCourse
-                      ? "cursor-not-allowed bg-gray-400"
-                      : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
-                  ),
-                )}
-              >
-                {
-                  dict.settings.sections.backoffice.modules.export.options
-                    .shift_groups
-                }
-              </button>
-
-              <span className="text-dark/80 font-semibold">
-                {dict.ui.common.or}
-              </span>
-
-              <button
-                disabled={!validCourse}
-                onClick={handleGroupEnrollmentsExport}
-                className={twMerge(
-                  clsx(
-                    "w-1/2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
-                    !validCourse
-                      ? "cursor-not-allowed bg-gray-400"
-                      : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
-                  ),
-                )}
-              >
-                {
-                  dict.settings.sections.backoffice.modules.export.options
-                    .group_enrollments
-                }
-              </button>
-            </div>
 
               {exportShiftsGroupError && (
                 <p className="text-dark/50 font-semibold">

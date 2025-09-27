@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { createContext } from "react";
 import { useDictionary } from "@/providers/dictionary-provider";
-import Markdown from "markdown-to-jsx"
+import Markdown from "markdown-to-jsx";
 
 interface InstallPromptContextData {
   open: boolean;
@@ -154,14 +154,16 @@ export function InstallPromptProvider({
               {!clicked ? (
                 <>
                   <p className="text-sm text-black/50">
-                  <Markdown
-                    className="text-base font-normal"
-                    options={{
-                      overrides: { strong: { props: { className: "font-semibold" } } },
-                    }}
-                  >
-                    {dict.pwa.install.description}
-                  </Markdown>
+                    <Markdown
+                      className="text-base font-normal"
+                      options={{
+                        overrides: {
+                          strong: { props: { className: "font-semibold" } },
+                        },
+                      }}
+                    >
+                      {dict.pwa.install.description}
+                    </Markdown>
                   </p>
                   <button
                     onClick={() =>
@@ -217,7 +219,9 @@ export function InstallPromptProvider({
                         </div>
                       </div>
                       <span>
-                        <h1 className="font-semibold">{dict.pwa.instructions.ios.three}</h1>
+                        <h1 className="font-semibold">
+                          {dict.pwa.instructions.ios.three}
+                        </h1>
                         <p className="text-sm text-black/50">
                           {dict.pwa.instructions.ios.three_description}
                         </p>
@@ -282,7 +286,9 @@ export function InstallPromptProvider({
                         </div>
                       </div>
                       <span>
-                        <h1 className="font-semibold">{dict.pwa.instructions.android.three}</h1>
+                        <h1 className="font-semibold">
+                          {dict.pwa.instructions.android.three}
+                        </h1>
                         <p className="text-sm text-black/50">
                           {dict.pwa.instructions.android.three_description}
                         </p>

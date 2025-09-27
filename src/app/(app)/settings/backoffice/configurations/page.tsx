@@ -5,7 +5,7 @@ import SettingsWrapper from "@/components/settings-wrapper";
 export default function Configurations() {
   return (
     <>
-      <title>Exports | Pombo</title>
+      <title>Configurations | Pombo</title>
       <AuthCheck userTypes={["admin", "professor"]}>
         <SettingsWrapper title="Configuration and management">
           <div className="flex h-full flex-col gap-8 pb-8">
