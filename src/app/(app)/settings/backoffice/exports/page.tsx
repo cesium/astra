@@ -154,20 +154,21 @@ export default function Exports() {
               </button>
             </div>
 
-            {exportShiftsGroupError && (
-              <p className="text-dark/50 font-semibold">
-                Failed to download Shifts Group!
-              </p>
-            )}
+              {exportShiftsGroupError && (
+                <p className="text-dark/50 font-semibold">
+                  Failed to download Shifts Group!
+                </p>
+              )}
 
-            {exportGroupEnrollmentsError && (
-              <p className="text-dark/50 font-semibold">
-                Failed to download Group Enrollment!
-              </p>
-            )}
-          </section>
-        </div>
-      </SettingsWrapper>
-    </AuthCheck>
+              {exportGroupEnrollmentsError && (
+                <p className="text-dark/50 font-semibold">
+                  Failed to download Group Enrollment!
+                </p>
+              )}
+            </section>
+          </div>
+        </SettingsWrapper>
+      </AuthCheck>
+    </>
   );
 }

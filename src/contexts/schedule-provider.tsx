@@ -32,11 +32,20 @@ function removeShiftById(shifts: IShift[], id: string): IShift[] {
 function addShiftById(
   shifts: IShift[],
   allShifts: IShift[],
+  originalShifts: IShift[],
   id: string,
 ): IShift[] {
   const newShift = allShifts.find((shift) => shift.id === id);
+  const isOriginal = originalShifts.some(
+    (shift) =>
+      shift.id === id &&
+      (shift.status === "inactive" || shift.status === "active"),
+  );
   if (newShift && !shifts.some((s) => s.id === id)) {
-    return [...shifts, { ...newShift, status: "override" }];
+    return [
+      ...shifts,
+      { ...newShift, status: isOriginal ? "active" : "override" },
+    ];
   }
   return shifts;
 }
@@ -260,7 +269,9 @@ export function ScheduleProvider({ children }: { children: React.ReactNode }) {
   };
 
   const addShift = (id: string) => {
-    setEditingShifts((prev) => addShiftById(prev, allShifts, id));
+    setEditingShifts((prev) =>
+      addShiftById(prev, allShifts, originalSchedule, id),
+    );
   };
 
   const saveChanges = () => {

@@ -34,99 +34,102 @@ export default function GenerateSchedule() {
   });
 
   return (
-    <AuthCheck userTypes={["admin"]}>
-      <SettingsWrapper title="Schedule Generator">
-        <div className="flex h-full flex-col gap-8">
-          <section className="space-y-2">
-            <h2 className="text-2xl font-semibold">
+    <>
+      <title>Generator | Pombo</title>
+      <AuthCheck userTypes={["admin"]}>
+        <SettingsWrapper title="Schedule Generator">
+          <div className="flex h-full flex-col gap-8">
+            <section className="space-y-2">
+              <h2 className="text-2xl font-semibold">
               {
                 dict.settings.sections.backoffice.modules.schedule_generator
                   .title
               }
             </h2>
-            <p>
+              <p>
               {
                 dict.settings.sections.backoffice.modules.schedule_generator
                   .description
               }
             </p>
-          </section>
+            </section>
 
-          <section className="space-y-6">
-            <div className="max-w-2xl space-y-6">
-              <div className="space-y-1">
-                <p className="pl-2 font-semibold">
+            <section className="space-y-6">
+              <div className="max-w-2xl space-y-6">
+                <div className="space-y-1">
+                  <p className="pl-2 font-semibold">
                   {
                     dict.settings.sections.backoffice.modules.schedule_generator
                       .fields.degree
                   }
                 </p>
-                <CustomSelect
-                  items={degrees || []}
-                  selectedItem={
-                    selectedDegree || {
+                  <CustomSelect
+                    items={degrees || []}
+                    selectedItem={
+                      selectedDegree || {
                       id: "",
                       name: `${dict.ui.common.placeholders.select_course}`,
                     }
-                  }
-                  setSelectedItem={setselectedDegree}
-                />
-              </div>
+                    }
+                    setSelectedItem={setselectedDegree}
+                  />
+                </div>
 
-              <div className="space-y-1">
-                <p className="pl-2 font-semibold">
+                <div className="space-y-1">
+                  <p className="pl-2 font-semibold">
                   {
                     dict.settings.sections.backoffice.modules.schedule_generator
                       .fields.semester
                   }
                 </p>
-                <CustomSelect
-                  items={[1, 2].map((semester) => ({
-                    id: `semester-${semester}`,
-                    name: semester.toString(),
-                  }))}
-                  selectedItem={selectedSemester}
-                  setSelectedItem={setSelectedSemester}
-                />
+                  <CustomSelect
+                    items={[1, 2].map((semester) => ({
+                      id: `semester-${semester}`,
+                      name: semester.toString(),
+                    }))}
+                    selectedItem={selectedSemester}
+                    setSelectedItem={setSelectedSemester}
+                  />
+                </div>
               </div>
-            </div>
 
-            <button
-              disabled={!selectedDegree}
-              onClick={onGenerate}
-              className={twMerge(
-                clsx(
-                  "mt-6 min-w-1/4 rounded-lg px-4 py-2 font-semibold text-white transition-all duration-200",
-                  !selectedDegree
-                    ? "cursor-not-allowed bg-gray-400"
-                    : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
-                ),
-              )}
-            >
-              {
+              <button
+                disabled={!selectedDegree}
+                onClick={onGenerate}
+                className={twMerge(
+                  clsx(
+                    "mt-6 min-w-1/4 rounded-lg px-4 py-2 font-semibold text-white transition-all duration-200",
+                    !selectedDegree
+                      ? "cursor-not-allowed bg-gray-400"
+                      : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
+                  ),
+                )}
+              >
+                {
                 dict.settings.sections.backoffice.modules.schedule_generator
                   .actions.generate
               }
-            </button>
+              </button>
 
-            {generateSchedule.isPending && (
-              <p className="text-dark/50 font-semibold">Pending...</p>
-            )}
+              {generateSchedule.isPending && (
+                <p className="text-dark/50 font-semibold">Pending...</p>
+              )}
 
-            {generateSchedule.isSuccess && (
-              <p className="text-dark/50 font-semibold">
-                {generateSchedule.data.message}
-              </p>
-            )}
+              {generateSchedule.isSuccess && (
+                <p className="text-dark/50 font-semibold">
+                  {generateSchedule.data.message}
+                </p>
+              )}
 
-            {generateSchedule.isError && (
-              <p className="text-dark/50 font-semibold">
-                {generateSchedule.error.message}
-              </p>
-            )}
-          </section>
-        </div>
-      </SettingsWrapper>
-    </AuthCheck>
+              {generateSchedule.isError && (
+                <p className="text-dark/50 font-semibold">
+                  {generateSchedule.error.message}
+                </p>
+              )}
+            </section>
+          </div>
+        </SettingsWrapper>
+      </AuthCheck>
+    </>
   );
 }

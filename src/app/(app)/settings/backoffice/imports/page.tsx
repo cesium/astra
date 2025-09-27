@@ -117,72 +117,73 @@ export default function Imports() {
             </p>
           </div>
 
-          <div className="max-w-3xl rounded-lg bg-white p-6">
-            <div className="mb-4">
-              <h2 className="text-lg font-semibold">
+            <div className="max-w-3xl rounded-lg bg-white p-6">
+              <div className="mb-4">
+                <h2 className="text-lg font-semibold">
                 {
                   dict.settings.sections.backoffice.modules.import.types
                     .shifts_by_courses.title
                 }
               </h2>
-              <p className="mt-1 text-sm text-black">
-                {
+                <p className="mt-1 text-sm text-black">
+                  {
                   dict.settings.sections.backoffice.modules.import.types
-                    .shifts_by_courses.description
+                      .shifts_by_courses.description
                 }
-              </p>
+                </p>
+              </div>
+
+              <FileUploader
+                onFileChange={(file) =>
+                  handleFileChange(file, "students_by_courses")
+                }
+                allowedTypes={EXCEL_TYPES}
+                maxSize={10 * 1024 * 1024}
+                disabled={isAnyMutationPending}
+                showSelectedFile={false}
+              />
             </div>
 
-            <FileUploader
-              onFileChange={(file) =>
-                handleFileChange(file, "students_by_courses")
-              }
-              allowedTypes={EXCEL_TYPES}
-              maxSize={10 * 1024 * 1024}
-              disabled={isAnyMutationPending}
-              showSelectedFile={false}
-            />
-          </div>
-
-          <div className="max-w-3xl rounded-lg bg-white p-6">
-            <div className="mb-4">
-              <h2 className="text-lg font-semibold">
+            <div className="max-w-3xl rounded-lg bg-white p-6">
+              <div className="mb-4">
+                <h2 className="text-lg font-semibold">
                 {
                   dict.settings.sections.backoffice.modules.import.types
                     .students_by_courses.title
                 }
               </h2>
-              <p className="mt-1 text-sm text-black">
-                {
+                <p className="mt-1 text-sm text-black">
+                  {
                   dict.settings.sections.backoffice.modules.import.types
                     .shifts_by_courses.description
+                  }
+                </p>
+              </div>
+
+              <FileUploader
+                onFileChange={(file) =>
+                  handleFileChange(file, "shifts_by_courses")
                 }
-              </p>
+                allowedTypes={CSV_TYPES}
+                maxSize={10 * 1024 * 1024}
+                disabled={isAnyMutationPending}
+                showSelectedFile={false}
+              />
             </div>
-
-            <FileUploader
-              onFileChange={(file) =>
-                handleFileChange(file, "shifts_by_courses")
-              }
-              allowedTypes={CSV_TYPES}
-              maxSize={10 * 1024 * 1024}
-              disabled={isAnyMutationPending}
-              showSelectedFile={false}
-            />
           </div>
-        </div>
 
-        <ImportConfirmationModal
-          selectedFile={importState.selectedFile}
-          onConfirm={handleConfirmUpload}
-          onCancel={handleCancelUpload}
-          title={getModalTitle()}
-          description={getModalDescription()}
-          isLoading={currentMutation?.isPending ?? false}
-          isSuccess={currentMutation?.isSuccess ?? false}
-          isError={currentMutation?.isError ?? false}
-        />
-      </SettingsWrapper>
-    </AuthCheck>
+          <ImportConfirmationModal
+            selectedFile={importState.selectedFile}
+            onConfirm={handleConfirmUpload}
+            onCancel={handleCancelUpload}
+            title={getModalTitle()}
+            description={getModalDescription()}
+            isLoading={currentMutation?.isPending ?? false}
+            isSuccess={currentMutation?.isSuccess ?? false}
+            isError={currentMutation?.isError ?? false}
+          />
+        </SettingsWrapper>
+      </AuthCheck>
+    </>
   );
 }
