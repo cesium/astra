@@ -19,13 +19,12 @@ const DictionaryContext = createContext<DictionaryContextData | undefined>(
 );
 
 export function usePreferredLanguage(): DictionaryLanguage {
-  const { data: language} = useGetUserPreference("language");
+  const { data: language } = useGetUserPreference("language");
   return language?.data.language;
 }
 
 export function getBrowserLanguage(): DictionaryLanguage {
   if (typeof navigator !== "undefined" && navigator.language) {
-    console.log("NAVIGATOr",navigator.language)
     return navigator.language as DictionaryLanguage;
   }
   return "en-US";
@@ -42,17 +41,17 @@ export function DictionaryProvider({
   const preferredLanguage = usePreferredLanguage();
 
   useEffect(() => {
-      try {
-        if (user && preferredLanguage) {
-          setLanguage(preferredLanguage);
-        } else {
-          setLanguage(getBrowserLanguage());
-        }
-      } catch {
-        setLanguage("en-US");
+    try {
+      if (user && preferredLanguage) {
+        setLanguage(preferredLanguage);
+      } else {
+        setLanguage(getBrowserLanguage());
+      }
+    } catch {
+      setLanguage("en-US");
     }
   }, [user, preferredLanguage]);
-  console.log("FINAL", language)
+
   const dictionary = getDictionary(language);
   return (
     <DictionaryContext.Provider value={{ dictionary, language, setLanguage }}>

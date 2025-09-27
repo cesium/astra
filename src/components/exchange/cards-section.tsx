@@ -7,6 +7,7 @@ import AddExchangeContent from "./add-exchange-content";
 import { useGetExchangeDate } from "@/lib/queries/exchange";
 import { twMerge } from "tailwind-merge";
 import { clsx } from "clsx";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 interface ICardSectionProps {
   title?: string;
@@ -29,6 +30,7 @@ export default function CardsSection({
   completed,
   data,
 }: ICardSectionProps) {
+  const dict = useDictionary();
   const [exchangeModalState, setExchangeModalState] = useState(false);
   const { data: exchangeDate } = useGetExchangeDate();
 
@@ -61,7 +63,7 @@ export default function CardsSection({
           >
             add
           </span>
-          <span>Create a shift exchange request</span>
+          <span>{dict.ui.common.buttons.create}</span>
         </button>
       )}
       <div className="relative">
@@ -81,10 +83,14 @@ export default function CardsSection({
           {!drafts && data && data.length === 0 && (
             <>
               {pending && (
-                <p className="text-gray-500">No pending requests to show.</p>
+                <p className="text-gray-500">
+                  {dict.pages.exchange.states.no_pending}.
+                </p>
               )}
               {completed && (
-                <p className="text-gray-500">No completed requests to show.</p>
+                <p className="text-gray-500">
+                  {dict.pages.exchange.states.no_completed}.
+                </p>
               )}
             </>
           )}
@@ -108,7 +114,7 @@ export default function CardsSection({
                 >
                   add
                 </span>
-                <span>Create a shift exchange request</span>
+                <span>{dict.pages.exchange.actions.create}</span>
               </button>
             </>
           )}
@@ -119,7 +125,7 @@ export default function CardsSection({
       <ExchangeModal
         modalState={exchangeModalState}
         setModalState={setExchangeModalState}
-        title="Create a shift exchange request"
+        title={dict.pages.exchange.actions.create}
       >
         <AddExchangeContent setModalState={setExchangeModalState} />
       </ExchangeModal>

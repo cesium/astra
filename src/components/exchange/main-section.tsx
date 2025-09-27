@@ -2,6 +2,8 @@
 
 import { useGetExchanges } from "@/lib/queries/exchange";
 import CardsSection from "./cards-section";
+import { useDictionary } from "@/providers/dictionary-provider";
+import { Didact_Gothic } from "next/font/google";
 
 const getShortShiftType = (shiftType: string) => {
   switch (shiftType) {
@@ -43,6 +45,7 @@ export interface IExchange {
 }
 
 export default function MainSection() {
+  const dict = useDictionary();
   const { data: response } = useGetExchanges();
 
   const exchanges = response?.data?.requests ?? [];
@@ -70,10 +73,18 @@ export default function MainSection() {
 
   return (
     <div className="flex w-full min-w-0 flex-col gap-8 lg:pr-4">
-      <h1 className="text-2xl font-semibold">Shift Exchange Requests</h1>
+      <h1 className="text-2xl font-semibold">{dict.pages.exchange.title}</h1>
       <CardsSection drafts />
-      <CardsSection title="Pending" pending data={pending_exchanges} />
-      <CardsSection title="Completed" completed data={approved_exchanges} />
+      <CardsSection
+        title={dict.ui.common.states.pending}
+        pending
+        data={pending_exchanges}
+      />
+      <CardsSection
+        title={dict.ui.common.states.completed}
+        completed
+        data={approved_exchanges}
+      />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import ExchangeModal from "./modal";
 import ExchangeStateContent from "../exchange-state-content";
 import { useState } from "react";
 import { useDeleteExchange } from "@/lib/mutations/exchange";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 interface IExchangeCardProps {
   uc: string;
@@ -26,6 +27,7 @@ export default function ExchangeCard({
   completed,
   exchange_id,
 }: IExchangeCardProps) {
+  const dict = useDictionary();
   const [modalState, setModalState] = useState(false);
   const cancelExchange = useDeleteExchange();
 
@@ -74,7 +76,7 @@ export default function ExchangeCard({
                         >
                           undo
                         </span>
-                        <span>Cancel request</span>
+                        <span>{dict.pages.exchange.actions.cancel_request}</span>
                       </button>
                       <button
                         onClick={() => {
@@ -89,7 +91,7 @@ export default function ExchangeCard({
                         >
                           info
                         </span>
-                        <span>See exchange state</span>
+                        <span>{dict.pages.exchange.actions.view_state}</span>
                       </button>
                     </>
                   )}
@@ -107,7 +109,7 @@ export default function ExchangeCard({
                       >
                         info
                       </span>
-                      <span>See exchange state</span>
+                      <span>{dict.pages.exchange.actions.view_state}</span>
                     </button>
                   )}
                 </>
@@ -120,11 +122,15 @@ export default function ExchangeCard({
       {pending && (
         <>
           <span className="text-gray-500">
-            State:{" "}
+            {dict.ui.common.state}:{" "}
             {pending ? (
-              <span className="text-yellow-500">Waiting for slot.</span>
+              <span className="text-yellow-500">
+                {dict.ui.common.states.pending}
+              </span>
             ) : (
-              <span className="text-green-500">Exchange completed.</span>
+              <span className="text-green-500">
+                {dict.ui.common.states.completed}
+              </span>
             )}
           </span>
           <button
@@ -137,14 +143,17 @@ export default function ExchangeCard({
             >
               info
             </span>
-            <span>See exchange state</span>
+            <span>{dict.pages.exchange.actions.view_state}</span>
           </button>
         </>
       )}
       {completed && (
         <>
           <span className="text-gray-500">
-            State: <span className="text-green-500">Exchange completed.</span>
+          {dict.ui.common.state}:{" "}
+            <span className="text-green-500">
+              {dict.ui.common.states.completed}
+            </span>
           </span>
           <button
             onClick={() => setModalState(true)}
@@ -156,14 +165,14 @@ export default function ExchangeCard({
             >
               info
             </span>
-            <span>See exchange state</span>
+            <span>{dict.pages.exchange.actions.view_state}</span>
           </button>
         </>
       )}
       <ExchangeModal
         modalState={modalState}
         setModalState={setModalState}
-        title="Exchange request state"
+        title={dict.pages.exchange.forms.state_view.title}
       >
         <ExchangeStateContent
           uc={uc}

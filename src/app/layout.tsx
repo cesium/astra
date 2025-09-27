@@ -28,9 +28,7 @@ export default function RootLayout({
     <html className="h-dvh" lang="en">
       <body className={clsx(jamjuree.variable, "font-jamjuree h-full")}>
         <ReactQueryProvider>
-          <DictionaryProvider>
-            {children}
-          </DictionaryProvider>
+          <DictionaryProvider>{children}</DictionaryProvider>
           <ReactQueryDevtools initialIsOpen={false} />
         </ReactQueryProvider>
         <UmamiAnalytics />

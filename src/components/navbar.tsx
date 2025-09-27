@@ -32,20 +32,22 @@ interface ITabProps {
   bgColor?: string;
 }
 
-const tabs = [
-  { name: "Events", icon: "calendar_month", href: "/" },
-  {
-    name: "Schedule",
-    icon: "schedule",
-    href: "/schedule",
-  },
-  {
-    name: "Exchange",
-    icon: "sync_alt",
-    href: "/exchange",
-    bgColor: "bg-celeste",
-  },
-];
+function getTabs(dict: ReturnType<typeof useDictionary>) {
+  return [
+    { name: dict.pages.events.title, icon: "calendar_month", href: "/" },
+    {
+      name: dict.pages.schedule.title,
+      icon: "schedule",
+      href: "/schedule",
+    },
+    {
+      name: dict.pages.exchange.title,
+      icon: "sync_alt",
+      href: "/exchange",
+      bgColor: "bg-celeste",
+    },
+  ];
+}
 
 function TabsContainer({
   currentPage,
@@ -114,6 +116,8 @@ function Tab({
 }
 
 function MobileDropdown({ currentPage }: { currentPage: string }) {
+  const dict = useDictionary();
+  const tabs = getTabs(dict);
   const [active, setActive] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<"tabs" | "user">("tabs");
   const session = useGetSession();
@@ -261,7 +265,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                             add
                           </span>
                         </div>
-                        Sign in
+                        {}
                       </Link>
                     )}
                   </motion.div>
@@ -290,7 +294,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                         <span className="material-symbols-outlined text-2xl">
                           settings
                         </span>
-                        Settings
+                        {dict.settings.title}
                       </Link>
                       <button
                         onClick={() =>
@@ -306,7 +310,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                         <span className="material-symbols-outlined text-2xl">
                           logout
                         </span>
-                        Sign out
+                        {dict.settings.sections.account.actions.sign_out}
                       </button>
                     </div>
                   </motion.div>
@@ -321,7 +325,8 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
 }
 
 export default function Navbar() {
-  const d = useDictionary()
+  const dict = useDictionary();
+  const tabs = getTabs(dict);
   const currentPage = usePathname();
   const session = useGetSession();
   const { data: user } = useGetUserInfo();
@@ -353,10 +358,6 @@ export default function Navbar() {
           </TabsContainer>
         </div>
       )}
-
-      <div>
-        {d.calendar.day}
-      </div>
 
       <div className="flex items-center justify-end">
         {/* User dropdown */}

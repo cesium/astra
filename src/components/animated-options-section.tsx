@@ -1,5 +1,6 @@
 "use client";
 import { ScheduleContext } from "@/contexts/schedule-provider";
+import { useDictionary } from "@/providers/dictionary-provider";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -43,10 +44,11 @@ const useIsMobile = () => {
 
 export default function AnimatedOptionsSection({
   children,
-  title = "Options",
-  titleEdit = "Edit Options",
+  title,
+  titleEdit,
   classNameOpenedSection,
 }: IAnimatedOptionsSection) {
+  const dict = useDictionary();
   const [isOpen, setIsOpen] = useState(false);
 
   const { isEditing, setIsEditing, setEditingShifts, currentSchedule } =
@@ -164,7 +166,7 @@ export default function AnimatedOptionsSection({
             transition={transition}
             role="button"
             tabIndex={0}
-            aria-label="Show options"
+            aria-label={dict.ui.common.buttons.open}
             style={{ overflow: "hidden" }}
           >
             <motion.div
@@ -175,7 +177,7 @@ export default function AnimatedOptionsSection({
             >
               <div className="flex gap-2 md:origin-center md:-rotate-90">
                 <span className="text-md flex items-center justify-center font-light whitespace-nowrap text-gray-500">
-                  Show options
+                  {dict.options.show}
                 </span>
                 <span
                   style={{ fontSize: "24px" }}
@@ -226,7 +228,9 @@ export default function AnimatedOptionsSection({
                     animate={{ opacity: 1 }}
                     transition={transition}
                   >
-                    <span className="text-2xl font-semibold">{title}</span>
+                    <span className="text-2xl font-semibold">
+                      {title || dict.options.title}
+                    </span>
                     <button
                       className="material-symbols-outlined cursor-pointer border-none font-bold text-gray-500 transition-colors duration-200 hover:text-gray-700"
                       onClick={handleClose}

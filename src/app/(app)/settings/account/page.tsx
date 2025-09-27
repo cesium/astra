@@ -13,6 +13,7 @@ import { useChangePassword } from "@/lib/mutations/session";
 import { useGetUserInfo } from "@/lib/queries/session";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 interface IInputLineProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -93,7 +94,7 @@ export default function Account() {
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
   });
-
+  const dict = useDictionary();
   const onSubmit: SubmitHandler<FormSchema> = (data) => {
     changePassword.mutate({ ...data });
   };
@@ -123,11 +124,13 @@ export default function Account() {
           </section>
 
           <section className="flex flex-col items-center gap-3.5 md:items-start">
-            <h2 className="text-xl font-semibold md:text-2xl">Information</h2>
+            <h2 className="text-xl font-semibold md:text-2xl">
+              {dict.settings.sections.account.title}
+            </h2>
             <div className="flex w-full max-w-3xl flex-col gap-1.5">
               <InputLine
                 disabled
-                label="Full Name"
+                label={dict.settings.sections.account.fields.full_name}
                 value={user.data?.name || "user name"}
               />
               <InputLine
@@ -140,27 +143,33 @@ export default function Account() {
                   id="current_password"
                   type="password"
                   className="mt-6"
-                  label="Current password"
+                  label={dict.settings.sections.account.fields.current_password}
                   value={"current_password"}
-                  placeholder="Current password"
+                  placeholder={
+                    dict.settings.sections.account.fields.current_password
+                  }
                   {...register("current_password", { required: true })}
                   errorMessage={errors.current_password?.message}
                 />
                 <InputLine
                   id="password"
                   type="password"
-                  label="New password"
+                  label={dict.settings.sections.account.fields.new_password}
                   value={"password"}
-                  placeholder="New password"
+                  placeholder={
+                    dict.settings.sections.account.fields.new_password
+                  }
                   {...register("password", { required: true })}
                   errorMessage={errors.password?.message}
                 />
                 <InputLine
                   id="password_confirmation"
                   type="password"
-                  label="Confirm password"
+                  label={dict.settings.sections.account.fields.confirm_password}
                   value={"password_confirmation"}
-                  placeholder="Confirm password"
+                  placeholder={
+                    dict.settings.sections.account.fields.confirm_password
+                  }
                   {...register("password_confirmation", { required: true })}
                   errorMessage={errors.password_confirmation?.message}
                 />
@@ -168,7 +177,7 @@ export default function Account() {
                   type="submit"
                   className="bg-primary-400 hover:bg-primary-400/95 mt-6 cursor-pointer rounded-lg px-4 py-2 font-semibold text-white transition-all duration-200 hover:scale-98 md:w-1/3"
                 >
-                  Change Password
+                  {dict.settings.sections.account.actions.change_password}
                 </button>
 
                 {changePassword.isSuccess && (

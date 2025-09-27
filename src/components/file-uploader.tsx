@@ -6,6 +6,7 @@ import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 import { z } from "zod";
 import mime from "mime-types";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 interface IFileUploaderProps {
   onFileChange?: (file: File | null) => void;
@@ -80,6 +81,7 @@ export default function FileUploader({
   disabled = false,
   showSelectedFile = true,
 }: IFileUploaderProps) {
+  const dict = useDictionary();
   const [isDragOver, setIsDragOver] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [validationError, setValidationError] =
@@ -234,14 +236,14 @@ export default function FileUploader({
                 ),
               )}
             >
-              Drag and drop your file here
+              {dict.ui.forms.file_uploader.drag}
             </p>
             <p
               className={twMerge(
                 clsx("transition-colors duration-200", "text-black/50"),
               )}
             >
-              or{" "}
+              {dict.ui.common.or}{" "}
               <span
                 className={twMerge(
                   clsx(
@@ -250,15 +252,23 @@ export default function FileUploader({
                   ),
                 )}
               >
-                open a file from your computer
+                {dict.ui.forms.file_uploader.open}
               </span>
             </p>
             <div className="mt-2 space-y-1 text-xs text-gray-400">
-              {maxSize && <p>Maximum Size: {formatFileSize(maxSize)}</p>}
+              {maxSize && (
+                <p>
+                  {dict.ui.forms.file_uploader.max_size}:{" "}
+                  {formatFileSize(maxSize)}
+                </p>
+              )}
               {allowedTypes &&
                 allowedTypes.length > 0 &&
                 getFileTypeCategory(allowedTypes) && (
-                  <p>Supports: {getFileTypeCategory(allowedTypes)}</p>
+                  <p>
+                    {dict.ui.forms.file_uploader.supports}:{" "}
+                    {getFileTypeCategory(allowedTypes)}
+                  </p>
                 )}
             </div>
           </div>

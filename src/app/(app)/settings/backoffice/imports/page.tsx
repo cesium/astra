@@ -9,6 +9,7 @@ import {
   useImportShiftsByCourses,
 } from "@/lib/mutations/courses";
 import { AuthCheck } from "@/components/auth-check";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 const EXCEL_TYPES = [
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
@@ -27,6 +28,7 @@ interface ImportState {
 }
 
 export default function Imports() {
+  const dict = useDictionary();
   const [importState, setImportState] = useState<ImportState>({
     selectedFile: null,
     type: null,
@@ -107,19 +109,21 @@ export default function Imports() {
       <SettingsWrapper title="Import data">
         <div className="space-y-4">
           <div>
-            <h1 className="text-2xl font-semibold">Import Data</h1>
+            <h1 className="text-2xl font-semibold">
+              {dict.settings.sections.backoffice.modules.import.title}
+            </h1>
             <p className="mt-2 text-black">
-              Import Excel files to update the system data. Each import can be
-              done independently as needed.
+              {dict.settings.sections.backoffice.modules.import.description}
             </p>
           </div>
 
           <div className="max-w-3xl rounded-lg bg-white p-6">
             <div className="mb-4">
-              <h2 className="text-lg font-semibold">Students by Courses</h2>
+              <h2 className="text-lg font-semibold">
+                {dict.settings.sections.backoffice.modules.import.types.shifts_by_courses.title}
+              </h2>
               <p className="mt-1 text-sm text-black">
-                Import student enrollment data organized by courses. Use this
-                when students change courses or new enrollments are added.
+                {dict.settings.sections.backoffice.modules.import.types.shifts_by_courses.description}
               </p>
             </div>
 
@@ -136,10 +140,11 @@ export default function Imports() {
 
           <div className="max-w-3xl rounded-lg bg-white p-6">
             <div className="mb-4">
-              <h2 className="text-lg font-semibold">Shifts by Courses</h2>
+              <h2 className="text-lg font-semibold">
+                {dict.settings.sections.backoffice.modules.import.types.students_by_courses.title}
+              </h2>
               <p className="mt-1 text-sm text-black">
-                Import class schedule data organized by courses. Use this when
-                schedules change or new shifts are created.
+                {dict.settings.sections.backoffice.modules.import.types.shifts_by_courses.description}
               </p>
             </div>
 

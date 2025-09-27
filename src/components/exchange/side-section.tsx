@@ -4,6 +4,7 @@ import SideSectionDisclosure from "./side-section-disclosure";
 import { useGetStudentOriginalSchedule } from "@/lib/queries/courses";
 import { useGetExchangeDate } from "@/lib/queries/exchange";
 import { ICourse } from "@/lib/types";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 function parseDate(iso: string) {
   const date = new Date(iso);
@@ -38,6 +39,8 @@ interface DateStateTextProps {
 const getExchangeDateStateText = (
   exchangeDate: DateStateTextProps["exchangeDate"],
 ) => {
+  const dict = useDictionary();
+
   if (!exchangeDate?.data.end) return "No deadline available";
 
   const now = new Date();
@@ -52,36 +55,37 @@ const getExchangeDateStateText = (
 
   if (opening < now && now < deadline) {
     return (
-      "The exchange period ends on " +
+      `${dict.pages.exchange.period.messages.in_period} ` +
       parsedEnd.day.toString() +
       "/" +
       (parsedEnd.month + 1).toString().padStart(2, "0") +
       "/" +
       parsedEnd.year +
-      " at " +
+      ` ${dict.ui.common.at} ` +
       parsedEnd.hour.toString().padStart(2, "0") +
       ":" +
       parsedEnd.minute.toString().padStart(2, "0")
     );
   } else if (now < opening) {
     return (
-      "The exchange period starts on " +
+      `${dict.pages.exchange.period.messages.starts} ` +
       parsedStart.day.toString() +
       "/" +
       (parsedStart.month + 1).toString().padStart(2, "0") +
       "/" +
       parsedStart.year +
-      " at " +
+      ` ${dict.ui.common.at} ` +
       parsedStart.hour.toString().padStart(2, "0") +
       ":" +
       parsedStart.minute.toString().padStart(2, "0")
     );
   } else {
-    return "The exchange period has ended.";
+    return `${dict.pages.exchange.period.messages.has_ended}`
   }
 };
 
 export default function SideSection() {
+  const dict = useDictionary();
   const { data: originalCourses } = useGetStudentOriginalSchedule();
   const { data: exchangeDate } = useGetExchangeDate();
   const normalCourses: ICourse[] = originalCourses
@@ -90,16 +94,16 @@ export default function SideSection() {
 
   return (
     <div className="flex flex-shrink-0 flex-col gap-2 lg:w-[317px]">
-      <SideSectionDisclosure title="Exchange period">
+      <SideSectionDisclosure title={dict.pages.exchange.overview.current_state}>
         {getExchangeDateStateText(exchangeDate)}
       </SideSectionDisclosure>
-      <SideSectionDisclosure title="Current state">
+      <SideSectionDisclosure title={dict.pages.exchange.overview.curricular_units}>
         <div className="my-2 flex w-full items-center gap-2">
           <span className="w-1/2 text-center font-semibold text-black/50 sm:w-1/2">
-            Your curricular units
+            {dict.pages.exchange.overview.curricular_units}
           </span>
           <span className="w-1/2 text-center font-semibold text-black/50 sm:w-1/2">
-            Shifts
+            {dict.pages.exchange.overview.shifts}
           </span>
         </div>
         <div className="flex flex-col gap-2">
