@@ -14,7 +14,7 @@ const jamjuree = Bai_Jamjuree({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://pombo.cesium.pt"),
+  metadataBase: new URL(process.env.PROD_DOMAIN || "http://localhost:3000"),
   title: "Pombo",
   description: "Your hub for everything LEI and MEI",
   keywords: [
