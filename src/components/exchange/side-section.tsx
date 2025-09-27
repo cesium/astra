@@ -38,9 +38,8 @@ interface DateStateTextProps {
 
 const getExchangeDateStateText = (
   exchangeDate: DateStateTextProps["exchangeDate"],
+  dict: ReturnType<typeof useDictionary>,
 ) => {
-  const dict = useDictionary();
-
   if (!exchangeDate?.data.end) return "No deadline available";
 
   const now = new Date();
@@ -80,7 +79,7 @@ const getExchangeDateStateText = (
       parsedStart.minute.toString().padStart(2, "0")
     );
   } else {
-    return `${dict.pages.exchange.period.messages.has_ended}`
+    return `${dict.pages.exchange.period.messages.has_ended}`;
   }
 };
 
@@ -95,9 +94,11 @@ export default function SideSection() {
   return (
     <div className="flex flex-shrink-0 flex-col gap-2 lg:w-[317px]">
       <SideSectionDisclosure title={dict.pages.exchange.overview.current_state}>
-        {getExchangeDateStateText(exchangeDate)}
+        {getExchangeDateStateText(exchangeDate, dict)}
       </SideSectionDisclosure>
-      <SideSectionDisclosure title={dict.pages.exchange.overview.curricular_units}>
+      <SideSectionDisclosure
+        title={dict.pages.exchange.overview.curricular_units}
+      >
         <div className="my-2 flex w-full items-center gap-2">
           <span className="w-1/2 text-center font-semibold text-black/50 sm:w-1/2">
             {dict.pages.exchange.overview.curricular_units}

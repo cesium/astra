@@ -76,7 +76,9 @@ export default function ExchangeCard({
                         >
                           undo
                         </span>
-                        <span>{dict.pages.exchange.actions.cancel_request}</span>
+                        <span>
+                          {dict.pages.exchange.actions.cancel_request}
+                        </span>
                       </button>
                       <button
                         onClick={() => {
@@ -150,7 +152,7 @@ export default function ExchangeCard({
       {completed && (
         <>
           <span className="text-gray-500">
-          {dict.ui.common.state}:{" "}
+            {dict.ui.common.state}:{" "}
             <span className="text-green-500">
               {dict.ui.common.states.completed}
             </span>

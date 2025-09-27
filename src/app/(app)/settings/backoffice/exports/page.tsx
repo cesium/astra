@@ -90,14 +90,19 @@ export default function Exports() {
             <h2 className="text-2xl font-semibold">
               {dict.settings.sections.backoffice.modules.export.title}
             </h2>
-            <p>{dict.settings.sections.backoffice.modules.export.description}</p>
+            <p>
+              {dict.settings.sections.backoffice.modules.export.description}
+            </p>
           </section>
 
           <section className="space-y-6">
             <div className="max-w-2xl space-y-6">
               <div className="space-y-1">
                 <p className="pl-2 font-semibold select-none">
-                  {dict.settings.sections.backoffice.modules.export.options.courses}
+                  {
+                    dict.settings.sections.backoffice.modules.export.options
+                      .courses
+                  }
                 </p>
                 <CustomCombobox
                   items={formattedCourses}
@@ -120,7 +125,10 @@ export default function Exports() {
                   ),
                 )}
               >
-                {dict.settings.sections.backoffice.modules.export.options.shift_groups}
+                {
+                  dict.settings.sections.backoffice.modules.export.options
+                    .shift_groups
+                }
               </button>
 
               <span className="text-dark/80 font-semibold">
@@ -139,7 +147,10 @@ export default function Exports() {
                   ),
                 )}
               >
-                {dict.settings.sections.backoffice.modules.export.options.group_enrollments}
+                {
+                  dict.settings.sections.backoffice.modules.export.options
+                    .group_enrollments
+                }
               </button>
             </div>
 

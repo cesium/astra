@@ -120,10 +120,16 @@ export default function Imports() {
           <div className="max-w-3xl rounded-lg bg-white p-6">
             <div className="mb-4">
               <h2 className="text-lg font-semibold">
-                {dict.settings.sections.backoffice.modules.import.types.shifts_by_courses.title}
+                {
+                  dict.settings.sections.backoffice.modules.import.types
+                    .shifts_by_courses.title
+                }
               </h2>
               <p className="mt-1 text-sm text-black">
-                {dict.settings.sections.backoffice.modules.import.types.shifts_by_courses.description}
+                {
+                  dict.settings.sections.backoffice.modules.import.types
+                    .shifts_by_courses.description
+                }
               </p>
             </div>
 
@@ -141,10 +147,16 @@ export default function Imports() {
           <div className="max-w-3xl rounded-lg bg-white p-6">
             <div className="mb-4">
               <h2 className="text-lg font-semibold">
-                {dict.settings.sections.backoffice.modules.import.types.students_by_courses.title}
+                {
+                  dict.settings.sections.backoffice.modules.import.types
+                    .students_by_courses.title
+                }
               </h2>
               <p className="mt-1 text-sm text-black">
-                {dict.settings.sections.backoffice.modules.import.types.shifts_by_courses.description}
+                {
+                  dict.settings.sections.backoffice.modules.import.types
+                    .shifts_by_courses.description
+                }
               </p>
             </div>
 

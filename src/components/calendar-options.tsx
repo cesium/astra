@@ -276,7 +276,9 @@ export default function CalendarOptions({
             <div className="flex-shrink-0 px-2">
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-semibold">
-                  {schedule ? `${dict.pages.schedule.title}` : `${dict.pages.events.title}`}
+                  {schedule
+                    ? `${dict.pages.schedule.title}`
+                    : `${dict.pages.events.title}`}
                 </h3>
                 <button
                   data-edit-button

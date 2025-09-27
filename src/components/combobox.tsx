@@ -10,12 +10,14 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface ICustomCombobox {
   items: IItemProps[];
   selectedItem: IItemProps | null;
   setSelectedItem: (item: IItemProps | null) => void;
   className?: string;
+  inputClassName?: string;
   placeholder?: string;
 }
 
@@ -24,6 +26,7 @@ export default function CustomCombobox({
   selectedItem,
   setSelectedItem,
   className,
+  inputClassName,
   placeholder,
 }: ICustomCombobox) {
   const [query, setQuery] = useState("");
@@ -47,9 +50,12 @@ export default function CustomCombobox({
           placeholder={placeholder}
           displayValue={(item: IItemProps) => item?.name || ""}
           onChange={(event) => setQuery(event.target.value)}
-          className={clsx(
-            "bg-muted border-dark/10 w-full rounded-lg border py-1.5 pr-8 pl-3 text-sm/6",
-            "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
+          className={twMerge(
+            clsx(
+              "bg-muted border-dark/10 w-full rounded-lg border py-1.5 pr-8 pl-3 text-sm/6",
+              "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
+            ),
+            inputClassName,
           )}
         />
 

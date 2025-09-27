@@ -22,22 +22,22 @@ export default function ExchangePeriodForm() {
   const dict = useDictionary();
 
   const formSchema = z
-  .object({
-    start: z.date(),
-    end: z.date(),
-  })
-  .refine((data) => data.end > data.start, {
-    message: `${dict.alerts.exchange_period.end_before_start}`,
-    path: ["end"],
-  })
-  .refine((data) => data.start.getFullYear() === 2025, {
-    message: `${dict.alerts.exchange_period.start_in_year}`,
-    path: ["start"],
-  })
-  .refine((data) => data.end.getFullYear() === 2025, {
-    message: `${dict.alerts.exchange_period.end_in_year}`,
-    path: ["end"],
-  });
+    .object({
+      start: z.date(),
+      end: z.date(),
+    })
+    .refine((data) => data.end > data.start, {
+      message: `${dict.alerts.exchange_period.end_before_start}`,
+      path: ["end"],
+    })
+    .refine((data) => data.start.getFullYear() === 2025, {
+      message: `${dict.alerts.exchange_period.start_in_year}`,
+      path: ["start"],
+    })
+    .refine((data) => data.end.getFullYear() === 2025, {
+      message: `${dict.alerts.exchange_period.end_in_year}`,
+      path: ["end"],
+    });
 
   type FormSchema = z.infer<typeof formSchema>;
 
@@ -97,13 +97,22 @@ export default function ExchangePeriodForm() {
   return (
     <>
       <h2 className="text-xl font-semibold">
-        {dict.settings.sections.backoffice.modules.configurations.exchange.title}
+        {
+          dict.settings.sections.backoffice.modules.configurations.exchange
+            .title
+        }
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mt-4 flex max-w-sm flex-col gap-3"
       >
-        <label>{dict.settings.sections.backoffice.modules.configurations.exchange.start_date}:</label>
+        <label>
+          {
+            dict.settings.sections.backoffice.modules.configurations.exchange
+              .start_date
+          }
+          :
+        </label>
         <Input
           {...register("start", { valueAsDate: true, required: true })}
           type="datetime-local"
@@ -114,7 +123,13 @@ export default function ExchangePeriodForm() {
         />
         <span className="text-danger px-1">{errors.start?.message}</span>
 
-        <label>{dict.settings.sections.backoffice.modules.configurations.exchange.end_date}:</label>
+        <label>
+          {
+            dict.settings.sections.backoffice.modules.configurations.exchange
+              .end_date
+          }
+          :
+        </label>
         <Input
           {...register("end", { valueAsDate: true, required: true })}
           type="datetime-local"

@@ -36,7 +36,9 @@ export default function ExchangeStateContent({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex w-full flex-col gap-2">
-        <h2 className="font-semibold">{dict.pages.exchange.forms.state_view.description}</h2>
+        <h2 className="font-semibold">
+          {dict.pages.exchange.forms.state_view.description}
+        </h2>
         <div className="flex w-full gap-20">
           <div className="flex flex-col justify-between gap-1">
             <span className="text-gray-500">
@@ -69,17 +71,13 @@ export default function ExchangeStateContent({
             <div
               className={`h-2 w-full rounded-full ${isEqual({ n, x: 1 }) ? loadingStyle : 1 < n ? "bg-celeste" : "bg-gray-300"}`}
             ></div>
-            <span className="text-sm">
-              {dict.ui.common.states.pending}
-            </span>
+            <span className="text-sm">{dict.ui.common.states.pending}</span>
           </div>
           <div className="flex w-1/2 flex-col items-center gap-1">
             <div
               className={`h-2 w-full rounded-full ${isEqual({ n, x: 2 }) ? "bg-celeste" : "bg-gray-300"}`}
             ></div>
-            <span className="text-sm">
-            {dict.ui.common.states.completed}
-            </span>
+            <span className="text-sm">{dict.ui.common.states.completed}</span>
           </div>
         </div>
       </div>

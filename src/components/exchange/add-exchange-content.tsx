@@ -200,7 +200,9 @@ export default function AddExchangeContent({
               setSelectedItem={setSelectedShiftTo}
               collection={orderedShiftsToJoin}
               rounded
-              label={dict.pages.exchange.forms.add_request.fields.preferred_shift}
+              label={
+                dict.pages.exchange.forms.add_request.fields.preferred_shift
+              }
               highlightText
             />
           </div>

@@ -169,10 +169,12 @@
           "email": "Email",
           "current_password": "Palavra-passe atual",
           "new_password": "Nova palavra-passe",
-          "confirm_password": "Confirma a palavra-passe"
+          "confirm_password": "Confirma a palavra-passe",
+          "language": "Idioma"
         },
         "actions": {
           "change_password": "Alterar Palavra-passe",
+          "change_language": "Alterar Idioma",
           "sign_in": "Iniciar sessão",
           "sign_out": "Terminar sessão"
         }
@@ -271,8 +273,19 @@
       "end_before_start": "A data de início deve ser antes da data de encerramento.",
       "start_in_year": "A data de início deve ser no ano de 2025.",
       "end_in_year": "A data de encerramento deve ser no ano de 2025.",
-      "updated_successfully":"A período de trocas foi atualizado com sucesso!",
+      "updated_successfully": "A período de trocas foi atualizado com sucesso!",
       "problem_updating": "Ocorreu um erro ao atualizar o período de trocas."
+    },
+    "settings": {
+      "account": {
+        "at_least": "A palavra-passe deve conter pelo menos 12 caracteres",
+        "smaller_than": "A palavra-passe deve ser menor que 72 caracteres",
+        "should_match": "As palavras-passe não coincidem",
+        "updated_password": "A palavra-passe foi atualizada.",
+        "error_password": "Houve um erro ao tentar atualizar a tua palavra-passe.",
+        "updated_language": "O idioma foi atualizado com sucesso.",
+        "error_language": "Houve um erro ao tentar atualizar o teu idioma."
+      }
     }
   }
 }

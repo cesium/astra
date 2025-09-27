@@ -14,6 +14,7 @@ import { useGetUserInfo } from "@/lib/queries/session";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDictionary } from "@/providers/dictionary-provider";
+import LanguageForm from "@/components/language-form";
 
 interface IInputLineProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -58,35 +59,37 @@ function InputLine({
   );
 }
 
-const formSchema = z
-  .object({
-    current_password: z
-      .string()
-      .min(12, { message: "The password should have at least 12 characters" })
-      .max(72, {
-        message: "The password should be smaller than 72 characters",
-      }),
-    password: z
-      .string()
-      .min(12, { message: "The password should have at least 12 characters" })
-      .max(72, {
-        message: "The password should be smaller than 72 characters",
-      }),
-    password_confirmation: z
-      .string()
-      .min(12, { message: "The password should have at least 12 characters" })
-      .max(72, {
-        message: "The password should be smaller than 72 characters",
-      }),
-  })
-  .refine((data) => data.password === data.password_confirmation, {
-    path: ["password_confirmation"],
-    message: "Passwords do not match",
-  });
-
-type FormSchema = z.infer<typeof formSchema>;
-
 export default function Account() {
+  const dict = useDictionary();
+
+  const formSchema = z
+    .object({
+      current_password: z
+        .string()
+        .min(12, { message: dict.alerts.settings.account.at_least })
+        .max(72, {
+          message: dict.alerts.settings.account.smaller_than,
+        }),
+      password: z
+        .string()
+        .min(12, { message: dict.alerts.settings.account.at_least })
+        .max(72, {
+          message: dict.alerts.settings.account.smaller_than,
+        }),
+      password_confirmation: z
+        .string()
+        .min(12, { message: dict.alerts.settings.account.at_least })
+        .max(72, {
+          message: dict.alerts.settings.account.smaller_than,
+        }),
+    })
+    .refine((data) => data.password === data.password_confirmation, {
+      path: ["password_confirmation"],
+      message: dict.alerts.settings.account.should_match,
+    });
+
+  type FormSchema = z.infer<typeof formSchema>;
+
   const {
     register,
     handleSubmit,
@@ -94,7 +97,7 @@ export default function Account() {
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
   });
-  const dict = useDictionary();
+
   const onSubmit: SubmitHandler<FormSchema> = (data) => {
     changePassword.mutate({ ...data });
   };
@@ -103,7 +106,7 @@ export default function Account() {
   const changePassword = useChangePassword();
 
   return (
-    <SettingsWrapper title="Account and profile">
+    <SettingsWrapper title={dict.settings.sections.account.subtitle}>
       <div className="flex flex-col items-center md:items-start">
         <title>Pombo | Account</title>
 
@@ -125,7 +128,7 @@ export default function Account() {
 
           <section className="flex flex-col items-center gap-3.5 md:items-start">
             <h2 className="text-xl font-semibold md:text-2xl">
-              {dict.settings.sections.account.title}
+              {dict.settings.sections.account.information}
             </h2>
             <div className="flex w-full max-w-3xl flex-col gap-1.5">
               <InputLine
@@ -138,7 +141,13 @@ export default function Account() {
                 label="Email"
                 value={user.data?.email || "user email"}
               />
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-1.5">
+              <div className="mt-6">
+                <LanguageForm />
+              </div>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="mb-10 space-y-1.5"
+              >
                 <InputLine
                   id="current_password"
                   type="password"
@@ -181,11 +190,15 @@ export default function Account() {
                 </button>
 
                 {changePassword.isSuccess && (
-                  <p className="text-dark/50">Password Changed Successfully</p>
+                  <p className="text-dark/50">
+                    {dict.alerts.settings.account.updated_password}
+                  </p>
                 )}
 
                 {changePassword.isError && (
-                  <p className="text-dark/50">{changePassword.error.message}</p>
+                  <p className="text-dark/50">
+                    {dict.alerts.settings.account.error_password}
+                  </p>
                 )}
               </form>
             </div>

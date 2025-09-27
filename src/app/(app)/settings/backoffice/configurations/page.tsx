@@ -1,7 +1,6 @@
 import { AuthCheck } from "@/components/auth-check";
 import ExchangePeriodForm from "@/components/exchange-period-form";
 import SettingsWrapper from "@/components/settings-wrapper";
-import { useDictionary } from "@/providers/dictionary-provider";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

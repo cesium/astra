@@ -39,16 +39,27 @@ export default function GenerateSchedule() {
         <div className="flex h-full flex-col gap-8">
           <section className="space-y-2">
             <h2 className="text-2xl font-semibold">
-              {dict.settings.sections.backoffice.modules.schedule_generator.title}
+              {
+                dict.settings.sections.backoffice.modules.schedule_generator
+                  .title
+              }
             </h2>
-            <p>{dict.settings.sections.backoffice.modules.schedule_generator.description}</p>
+            <p>
+              {
+                dict.settings.sections.backoffice.modules.schedule_generator
+                  .description
+              }
+            </p>
           </section>
 
           <section className="space-y-6">
             <div className="max-w-2xl space-y-6">
               <div className="space-y-1">
                 <p className="pl-2 font-semibold">
-                  {dict.settings.sections.backoffice.modules.schedule_generator.fields.degree}
+                  {
+                    dict.settings.sections.backoffice.modules.schedule_generator
+                      .fields.degree
+                  }
                 </p>
                 <CustomSelect
                   items={degrees || []}
@@ -64,7 +75,10 @@ export default function GenerateSchedule() {
 
               <div className="space-y-1">
                 <p className="pl-2 font-semibold">
-                  {dict.settings.sections.backoffice.modules.schedule_generator.fields.semester}
+                  {
+                    dict.settings.sections.backoffice.modules.schedule_generator
+                      .fields.semester
+                  }
                 </p>
                 <CustomSelect
                   items={[1, 2].map((semester) => ({
@@ -89,7 +103,10 @@ export default function GenerateSchedule() {
                 ),
               )}
             >
-              {dict.settings.sections.backoffice.modules.schedule_generator.actions.generate}
+              {
+                dict.settings.sections.backoffice.modules.schedule_generator
+                  .actions.generate
+              }
             </button>
 
             {generateSchedule.isPending && (

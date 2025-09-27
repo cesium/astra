@@ -30,7 +30,8 @@ function getStateStyle(state: string, dict: ReturnType<typeof useDictionary>) {
     cancelled: "cancel",
   };
 
-  const labels = dict.settings.sections.backoffice.modules.jobs_monitor.recent_jobs.labels
+  const labels =
+    dict.settings.sections.backoffice.modules.jobs_monitor.recent_jobs.labels;
   const STATE_LABEL = {
     completed: labels.completed,
     executing: labels.executing,
@@ -38,12 +39,12 @@ function getStateStyle(state: string, dict: ReturnType<typeof useDictionary>) {
     retryable: labels.retryable,
     scheduled: labels.scheduled,
     discarded: labels.discarded,
-    cancelled: labels.cancelled
-  }
+    cancelled: labels.cancelled,
+  };
 
   const textColor = STATE_COLORS[state as keyof typeof STATE_COLORS];
   const icon = STATE_ICON[state as keyof typeof STATE_ICON];
-  const label = STATE_LABEL[state as keyof typeof STATE_LABEL]
+  const label = STATE_LABEL[state as keyof typeof STATE_LABEL];
 
   return { textColor, icon, label };
 }
@@ -273,7 +274,12 @@ export default function Jobs() {
               <h2 className="text-2xl font-semibold">
                 {dict.settings.sections.backoffice.modules.jobs_monitor.title}
               </h2>
-              <p>{dict.settings.sections.backoffice.modules.jobs_monitor.description}</p>
+              <p>
+                {
+                  dict.settings.sections.backoffice.modules.jobs_monitor
+                    .description
+                }
+              </p>
             </section>
 
             <section className="flex flex-wrap gap-4">
@@ -305,7 +311,10 @@ export default function Jobs() {
 
             <section className="border-dark/5 flex h-full min-h-0 w-full flex-col gap-6 rounded-xl border p-3 shadow-sm md:p-6">
               <h2 className="text-lg font-semibold">
-                {dict.settings.sections.backoffice.modules.jobs_monitor.recent_jobs.title}
+                {
+                  dict.settings.sections.backoffice.modules.jobs_monitor
+                    .recent_jobs.title
+                }
               </h2>
 
               {jobsList && jobsList.length > 0 ? (
@@ -335,7 +344,10 @@ export default function Jobs() {
                 </div>
               ) : (
                 <div className="text-dark/50 flex h-full w-full items-center justify-center pb-24">
-                  {dict.settings.sections.backoffice.modules.jobs_monitor.recent_jobs.no_jobs}
+                  {
+                    dict.settings.sections.backoffice.modules.jobs_monitor
+                      .recent_jobs.no_jobs
+                  }
                 </div>
               )}
             </section>

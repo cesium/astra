@@ -3,7 +3,6 @@
 import { useGetExchanges } from "@/lib/queries/exchange";
 import CardsSection from "./cards-section";
 import { useDictionary } from "@/providers/dictionary-provider";
-import { Didact_Gothic } from "next/font/google";
 
 const getShortShiftType = (shiftType: string) => {
   switch (shiftType) {

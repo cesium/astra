@@ -70,7 +70,6 @@
   "options": {
     "title": "Options",
     "show": "Show options"
-
   },
   "pages": {
     "events": {
@@ -170,10 +169,12 @@
           "email": "Email",
           "current_password": "Current password",
           "new_password": "New password",
-          "confirm_password": "Confirm password"
+          "confirm_password": "Confirm password",
+          "language": "Language"
         },
         "actions": {
           "change_password": "Change Password",
+          "change_language": "Change Language",
           "sign_in": "Sign In",
           "sign_out": "Sign Out"
         }
@@ -272,8 +273,19 @@
       "end_before_start": "End date must be after start date.",
       "start_in_year": "Start date must be in the year 2025.",
       "end_in_year": "End date must be in the year 2025.",
-      "updated_successfully":"Exchange period updated successfully!",
+      "updated_successfully": "Exchange period updated successfully!",
       "problem_updating": "There was a problem updating the exchange period."
+    },
+    "settings": {
+      "account": {
+        "at_least": "The password should have at least 12 characters.",
+        "smaller_than": "Ther password should be smaller than 72 characters.",
+        "should_match": "Passwords do not match.",
+        "updated_password": "Password successfully updated.",
+        "error_password": "There was an error while trying to update your password.",
+        "updated_language": "Language successfully updated.",
+        "error_language": "There was an error while trying to update your password."
+      }
     }
   }
 }

@@ -50,7 +50,10 @@ export default function SidebarSettings() {
               >
                 <SidebarItemLabel
                   icon="settings"
-                  label={dict.settings.sections.backoffice.modules.configurations.title}
+                  label={
+                    dict.settings.sections.backoffice.modules.configurations
+                      .title
+                  }
                 />
               </SidebarItem>
 
@@ -64,7 +67,9 @@ export default function SidebarSettings() {
               <SidebarItem id="jobs" href="/settings/backoffice/jobs">
                 <SidebarItemLabel
                   icon="data_table"
-                  label={dict.settings.sections.backoffice.modules.jobs_monitor.title}
+                  label={
+                    dict.settings.sections.backoffice.modules.jobs_monitor.title
+                  }
                 />
               </SidebarItem>
 
@@ -74,7 +79,9 @@ export default function SidebarSettings() {
               >
                 <SidebarItemLabel
                   icon="insights"
-                  label={dict.settings.sections.backoffice.modules.statistics.title}
+                  label={
+                    dict.settings.sections.backoffice.modules.statistics.title
+                  }
                 />
               </SidebarItem>
 
@@ -83,8 +90,10 @@ export default function SidebarSettings() {
                   <SidebarItem id="imports" href="/settings/backoffice/imports">
                     <SidebarItemLabel
                       icon="upload"
-                      label={dict.settings.sections.backoffice.modules.import.title}
-                      />
+                      label={
+                        dict.settings.sections.backoffice.modules.import.title
+                      }
+                    />
                   </SidebarItem>
 
                   <SidebarItem
@@ -93,8 +102,11 @@ export default function SidebarSettings() {
                   >
                     <SidebarItemLabel
                       icon="sdk"
-                      label={dict.settings.sections.backoffice.modules.schedule_generator.title}
-                      />
+                      label={
+                        dict.settings.sections.backoffice.modules
+                          .schedule_generator.title
+                      }
+                    />
                   </SidebarItem>
                 </>
               )}
