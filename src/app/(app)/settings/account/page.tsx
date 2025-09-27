@@ -106,105 +106,112 @@ export default function Account() {
   const changePassword = useChangePassword();
 
   return (
-    <SettingsWrapper title={dict.settings.sections.account.subtitle}>
-      <div className="flex flex-col items-center md:items-start">
-        <title>Pombo | Account</title>
+    <>
+      <title>Imports | Pombo</title>
+      <SettingsWrapper title={dict.settings.sections.account.subtitle}>
+        <div className="flex flex-col items-center md:items-start">
+          <title>Pombo | Account</title>
 
-        <div className="w-full max-w-md space-y-5 md:max-w-none md:space-y-10">
-          <section className="flex items-center justify-center gap-5 md:items-start md:justify-start md:gap-7.5">
-            <Avatar
-              name={user.data?.name}
-              className="size-25 md:size-30 lg:size-35"
-            />
-            <div className="space-y-1 md:pt-3.5">
-              <h2 className="text-dark text-xl font-semibold sm:text-2xl lg:text-3xl">
-                {firstLastName(user.data?.name)}
-              </h2>
-              <p className="text-sm font-semibold md:text-base">
-                {user.data?.email}
-              </p>
-            </div>
-          </section>
-
-          <section className="flex flex-col items-center gap-3.5 md:items-start">
-            <h2 className="text-xl font-semibold md:text-2xl">
-              {dict.settings.sections.account.information}
-            </h2>
-            <div className="flex w-full max-w-3xl flex-col gap-1.5">
-              <InputLine
-                disabled
-                label={dict.settings.sections.account.fields.full_name}
-                value={user.data?.name || "user name"}
+          <div className="w-full max-w-md space-y-5 md:max-w-none md:space-y-10">
+            <section className="flex items-center justify-center gap-5 md:items-start md:justify-start md:gap-7.5">
+              <Avatar
+                name={user.data?.name}
+                className="size-25 md:size-30 lg:size-35"
               />
-              <InputLine
-                disabled
-                label="Email"
-                value={user.data?.email || "user email"}
-              />
-              <div className="mt-6">
-                <LanguageForm />
+              <div className="space-y-1 md:pt-3.5">
+                <h2 className="text-dark text-xl font-semibold sm:text-2xl lg:text-3xl">
+                  {firstLastName(user.data?.name)}
+                </h2>
+                <p className="text-sm font-semibold md:text-base">
+                  {user.data?.email}
+                </p>
               </div>
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="mb-10 space-y-1.5"
-              >
+            </section>
+
+            <section className="flex flex-col items-center gap-3.5 md:items-start">
+              <h2 className="text-xl font-semibold md:text-2xl">
+                {dict.settings.sections.account.information}
+              </h2>
+              <div className="flex w-full max-w-3xl flex-col gap-1.5">
                 <InputLine
-                  id="current_password"
-                  type="password"
-                  className="mt-6"
-                  label={dict.settings.sections.account.fields.current_password}
-                  value={"current_password"}
-                  placeholder={
-                    dict.settings.sections.account.fields.current_password
-                  }
-                  {...register("current_password", { required: true })}
-                  errorMessage={errors.current_password?.message}
+                  disabled
+                  label={dict.settings.sections.account.fields.full_name}
+                  value={user.data?.name || "user name"}
                 />
                 <InputLine
-                  id="password"
-                  type="password"
-                  label={dict.settings.sections.account.fields.new_password}
-                  value={"password"}
-                  placeholder={
-                    dict.settings.sections.account.fields.new_password
-                  }
-                  {...register("password", { required: true })}
-                  errorMessage={errors.password?.message}
+                  disabled
+                  label="Email"
+                  value={user.data?.email || "user email"}
                 />
-                <InputLine
-                  id="password_confirmation"
-                  type="password"
-                  label={dict.settings.sections.account.fields.confirm_password}
-                  value={"password_confirmation"}
-                  placeholder={
-                    dict.settings.sections.account.fields.confirm_password
-                  }
-                  {...register("password_confirmation", { required: true })}
-                  errorMessage={errors.password_confirmation?.message}
-                />
-                <button
-                  type="submit"
-                  className="bg-primary-400 hover:bg-primary-400/95 mt-6 cursor-pointer rounded-lg px-4 py-2 font-semibold text-white transition-all duration-200 hover:scale-98 md:w-1/3"
+                <div className="mt-6">
+                  <LanguageForm />
+                </div>
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="mb-10 space-y-1.5"
                 >
-                  {dict.settings.sections.account.actions.change_password}
-                </button>
+                  <InputLine
+                    id="current_password"
+                    type="password"
+                    className="mt-6"
+                    label={
+                      dict.settings.sections.account.fields.current_password
+                    }
+                    value={"current_password"}
+                    placeholder={
+                      dict.settings.sections.account.fields.current_password
+                    }
+                    {...register("current_password", { required: true })}
+                    errorMessage={errors.current_password?.message}
+                  />
+                  <InputLine
+                    id="password"
+                    type="password"
+                    label={dict.settings.sections.account.fields.new_password}
+                    value={"password"}
+                    placeholder={
+                      dict.settings.sections.account.fields.new_password
+                    }
+                    {...register("password", { required: true })}
+                    errorMessage={errors.password?.message}
+                  />
+                  <InputLine
+                    id="password_confirmation"
+                    type="password"
+                    label={
+                      dict.settings.sections.account.fields.confirm_password
+                    }
+                    value={"password_confirmation"}
+                    placeholder={
+                      dict.settings.sections.account.fields.confirm_password
+                    }
+                    {...register("password_confirmation", { required: true })}
+                    errorMessage={errors.password_confirmation?.message}
+                  />
+                  <button
+                    type="submit"
+                    className="bg-primary-400 hover:bg-primary-400/95 mt-6 cursor-pointer rounded-lg px-4 py-2 font-semibold text-white transition-all duration-200 hover:scale-98 md:w-1/3"
+                  >
+                    {dict.settings.sections.account.actions.change_password}
+                  </button>
 
-                {changePassword.isSuccess && (
-                  <p className="text-dark/50">
-                    {dict.alerts.settings.account.updated_password}
-                  </p>
-                )}
+                  {changePassword.isSuccess && (
+                    <p className="text-dark/50">
+                      {dict.alerts.settings.account.updated_password}
+                    </p>
+                  )}
 
-                {changePassword.isError && (
-                  <p className="text-dark/50">
-                    {dict.alerts.settings.account.error_password}
-                  </p>
-                )}
-              </form>
-            </div>
-          </section>
+                  {changePassword.isError && (
+                    <p className="text-dark/50">
+                      {dict.alerts.settings.account.error_password}
+                    </p>
+                  )}
+                </form>
+              </div>
+            </section>
+          </div>
         </div>
-      </div>
-    </SettingsWrapper>
+      </SettingsWrapper>
+    </>
   );
 }

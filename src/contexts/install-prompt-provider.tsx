@@ -5,6 +5,8 @@ import { AnimatePresence } from "motion/react";
 import { useContext, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { createContext } from "react";
+import { useDictionary } from "@/providers/dictionary-provider";
+import Markdown from "markdown-to-jsx"
 
 interface InstallPromptContextData {
   open: boolean;
@@ -21,6 +23,7 @@ export function InstallPromptProvider({
 }: {
   children?: React.ReactNode;
 }) {
+  const dict = useDictionary();
   const [open, setOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
@@ -131,9 +134,11 @@ export function InstallPromptProvider({
                     </div>
                   </div>
                   <span>
-                    <h1 className="text-xl font-semibold">Install App</h1>
+                    <h1 className="text-xl font-semibold">
+                      {dict.pwa.install.title}
+                    </h1>
                     <p className="text-muted-foreground text-sm">
-                      Faster access, better experience.
+                      {dict.pwa.install.subtitle}
                     </p>
                   </span>
                 </span>
@@ -149,8 +154,14 @@ export function InstallPromptProvider({
               {!clicked ? (
                 <>
                   <p className="text-sm text-black/50">
-                    Install <strong>Pombo</strong> on your home screen for a
-                    better experience, faster loading and offline features.
+                  <Markdown
+                    className="text-base font-normal"
+                    options={{
+                      overrides: { strong: { props: { className: "font-semibold" } } },
+                    }}
+                  >
+                    {dict.pwa.install.description}
+                  </Markdown>
                   </p>
                   <button
                     onClick={() =>
@@ -160,7 +171,7 @@ export function InstallPromptProvider({
                     }
                     className="bg-primary-400 cursor-pointer rounded-lg p-2 text-white shadow-sm transition-all hover:opacity-90 active:scale-95"
                   >
-                    Add to Home Screen
+                    {dict.pwa.install.actions.add_to_home}
                   </button>
                 </>
               ) : isIOS ? (
@@ -177,10 +188,10 @@ export function InstallPromptProvider({
                       </div>
                       <span>
                         <h1 className="font-semibold">
-                          1. Tap the share button
+                          {dict.pwa.instructions.ios.one}
                         </h1>
                         <p className="text-sm text-black/50">
-                          {"Look for the share icon in Safari's toolbar"}
+                          {dict.pwa.instructions.ios.one_description}
                         </p>
                       </span>
                     </li>
@@ -192,10 +203,10 @@ export function InstallPromptProvider({
                       </div>
                       <span>
                         <h1 className="font-semibold">
-                          {'2. Select "Add to Home Screen"'}
+                          {dict.pwa.instructions.ios.two}
                         </h1>
                         <p className="text-sm text-black/50">
-                          {"Scroll down in the menu to find this option"}
+                          {dict.pwa.instructions.ios.two_description}
                         </p>
                       </span>
                     </li>
@@ -206,9 +217,9 @@ export function InstallPromptProvider({
                         </div>
                       </div>
                       <span>
-                        <h1 className="font-semibold">{'3. Tap "Add"'}</h1>
+                        <h1 className="font-semibold">{dict.pwa.instructions.ios.three}</h1>
                         <p className="text-sm text-black/50">
-                          {"Confirm to add the app to your home screen"}
+                          {dict.pwa.instructions.ios.three_description}
                         </p>
                       </span>
                     </li>
@@ -218,20 +229,20 @@ export function InstallPromptProvider({
                       onClick={() => setClicked(false)}
                       className="cursor-pointer rounded-lg border border-black/10 p-2 shadow-sm transition-all hover:opacity-90 active:scale-95"
                     >
-                      Back
+                      {dict.ui.common.navigation.back}
                     </button>
                     <button
                       onClick={closePrompt}
                       className="bg-primary-400 cursor-pointer rounded-lg p-2 text-white shadow-sm transition-all hover:opacity-90 active:scale-95"
                     >
-                      Got it
+                      {dict.ui.common.buttons.got_it}
                     </button>
                   </div>
                 </>
               ) : (
                 <>
                   <p className="text-black/50">
-                    To install this app on your Android device:
+                    {dict.pwa.instructions.android.description}
                   </p>
                   <ul className="flex flex-col gap-5">
                     <li className="flex items-start gap-3">
@@ -242,10 +253,10 @@ export function InstallPromptProvider({
                       </div>
                       <span>
                         <h1 className="font-semibold">
-                          1. On Chrome, tap the three dots
+                          {dict.pwa.instructions.android.one}
                         </h1>
                         <p className="text-sm text-black/50">
-                          {"Look for the three dots in the top right corner"}
+                          {dict.pwa.instructions.android.one_description}
                         </p>
                       </span>
                     </li>
@@ -257,10 +268,10 @@ export function InstallPromptProvider({
                       </div>
                       <span>
                         <h1 className="font-semibold">
-                          {'2. Select "Add to Home Screen"'}
+                          {dict.pwa.instructions.android.two}
                         </h1>
                         <p className="text-sm text-black/50">
-                          {"Scroll down in the menu to find this option"}
+                          {dict.pwa.instructions.android.two_description}
                         </p>
                       </span>
                     </li>
@@ -271,9 +282,9 @@ export function InstallPromptProvider({
                         </div>
                       </div>
                       <span>
-                        <h1 className="font-semibold">{'3. Tap "Install"'}</h1>
+                        <h1 className="font-semibold">{dict.pwa.instructions.android.three}</h1>
                         <p className="text-sm text-black/50">
-                          {"Confirm to add the app to your home screen"}
+                          {dict.pwa.instructions.android.three_description}
                         </p>
                       </span>
                     </li>
@@ -283,13 +294,13 @@ export function InstallPromptProvider({
                       onClick={() => setClicked(false)}
                       className="cursor-pointer rounded-lg border border-black/10 p-2 shadow-sm transition-all hover:opacity-90 active:scale-95"
                     >
-                      Back
+                      {dict.ui.common.navigation.back}
                     </button>
                     <button
                       onClick={closePrompt}
                       className="bg-primary-400 cursor-pointer rounded-lg p-2 text-white shadow-sm transition-all hover:opacity-90 active:scale-95"
                     >
-                      Got it
+                      {dict.ui.common.buttons.got_it}
                     </button>
                   </div>
                 </>

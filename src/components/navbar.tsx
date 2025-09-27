@@ -296,7 +296,7 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                           <span className="material-symbols-outlined text-2xl">
                             download
                           </span>
-                          Install app
+                          {dict.pwa.install.title}
                         </button>
                       )}
                       <Link

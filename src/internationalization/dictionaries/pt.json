@@ -13,7 +13,8 @@
         "reset": "Resetar",
         "create": "Criar",
         "open": "Abrir",
-        "close": "Fechar"
+        "close": "Fechar",
+        "got_it": "Entendi"
       },
       "navigation": {
         "today": "Hoje",
@@ -70,6 +71,36 @@
   "options": {
     "title": "Opções",
     "show": "Mostrar opções"
+  },
+  "pwa": {
+    "install": {
+      "title": "Instalar aplicação",
+      "subtitle": "Melhor acesso, melhor experiência.",
+      "description": "Instala o **Pombo** no teu ecrã inicial para uma melhor experiência, carregamentos mais rápidos e funcionalidades offline.",
+      "actions": {
+        "add_to_home": "Adicionar ao Ecrã Inicial"
+      }
+    },
+    "instructions": {
+      "android": {
+        "description": "Para instalares esta aplicação no teu dispositivo Android:",
+        "one": "1. No Chrome, toca nos três pontos",
+        "one_description": "Procura os três pontos no canto superior direito",
+        "two": "2. Seleciona \"Adicionar ao Ecrã Inicial\"",
+        "two_description": "Desliza o menu para baixo até encontrares esta opção",
+        "three": "3. Toca em \"Instalar\"",
+        "three_description": "Confirma para adicionar a aplicação ao teu ecrã inicial"
+      },
+      "ios": {
+        "description": "Para instalares esta aplicação no teu dispositivo iOS:",
+        "one": "1. Toca no botão de partilha",
+        "one_description": "Procura o ícone de partilha na barra de ferramentas do Safari",
+        "two": "2. Seleciona \"Adicionar ao Ecrã Inicial\"",
+        "two_description": "Desliza o menu para baixo até encontrares esta opção",
+        "three": "3. Toca em \"Adicionar\"",
+        "three_description": "Confirma para adicionar a aplicação ao teu ecrã inicial"
+      }
+    }
   },
   "pages": {
     "events": {

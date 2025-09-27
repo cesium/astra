@@ -13,7 +13,8 @@
         "reset": "Reset",
         "create": "Create",
         "open": "Open",
-        "close": "Close"
+        "close": "Close",
+        "got_it": "Got it"
       },
       "navigation": {
         "today": "Today",
@@ -70,6 +71,36 @@
   "options": {
     "title": "Options",
     "show": "Show options"
+  },
+  "pwa": {
+    "install": {
+      "title": "Install app",
+      "subtitle": "Fast access, better experience.",
+      "description": "Instala o Pombo no teu ecrã inicial para uma melhor experiência, carregamentos mais rápidos e funcionalidades offline.",
+      "actions": {
+        "add_to_home": "Adicionar ao Ecrã Inicial"
+      }
+    },
+    "instructions": {
+      "android": {
+        "description": "To install this app on your Android device:",
+        "one": "1. On Chrome, tap the three dots",
+        "one_description": "Look for the three dots in the top right corner",
+        "two": "2. Select \"Add to Home Screen\"",
+        "two_description": "Scroll down in the menu to find this option",
+        "three": "3. Tap \"Install\"",
+        "three_description": "Confirm to add the app to you home screen"
+      },
+      "ios": {
+        "description": "To install this app on your iOS device:",
+        "one": "1. Tap the share button",
+        "one_description": "Look for the share icon in Safari's toolbar",
+        "two": "2. Select \"Add to Home Screen\"",
+        "two_description": "Scroll down in the menu to find this option",
+        "three": "3. Tap \"Add\"",
+        "three_description": "Confirm to add the app to your home screen"
+      }
+    }
   },
   "pages": {
     "events": {

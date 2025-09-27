@@ -81,8 +81,9 @@ export default function Exports() {
   const validCourse = selectedCourse !== null;
 
   return (
-    <AuthCheck userTypes={["admin", "professor"]}>
+    <>
       <title>Pombo | Exports</title>
+    <AuthCheck userTypes={["admin", "professor"]}>
 
       <SettingsWrapper title="Schedule Generator">
         <div className="flex h-full flex-col gap-8">

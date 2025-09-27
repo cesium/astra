@@ -105,6 +105,8 @@ export default function Imports() {
   };
 
   return (
+    <>
+      <title>Pombo | Imports</title>
     <AuthCheck userTypes={["admin"]}>
       <SettingsWrapper title="Import data">
         <div className="space-y-4">
