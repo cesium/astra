@@ -39,6 +39,9 @@ export function DictionaryProvider({
 
   const user = useGetUserInfo();
   const preferredLanguage = usePreferredLanguage();
+  const setHtmlLang = (lang: DictionaryLanguage) => {
+    document.documentElement.lang = lang.slice(0, 2);
+  };
 
   useEffect(() => {
     try {
@@ -50,7 +53,8 @@ export function DictionaryProvider({
     } catch {
       setLanguage("en-US");
     }
-  }, [user, preferredLanguage]);
+    setHtmlLang(language);
+  }, [user, preferredLanguage, language]);
 
   const dictionary = getDictionary(language);
   return (
