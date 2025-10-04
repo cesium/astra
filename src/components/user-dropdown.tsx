@@ -8,8 +8,10 @@ import { AnimatePresence, motion } from "motion/react";
 import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
 import { useSignOut } from "@/lib/mutations/session";
 import { firstLastName } from "@/lib/utils";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 const UserDropdown = () => {
+  const dict = useDictionary();
   const router = useRouter();
   const user = useGetUserInfo();
   const session = useGetSession();
@@ -95,7 +97,7 @@ const UserDropdown = () => {
                       <span className="material-symbols-outlined text-2xl">
                         settings
                       </span>
-                      Settings
+                      {dict.settings.title}
                     </MenuItem>
                     <MenuItem
                       as="button"
@@ -111,7 +113,7 @@ const UserDropdown = () => {
                       <span className="material-symbols-outlined text-2xl">
                         logout
                       </span>
-                      Sign out
+                      {dict.settings.sections.account.actions.sign_out}
                     </MenuItem>
                   </div>
                 </MenuItems>
@@ -125,7 +127,7 @@ const UserDropdown = () => {
         href="/auth/sign_in"
         className="text-primary-400 flex items-center gap-3"
       >
-        Sign in
+        {dict.settings.sections.account.actions.sign_in}
         <div className="bg-primary-400 flex items-center justify-center rounded-full p-0.5 text-center align-middle">
           <span className="material-symbols-outlined text-3xl text-white">
             add

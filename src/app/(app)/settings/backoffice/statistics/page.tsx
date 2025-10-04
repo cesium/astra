@@ -7,6 +7,7 @@ import SettingsWrapper from "@/components/settings-wrapper";
 import { useGetStatistics } from "@/lib/queries/backoffice";
 import { useGetAllCourses } from "@/lib/queries/courses";
 import { ICourse } from "@/lib/types";
+import { useDictionary } from "@/providers/dictionary-provider";
 import { useEffect, useMemo, useState } from "react";
 
 const getShortShiftType = (shiftType: string) => {
@@ -40,6 +41,7 @@ function formatCourses(courses: ICourse[] | undefined) {
 }
 
 export default function Statistics() {
+  const dict = useDictionary();
   const [selectedCourse, setSelectedCourse] = useState<{
     id: string;
     name: string;
@@ -92,24 +94,40 @@ export default function Statistics() {
       <SettingsWrapper title="Statistics">
         <div className="flex h-full flex-col gap-8 pb-8">
           <section className="space-y-2">
-            <h2 className="text-2xl font-semibold">Statistics</h2>
-            <p>View and analyze course statistics</p>
+            <h2 className="text-2xl font-semibold">
+              {dict.settings.sections.backoffice.modules.statistics.title}
+            </h2>
+            <p>
+              {dict.settings.sections.backoffice.modules.statistics.description}
+            </p>
           </section>
 
           <section className="space-y-10">
             <div className="max-w-2xl space-y-6">
-              <div className="space-y-1">
-                <p className="pl-2 font-semibold select-none">Courses</p>
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-2">
+                  <p className="pl-2 font-semibold select-none">
+                    {
+                      dict.settings.sections.backoffice.modules.statistics
+                        .courses
+                    }
+                  </p>
+                </div>
                 <CustomCombobox
                   items={formattedCourses}
                   selectedItem={selectedCourse}
                   setSelectedItem={setSelectedCourse}
-                  placeholder="Select a course"
+                  placeholder={dict.ui.common.placeholders.select_course}
                 />
               </div>
             </div>
             <div className="flex w-full flex-col gap-4">
-              <h3 className="text-lg font-semibold">Shift Statistics</h3>
+              <h3 className="text-lg font-semibold">
+                {
+                  dict.settings.sections.backoffice.modules.statistics
+                    .shift_statistics.title
+                }
+              </h3>
               <div className="flex flex-wrap justify-evenly gap-8 lg:justify-start">
                 {orderedShifts.map(
                   (
@@ -146,15 +164,21 @@ export default function Statistics() {
                   ),
                 )}
                 {orderedShifts.length === 0 && (
-                  <p className="text-sm text-gray-500">
-                    No statistics available for the selected course.
-                  </p>
+                  <div className="text-dark/50 flex h-32 items-center justify-center">
+                    {
+                      dict.settings.sections.backoffice.modules.statistics
+                        .shift_statistics.no_content
+                    }
+                  </div>
                 )}
               </div>
             </div>
             <div className="mb-16 flex w-full flex-col gap-4">
               <h3 className="text-lg font-semibold">
-                Overall Shifts Statistics
+                {
+                  dict.settings.sections.backoffice.modules.statistics
+                    .overall_statistics.title
+                }
               </h3>
               <div className="flex flex-wrap justify-center gap-8 sm:justify-start">
                 <CustomPieChart
@@ -202,9 +226,12 @@ export default function Statistics() {
                   mode="shifts_comparison"
                 />
                 {shifts.length === 0 && (
-                  <p className="text-sm text-gray-500">
-                    No statistics available for the selected course.
-                  </p>
+                  <div className="text-dark/50 flex h-32 items-center justify-center">
+                    {
+                      dict.settings.sections.backoffice.modules.statistics
+                        .overall_statistics.no_content
+                    }
+                  </div>
                 )}
               </div>
             </div>

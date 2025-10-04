@@ -8,8 +8,11 @@ export default function Configurations() {
       <title>Configurations | Pombo</title>
       <AuthCheck userTypes={["admin", "professor"]}>
         <SettingsWrapper title="Configuration and management">
-          <h2 className="text-xl font-semibold">Exchange Period</h2>
-          <ExchangePeriodForm />
+          <div className="flex h-full flex-col gap-8 pb-8">
+            <section className="space-y-2">
+              <ExchangePeriodForm />
+            </section>
+          </div>
         </SettingsWrapper>
       </AuthCheck>
     </>

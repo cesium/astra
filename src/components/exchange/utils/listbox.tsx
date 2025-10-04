@@ -7,6 +7,7 @@ import {
 import Card from "../../card";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 interface IExchangeListbox {
   selectedItem: string;
@@ -27,6 +28,8 @@ export default function ExchangeListbox({
   highlightText,
   arrowDown,
 }: IExchangeListbox) {
+  const dict = useDictionary();
+
   return (
     <Listbox as="div" value={selectedItem} onChange={setSelectedItem}>
       <ListboxButton
@@ -57,7 +60,7 @@ export default function ExchangeListbox({
             </span>
           ) : (
             <span className={clsx("sm:block", { hidden: rounded })}>
-              Select an item
+              {dict.ui.common.placeholders.select_item}
             </span>
           )}
           {arrowDown && rounded && (

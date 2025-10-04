@@ -5,11 +5,13 @@ import CustomSelect from "@/components/select";
 import SettingsWrapper from "@/components/settings-wrapper";
 import { useGenerateSchedule } from "@/lib/mutations/backoffice";
 import { useGetDegrees } from "@/lib/queries/backoffice";
+import { useDictionary } from "@/providers/dictionary-provider";
 import clsx from "clsx";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export default function GenerateSchedule() {
+  const dict = useDictionary();
   const { data: degrees } = useGetDegrees();
   const generateSchedule = useGenerateSchedule();
 
@@ -38,25 +40,48 @@ export default function GenerateSchedule() {
         <SettingsWrapper title="Schedule Generator">
           <div className="flex h-full flex-col gap-8">
             <section className="space-y-2">
-              <h2 className="text-2xl font-semibold">Generate new schedule</h2>
-              <p>Trigger the schedule generator with a few clicks</p>
+              <h2 className="text-2xl font-semibold">
+                {
+                  dict.settings.sections.backoffice.modules.schedule_generator
+                    .title
+                }
+              </h2>
+              <p>
+                {
+                  dict.settings.sections.backoffice.modules.schedule_generator
+                    .description
+                }
+              </p>
             </section>
 
             <section className="space-y-6">
               <div className="max-w-2xl space-y-6">
                 <div className="space-y-1">
-                  <p className="pl-2 font-semibold">Degree</p>
+                  <p className="pl-2 font-semibold">
+                    {
+                      dict.settings.sections.backoffice.modules
+                        .schedule_generator.fields.degree
+                    }
+                  </p>
                   <CustomSelect
                     items={degrees || []}
                     selectedItem={
-                      selectedDegree || { id: "", name: "Select a course" }
+                      selectedDegree || {
+                        id: "",
+                        name: `${dict.ui.common.placeholders.select_course}`,
+                      }
                     }
                     setSelectedItem={setselectedDegree}
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <p className="pl-2 font-semibold">Semester</p>
+                  <p className="pl-2 font-semibold">
+                    {
+                      dict.settings.sections.backoffice.modules
+                        .schedule_generator.fields.semester
+                    }
+                  </p>
                   <CustomSelect
                     items={[1, 2].map((semester) => ({
                       id: `semester-${semester}`,
@@ -80,7 +105,10 @@ export default function GenerateSchedule() {
                   ),
                 )}
               >
-                Generate Schedule
+                {
+                  dict.settings.sections.backoffice.modules.schedule_generator
+                    .actions.generate
+                }
               </button>
 
               {generateSchedule.isPending && (

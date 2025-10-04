@@ -1,10 +1,12 @@
 import { ToolbarProps, View } from "react-big-calendar";
 
 import { motion } from "motion/react";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 export type CustomView = View | "feed";
 
 export default function CustomToolbar(toolbar: ToolbarProps) {
+  const dict = useDictionary();
   const goToBack = () => toolbar.onNavigate("PREV");
   const goToNext = () => toolbar.onNavigate("NEXT");
   const goToToday = () => toolbar.onNavigate("TODAY");
@@ -35,7 +37,7 @@ export default function CustomToolbar(toolbar: ToolbarProps) {
           className="text-primary-400 bg-primary-400/20 hover:ring-primary-400/40 shadow-primary-400/15 inline-flex cursor-pointer items-center gap-2 rounded-full px-4 py-1.5 transition-all duration-200 ease-in-out hover:shadow-md hover:ring-1 lg:mr-38.5"
           onClick={goToToday}
         >
-          Today
+          {dict.calendar.navigation.today}
         </button>
 
         <div className="hidden items-center justify-between lg:flex">
@@ -55,7 +57,12 @@ export default function CustomToolbar(toolbar: ToolbarProps) {
         </div>
 
         <div className="flex h-8.5 items-center gap-0.5 rounded-full bg-gray-100">
-          {["month", "week", "feed", "day"].map((viewName) => (
+          {[
+            `${dict.calendar.views.month}`,
+            `${dict.calendar.views.week}`,
+            `${dict.calendar.views.feed}`,
+            `${dict.calendar.views.day}`,
+          ].map((viewName) => (
             <button
               key={viewName}
               onClick={() => toolbar.onView(viewName as View)}

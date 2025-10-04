@@ -1,0 +1,322 @@
+{
+  "ui": {
+    "common": {
+      "state": "State",
+      "or": "or",
+      "at": "at",
+      "buttons": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "submit": "Submit",
+        "edit": "Edit",
+        "clear": "Clear",
+        "reset": "Reset",
+        "create": "Create",
+        "open": "Open",
+        "close": "Close",
+        "got_it": "Got it"
+      },
+      "navigation": {
+        "today": "Today",
+        "back": "Back",
+        "next": "Next"
+      },
+      "states": {
+        "pending": "Pending",
+        "completed": "Completed",
+        "running": "Running",
+        "failed": "Failed"
+      },
+      "placeholders": {
+        "select_item": "Select an item",
+        "select_course": "Select a course",
+        "select_semester": "Select a semester"
+      },
+      "messages": {
+        "no_content": "No content to display",
+        "no_data": "No data available"
+      },
+      "time": {
+        "created": "Created",
+        "started": "Started",
+        "duration": "Duration"
+      }
+    },
+    "forms": {
+      "file_uploader": {
+        "drag": "Drag and drop your file here",
+        "open": "open a file from your computer",
+        "max_size": "Maximum Size",
+        "supports": "Supports"
+      }
+    }
+  },
+  "entities": {
+    "academic": {
+      "year": ["1st Year", "2nd Year", "3rd Year"],
+      "semester": ["1st Semester", "2nd Semester"]
+    }
+  },
+  "calendar": {
+    "views": {
+      "month": "Month",
+      "week": "Week",
+      "day": "Day",
+      "feed": "Feed"
+    },
+    "navigation": {
+      "today": "Today"
+    }
+  },
+  "options": {
+    "title": "Options",
+    "show": "Show options"
+  },
+  "pwa": {
+    "install": {
+      "title": "Install app",
+      "subtitle": "Fast access, better experience.",
+      "description": "Instala o Pombo no teu ecrã inicial para uma melhor experiência, carregamentos mais rápidos e funcionalidades offline.",
+      "actions": {
+        "add_to_home": "Adicionar ao Ecrã Inicial"
+      }
+    },
+    "instructions": {
+      "android": {
+        "description": "To install this app on your Android device:",
+        "one": "1. On Chrome, tap the three dots",
+        "one_description": "Look for the three dots in the top right corner",
+        "two": "2. Select \"Add to Home Screen\"",
+        "two_description": "Scroll down in the menu to find this option",
+        "three": "3. Tap \"Install\"",
+        "three_description": "Confirm to add the app to you home screen"
+      },
+      "ios": {
+        "description": "To install this app on your iOS device:",
+        "one": "1. Tap the share button",
+        "one_description": "Look for the share icon in Safari's toolbar",
+        "two": "2. Select \"Add to Home Screen\"",
+        "two_description": "Scroll down in the menu to find this option",
+        "three": "3. Tap \"Add\"",
+        "three_description": "Confirm to add the app to your home screen"
+      }
+    }
+  },
+  "pages": {
+    "events": {
+      "title": "Events",
+      "description": "Choose the type of events you want to see on your calendar",
+      "no_content": "There are no events to be displayed",
+      "actions": {
+        "show_options": "Show Options"
+      }
+    },
+    "schedule": {
+      "title": "Schedule",
+      "description": "Choose the courses and respective shifts you wish to attend.",
+      "no_content": "There are no shifts to be displayed",
+      "actions": {
+        "edit": "Edit Schedule",
+        "add": "Add New"
+      },
+      "status": {
+        "selected": "Selected",
+        "already_selected": "Already selected",
+        "available": "Available",
+        "available_to_add": "Available to add"
+      }
+    },
+    "exchange": {
+      "title": "Exchange",
+      "description": "Manage your shift exchange requests",
+      "actions": {
+        "create": "Create a shift exchange request",
+        "cancel_request": "Cancel request",
+        "view_state": "See exchange state"
+      },
+      "states": {
+        "pending": "Pending",
+        "no_pending": "There are no pending requests",
+        "is_pending": "Waiting for slot.",
+        "completed": "Completed",
+        "no_completed": "There are no completed requests",
+        "is_completed": "Exchange completed."
+      },
+      "period": {
+        "title": "Exchange period",
+        "messages": {
+          "in_period": "The exchange period ends on",
+          "has_ended": "The exchange period has ended",
+          "starts": "The exchange period starts on"
+        }
+      },
+      "forms": {
+        "add_request": {
+          "title": "Create a shift exchange request",
+          "fields": {
+            "curricular_unit": "Select the curricular unit",
+            "shift_type": "Select the shift type",
+            "preferred_shift": "Select your preferred shift",
+            "current_shift": "Current shift"
+          },
+          "notification": "You will be notified if the request is fulfilled successfully"
+        },
+        "state_view": {
+          "title": "Exchange request state",
+          "description": "Exchange request information",
+          "fields": {
+            "curricular_unit": "Curricular Unit",
+            "shift_type": "Shift Type",
+            "exchange": "Exchange",
+            "state": "State"
+          },
+          "info": {
+            "pending": "Your request is being processed.",
+            "completed": "This request has been completed."
+          },
+          "disclaimer": {
+            "pending": "If a suitable exchange is found, you will be notified.",
+            "completed": "You can view the details of your completed request here."
+          }
+        }
+      },
+      "overview": {
+        "title": "State",
+        "current_state": "Current state",
+        "curricular_units": "Your curricular units",
+        "shifts": "Shifts"
+      }
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "sections": {
+      "account": {
+        "title": "Account",
+        "subtitle": "Your Account",
+        "information": "Information",
+        "fields": {
+          "full_name": "Full name",
+          "email": "Email",
+          "current_password": "Current password",
+          "new_password": "New password",
+          "confirm_password": "Confirm password",
+          "language": "Language"
+        },
+        "actions": {
+          "change_password": "Change Password",
+          "change_language": "Change Language",
+          "sign_in": "Sign In",
+          "sign_out": "Sign Out"
+        }
+      },
+      "backoffice": {
+        "title": "Backoffice",
+        "modules": {
+          "configurations": {
+            "title": "Configurations",
+            "exchange": {
+              "title": "Exchange Period",
+              "start_date": "Start Date",
+              "end_date": "End Date"
+            }
+          },
+          "import": {
+            "title": "Import Data",
+            "description": "Import Excel files to update the system data. Each import can be done independently as needed.",
+            "types": {
+              "students_by_courses": {
+                "title": "Students by Courses",
+                "description": "Import student enrollment data organized by courses. Use this when students change courses or new enrollments are added."
+              },
+              "shifts_by_courses": {
+                "title": "Shifts by Courses",
+                "description": "Import class schedule data organized by courses. Use this when schedules change or new shifts are created."
+              }
+            }
+          },
+          "export": {
+            "title": "Export Blackboard groups",
+            "description": "Trigger the export of Blackboard groups with a few clicks",
+            "options": {
+              "courses": "Curricular Units",
+              "shift_groups": "Shift Groups",
+              "group_enrollments": "Group Enrollments"
+            }
+          },
+          "jobs_monitor": {
+            "title": "Jobs Monitor",
+            "description": "Track the progress and state of imports and exports in real time",
+            "recent_jobs": {
+              "title": "Recent Jobs",
+              "no_jobs": "There are no recent jobs on record",
+              "types": {
+                "import": {
+                  "shifts_by_courses": "Import shifts by courses",
+                  "students_by_courses": "Import students by courses"
+                },
+                "export": {
+                  "shifts_by_courses": "Export shifts by courses",
+                  "students_by_courses": "Export students by courses"
+                }
+              },
+              "labels": {
+                "completed": "Completed",
+                "executing": "Executing",
+                "available": "Available",
+                "retryable": "Retryable",
+                "scheduled": "Programmed",
+                "discarded": "Discarded",
+                "cancelled": "Cancelled"
+              }
+            }
+          },
+          "statistics": {
+            "title": "Statistics",
+            "description": "View and analyze course statistics",
+            "courses": "Courses",
+            "shift_statistics": {
+              "title": "Shift Statistics",
+              "no_content": "No statistics available for the selected course."
+            },
+            "overall_statistics": {
+              "title": "Overall Shifts Statistics",
+              "no_content": "No statistics available for the selected course."
+            }
+          },
+          "schedule_generator": {
+            "title": "Generate new schedule",
+            "description": "Trigger the schedule generator with a few clicks",
+            "fields": {
+              "degree": "Degree",
+              "semester": "Semester"
+            },
+            "actions": {
+              "generate": "Generate Schedule"
+            }
+          }
+        }
+      }
+    }
+  },
+  "alerts": {
+    "exchange_period": {
+      "end_before_start": "End date must be after start date.",
+      "start_in_year": "Start date must be in the year 2025.",
+      "end_in_year": "End date must be in the year 2025.",
+      "updated_successfully": "Exchange period updated successfully!",
+      "problem_updating": "There was a problem updating the exchange period."
+    },
+    "settings": {
+      "account": {
+        "at_least": "The password should have at least 12 characters.",
+        "smaller_than": "Ther password should be smaller than 72 characters.",
+        "should_match": "Passwords do not match.",
+        "updated_password": "Password successfully updated.",
+        "error_password": "There was an error while trying to update your password.",
+        "updated_language": "Language successfully updated.",
+        "error_language": "There was an error while trying to update your password."
+      }
+    }
+  }
+}

@@ -13,6 +13,11 @@ import { useChangePassword } from "@/lib/mutations/session";
 import { useGetUserInfo } from "@/lib/queries/session";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useDictionary } from "@/providers/dictionary-provider";
+import { useState } from "react";
+import { useChangePreference } from "@/lib/mutations/preferences";
+import { useGetUserPreference } from "@/lib/queries/preferences";
+import CustomCombobox from "@/components/combobox";
 
 interface IInputLineProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -57,35 +62,75 @@ function InputLine({
   );
 }
 
-const formSchema = z
-  .object({
-    current_password: z
-      .string()
-      .min(12, { message: "The password should have at least 12 characters" })
-      .max(72, {
-        message: "The password should be smaller than 72 characters",
-      }),
-    password: z
-      .string()
-      .min(12, { message: "The password should have at least 12 characters" })
-      .max(72, {
-        message: "The password should be smaller than 72 characters",
-      }),
-    password_confirmation: z
-      .string()
-      .min(12, { message: "The password should have at least 12 characters" })
-      .max(72, {
-        message: "The password should be smaller than 72 characters",
-      }),
-  })
-  .refine((data) => data.password === data.password_confirmation, {
-    path: ["password_confirmation"],
-    message: "Passwords do not match",
-  });
+function ComboboxLine({
+  label,
+  className,
+  children,
+}: {
+  label: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={twMerge(
+        clsx(
+          "justify flex flex-col gap-2 md:flex-row md:items-center",
+          className,
+        ),
+      )}
+    >
+      <Label size="large" className="text-dark/50 flex-1">
+        {label}
+      </Label>
 
-type FormSchema = z.infer<typeof formSchema>;
+      <div className="flex flex-1 flex-col">{children}</div>
+    </div>
+  );
+}
 
 export default function Account() {
+  const dict = useDictionary();
+
+  const changeLanguage = useChangePreference();
+
+  const languageOptions = [
+    { id: "en-US", name: "English" },
+    { id: "pt-PT", name: "Português" },
+  ];
+
+  const [selectedLanguage, setSelectedLanguage] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
+
+  const emptyPasswordSchema = z.object({
+    current_password: z.literal(""),
+    password: z.literal(""),
+    password_confirmation: z.literal(""),
+  });
+
+  const updateFormSchema = z
+    .object({
+      current_password: z.string().min(1, "Current password is required"),
+      password: z
+        .string()
+        .min(12, dict.alerts.settings.account.at_least)
+        .max(72, dict.alerts.settings.account.smaller_than),
+      password_confirmation: z
+        .string()
+        .min(12, dict.alerts.settings.account.at_least)
+        .max(72, dict.alerts.settings.account.smaller_than),
+    })
+    .refine((data) => data.password === data.password_confirmation, {
+      message: dict.alerts.settings.account.should_match,
+      path: ["password_confirmation"],
+    });
+
+  const formSchema = z.union([emptyPasswordSchema, updateFormSchema]);
+
+  type FormSchema = z.infer<typeof formSchema>;
+
   const {
     register,
     handleSubmit,
@@ -95,17 +140,31 @@ export default function Account() {
   });
 
   const onSubmit: SubmitHandler<FormSchema> = (data) => {
-    changePassword.mutate({ ...data });
+    if (selectedLanguage) {
+      changeLanguage.mutate({
+        language: selectedLanguage.id as "en-US" | "pt-PT",
+      });
+    }
+    if ("password" in data && data.password) {
+      changePassword.mutate({
+        current_password: data.current_password,
+        password: data.password,
+        password_confirmation: data.password_confirmation,
+      });
+    }
   };
 
+  const { data: language } = useGetUserPreference("language");
   const user = useGetUserInfo();
   const changePassword = useChangePassword();
 
   return (
     <>
-      <title>Account | Pombo</title>
-      <SettingsWrapper title="Account and profile">
+      <title>Imports | Pombo</title>
+      <SettingsWrapper title={dict.settings.sections.account.subtitle}>
         <div className="flex flex-col items-center md:items-start">
+          <title>Pombo | Account</title>
+
           <div className="w-full max-w-md space-y-5 md:max-w-none md:space-y-10">
             <section className="flex items-center justify-center gap-5 md:items-start md:justify-start md:gap-7.5">
               <Avatar
@@ -123,11 +182,13 @@ export default function Account() {
             </section>
 
             <section className="flex flex-col items-center gap-3.5 md:items-start">
-              <h2 className="text-xl font-semibold md:text-2xl">Information</h2>
+              <h2 className="text-xl font-semibold md:text-2xl">
+                {dict.settings.sections.account.information}
+              </h2>
               <div className="flex w-full max-w-3xl flex-col gap-1.5">
                 <InputLine
                   disabled
-                  label="Full Name"
+                  label={dict.settings.sections.account.fields.full_name}
                   value={user.data?.name || "user name"}
                 />
                 <InputLine
@@ -135,32 +196,61 @@ export default function Account() {
                   label="Email"
                   value={user.data?.email || "user email"}
                 />
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-1.5">
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="mt-5 mb-10 space-y-1.5"
+                >
+                  <ComboboxLine
+                    label={dict.settings.sections.account.fields.language}
+                  >
+                    <CustomCombobox
+                      autocomplete="language"
+                      items={languageOptions}
+                      selectedItem={selectedLanguage}
+                      setSelectedItem={setSelectedLanguage}
+                      placeholder={
+                        languageOptions.find(
+                          (option) => option.id === language?.data.language,
+                        )?.name || "Select a language"
+                      }
+                      inputClassName="bg-white px-2 md:p-2.5 rounded-xl w-full bg-transparent text-md outline-none placeholder:text-black/30 invalid:border-red-500 invalid:text-red-600"
+                    />
+                  </ComboboxLine>
                   <InputLine
                     id="current_password"
                     type="password"
                     className="mt-6"
-                    label="Current password"
+                    label={
+                      dict.settings.sections.account.fields.current_password
+                    }
                     value={"current_password"}
-                    placeholder="Current password"
+                    placeholder={
+                      dict.settings.sections.account.fields.current_password
+                    }
                     {...register("current_password", { required: true })}
                     errorMessage={errors.current_password?.message}
                   />
                   <InputLine
                     id="password"
                     type="password"
-                    label="New password"
+                    label={dict.settings.sections.account.fields.new_password}
                     value={"password"}
-                    placeholder="New password"
+                    placeholder={
+                      dict.settings.sections.account.fields.new_password
+                    }
                     {...register("password", { required: true })}
                     errorMessage={errors.password?.message}
                   />
                   <InputLine
                     id="password_confirmation"
                     type="password"
-                    label="Confirm password"
+                    label={
+                      dict.settings.sections.account.fields.confirm_password
+                    }
                     value={"password_confirmation"}
-                    placeholder="Confirm password"
+                    placeholder={
+                      dict.settings.sections.account.fields.confirm_password
+                    }
                     {...register("password_confirmation", { required: true })}
                     errorMessage={errors.password_confirmation?.message}
                   />
@@ -168,18 +258,18 @@ export default function Account() {
                     type="submit"
                     className="bg-primary-400 hover:bg-primary-400/95 mt-6 cursor-pointer rounded-lg px-4 py-2 font-semibold text-white transition-all duration-200 hover:scale-98 md:w-1/3"
                   >
-                    Change Password
+                    {dict.ui.common.buttons.save}
                   </button>
 
                   {changePassword.isSuccess && (
                     <p className="text-dark/50">
-                      Password Changed Successfully
+                      {dict.alerts.settings.account.updated_password}
                     </p>
                   )}
 
                   {changePassword.isError && (
                     <p className="text-dark/50">
-                      {changePassword.error.message}
+                      {dict.alerts.settings.account.error_password}
                     </p>
                   )}
                 </form>

@@ -14,6 +14,7 @@ import clsx from "clsx";
 import { IShiftsSorted } from "@/lib/types";
 
 import CustomDisclosure from "./disclosure";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 interface ICalendarOptionsProvider {
   removeShift: (id: string) => void;
@@ -128,11 +129,10 @@ function DisplayCourses({
   isEditing?: boolean;
   state?: "add" | "remove";
 }) {
+  const dict = useDictionary();
   const [isScrolledTop, setIsScrolledTop] = useState(true);
   const [isScrolledBottom, setIsScrolledBottom] = useState(false);
   const scrollableRef = useRef<HTMLDivElement>(null);
-
-  const ordinalNumbers = ["1st", "2nd", "3rd", "4th", "5th"];
 
   const handleScroll = () => {
     if (scrollableRef.current) {
@@ -153,7 +153,7 @@ function DisplayCourses({
   if (!(shiftsSorted.length > 0)) {
     return (
       <div className="text-dark/50 flex h-full justify-center pt-40">
-        There are no shifts to be displayed
+        {dict.ui.common.messages.no_content}
       </div>
     );
   } else if (state === "add") {
@@ -163,15 +163,15 @@ function DisplayCourses({
           {shiftsSorted.map((yearGroup) => (
             <CustomDisclosure
               disclosureChild
-              label={`${ordinalNumbers[yearGroup.year - 1]} Year`}
-              key={`${ordinalNumbers[yearGroup.year - 1]} Year`}
+              label={`${dict.entities.academic.year[yearGroup.year - 1]}`}
+              key={`${dict.entities.academic.year[yearGroup.year - 1]}`}
             >
               <div className="mt-1 ml-2 h-full w-full">
                 {Object.entries(yearGroup.semesters).map(
                   ([semester, courses]) => (
                     <CustomDisclosure
-                      label={`${ordinalNumbers[Number(semester) - 1]} Semester`}
-                      key={`${ordinalNumbers[Number(semester) - 1]} Semester`}
+                      label={`${dict.entities.academic.semester[Number(semester) - 1]}`}
+                      key={`${dict.entities.academic.semester[Number(semester) - 1]}`}
                     >
                       <div
                         className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4"
@@ -248,6 +248,8 @@ export default function CalendarOptions({
 }: {
   schedule?: boolean;
 }) {
+  const dict = useDictionary();
+
   const context = useContext(ScheduleContext);
 
   const {
@@ -267,26 +269,28 @@ export default function CalendarOptions({
     <CalendarOptionsContext.Provider value={{ removeShift, addShift }}>
       <AnimatedOptionsSection
         classNameOpenedSection="p-4 flex flex-col h-full"
-        titleEdit="Edit Schedule"
+        titleEdit={`${dict.ui.common.buttons.edit}`}
       >
         <section className="box-border flex h-full min-h-0 flex-1 flex-col">
           <div className="flex h-full min-h-0 flex-1 flex-col space-y-2.5">
             <div className="flex-shrink-0 px-2">
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-semibold">
-                  {schedule ? "Schedule" : "Calendar"}
+                  {schedule
+                    ? `${dict.pages.schedule.title}`
+                    : `${dict.pages.events.title}`}
                 </h3>
                 <button
                   data-edit-button
                   className="text-primary-400 cursor-pointer transition duration-300 hover:opacity-70"
                 >
-                  Edit
+                  {dict.ui.common.buttons.edit}
                 </button>
               </div>
               <p>
                 {schedule
-                  ? "Choose the courses and respective shifts you wish to attend."
-                  : "Choose the type of events you want to see on your calendar"}
+                  ? `${dict.pages.schedule.description}`
+                  : `${dict.pages.events.description}`}
               </p>
             </div>
 
@@ -305,14 +309,22 @@ export default function CalendarOptions({
             className="flex h-full w-full flex-col items-center space-y-5"
           >
             <TabsContainer>
-              <Tab name="Selected" icon="format_list_bulleted" refTo="added" />
-              <Tab name="Add New" icon="add_circle" refTo="add" />
+              <Tab
+                name={`${dict.pages.schedule.status.selected}`}
+                icon="format_list_bulleted"
+                refTo="added"
+              />
+              <Tab
+                name={`${dict.pages.schedule.status.available}`}
+                icon="add_circle"
+                refTo="add"
+              />
             </TabsContainer>
 
             <PanelContainer className="min-h-0 w-full flex-1 self-start">
               <TabPanel id="added" className="flex h-full min-h-0 flex-col">
                 <h3 className="text-dark/50 mb-4 flex-shrink-0 pl-3">
-                  Already Selected
+                  {dict.pages.schedule.status.already_selected}
                 </h3>
 
                 <div className="mb-3 flex items-center gap-3 px-2">
@@ -325,7 +337,7 @@ export default function CalendarOptions({
                     <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
                       delete
                     </span>
-                    Clear
+                    {dict.ui.common.buttons.clear}
                   </button>
 
                   <button
@@ -337,7 +349,7 @@ export default function CalendarOptions({
                     <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
                       autorenew
                     </span>
-                    Reset
+                    {dict.ui.common.buttons.reset}
                   </button>
                 </div>
 
@@ -353,7 +365,7 @@ export default function CalendarOptions({
                         onClick={saveChanges}
                         className="bg-primary-400 text-light pointer-events-auto w-36 cursor-pointer rounded-full px-1 py-2 font-semibold transition-transform duration-200 hover:scale-95"
                       >
-                        Save
+                        {dict.ui.common.buttons.save}
                       </button>
                     </div>
                   )}
@@ -361,7 +373,7 @@ export default function CalendarOptions({
               </TabPanel>
               <TabPanel id="add" className="flex h-full min-h-0 flex-col">
                 <h3 className="text-dark/50 mb-4 flex-shrink-0 pl-3">
-                  Available to add
+                  {dict.pages.schedule.status.available_to_add}
                 </h3>
 
                 <div className="mb-3 space-x-3 px-2">
@@ -374,7 +386,7 @@ export default function CalendarOptions({
                     <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
                       delete
                     </span>
-                    Clear
+                    {dict.ui.common.buttons.clear}
                   </button>
 
                   <button
@@ -386,7 +398,7 @@ export default function CalendarOptions({
                     <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
                       autorenew
                     </span>
-                    Reset
+                    {dict.ui.common.buttons.reset}
                   </button>
                 </div>
 
@@ -402,7 +414,7 @@ export default function CalendarOptions({
                         onClick={saveChanges}
                         className="bg-primary-400 text-light pointer-events-auto w-36 cursor-pointer rounded-full px-2 py-2 font-semibold transition-transform duration-200 hover:scale-95"
                       >
-                        Save
+                        {dict.ui.common.buttons.save}
                       </button>
                     </div>
                   )}

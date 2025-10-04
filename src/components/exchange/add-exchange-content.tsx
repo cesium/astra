@@ -8,6 +8,7 @@ import { useCreateExchange } from "@/lib/mutations/exchange";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ICourse } from "@/lib/types";
+import { useDictionary } from "@/providers/dictionary-provider";
 
 const getShortShiftType = (shiftType: string) => {
   switch (shiftType) {
@@ -110,6 +111,7 @@ export default function AddExchangeContent({
     selectedShiftFrom,
     selectedShiftTo,
   ]);
+  const dict = useDictionary();
 
   useEffect(() => {
     setSelectedShift("");
@@ -153,7 +155,7 @@ export default function AddExchangeContent({
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <h2 className="px-2 py-1 text-sm font-semibold">
-          Select the curricular unit
+          {dict.pages.exchange.forms.add_request.fields.curricular_unit}
         </h2>
         <ExchangeListbox
           selectedItem={selectedUC}
@@ -162,7 +164,7 @@ export default function AddExchangeContent({
           arrowDown
         />
         <h2 className="px-2 py-1 text-sm font-semibold">
-          Select the shift type
+          {dict.pages.exchange.forms.add_request.fields.shift_type}
         </h2>
         <ExchangeListbox
           selectedItem={selectedShift}
@@ -174,7 +176,7 @@ export default function AddExchangeContent({
 
       <div className="flex flex-col justify-center gap-4">
         <h2 className="px-2 text-sm font-semibold">
-          Select your preferred shift
+          {dict.pages.exchange.forms.add_request.fields.preferred_shift}
         </h2>
         <div className="flex w-full flex-col items-center gap-4 sm:flex-row">
           <div className="w-1/2">
@@ -183,7 +185,7 @@ export default function AddExchangeContent({
               setSelectedItem={setSelectedShiftFrom}
               collection={shiftsToLeave}
               rounded
-              label="Current shift"
+              label={dict.pages.exchange.forms.add_request.fields.current_shift}
             />
           </div>
           <span
@@ -198,7 +200,9 @@ export default function AddExchangeContent({
               setSelectedItem={setSelectedShiftTo}
               collection={orderedShiftsToJoin}
               rounded
-              label="Preferred shift"
+              label={
+                dict.pages.exchange.forms.add_request.fields.preferred_shift
+              }
               highlightText
             />
           </div>
@@ -210,7 +214,7 @@ export default function AddExchangeContent({
       )}
 
       <p className="text-center text-sm text-black/50">
-        You will be notified if the request is fulfilled successfully.
+        {dict.pages.exchange.forms.add_request.notification}
       </p>
 
       <button
@@ -225,7 +229,7 @@ export default function AddExchangeContent({
           ),
         )}
       >
-        Create request
+        {dict.ui.common.buttons.submit}
       </button>
     </div>
   );

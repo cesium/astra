@@ -4,11 +4,12 @@ import { AuthCheck } from "@/components/auth-check";
 import SettingsWrapper from "@/components/settings-wrapper";
 import { useListJobs } from "@/lib/queries/backoffice";
 import { IJobProps } from "@/lib/types";
+import { useDictionary } from "@/providers/dictionary-provider";
 import clsx from "clsx";
 import moment from "moment";
 import { twMerge } from "tailwind-merge";
 
-function getStateStyle(state: string) {
+function getStateStyle(state: string, dict: ReturnType<typeof useDictionary>) {
   const STATE_COLORS = {
     completed: "text-success",
     executing: "text-celeste",
@@ -29,10 +30,23 @@ function getStateStyle(state: string) {
     cancelled: "cancel",
   };
 
+  const labels =
+    dict.settings.sections.backoffice.modules.jobs_monitor.recent_jobs.labels;
+  const STATE_LABEL = {
+    completed: labels.completed,
+    executing: labels.executing,
+    available: labels.available,
+    retryable: labels.retryable,
+    scheduled: labels.scheduled,
+    discarded: labels.discarded,
+    cancelled: labels.cancelled,
+  };
+
   const textColor = STATE_COLORS[state as keyof typeof STATE_COLORS];
   const icon = STATE_ICON[state as keyof typeof STATE_ICON];
+  const label = STATE_LABEL[state as keyof typeof STATE_LABEL];
 
-  return { textColor, icon };
+  return { textColor, icon, label };
 }
 
 interface IJobCardProps {
@@ -133,6 +147,7 @@ function JobCard({
   start_at,
   completed_at,
 }: IJobCardProps) {
+  const dict = useDictionary();
   const created = moment(created_at);
   const start = start_at ? moment(start_at) : null;
   const end = completed_at ? moment(completed_at) : null;
@@ -147,7 +162,7 @@ function JobCard({
       : type === "generate"
         ? "edit_calendar"
         : "info";
-  const { textColor, icon } = getStateStyle(state);
+  const { textColor, icon, label } = getStateStyle(state, dict);
 
   return (
     <div className="border-dark/8 flex flex-col gap-6 rounded-xl border p-4 lg:flex-row lg:gap-0">
@@ -157,7 +172,7 @@ function JobCard({
 
         <div className="flex flex-1 justify-end pb-4">
           <StateTag
-            state={state}
+            state={label}
             color={textColor}
             icon={icon}
             className="inline-flex lg:hidden"
@@ -166,14 +181,25 @@ function JobCard({
       </div>
 
       <div className="flex items-center justify-end gap-6">
-        <Label title={created.format("HH:mm")} label="Created" />
-        {start && <Label title={start.format("D MMM HH:mm")} label="Started" />}
+        <Label
+          title={created.format("HH:mm")}
+          label={dict.ui.common.time.created}
+        />
+        {start && (
+          <Label
+            title={start.format("D MMM HH:mm")}
+            label={dict.ui.common.time.started}
+          />
+        )}
         {duration && (
-          <Label title={`${minutes}m ${seconds}s`} label="Duration" />
+          <Label
+            title={`${minutes}m ${seconds}s`}
+            label={dict.ui.common.time.duration}
+          />
         )}
 
         <StateTag
-          state={state}
+          state={label}
           color={textColor}
           icon={icon}
           className="hidden lg:inline-flex"
@@ -184,6 +210,8 @@ function JobCard({
 }
 
 export default function Jobs() {
+  const dict = useDictionary();
+
   function sortJobs(jobs: IJobProps[]) {
     const groupDate = jobs.reduce(
       (acc, job) => {
@@ -242,33 +270,38 @@ export default function Jobs() {
         <SettingsWrapper title="Current jobs">
           <div className="flex h-full flex-col gap-8">
             <section className="space-y-2">
-              <h2 className="text-2xl font-semibold">Monitor Your Jobs</h2>
+              <h2 className="text-2xl font-semibold">
+                {dict.settings.sections.backoffice.modules.jobs_monitor.title}
+              </h2>
               <p>
-                Track the progress and state of imports and exports in real time
+                {
+                  dict.settings.sections.backoffice.modules.jobs_monitor
+                    .description
+                }
               </p>
             </section>
 
             <section className="flex flex-wrap gap-4">
               <SummaryCard
-                title="Running"
+                title={dict.ui.common.states.running}
                 textColor="text-celeste"
                 icon="keyboard_double_arrow_right"
                 value={stateCount.executing}
               ></SummaryCard>
               <SummaryCard
-                title="Pending"
+                title={dict.ui.common.states.pending}
                 textColor="text-primary-400"
                 icon="schedule"
                 value={stateCount.available}
               ></SummaryCard>
               <SummaryCard
-                title="Complete"
+                title={dict.ui.common.states.completed}
                 textColor="text-success"
                 icon="task_alt"
                 value={stateCount.completed}
               ></SummaryCard>
               <SummaryCard
-                title="Failed"
+                title={dict.ui.common.states.failed}
                 textColor="text-danger"
                 icon="cancel"
                 value={stateCount.discarded}
@@ -276,7 +309,12 @@ export default function Jobs() {
             </section>
 
             <section className="border-dark/5 flex h-full min-h-0 w-full flex-col gap-6 rounded-xl border p-3 shadow-sm md:p-6">
-              <h2 className="text-lg font-semibold">Recent Jobs</h2>
+              <h2 className="text-lg font-semibold">
+                {
+                  dict.settings.sections.backoffice.modules.jobs_monitor
+                    .recent_jobs.title
+                }
+              </h2>
 
               {jobsList && jobsList.length > 0 ? (
                 <div className="h-full overflow-y-scroll">
@@ -305,7 +343,10 @@ export default function Jobs() {
                 </div>
               ) : (
                 <div className="text-dark/50 flex h-full w-full items-center justify-center pb-24">
-                  There are no recent jobs on record
+                  {
+                    dict.settings.sections.backoffice.modules.jobs_monitor
+                      .recent_jobs.no_jobs
+                  }
                 </div>
               )}
             </section>

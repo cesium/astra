@@ -9,6 +9,7 @@ import {
 } from "@/lib/queries/backoffice";
 import { useGetAllCourses } from "@/lib/queries/courses";
 import { ICourse } from "@/lib/types";
+import { useDictionary } from "@/providers/dictionary-provider";
 import clsx from "clsx";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -45,6 +46,7 @@ function formatCourses(courses: ICourse[] | undefined) {
 }
 
 export default function Exports() {
+  const dict = useDictionary();
   const [selectedCourse, setSelectedCourse] = useState<{
     id: string;
     name: string;
@@ -80,21 +82,28 @@ export default function Exports() {
 
   return (
     <>
-      <title>Exports | Pombo</title>
+      <title>Pombo | Exports</title>
       <AuthCheck userTypes={["admin", "professor"]}>
         <SettingsWrapper title="Schedule Generator">
           <div className="flex h-full flex-col gap-8">
             <section className="space-y-2">
               <h2 className="text-2xl font-semibold">
-                Export Blackboard groups
+                {dict.settings.sections.backoffice.modules.export.title}
               </h2>
-              <p>Trigger the export of Blackboard groups with a few clicks</p>
+              <p>
+                {dict.settings.sections.backoffice.modules.export.description}
+              </p>
             </section>
 
             <section className="space-y-6">
               <div className="max-w-2xl space-y-6">
                 <div className="space-y-1">
-                  <p className="pl-2 font-semibold select-none">Courses</p>
+                  <p className="pl-2 font-semibold select-none">
+                    {
+                      dict.settings.sections.backoffice.modules.export.options
+                        .courses
+                    }
+                  </p>
                   <CustomCombobox
                     items={formattedCourses}
                     selectedItem={selectedCourse}
@@ -116,10 +125,15 @@ export default function Exports() {
                     ),
                   )}
                 >
-                  Shift Groups
+                  {
+                    dict.settings.sections.backoffice.modules.export.options
+                      .shift_groups
+                  }
                 </button>
 
-                <span className="text-dark/80 font-semibold">or</span>
+                <span className="text-dark/80 font-semibold">
+                  {dict.ui.common.or}
+                </span>
 
                 <button
                   disabled={!validCourse}
@@ -133,7 +147,10 @@ export default function Exports() {
                     ),
                   )}
                 >
-                  Group Enrollments
+                  {
+                    dict.settings.sections.backoffice.modules.export.options
+                      .group_enrollments
+                  }
                 </button>
               </div>
 
