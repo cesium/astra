@@ -13,6 +13,7 @@ import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface ICustomCombobox {
+  autocomplete?: string;
   items: IItemProps[];
   selectedItem: IItemProps | null;
   setSelectedItem: (item: IItemProps | null) => void;
@@ -22,6 +23,7 @@ interface ICustomCombobox {
 }
 
 export default function CustomCombobox({
+  autocomplete,
   items,
   selectedItem,
   setSelectedItem,
@@ -46,6 +48,7 @@ export default function CustomCombobox({
     >
       <div className={clsx("relative", className)}>
         <ComboboxInput
+          autoComplete={autocomplete}
           aria-label="Assignee"
           placeholder={placeholder}
           displayValue={(item: IItemProps) => item?.name || ""}
