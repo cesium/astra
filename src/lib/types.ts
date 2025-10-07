@@ -84,10 +84,20 @@ export interface IEvent {
   start: string;
   end: string;
   place: string;
-  link?: { label: string; href: string };
+  link?: string;
   eventColor: string;
   textColor: string;
   allDay?: boolean;
+}
+
+export interface IEventResponse {
+  id: number;
+  title: string;
+  category: string;
+  start: string;
+  end: string;
+  place: string;
+  link?: string
 }
 
 export interface IJobProps {

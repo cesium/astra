@@ -4,19 +4,19 @@ import EventHeader from "../common/item-card";
 import ScrollableContainer from "../common/scrollable-container";
 
 export default function DisplayEvents({
-  itemsSorted,
+  items,
   isEditing = false,
   state,
   onAction,
 }: {
-  itemsSorted: IEvent[];
+  items: IEvent[];
   isEditing?: boolean;
   state?: "add" | "remove";
   onAction?: (id: string) => void;
 }) {
   const ordinalNumbers = ["1st", "2nd", "3rd", "4th", "5th"];
 
-  if (!(itemsSorted.length > 0)) {
+  if (!(items.length > 0)) {
     return (
       <div className="text-dark/50 flex h-full justify-center pt-40">
         There are no events to be displayed
@@ -30,7 +30,7 @@ export default function DisplayEvents({
     );
   } else {
     return (
-      <ScrollableContainer items={itemsSorted}>
+      <ScrollableContainer items={items}>
         {/*content here*/}
         <></>
       </ScrollableContainer>

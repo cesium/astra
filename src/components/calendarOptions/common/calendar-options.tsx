@@ -27,7 +27,7 @@ interface ICalendarOptionsProps<T, sortedT> {
   description: string;
 
   DisplayComponent: React.ComponentType<{
-    itemsSorted: sortedT[];
+    items: sortedT[];
     isEditing?: boolean;
     state?: "add" | "remove";
     onAction?: (id: string) => void;
@@ -123,7 +123,7 @@ export default function CalendarOptions<T, sortedT>({
           </div>
 
           <div className="h-full min-h-0">
-            <DisplayComponent itemsSorted={sortItems(currentItems)} />
+            <DisplayComponent items={sortItems(currentItems)} />
           </div>
         </div>
       </section>
@@ -150,7 +150,7 @@ export default function CalendarOptions<T, sortedT>({
               <div className="relative min-h-0 flex-1">
                 <DisplayComponent
                   isEditing
-                  itemsSorted={sortItems(editingItems)}
+                  items={sortItems(editingItems)}
                   state="remove"
                   onAction={removeItem}
                 />
@@ -168,7 +168,7 @@ export default function CalendarOptions<T, sortedT>({
               <div className="relative h-full min-h-0">
                 <DisplayComponent
                   isEditing
-                  itemsSorted={sortItems(itemsToAdd)}
+                  items={sortItems(itemsToAdd)}
                   state="add"
                   onAction={addItem}
                 />

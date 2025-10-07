@@ -4,19 +4,19 @@ import EventHeader from "../common/item-card";
 import ScrollableContainer from "../common/scrollable-container";
 
 export default function DisplayShifts({
-  itemsSorted,
+  items,
   isEditing = false,
   state,
   onAction,
 }: {
-  itemsSorted: IShiftsSorted;
+  items: IShiftsSorted;
   isEditing?: boolean;
   state?: "add" | "remove";
   onAction?: (id: string) => void;
 }) {
   const ordinalNumbers = ["1st", "2nd", "3rd", "4th", "5th"];
 
-  if (!(itemsSorted.length > 0)) {
+  if (!(items.length > 0)) {
     return (
       <div className="text-dark/50 flex h-full justify-center pt-40">
         There are no shifts to be displayed
@@ -26,7 +26,7 @@ export default function DisplayShifts({
     return (
       <div className="no-scrollbar h-full overflow-y-scroll pb-14">
         <div>
-          {itemsSorted.map((yearGroup) => (
+          {items.map((yearGroup) => (
             <CustomDisclosure
               disclosureChild
               label={`${ordinalNumbers[yearGroup.year - 1]} Year`}
@@ -65,8 +65,8 @@ export default function DisplayShifts({
     );
   } else {
     return (
-      <ScrollableContainer items={itemsSorted}>
-        {itemsSorted.map((yearGroup) =>
+      <ScrollableContainer items={items}>
+        {items.map((yearGroup) =>
           Object.entries(yearGroup.semesters).map(([, courses]) =>
             Object.entries(courses).map(([courseID, courseData]) => (
               <EventHeader
