@@ -97,7 +97,7 @@ export interface IEventResponse {
   start: string;
   end: string;
   place: string;
-  link?: string
+  link?: string;
 }
 
 export interface IJobProps {

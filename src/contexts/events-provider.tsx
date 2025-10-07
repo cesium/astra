@@ -14,9 +14,9 @@ interface IEventsProvider {
 function formatEvents(events: IEventResponse[]) {
   return events.map((event) => {
     const start = moment(event.start);
-    const end = moment(event.end)
+    const end = moment(event.end);
 
-    const allday = moment.duration(end.diff(start)).asHours() > 24 
+    const allday = moment.duration(end.diff(start)).asHours() > 24;
 
     return {
       id: event.id,
@@ -28,9 +28,9 @@ function formatEvents(events: IEventResponse[]) {
       link: event.link,
       eventColor: "",
       textColor: "",
-      allDay: allday
-    }
-  })
+      allDay: allday,
+    };
+  });
 }
 
 export const EventsContext = createContext<IEventsProvider>({
@@ -43,8 +43,8 @@ export function EventsProvider({ children }: { children: React.ReactNode }) {
   const [hasChanges, setHasChanges] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const {data: allEvents} = useGetEvents();
-  console.log(allEvents)
+  const { data: allEvents } = useGetEvents();
+  console.log(allEvents);
 
   return (
     <EventsContext.Provider value={{ hasChanges, isEditing, setIsEditing }}>
