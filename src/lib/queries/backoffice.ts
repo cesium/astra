@@ -3,6 +3,7 @@ import {
   exportGroupEnrollments,
   exportShiftGroups,
   getDegrees,
+  getStudentById,
   getStudentScheduleById,
   listJobs,
   listStudents,
@@ -53,4 +54,11 @@ export function useGetStudentScheduleById(studentId: string) {
     queryKey: [`student-${studentId}-schedule`, studentId],
     queryFn: () => getStudentScheduleById(studentId),
   });
+}
+
+export function useGetStudentById(id: string) {
+  return useQuery({
+    queryKey: ["student", id],
+    queryFn: () => getStudentById(id),
+  })
 }

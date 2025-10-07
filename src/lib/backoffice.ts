@@ -74,3 +74,14 @@ export async function getStudentScheduleById(student_id: string) {
     );
   }
 }
+
+export async function getStudentById(id: string) {
+  try {
+    const res = await api.get(`/student/${id}`);
+    return res.data.student;
+  } catch {
+    throw new Error(
+      `Failed to get student with id-${id}. Please try again later.`,
+    );
+  }
+}

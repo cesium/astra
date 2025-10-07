@@ -8,6 +8,7 @@ import {
   FlopMetaParams,
   FlopMetaResponse,
   SortDirection,
+  Student,
   User,
 } from "@/lib/types";
 import { firstLastName } from "@/lib/utils";
@@ -133,23 +134,23 @@ function TableContent({ children }: { children: React.ReactNode }) {
   return <div className="divide-dark/10 divide-y">{children}</div>;
 }
 
-function UserCard({ user }: { user: User }) {
+function UserCard({ student }: { student: Student }) {
   return (
     <div className="grid grid-cols-[1fr_1fr_1fr_25px] items-center px-4 py-2 lg:grid-cols-5">
       <div className="flex items-center gap-4">
-        <Avatar name={user.name} className="hidden size-12 lg:block" />
-        <p>{firstLastName(user.name)}</p>
+        <Avatar name={student.user.name} className="hidden size-12 lg:block" />
+        <p>{firstLastName(student.user.name)}</p>
       </div>
 
-      <p className="text-center lg:text-start">{user.student?.number}</p>
+      <p className="text-center lg:text-start">{student.number}</p>
 
-      <p className="hidden lg:block">{user.email}</p>
+      <p className="hidden lg:block">{student.user.email}</p>
 
-      <p className="text-center">{user.student?.special_status}</p>
+      <p className="text-center">{student.special_status}</p>
 
       <div className="text-end">
         <Link
-          href={`/settings/backoffice/students/${user.student?.id}`}
+          href={`/settings/backoffice/students/${student.id}`}
           className="w-fit"
         >
           <span className="material-symbols-outlined text-end text-xl transition-all duration-200 hover:text-lg">
@@ -344,8 +345,8 @@ export default function Students() {
                         Loading...
                       </p>
                     ) : studentsList.length > 0 ? (
-                      studentsList.map((user: User) => (
-                        <UserCard key={user.id} user={user} />
+                      studentsList.map((student: Student) => (
+                        <UserCard key={student.id} student={student} />
                       ))
                     ) : (
                       <p className="text-dark/50 py-32 text-center">No users</p>

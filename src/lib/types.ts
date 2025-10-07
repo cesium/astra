@@ -4,19 +4,19 @@ export enum UserType {
   professor,
 }
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  type: string;
-  student?: Student;
-}
-
 export interface Student {
   id: string;
   number: string;
   degree_year: number | null;
   special_status: string;
+  user: User;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  type: string;
 }
 
 export interface ITimeSlot {
