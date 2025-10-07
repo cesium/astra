@@ -1,5 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCategories, getCategoryById, getEventById, getEvents } from "../events";
+import {
+  getCategories,
+  getCategoryById,
+  getEventById,
+  getEvents,
+} from "../events";
 
 export function useGetEvents() {
   return useQuery({
@@ -28,5 +33,3 @@ export function useGetCategoryById(id: string) {
     queryFn: () => getCategoryById(id),
   });
 }
-
-

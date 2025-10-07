@@ -60,5 +60,5 @@ export function useGetStudentById(id: string) {
   return useQuery({
     queryKey: ["student", id],
     queryFn: () => getStudentById(id),
-  })
+  });
 }

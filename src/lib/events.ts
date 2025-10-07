@@ -14,7 +14,9 @@ export async function getEventById(id: string) {
     const res = await api.get(`/events/${id}`);
     return res.data.events;
   } catch {
-    throw new Error(`Failed to fetch event with id-${id}. Please try again later.`);
+    throw new Error(
+      `Failed to fetch event with id-${id}. Please try again later.`,
+    );
   }
 }
 
@@ -32,6 +34,8 @@ export async function getCategoryById(id: string) {
     const res = await api.get(`/event_categories/${id}`);
     return res.data.categories;
   } catch {
-    throw new Error(`Failed to fetch category with id-${id}. Please try again later.`);
+    throw new Error(
+      `Failed to fetch category with id-${id}. Please try again later.`,
+    );
   }
 }

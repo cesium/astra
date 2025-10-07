@@ -9,7 +9,6 @@ import {
   FlopMetaResponse,
   SortDirection,
   Student,
-  User,
 } from "@/lib/types";
 import { firstLastName } from "@/lib/utils";
 import clsx from "clsx";

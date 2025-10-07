@@ -9,7 +9,10 @@ import TabsGroup, {
   TabPanel,
 } from "@/components/tabs";
 import { useForgotPassword } from "@/lib/mutations/session";
-import { useGetStudentById, useGetStudentScheduleById } from "@/lib/queries/backoffice";
+import {
+  useGetStudentById,
+  useGetStudentScheduleById,
+} from "@/lib/queries/backoffice";
 import { extractShifts, formatIShift } from "@/lib/utils";
 import clsx from "clsx";
 import { useParams } from "next/navigation";
@@ -17,15 +20,16 @@ import { twMerge } from "tailwind-merge";
 
 export default function Student() {
   const params = useParams();
-  
-  const { data: student} = useGetStudentById(params.student_id as string);
 
-  const { data: studentSchedule } = useGetStudentScheduleById(params.student_id as string);
+  const { data: student } = useGetStudentById(params.student_id as string);
+
+  const { data: studentSchedule } = useGetStudentScheduleById(
+    params.student_id as string,
+  );
 
   const formattedShifts = formatIShift(extractShifts(studentSchedule || []));
 
   const forgotPassword = useForgotPassword();
-
 
   return (
     <SettingsWrapper title={"Manage Student | Pombo"}>
@@ -58,22 +62,27 @@ export default function Student() {
                   }
                 }}
                 disabled={!student?.user.email}
-                className={twMerge(clsx(
-                  "w-s rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
-                  !student?.user.email ? "bg-gray-400 cursor-not-allowed" : "cursor-pointer bg-primary-400 hover:scale-98 hover:bg-primary-400/95")
+                className={twMerge(
+                  clsx(
+                    "w-s rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
+                    !student?.user.email
+                      ? "cursor-not-allowed bg-gray-400"
+                      : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
+                  ),
                 )}
               >
                 Trigger Forgot Password
               </button>
 
               {forgotPassword.isSuccess && (
-                <p className="mt-4">Forgot Password Email was sent to the user</p>
+                <p className="mt-4">
+                  Forgot Password Email was sent to the user
+                </p>
               )}
 
               {forgotPassword.isError && (
                 <p className="mt-4">Something went wrong</p>
               )}
-
             </TabPanel>
             <TabPanel id="schedule" className="flex h-full min-h-0 flex-col">
               <div
