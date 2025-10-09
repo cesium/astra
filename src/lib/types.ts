@@ -80,7 +80,7 @@ export type IShiftsSorted = {
 export interface IEvent {
   id: number;
   title: string;
-  category: string;
+  category: IEventCategory;
   start: string;
   end: string;
   place: string;
@@ -93,7 +93,7 @@ export interface IEvent {
 export interface IEventResponse {
   id: number;
   title: string;
-  category: string;
+  category: IEventCategory;
   start: string;
   end: string;
   place: string;
@@ -109,3 +109,15 @@ export interface IJobProps {
   inserted_at: Date;
   user_id: string;
 }
+
+export interface IEventCategory {
+  id: string;
+  name: string;
+  color: string;
+  course?: ICourse;
+}
+
+export type IEventCategoriesSorted = {
+  year?: number;
+  categories: IEventCategory[];
+}[];

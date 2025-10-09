@@ -23,7 +23,7 @@ export async function getEventById(id: string) {
 export async function getCategories() {
   try {
     const res = await api.get("/event_categories");
-    return res.data.categories;
+    return res.data.event_categories;
   } catch {
     throw new Error(`Failed to fetch categories. Please try again later.`);
   }
@@ -32,7 +32,7 @@ export async function getCategories() {
 export async function getCategoryById(id: string) {
   try {
     const res = await api.get(`/event_categories/${id}`);
-    return res.data.categories;
+    return res.data.event_categories;
   } catch {
     throw new Error(
       `Failed to fetch category with id-${id}. Please try again later.`,

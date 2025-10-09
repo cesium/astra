@@ -10,6 +10,7 @@
         "@tanstack/react-query-devtools": "^5.84.1",
         "axios": "^1.10.0",
         "clsx": "^2.1.1",
+        "contrast-color-generator": "^0.1.1",
         "jwt-decode": "^4.0.0",
         "mime-types": "^3.0.1",
         "motion": "^12.23.12",
@@ -627,6 +628,8 @@
     "combined-stream": ["combined-stream@1.0.8", "", { "dependencies": { "delayed-stream": "~1.0.0" } }, "sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg=="],
 
     "concat-map": ["concat-map@0.0.1", "", {}, "sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg=="],
+
+    "contrast-color-generator": ["contrast-color-generator@0.1.1", "", {}, "sha512-hVoHzESrQFuGvzIy1GCLkMJwRD4bLw3uBcBNMbjJmtWneZF7hvRejGhrQs9JS0j3uMrk7PfA4skOwq4481xIJw=="],
 
     "convert-source-map": ["convert-source-map@2.0.0", "", {}, "sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg=="],
 

@@ -1,15 +1,15 @@
 import CustomDisclosure from "@/components/disclosure";
-import { IEvent } from "@/lib/types";
+import { IEventCategoriesSorted } from "@/lib/types";
 import EventHeader from "../common/item-card";
 import ScrollableContainer from "../common/scrollable-container";
 
-export default function DisplayEvents({
+export default function DisplayCategories({
   items,
   isEditing = false,
   state,
   onAction,
 }: {
-  items: IEvent[];
+  items: IEventCategoriesSorted;
   isEditing?: boolean;
   state?: "add" | "remove";
   onAction?: (id: string) => void;
@@ -24,15 +24,60 @@ export default function DisplayEvents({
     );
   } else if (state === "add") {
     return (
-      <div className="no-scrollbar h-full overflow-y-scroll">
-        {/*content here*/}
+      <div className="no-scrollbar h-full overflow-y-scroll pb-14">
+        {items.map((yearGroup) =>
+          yearGroup.year ? (
+            <CustomDisclosure
+              label={`${ordinalNumbers[yearGroup.year - 1]} Year`}
+              key={`${ordinalNumbers[yearGroup.year - 1]} Year`}
+            >
+              <div className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4">
+                {yearGroup.categories.map((category) => (
+                    <EventHeader
+                      key={category.id}
+                      name={category.name}
+                      color={category.color}
+                      isEditing={isEditing}
+                      state={state}
+                      onAction={onAction}
+                    />
+                  ))}
+              </div>
+            </CustomDisclosure>
+          ) : (
+            <CustomDisclosure label="Other" key="Other">
+              <div className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4">
+                {yearGroup.categories.map((category) => (
+                    <EventHeader
+                      key={category.id}
+                      name={category.name}
+                      color={category.color}
+                      isEditing={isEditing}
+                      state={state}
+                      onAction={onAction}
+                    />
+                  ))}
+              </div>
+            </CustomDisclosure>
+          ),
+        )}
       </div>
     );
   } else {
     return (
       <ScrollableContainer items={items}>
-        {/*content here*/}
-        <></>
+        {items.flatMap((yearGroup) =>
+          yearGroup.categories.map((category) => (
+            <EventHeader
+              key={category.id}
+              name={category.name}
+              color={category.color}
+              isEditing={isEditing}
+              state={state}
+              onAction={onAction}
+            />
+          )),
+        )}
       </ScrollableContainer>
     );
   }

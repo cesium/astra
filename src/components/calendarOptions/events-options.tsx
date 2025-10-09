@@ -3,19 +3,25 @@
 import { useContext } from "react";
 
 import { EventsContext } from "@/contexts/events-provider";
-import DisplayEvents from "./events/display-events";
 import CalendarOptions from "./common/calendar-options";
+import DisplayCategories from "./events/display-events";
 
 export default function EventsOptions() {
   const context = useContext(EventsContext);
 
-  const { hasChanges, isEditing, setIsEditing } = context;
+  const {
+    hasChanges,
+    isEditing,
+    setIsEditing,
+    allCategories,
+    sortCategoriesByYear,
+  } = context;
 
   return (
     <CalendarOptions
-      currentItems={[]} //todo
-      editingItems={[]}
-      itemsToAdd={[]}
+      currentItems={allCategories ?? []} //todo
+      editingItems={allCategories ?? []}
+      itemsToAdd={allCategories ?? []}
       isEditing={isEditing}
       hasChanges={hasChanges}
       setIsEditing={setIsEditing}
@@ -27,8 +33,8 @@ export default function EventsOptions() {
       resetItems={() => {}}
       title="Calendar"
       description="Select the types of events you want to see on your calendar."
-      DisplayComponent={DisplayEvents}
-      sortItems={(items) => items}
+      DisplayComponent={DisplayCategories}
+      sortItems={sortCategoriesByYear}
     />
   );
 }

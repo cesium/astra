@@ -19,6 +19,7 @@
     "@tanstack/react-query-devtools": "^5.84.1",
     "axios": "^1.10.0",
     "clsx": "^2.1.1",
+    "contrast-color-generator": "^0.1.1",
     "jwt-decode": "^4.0.0",
     "mime-types": "^3.0.1",
     "motion": "^12.23.12",
