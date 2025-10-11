@@ -68,7 +68,7 @@ export function ShiftsListbox({
         <div className={clsx("flex-1")}>
           <h3 className="text-xs sm:text-sm">{label}</h3>
           {selectedItem ? (
-            <span className={clsx("block text-lg")}>
+            <span className={clsx("block text-lg text-black")}>
               {collection.find((item) => item.id === selectedItem)?.name}
             </span>
           ) : (
