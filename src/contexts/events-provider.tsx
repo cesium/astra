@@ -12,6 +12,7 @@ import {
   IEventCategory,
   IEventResponse,
 } from "@/lib/types";
+import { getContrastColor } from "@/lib/utils";
 import moment from "moment";
 import { createContext, useEffect, useState } from "react";
 
@@ -35,11 +36,6 @@ interface IEventsProvider {
     categories: IEventCategory[],
   ) => IEventCategoriesSorted;
 }
-
-const { Generator } = require("contrast-color-generator");
-const generator = new Generator(0, {
-  minimumRatio: 4,
-});
 
 function sortCategoriesByYear(
   categories: IEventCategory[],
@@ -121,7 +117,7 @@ function formatEvents(events: IEventResponse[]) {
       place: event.place,
       link: event.link,
       eventColor: event.category.color,
-      textColor: generator.generate(event.category.color).hexStr,
+      textColor: getContrastColor(event.category.color, 5),
       allDay: allday,
     };
   });

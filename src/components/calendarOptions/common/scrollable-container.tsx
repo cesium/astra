@@ -2,17 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 
-interface ScrollableContainerProps {
+interface ScrollableContainerProps<T> {
   children: React.ReactNode;
   className?: string;
-  items: any[]; //fixme
+  items: T[];
 }
 
-export default function ScrollableContainer({
+export default function ScrollableContainer<T>({
   children,
   className,
   items,
-}: ScrollableContainerProps) {
+}: ScrollableContainerProps<T>) {
   const [isScrolledTop, setIsScrolledTop] = useState(true);
   const [isScrolledBottom, setIsScrolledBottom] = useState(false);
   const scrollableRef = useRef<HTMLDivElement>(null);
