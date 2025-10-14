@@ -39,3 +39,31 @@ export async function getCategoryById(id: string) {
     );
   }
 }
+
+export async function getSelectedCateries() {
+  try {
+    const res = await api.get("/event_categories/selected");
+    return res.data.event_categories;
+  } catch {
+    throw new Error(
+      `Failed to fetch selected categories. Please try again later.`,
+    );
+  }
+}
+
+export async function updateStudentCategories({
+  event_categories,
+}: {
+  event_categories: string[];
+}) {
+  try {
+    const res = await api.post("/event_categories/selected", {
+      event_categories,
+    });
+    return res.data.event_categories;
+  } catch {
+    throw new Error(
+      "Failed to update student categories. Please try again later.",
+    );
+  }
+}

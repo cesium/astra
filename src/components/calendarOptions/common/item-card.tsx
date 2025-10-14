@@ -34,6 +34,7 @@ function ShiftTag({
 export default function EventHeader({
   name,
   color,
+  eventId,
   shifts,
   isEditing,
   state,
@@ -41,6 +42,7 @@ export default function EventHeader({
 }: {
   name: string;
   color: string;
+  eventId?: string;
   shifts?: {
     id: string;
     type: string;
@@ -59,7 +61,7 @@ export default function EventHeader({
         />
         <p className="max-w-2xs flex-1 truncate">{name}</p>
         {!shifts && isEditing && (
-          <ActionButton state={state!} onAction={onAction} />
+          <ActionButton state={state!} onAction={onAction} id={eventId} />
         )}
       </div>
       <div className="flex w-fit flex-wrap gap-2 pr-2">

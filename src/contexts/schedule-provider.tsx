@@ -226,8 +226,8 @@ export function ScheduleProvider({ children }: { children: React.ReactNode }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   function extractIds(shifts: IShift[]): string[] {
-    const Ids = new Set(shifts.map((shift) => shift.id));
-    return Array.from(Ids);
+    const Ids = shifts.map((shift) => shift.id);
+    return Ids;
   }
 
   function filterCurrentSchedule(

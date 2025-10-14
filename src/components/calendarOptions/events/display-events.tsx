@@ -15,6 +15,7 @@ export default function DisplayCategories({
   onAction?: (id: string) => void;
 }) {
   const ordinalNumbers = ["1st", "2nd", "3rd", "4th", "5th"];
+  console.log("Items:", items);
 
   if (!(items.length > 0)) {
     return (
@@ -33,32 +34,36 @@ export default function DisplayCategories({
             >
               <div className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4">
                 {yearGroup.categories.map((category) => (
-                    <EventHeader
-                      key={category.id}
-                      name={category.name}
-                      color={category.color}
-                      isEditing={isEditing}
-                      state={state}
-                      onAction={onAction}
-                    />
-                  ))}
+                  <EventHeader
+                    key={category.id}
+                    name={category.name}
+                    eventId={category.id}
+                    color={category.color}
+                    isEditing={isEditing}
+                    state={state}
+                    onAction={onAction}
+                  />
+                ))}
               </div>
             </CustomDisclosure>
           ) : (
-            <CustomDisclosure label="Other" key="Other">
-              <div className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4">
-                {yearGroup.categories.map((category) => (
+            yearGroup.categories.length > 0 && (
+              <CustomDisclosure label="Other" key="Other">
+                <div className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4">
+                  {yearGroup.categories.map((category) => (
                     <EventHeader
                       key={category.id}
                       name={category.name}
+                      eventId={category.id}
                       color={category.color}
                       isEditing={isEditing}
                       state={state}
                       onAction={onAction}
                     />
                   ))}
-              </div>
-            </CustomDisclosure>
+                </div>
+              </CustomDisclosure>
+            )
           ),
         )}
       </div>
@@ -71,6 +76,7 @@ export default function DisplayCategories({
             <EventHeader
               key={category.id}
               name={category.name}
+              eventId={category.id}
               color={category.color}
               isEditing={isEditing}
               state={state}

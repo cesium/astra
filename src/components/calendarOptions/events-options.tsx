@@ -10,27 +10,33 @@ export default function EventsOptions() {
   const context = useContext(EventsContext);
 
   const {
+    selectedCategories,
+    activeCategories,
+    setActiveCategories,
+    categoriesToAdd,
+    removeCategory,
+    addCategory,
     hasChanges,
+    saveChanges,
     isEditing,
     setIsEditing,
-    allCategories,
     sortCategoriesByYear,
   } = context;
 
   return (
     <CalendarOptions
-      currentItems={allCategories ?? []} //todo
-      editingItems={allCategories ?? []}
-      itemsToAdd={allCategories ?? []}
+      currentItems={selectedCategories} //todo
+      editingItems={activeCategories}
+      itemsToAdd={categoriesToAdd}
       isEditing={isEditing}
       hasChanges={hasChanges}
       setIsEditing={setIsEditing}
-      setEditingItems={() => {}}
-      removeItem={() => {}}
-      addItem={() => {}}
-      saveChanges={() => {}}
-      clearItems={() => {}}
-      resetItems={() => {}}
+      setEditingItems={setActiveCategories}
+      removeItem={removeCategory}
+      addItem={addCategory}
+      saveChanges={saveChanges}
+      clearItems={() => setActiveCategories([])}
+      resetItems={() => setActiveCategories(selectedCategories)}
       title="Calendar"
       description="Select the types of events you want to see on your calendar."
       DisplayComponent={DisplayCategories}

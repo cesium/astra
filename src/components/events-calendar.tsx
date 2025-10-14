@@ -9,10 +9,10 @@ import { EventsContext } from "@/contexts/events-provider";
 export default function EventsCalendar() {
   const context = useContext(EventsContext);
 
-  const { isEditing, editingEvents = [] } = context;
+  const { isEditing, activeEvents = [] } = context;
 
   // Converts an IEvent to an Event
-  const formattedEvents = editingEvents.map((event) => {
+  const formattedEvents = activeEvents.map((event) => {
     return {
       title: event.title,
       start: moment(event.start).toDate(),
