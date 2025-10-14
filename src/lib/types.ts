@@ -8,6 +8,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  type: string;
 }
 
 export interface ITimeSlot {
@@ -15,8 +16,8 @@ export interface ITimeSlot {
   start: string;
   end: string;
   weekday: string;
-  room: string;
-  building: string;
+  room: string | null;
+  building: string | null;
 }
 
 export interface IShiftResponse {
@@ -25,6 +26,7 @@ export interface IShiftResponse {
   number: number;
   professor?: string | null;
   timeslots: ITimeSlot[];
+  enrollment_status: "active" | "inactive" | "override" | null;
 }
 
 export interface ICourse {
@@ -49,13 +51,13 @@ export interface IShift {
   end: string; // hour only
   shiftType: "T" | "TP" | "PL" | "OL";
   shiftNumber: number;
-  building: string;
-  room: string;
+  building: string | null;
+  room: string | null;
   year: number;
   semester: number;
   eventColor: string;
   textColor: string;
-  status?: "active" | "inactive" | "is_overwritten";
+  status: "active" | "inactive" | "override" | null;
 }
 
 export type IShiftsSorted = {
@@ -121,3 +123,8 @@ export type IEventCategoriesSorted = {
   year?: number;
   categories: IEventCategory[];
 }[];
+
+export interface IItemProps {
+  id: string;
+  name: string;
+}

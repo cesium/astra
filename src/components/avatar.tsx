@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import Image from "next/image";
-import React from "react";
 import { twMerge } from "tailwind-merge";
 
 interface IAvatarProps {
@@ -39,8 +38,10 @@ const Avatar = ({ src, name, className }: IAvatarProps) => {
           className="object-cover"
         />
       ) : (
-        <div className="flex size-full items-center justify-center bg-gradient-to-b from-black/20 to-black/40">
-          <span className="text-light">{name && getInitials(name)}</span>
+        <div className="[container-type:size] container flex size-full resize items-center justify-center bg-gradient-to-b from-black/20 to-black/40">
+          <span className="text-light text-[40cqmin]">
+            {name && getInitials(name)}
+          </span>
         </div>
       )}
     </figure>

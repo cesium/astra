@@ -9,9 +9,11 @@ import Sidebar, {
 } from "./sidebar";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
+import { useGetUserInfo } from "@/lib/queries/session";
 
 export default function SidebarSettings() {
   const path = usePathname();
+  const user = useGetUserInfo();
 
   return (
     <div
@@ -30,50 +32,52 @@ export default function SidebarSettings() {
           <SidebarItem id="account" href="/settings/account">
             <SidebarItemLabel icon="account_circle" label="Your Account" />
           </SidebarItem>
-
-          <SidebarItem id="privacy" href="/settings/privacy">
-            <SidebarItemLabel icon="back_hand" label="Privacy" />
-          </SidebarItem>
-
-          <SidebarItem id="preferences" href="/settings/preferences">
-            <SidebarItemLabel icon="sync_alt" label="Preferences" />
-          </SidebarItem>
         </SidebarItemList>
 
-        <SidebarHeader>General</SidebarHeader>
+        {user.data && ["admin", "professor"].includes(user.data.type) && (
+          <>
+            <SidebarHeader>Backoffice</SidebarHeader>
 
-        <SidebarItemList>
-          <SidebarItem id="connections" href="/settings/connections">
-            <SidebarItemLabel icon="handshake" label="Connections" />
-          </SidebarItem>
+            <SidebarItemList>
+              <SidebarItem
+                id="configurations"
+                href="/settings/backoffice/configurations"
+              >
+                <SidebarItemLabel icon="settings" label="Configurations" />
+              </SidebarItem>
 
-          <SidebarItem id="notifications" href="/settings/notifications">
-            <SidebarItemLabel icon="notifications" label="Notifications" />
-          </SidebarItem>
-        </SidebarItemList>
+              <SidebarItem id="exports" href="/settings/backoffice/exports">
+                <SidebarItemLabel icon="download" label="Export" />
+              </SidebarItem>
 
-        <SidebarHeader>Backoffice</SidebarHeader>
+              <SidebarItem id="jobs" href="/settings/backoffice/jobs">
+                <SidebarItemLabel icon="data_table" label="Jobs Monitor" />
+              </SidebarItem>
 
-        <SidebarItemList>
-          <SidebarItem
-            id="configurations"
-            href="/settings/backoffice/configurations"
-          >
-            <SidebarItemLabel icon="settings" label="Configurations" />
-          </SidebarItem>
+              <SidebarItem
+                id="statistics"
+                href="/settings/backoffice/statistics"
+              >
+                <SidebarItemLabel icon="insights" label="Statistics" />
+              </SidebarItem>
 
-          <SidebarItem id="imports" href="/settings/backoffice/imports">
-            <SidebarItemLabel icon="upload" label="Import" />
-          </SidebarItem>
+              {user.data && user.data.type === "admin" && (
+                <>
+                  <SidebarItem id="imports" href="/settings/backoffice/imports">
+                    <SidebarItemLabel icon="upload" label="Import" />
+                  </SidebarItem>
 
-          <SidebarItem id="exports" href="/settings/backoffice/exports">
-            <SidebarItemLabel icon="download" label="Export" />
-          </SidebarItem>
-
-          <SidebarItem id="jobs" href="/settings/backoffice/jobs">
-            <SidebarItemLabel icon="data_table" label="Jobs Monitor" />
-          </SidebarItem>
-        </SidebarItemList>
+                  <SidebarItem
+                    id="generator"
+                    href="/settings/backoffice/generator"
+                  >
+                    <SidebarItemLabel icon="sdk" label="Schedule Generator" />
+                  </SidebarItem>
+                </>
+              )}
+            </SidebarItemList>
+          </>
+        )}
       </Sidebar>
     </div>
   );

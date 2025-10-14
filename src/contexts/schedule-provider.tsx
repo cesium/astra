@@ -7,7 +7,7 @@ import {
   useGetStudentSchedule,
 } from "@/lib/queries/courses";
 import { ICourse, IShift, IShiftsSorted } from "@/lib/types";
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 interface IScheduleProvider {
   originalSchedule: IShift[];
@@ -32,11 +32,20 @@ function removeShiftById(shifts: IShift[], id: string): IShift[] {
 function addShiftById(
   shifts: IShift[],
   allShifts: IShift[],
+  originalShifts: IShift[],
   id: string,
 ): IShift[] {
   const newShift = allShifts.find((shift) => shift.id === id);
+  const isOriginal = originalShifts.some(
+    (shift) =>
+      shift.id === id &&
+      (shift.status === "inactive" || shift.status === "active"),
+  );
   if (newShift && !shifts.some((s) => s.id === id)) {
-    return [...shifts, newShift];
+    return [
+      ...shifts,
+      { ...newShift, status: isOriginal ? "active" : "override" },
+    ];
   }
   return shifts;
 }
@@ -171,15 +180,17 @@ function extractShifts(courses: ICourse[]): IShift[] {
             end: shift.end,
             shiftType: convertShiftType(shiftGroup.type),
             shiftNumber: shiftGroup.number,
-            building:
-              Number(shift.building) <= 3
+            building: shift.building
+              ? Number(shift.building) <= 3
                 ? `CP${shift.building}`
-                : `Building ${shift.building}`,
-            room: shift.room,
+                : `Building ${shift.building}`
+              : null,
+            room: shift.room || null,
             year: course.year,
             semester: course.semester,
             eventColor: "#C3E5F9",
             textColor: "#227AAE",
+            status: shiftGroup.enrollment_status,
           };
         }),
       );
@@ -258,7 +269,9 @@ export function ScheduleProvider({ children }: { children: React.ReactNode }) {
   };
 
   const addShift = (id: string) => {
-    setEditingShifts((prev) => addShiftById(prev, allShifts, id));
+    setEditingShifts((prev) =>
+      addShiftById(prev, allShifts, originalSchedule, id),
+    );
   };
 
   const saveChanges = () => {

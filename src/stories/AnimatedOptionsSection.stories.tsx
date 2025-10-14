@@ -1,6 +1,5 @@
 import AnimatedOptionsSection from "@/components/animated-options-section";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import React from "react";
 
 const meta: Meta<typeof AnimatedOptionsSection> = {
   title: "Components/AnimatedOptionsSection",

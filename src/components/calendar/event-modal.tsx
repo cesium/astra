@@ -152,11 +152,13 @@ export default function EventModal({
                   />
                 )}
                 <ModalItem icon="schedule" label="Hora" value={eventTime} />
-                <ModalItem
-                  icon="location_on"
-                  label="Local"
-                  value={eventLocation}
-                />
+                {event.building && event.room && (
+                  <ModalItem
+                    icon="location_on"
+                    label="Local"
+                    value={eventLocation}
+                  />
+                )}
                 {type === "calendar" && event.link && (
                   <ModalItem
                     icon="explore"
@@ -171,6 +173,17 @@ export default function EventModal({
                     label="Professor"
                     value={event.professor}
                   />
+                )}
+                {type == "schedule" && event.status == "override" && (
+                  <div className="text-dark/90 mt-3 inline-flex items-center gap-2 self-center">
+                    <span className="material-symbols-outlined text-lg">
+                      gpp_maybe
+                    </span>
+                    <p className="text-sm font-light">
+                      This is a custom shift and does not reflect your official
+                      schedule.
+                    </p>
+                  </div>
                 )}
               </div>
             </DialogPanel>

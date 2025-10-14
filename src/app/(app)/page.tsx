@@ -1,11 +1,6 @@
-import { Metadata } from "next";
 import EventsCalendar from "@/components/events-calendar";
 import { EventsProvider } from "@/contexts/events-provider";
 import EventsOptions from "@/components/calendarOptions/events-options";
-
-export const metadata: Metadata = {
-  title: "Pombo | Calendar",
-};
 
 export default function Home() {
   return (

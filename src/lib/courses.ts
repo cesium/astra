@@ -33,3 +33,39 @@ export async function updateStudentSchedule({ shifts }: { shifts: string[] }) {
     );
   }
 }
+
+export async function importStudentsByCourses({ file }: { file: File }) {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await api.post("/import/students_by_courses", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res.data;
+  } catch {
+    throw new Error(
+      "Failed to import students by courses. Please try again later.",
+    );
+  }
+}
+
+export async function importShiftsByCourses({ file }: { file: File }) {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await api.post("/import/shifts_by_courses", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res.data;
+  } catch {
+    throw new Error(
+      "Failed to import shifts by courses. Please try again later.",
+    );
+  }
+}
