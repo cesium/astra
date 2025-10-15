@@ -318,12 +318,17 @@ export default function Students() {
             </div>
 
             <div className="w-1/2">
-              <div className={clsx(
-                "bg-muted border-dark/10 w-full rounded-lg border py-1.5 px-1.5 text-sm/6 flex items-center gap-2")}>
-                <span className="material-symbols-outlined text-xl text-gray-500">search</span>
+              <div
+                className={clsx(
+                  "bg-muted border-dark/10 flex w-full items-center gap-2 rounded-lg border px-1.5 py-1.5 text-sm/6",
+                )}
+              >
+                <span className="material-symbols-outlined text-xl text-gray-500">
+                  search
+                </span>
                 <input
                   placeholder="Search for student"
-                  className="focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25 truncate w-full"
+                  className="w-full truncate focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
                   onChange={(e) => {
                     setSearch(e.target.value);
                     setCurrentPage(1);
