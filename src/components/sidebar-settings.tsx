@@ -46,10 +46,6 @@ export default function SidebarSettings() {
                 <SidebarItemLabel icon="settings" label="Configurations" />
               </SidebarItem>
 
-              <SidebarItem id="imports" href="/settings/backoffice/imports">
-                <SidebarItemLabel icon="upload" label="Import" />
-              </SidebarItem>
-
               <SidebarItem id="exports" href="/settings/backoffice/exports">
                 <SidebarItemLabel icon="download" label="Export" />
               </SidebarItem>
@@ -65,6 +61,21 @@ export default function SidebarSettings() {
               <SidebarItem id="students" href="/settings/backoffice/students">
                 <SidebarItemLabel icon="frame_inspect" label="Students" />
               </SidebarItem>
+
+              {user.data && user.data.type === "admin" && (
+                <>
+                  <SidebarItem id="imports" href="/settings/backoffice/imports">
+                    <SidebarItemLabel icon="upload" label="Import" />
+                  </SidebarItem>
+
+                  <SidebarItem
+                    id="generator"
+                    href="/settings/backoffice/generator"
+                  >
+                    <SidebarItemLabel icon="sdk" label="Schedule Generator" />
+                  </SidebarItem>
+                </>
+              )}
             </SidebarItemList>
           </>
         )}
