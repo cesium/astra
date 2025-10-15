@@ -312,23 +312,24 @@ export default function Students() {
 
       <SettingsWrapper title="Schedule Generator">
         <div className="flex h-full flex-col gap-8">
-          <section className="flex pr-4">
+          <section className="flex">
             <div className="flex-1 space-y-2">
               <h2 className="text-2xl font-semibold">Students</h2>
             </div>
 
             <div className="h-1/2 w-1/3">
-              <input
-                placeholder="Search for student"
-                className={clsx(
-                  "bg-muted border-dark/10 w-full rounded-lg border py-1.5 pr-8 pl-3 text-sm/6",
-                  "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
-                )}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setCurrentPage(1);
-                }}
-              />
+              <div className={clsx(
+                "bg-muted border-dark/10 w-full rounded-lg border py-1.5 pr-8 pl-3 text-sm/6 flex items-center gap-2")}>
+                <span className="material-symbols-outlined text-xl text-gray-500">search</span>
+                <input
+                  placeholder="Search for student"
+                  className="focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                />
+              </div>
             </div>
           </section>
 
