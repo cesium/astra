@@ -13,7 +13,7 @@ interface ModalProps {
   modalState: boolean;
   setModalState: (state: boolean) => void;
   title?: string;
-  url: string; // Adding URL here
+  url: string;
 }
 
 export default function CalendarExportModal({
@@ -54,9 +54,12 @@ export default function CalendarExportModal({
             <span className="font-medium">subscribe</span> to your shifts.
           </p>
           <p>You will see your shifts in your calendar app.</p>
-          <div className="bg-warning/30 text-warning flex items-center gap-2 rounded-lg p-3 text-sm">
-            <span className="material-symbols-outlined text-base">warning</span>
-            If you change shifts, you will need to re-export and re-subscribe.
+          <div className="bg-success/30 flex items-center gap-2 rounded-lg p-3 text-sm text-green-700">
+            <span className="material-symbols-outlined text-base">
+              check_circle
+            </span>
+            If you change shifts, you won&apos;t need to re-export and
+            re-subscribe.
           </div>
         </div>
       ),
@@ -134,7 +137,7 @@ export default function CalendarExportModal({
           >
             <DialogPanel className="bg-muted/65 relative w-full max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl focus:outline-0">
               {title && (
-                <div className="flex items-center justify-between pb-4">
+                <div className="flex items-center justify-between">
                   <DialogTitle className="text-dark text-2xl font-semibold">
                     {title}
                   </DialogTitle>
