@@ -54,11 +54,12 @@ export default function SidebarSettings() {
                 <SidebarItemLabel icon="data_table" label="Jobs Monitor" />
               </SidebarItem>
 
-              <SidebarItem
-                id="statistics"
-                href="/settings/backoffice/statistics"
-              >
-                <SidebarItemLabel icon="insights" label="Statistics" />
+              <SidebarItem id="generator" href="/settings/backoffice/generator">
+                <SidebarItemLabel icon="sdk" label="Schedule Generator" />
+              </SidebarItem>
+
+              <SidebarItem id="students" href="/settings/backoffice/students">
+                <SidebarItemLabel icon="frame_inspect" label="Students" />
               </SidebarItem>
 
               {user.data && user.data.type === "admin" && (

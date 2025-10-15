@@ -6,7 +6,8 @@ import {
   useGetStudentOriginalSchedule,
   useGetStudentSchedule,
 } from "@/lib/queries/courses";
-import { ICourse, IShift, IShiftsSorted } from "@/lib/types";
+import { IShift, IShiftsSorted } from "@/lib/types";
+import { extractShifts } from "@/lib/utils";
 import { createContext, useEffect, useState } from "react";
 
 interface IScheduleProvider {
@@ -131,79 +132,6 @@ function sortShiftsByYearCourse(mixedShifts: IShift[]): IShiftsSorted {
     year: Number(year),
     semesters,
   }));
-}
-
-function extractShifts(courses: ICourse[]): IShift[] {
-  const { parentCourse, normalCourses } = courses.reduce(
-    (acc: { parentCourse: ICourse[]; normalCourses: ICourse[] }, course) => {
-      if (course.courses.length > 0) {
-        acc.parentCourse.push(course);
-      } else {
-        acc.normalCourses.push(course);
-      }
-      return acc;
-    },
-    { parentCourse: [], normalCourses: [] },
-  );
-
-  const shiftsWithNoParents = normalCourses.flatMap((course) => {
-    if (course.shifts && course.shifts.length > 0) {
-      return course.shifts.flatMap((shiftGroup) =>
-        shiftGroup.timeslots.map((shift) => {
-          const WEEK_DAYS = [
-            "monday",
-            "tuesday",
-            "wednesday",
-            "thursday",
-            "friday",
-          ];
-
-          const SHIFT_TYPES: Record<string, "PL" | "T" | "TP" | "OL"> = {
-            theoretical: "T",
-            theoretical_practical: "TP",
-            practical_laboratory: "PL",
-            tutorial_guidance: "OL",
-          };
-
-          const convertShiftType = (type: string): "PL" | "T" | "TP" | "OL" => {
-            return SHIFT_TYPES[type as keyof typeof SHIFT_TYPES];
-          };
-
-          return {
-            id: shiftGroup.id,
-            courseName: course.name,
-            courseId: course.id,
-            shortCourseName: course.shortname,
-            professor: shiftGroup.professor ?? undefined,
-            weekday: WEEK_DAYS.indexOf(shift.weekday),
-            start: shift.start,
-            end: shift.end,
-            shiftType: convertShiftType(shiftGroup.type),
-            shiftNumber: shiftGroup.number,
-            building: shift.building
-              ? Number(shift.building) <= 3
-                ? `CP${shift.building}`
-                : `Building ${shift.building}`
-              : null,
-            room: shift.room || null,
-            year: course.year,
-            semester: course.semester,
-            eventColor: "#C3E5F9",
-            textColor: "#227AAE",
-            status: shiftGroup.enrollment_status,
-          };
-        }),
-      );
-    }
-    return [];
-  });
-
-  const childShifts =
-    parentCourse.length > 0
-      ? extractShifts(parentCourse.flatMap((c) => c.courses))
-      : [];
-
-  return [...shiftsWithNoParents, ...childShifts];
 }
 
 export const ScheduleContext = createContext<IScheduleProvider>({
