@@ -37,7 +37,7 @@ function ModalHeader({
   const subtitle =
     type === "schedule"
       ? `Turno ${event.shiftType}${event.shiftNumber}`
-      : event.category;
+      : event.category.name;
 
   return (
     <div className="pb-1">
@@ -163,8 +163,8 @@ export default function EventModal({
                   <ModalItem
                     icon="explore"
                     label="Website"
-                    value={event.link.label}
-                    href={event.link.href}
+                    value={event.link}
+                    href={event.link}
                   />
                 )}
                 {type === "schedule" && event.professor && (
