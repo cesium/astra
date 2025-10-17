@@ -5,12 +5,21 @@ import {
   getEventById,
   getEvents,
   getSelectedCateries,
+  getSelectedEvents,
 } from "../events";
 
 export function useGetEvents() {
   return useQuery({
     queryKey: ["events"],
     queryFn: getEvents,
+    initialData: [],
+  });
+}
+
+export function useGetSelectedEvents() {
+  return useQuery({
+    queryKey: ["selected-events"],
+    queryFn: getSelectedEvents,
     initialData: [],
   });
 }

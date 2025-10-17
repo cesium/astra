@@ -191,8 +191,14 @@ export function EventsProvider({ children }: { children: React.ReactNode }) {
   const updateCategories = useUpdateStudentCategories();
 
   useEffect(() => {
-    setActiveEvents(formatEvents(allEvents || []));
-  }, [allEvents]);
+    const activeCategoriesIds = activeCategories.map((category) => category.id);
+
+    const visibleEvents = allEvents.filter((event) =>
+      activeCategoriesIds.includes(event.category.id),
+    );
+
+    setActiveEvents(formatEvents(visibleEvents));
+  }, [activeCategories, allEvents]);
 
   useEffect(() => {
     setActiveCategories([...selectedCategories]);
@@ -204,7 +210,6 @@ export function EventsProvider({ children }: { children: React.ReactNode }) {
 
   const addCategory = (id: string) => {
     setActiveCategories((prev) => addCategoryById(prev, allCategories, id));
-    console.log("Added:", id);
   };
 
   useEffect(() => {
@@ -219,11 +224,9 @@ export function EventsProvider({ children }: { children: React.ReactNode }) {
 
   const saveChanges = () => {
     const newIds = extractIds(activeCategories);
-    console.log(newIds);
     updateCategories.mutate({ event_categories: newIds });
   };
 
-  console.log("Active:", activeCategories);
   return (
     <EventsContext.Provider
       value={{

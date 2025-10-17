@@ -8,6 +8,7 @@ export function useUpdateStudentCategories() {
     mutationFn: updateStudentCategories,
     onSuccess: (data) => {
       qc.setQueryData(["selected-categories"], data);
+      qc.invalidateQueries({ queryKey: ["selected-events"] });
     },
   });
 }

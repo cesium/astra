@@ -25,7 +25,7 @@ export default function EventsOptions() {
 
   return (
     <CalendarOptions
-      currentItems={selectedCategories} //todo
+      currentItems={selectedCategories}
       editingItems={activeCategories}
       itemsToAdd={categoriesToAdd}
       isEditing={isEditing}
@@ -36,7 +36,6 @@ export default function EventsOptions() {
       addItem={addCategory}
       saveChanges={saveChanges}
       clearItems={() => setActiveCategories([])}
-      resetItems={() => setActiveCategories(selectedCategories)}
       title="Calendar"
       description="Select the types of events you want to see on your calendar."
       DisplayComponent={DisplayCategories}

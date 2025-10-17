@@ -1,8 +1,18 @@
 import { api } from "./api";
+import { IEventResponse } from "./types";
 
 export async function getEvents() {
   try {
-    const res = await api.get("/events");
+    const res = await api.get<{ events: IEventResponse[] }>("/events");
+    return res.data.events;
+  } catch {
+    throw new Error(`Failed to fetch events. Please try again later.`);
+  }
+}
+
+export async function getSelectedEvents() {
+  try {
+    const res = await api.get<{ events: IEventResponse[] }>("/events/selected");
     return res.data.events;
   } catch {
     throw new Error(`Failed to fetch events. Please try again later.`);
@@ -11,7 +21,7 @@ export async function getEvents() {
 
 export async function getEventById(id: string) {
   try {
-    const res = await api.get(`/events/${id}`);
+    const res = await api.get<{ events: IEventResponse }>(`/events/${id}`);
     return res.data.events;
   } catch {
     throw new Error(

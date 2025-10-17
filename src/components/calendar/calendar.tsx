@@ -227,6 +227,9 @@ export default function CalendarView({
 
           // Applies custom event colors and editing mode styles
           const newStyle = {
+            background: editing
+              ? `linear-gradient(to right, ${bgColor}, transparent)`
+              : "",
             backgroundColor: bgColor,
             color: textColor,
             boxShadow: editing ? `inset 0 0 0 2px ${eventColor}` : "",

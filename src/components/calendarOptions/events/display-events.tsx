@@ -15,7 +15,6 @@ export default function DisplayCategories({
   onAction?: (id: string) => void;
 }) {
   const ordinalNumbers = ["1st", "2nd", "3rd", "4th", "5th"];
-  console.log("Items:", items);
 
   if (!(items.length > 0)) {
     return (

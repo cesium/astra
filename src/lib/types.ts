@@ -80,7 +80,7 @@ export type IShiftsSorted = {
 }[];
 
 export interface IEvent {
-  id: number;
+  id: string;
   title: string;
   category: IEventCategory;
   start: string;
@@ -93,7 +93,7 @@ export interface IEvent {
 }
 
 export interface IEventResponse {
-  id: number;
+  id: string;
   title: string;
   category: IEventCategory;
   start: string;

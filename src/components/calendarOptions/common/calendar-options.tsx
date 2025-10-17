@@ -20,8 +20,8 @@ interface ICalendarOptionsProps<T, sortedT> {
   removeItem: (id: string) => void;
   addItem: (id: string) => void;
   saveChanges: () => void;
-  clearItems: () => void;
-  resetItems: () => void;
+  clearItems?: () => void;
+  resetItems?: () => void;
 
   title: string;
   description: string;
@@ -40,30 +40,34 @@ function ActionButtons({
   onClear,
   onReset,
 }: {
-  onClear: () => void;
-  onReset: () => void;
+  onClear?: () => void;
+  onReset?: () => void;
 }) {
   return (
     <div className="mb-3 flex items-center gap-3 px-2">
-      <button
-        onClick={onClear}
-        className="text-danger group inline-flex cursor-pointer items-center gap-1 transition-all duration-300 hover:opacity-75"
-      >
-        <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
-          delete
-        </span>
-        Clear
-      </button>
+      {onClear && (
+        <button
+          onClick={onClear}
+          className="text-danger group inline-flex cursor-pointer items-center gap-1 transition-all duration-300 hover:opacity-75"
+        >
+          <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
+            delete
+          </span>
+          Clear
+        </button>
+      )}
 
-      <button
-        onClick={onReset}
-        className="group inline-flex cursor-pointer items-center gap-1 text-[#625FEE] transition-all duration-300 hover:opacity-75"
-      >
-        <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
-          autorenew
-        </span>
-        Reset
-      </button>
+      {onReset && (
+        <button
+          onClick={onReset}
+          className="group inline-flex cursor-pointer items-center gap-1 text-[#625FEE] transition-all duration-300 hover:opacity-75"
+        >
+          <span className="material-symbols-outlined text-xl transition-all duration-300 group-hover:-rotate-20">
+            autorenew
+          </span>
+          Reset
+        </button>
+      )}
     </div>
   );
 }
