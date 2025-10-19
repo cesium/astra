@@ -40,7 +40,9 @@ export default function DisplayCategories({
                     color={category.color}
                     isEditing={isEditing}
                     state={state}
-                    onAction={onAction}
+                    onAction={
+                      category.type === "optional" ? onAction : undefined
+                    }
                   />
                 ))}
               </div>
@@ -57,7 +59,9 @@ export default function DisplayCategories({
                       color={category.color}
                       isEditing={isEditing}
                       state={state}
-                      onAction={onAction}
+                      onAction={
+                        category.type === "optional" ? onAction : undefined
+                      }
                     />
                   ))}
                 </div>
@@ -79,7 +83,7 @@ export default function DisplayCategories({
               color={category.color}
               isEditing={isEditing}
               state={state}
-              onAction={onAction}
+              onAction={category.type === "optional" ? onAction : undefined}
             />
           )),
         )}

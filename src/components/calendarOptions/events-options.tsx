@@ -35,7 +35,13 @@ export default function EventsOptions() {
       removeItem={removeCategory}
       addItem={addCategory}
       saveChanges={saveChanges}
-      clearItems={() => setActiveCategories([])}
+      clearItems={() =>
+        setActiveCategories(
+          selectedCategories.filter(
+            (category) => category.type === "mandatory",
+          ),
+        )
+      }
       title="Calendar"
       description="Select the types of events you want to see on your calendar."
       DisplayComponent={DisplayCategories}

@@ -117,6 +117,7 @@ export interface IEventCategory {
   name: string;
   color: string;
   course?: ICourse;
+  type: "optional" | "mandatory";
 }
 
 export type IEventCategoriesSorted = {

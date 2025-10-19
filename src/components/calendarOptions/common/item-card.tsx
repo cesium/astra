@@ -60,7 +60,7 @@ export default function EventHeader({
           style={{ backgroundColor: color }}
         />
         <p className="max-w-2xs flex-1 truncate">{name}</p>
-        {!shifts && isEditing && (
+        {!shifts && isEditing && onAction && (
           <ActionButton state={state!} onAction={onAction} id={eventId} />
         )}
       </div>
