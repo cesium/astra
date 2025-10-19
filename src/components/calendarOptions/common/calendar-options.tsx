@@ -5,7 +5,6 @@ import TabsGroup, {
   TabPanel,
   TabsContainer,
 } from "@/components/tabs";
-import React from "react";
 
 interface ICalendarOptionsProps<T, sortedT> {
   currentItems: T[];

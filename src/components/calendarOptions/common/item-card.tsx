@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import React from "react";
 import { twMerge } from "tailwind-merge";
 import ActionButton from "./action-button";
 
