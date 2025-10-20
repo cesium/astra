@@ -16,7 +16,7 @@ export default function EventsCalendar() {
   const formattedEvents = activeEvents.map((event): Event => {
     return {
       title: event.title,
-      start: moment(event.start).toDate(), //fix: make sure there are no overlapping bugs
+      start: moment(event.start).toDate(),
       end: moment(event.end).toDate(),
       allDay: event.allDay,
       resource: event,

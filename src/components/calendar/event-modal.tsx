@@ -96,9 +96,14 @@ export default function EventModal({
   type,
 }: IEventModalProps) {
   const event = selectedEvent.resource;
+  const multipleDays =
+    moment.duration(moment(event.end).diff(moment(event.start))).asDays() > 1;
+
   const eventDate =
     type === "calendar"
-      ? `${moment(event.start).format("D MMM YYYY")} - ${moment(event.end).format("D MMM YYYY")}`
+      ? multipleDays
+        ? `${moment(event.start).format("D MMM YYYY")} - ${moment(event.end).format("D MMM YYYY")}`
+        : `${moment(event.start).format("D MMM YYYY")}`
       : "";
   const eventTime =
     type === "schedule"
