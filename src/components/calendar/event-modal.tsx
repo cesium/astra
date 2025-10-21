@@ -37,7 +37,7 @@ function ModalHeader({
   const subtitle =
     type === "schedule"
       ? `Turno ${event.shiftType}${event.shiftNumber}`
-      : event.category;
+      : event.category.name;
 
   return (
     <div className="pb-1">
@@ -96,9 +96,14 @@ export default function EventModal({
   type,
 }: IEventModalProps) {
   const event = selectedEvent.resource;
+  const multipleDays =
+    moment.duration(moment(event.end).diff(moment(event.start))).asDays() > 1;
+
   const eventDate =
     type === "calendar"
-      ? `${moment(event.start).format("D MMM YYYY")} - ${moment(event.end).format("D MMM YYYY")}`
+      ? multipleDays
+        ? `${moment(event.start).format("D MMM YYYY")} - ${moment(event.end).format("D MMM YYYY")}`
+        : `${moment(event.start).format("D MMM YYYY")}`
       : "";
   const eventTime =
     type === "schedule"
@@ -163,8 +168,8 @@ export default function EventModal({
                   <ModalItem
                     icon="explore"
                     label="Website"
-                    value={event.link.label}
-                    href={event.link.href}
+                    value={event.link}
+                    href={event.link}
                   />
                 )}
                 {type === "schedule" && event.professor && (

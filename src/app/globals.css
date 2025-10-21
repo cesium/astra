@@ -291,7 +291,6 @@ input[type="number"] {
   font-weight: 600;
   border-radius: 6px !important;
   overflow: hidden !important;
-  padding: 0px !important;
 }
 
 @media (max-width: 640px) {
@@ -347,6 +346,10 @@ input[type="number"] {
 
 .rbc-allday-cell .rbc-row-segment {
   padding: 0px 4px 0px 4px !important;
+}
+
+.schedule .rbc-event {
+  padding: 0 !important;
 }
 
 .schedule .rbc-event-content {

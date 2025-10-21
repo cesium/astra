@@ -1,26 +1,27 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import CalendarView from "./calendar/calendar";
 import FeedView from "./calendar/feed-view";
-import { IEvent } from "@/lib/types";
 import moment from "moment";
+import { EventsContext } from "@/contexts/events-provider";
+import { Event } from "react-big-calendar";
 
 export default function EventsCalendar() {
-  const [events, setEvents] = useState<IEvent[]>([]);
+  const context = useContext(EventsContext);
 
-  useEffect(() => {
-    setEvents([]);
-  }, []);
+  const { isEditing, activeEvents } = context;
 
   // Converts an IEvent to an Event
-  const formattedEvents = events.map((event) => ({
-    title: event.title,
-    start: moment(event.start).toDate(),
-    end: moment(event.end).toDate(),
-    allDay: event.allDay,
-    resource: event,
-  }));
+  const formattedEvents = activeEvents.map((event): Event => {
+    return {
+      title: event.title,
+      start: moment(event.start).toDate(),
+      end: moment(event.end).toDate(),
+      allDay: event.allDay,
+      resource: event,
+    };
+  });
 
   const views = useMemo(
     () => ({
@@ -37,7 +38,7 @@ export default function EventsCalendar() {
       <CalendarView
         type="calendar"
         events={formattedEvents}
-        editing={false}
+        editing={isEditing}
         views={views}
       />
     </div>
