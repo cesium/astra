@@ -152,18 +152,19 @@ export default function EventModal({
                 {type === "calendar" && (
                   <ModalItem
                     icon="calendar_today"
-                    label="Data"
+                    label="Date"
                     value={eventDate}
                   />
                 )}
-                <ModalItem icon="schedule" label="Hora" value={eventTime} />
-                {event.building && event.room && (
-                  <ModalItem
-                    icon="location_on"
-                    label="Local"
-                    value={eventLocation}
-                  />
-                )}
+                <ModalItem icon="schedule" label="Time" value={eventTime} />
+                {(event.building && event.room) ||
+                  (event.place && (
+                    <ModalItem
+                      icon="location_on"
+                      label="Place"
+                      value={eventLocation}
+                    />
+                  ))}
                 {type === "calendar" && event.link && (
                   <ModalItem
                     icon="explore"

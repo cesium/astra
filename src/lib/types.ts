@@ -85,7 +85,7 @@ export interface IEvent {
   category: IEventCategory;
   start: string;
   end: string;
-  place: string;
+  place?: string;
   link?: string;
   eventColor: string;
   textColor: string;
@@ -98,7 +98,7 @@ export interface IEventResponse {
   category: IEventCategory;
   start: string;
   end: string;
-  place: string;
+  place?: string;
   link?: string;
 }
 

@@ -15,7 +15,9 @@ export default function EventsCalendar() {
   // Converts an IEvent to an Event
   const formattedEvents = activeEvents.map((event): Event => {
     return {
-      title: event.title,
+      title: event.category.course
+        ? `[${event.category.course?.shortname}] ${event.title}`
+        : event.title,
       start: moment(event.start).toDate(),
       end: moment(event.end).toDate(),
       allDay: event.allDay,
