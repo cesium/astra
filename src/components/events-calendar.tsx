@@ -35,6 +35,15 @@ export default function EventsCalendar() {
     [],
   );
 
+  // Sets the min and max date for the calendar view port
+  // useMemo fixes client-side hydration issues
+  const { minDate } = useMemo(() => {
+    const min = new Date();
+    min.setHours(8, 0, 0);
+
+    return { minDate: min };
+  }, []);
+
   return (
     <div className="w-full">
       <CalendarView
@@ -42,6 +51,7 @@ export default function EventsCalendar() {
         events={formattedEvents}
         editing={isEditing}
         views={views}
+        minDate={minDate}
       />
     </div>
   );

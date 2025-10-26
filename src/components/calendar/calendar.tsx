@@ -24,6 +24,8 @@ interface ICalendarViewProps {
   type: "calendar" | "schedule";
   events: Event[];
   views: ViewsProps;
+  minDate?: Date;
+  maxDate?: Date;
   editing: boolean;
   defaultView?: string;
   className?: string;
@@ -35,6 +37,8 @@ export default function CalendarView({
   type,
   events,
   views,
+  minDate,
+  maxDate,
   editing,
   defaultView: propDefaultView,
   className,
@@ -186,18 +190,6 @@ export default function CalendarView({
     setSelectedEvent(event);
     setInspectEvent(!inspectEvent);
   };
-
-  // Sets the min and max date for the calendar view port
-  // useMemo fixes client-side hydration issues
-  const { minDate, maxDate } = useMemo(() => {
-    const min = new Date();
-    min.setHours(8, 0, 0);
-
-    const max = new Date();
-    max.setHours(20, 0, 0);
-
-    return { minDate: min, maxDate: max };
-  }, []);
 
   return (
     <div id="calendar-view" className="w-full">
