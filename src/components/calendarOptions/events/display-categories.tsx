@@ -31,7 +31,7 @@ export default function DisplayCategories({
               label={`${ordinalNumbers[yearGroup.year - 1]} Year`}
               key={`${ordinalNumbers[yearGroup.year - 1]} Year`}
             >
-              <div className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4">
+              <div className="divide-dark/8 bg-light w-full space-y-3 divide-y rounded-lg pt-3 pl-4">
                 {yearGroup.categories.map((category) => (
                   <EventHeader
                     key={category.id}
@@ -50,7 +50,7 @@ export default function DisplayCategories({
           ) : (
             yearGroup.categories.length > 0 && (
               <CustomDisclosure label="Other" key="Other">
-                <div className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4">
+                <div className="divide-dark/8 bg-light w-full space-y-3 divide-y rounded-lg pt-3 pl-4">
                   {yearGroup.categories.map((category) => (
                     <EventHeader
                       key={category.id}

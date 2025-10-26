@@ -4,7 +4,7 @@ import { useContext } from "react";
 
 import { EventsContext } from "@/contexts/events-provider";
 import CalendarOptions from "./common/calendar-options";
-import DisplayCategories from "./events/display-events";
+import DisplayCategories from "./events/display-categories";
 
 export default function EventsOptions() {
   const context = useContext(EventsContext);
