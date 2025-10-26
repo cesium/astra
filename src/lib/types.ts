@@ -83,8 +83,8 @@ export interface IEvent {
   id: string;
   title: string;
   category: IEventCategory;
-  start: string;
-  end: string;
+  start: moment.Moment;
+  end: moment.Moment;
   place?: string;
   link?: string;
   eventColor: string;

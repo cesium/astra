@@ -3,9 +3,9 @@
 import { useContext, useMemo } from "react";
 import CalendarView from "./calendar/calendar";
 import FeedView from "./calendar/feed-view";
-import moment from "moment";
 import { EventsContext } from "@/contexts/events-provider";
 import { Event } from "react-big-calendar";
+import { IEvent } from "@/lib/types";
 
 export default function EventsCalendar() {
   const context = useContext(EventsContext);
@@ -13,13 +13,13 @@ export default function EventsCalendar() {
   const { isEditing, activeEvents } = context;
 
   // Converts an IEvent to an Event
-  const formattedEvents = activeEvents.map((event): Event => {
+  const formattedEvents = activeEvents.map((event: IEvent): Event => {
     return {
       title: event.category.course
         ? `[${event.category.course?.shortname}] ${event.title}`
         : event.title,
-      start: moment(event.start).toDate(),
-      end: moment(event.end).toDate(),
+      start: event.start.toDate(),
+      end: event.end.toDate(),
       allDay: event.allDay,
       resource: event,
     };
