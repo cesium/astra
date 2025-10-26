@@ -39,7 +39,7 @@ export default function DisplayShifts({
                       label={`${ordinalNumbers[Number(semester) - 1]} Semester`}
                       key={`${ordinalNumbers[Number(semester) - 1]} Semester`}
                     >
-                      <div className="divide-dark/8 bg-light w-full space-y-2 divide-y rounded-lg pt-3 pl-4">
+                      <div className="divide-dark/8 bg-light w-full space-y-3 divide-y rounded-lg pt-3 pl-4">
                         {Object.entries(courses).map(
                           ([courseID, courseData]) => (
                             <EventHeader

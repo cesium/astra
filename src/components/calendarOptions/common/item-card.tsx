@@ -53,19 +53,21 @@ export default function EventHeader({
 }) {
   return (
     <div className={twMerge(clsx("flex flex-col pb-3", shifts && "gap-2"))}>
-      <div className="inline-flex items-center pr-4">
-        <div
-          className="mr-2 h-3 w-1.5 rounded-full"
-          style={{ backgroundColor: color }}
-        />
-        <p className="max-w-2xs flex-1 truncate">{name}</p>
+      <div className="inline-flex items-center justify-between pr-4">
+        <div className="inline-flex items-center">
+          <div
+            className="mr-2 h-3 w-1.5 rounded-full"
+            style={{ backgroundColor: color }}
+          />
+          <p className="max-w-2xs flex-1 truncate">{name}</p>
+        </div>
         {!shifts && isEditing && onAction && (
           <ActionButton state={state!} onAction={onAction} id={eventId} />
         )}
       </div>
-      <div className="flex w-fit flex-wrap gap-2 pr-2">
-        {shifts &&
-          shifts.map((shift) => (
+      {shifts && (
+        <div className="flex w-fit flex-wrap gap-2 pr-2">
+          {shifts.map((shift) => (
             <ShiftTag
               key={shift.id}
               name={`${shift.type}${shift.number}`}
@@ -75,7 +77,8 @@ export default function EventHeader({
               onAction={onAction}
             />
           ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
