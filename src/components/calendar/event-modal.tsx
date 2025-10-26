@@ -36,7 +36,7 @@ function ModalHeader({
   const title = type === "schedule" ? event.courseName : event.title;
   const subtitle =
     type === "schedule"
-      ? `Turno ${event.shiftType}${event.shiftNumber}`
+      ? `Shift ${event.shiftType}${event.shiftNumber}`
       : event.category.name;
 
   const ordinalNumbers = ["1st", "2nd", "3rd", "4th", "5th"];
@@ -57,7 +57,7 @@ function ModalHeader({
 
       <p className="text-xl">{subtitle}</p>
       {type === "schedule" && (
-        <p>{`${ordinalNumbers[event.year - 1]} year, ${ordinalNumbers[event.semester - 1]} semester`}</p>
+        <p>{`${ordinalNumbers[event.year - 1]} Year, ${ordinalNumbers[event.semester - 1]} Semester`}</p>
       )}
     </div>
   );
@@ -122,7 +122,7 @@ export default function EventModal({
       : `${moment(event.start).format("HH:mm")} - ${moment(event.end).format("HH:mm")}`;
   const eventLocation =
     type === "schedule"
-      ? `${event.building} - Sala ${event.room}`
+      ? `${event.building} - Room ${event.room}`
       : event.place;
 
   return (
