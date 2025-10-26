@@ -103,17 +103,23 @@ function lookForChanges(
 
 function formatEvents(events: IEventResponse[]) {
   return events.map((event) => {
-    const start = moment(event.start);
-    const end = moment(event.end);
+    const start = moment.utc(event.start);
+    const end = moment.utc(event.end);
 
-    const allday = moment.duration(end.diff(start)).asHours() > 24;
+    const startsAtMidnight =
+      start.hours() === 0 && start.minutes() === 0 && start.seconds() === 0;
+    const endsAtMidnight =
+      end.hours() === 0 && end.minutes() === 0 && end.seconds() === 0;
+    const allday =
+      (startsAtMidnight && endsAtMidnight) ||
+      end.diff(start, "days", true) >= 1;
 
     return {
       id: event.id,
       title: event.title,
       category: event.category,
-      start: event.start,
-      end: event.end,
+      start: start,
+      end: end,
       place: event.place,
       link: event.link,
       eventColor: event.category.color,

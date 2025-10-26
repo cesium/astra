@@ -97,7 +97,16 @@ export default function EventModal({
 }: IEventModalProps) {
   const event = selectedEvent.resource;
   const multipleDays =
-    moment.duration(moment(event.end).diff(moment(event.start))).asDays() > 1;
+    moment(event.end).diff(moment(event.start), "days", true) > 1;
+  const startsAtMidnight =
+    moment(event.start).hours() === 0 &&
+    moment(event.start).minutes() === 0 &&
+    moment(event.start).seconds() === 0;
+  const endsAtMidnight =
+    moment(event.end).hours() === 0 &&
+    moment(event.end).minutes() === 0 &&
+    moment(event.end).seconds() === 0;
+  const validTime = !(startsAtMidnight && endsAtMidnight);
 
   const eventDate =
     type === "calendar"
@@ -156,7 +165,9 @@ export default function EventModal({
                     value={eventDate}
                   />
                 )}
-                <ModalItem icon="schedule" label="Time" value={eventTime} />
+                {validTime && (
+                  <ModalItem icon="schedule" label="Time" value={eventTime} />
+                )}
                 {(event.building && event.room) ||
                   (event.place && (
                     <ModalItem
