@@ -73,6 +73,13 @@ export default function SidebarSettings() {
                   >
                     <SidebarItemLabel icon="sdk" label="Schedule Generator" />
                   </SidebarItem>
+
+                  <SidebarItem id="events" href="/settings/backoffice/events">
+                    <SidebarItemLabel
+                      icon="event_upcoming"
+                      label="Events & Categories"
+                    />
+                  </SidebarItem>
                 </>
               )}
             </SidebarItemList>

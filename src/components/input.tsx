@@ -27,7 +27,7 @@ export default function Input({
         clsx(
           className,
           textAlignment,
-          "flex items-center rounded-xl border border-black/10 px-2 py-1.5 text-black outline-none md:px-3 md:py-2.5",
+          "flex w-full items-center rounded-xl border border-black/10 px-2 py-1.5 text-black outline-none md:px-3 md:py-2.5",
         ),
       )}
     >
@@ -36,9 +36,8 @@ export default function Input({
         value={value}
         className={twMerge(
           clsx(
-            className,
             textAlignment,
-            "flex-1 bg-transparent text-black outline-none placeholder:text-black/30 invalid:border-red-500 invalid:text-red-600",
+            "w-full flex-1 bg-transparent text-black outline-none placeholder:text-black/30 invalid:border-red-500 invalid:text-red-600",
           ),
         )}
         min={type === "number" ? min : undefined}

@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { IEventResponse } from "./types";
+import { IEventCategory, IEventResponse } from "./types";
 
 export async function getEvents() {
   try {
@@ -32,7 +32,9 @@ export async function getEventById(id: string) {
 
 export async function getCategories() {
   try {
-    const res = await api.get("/event_categories");
+    const res = await api.get<{ event_categories: IEventCategory[] }>(
+      "/event_categories",
+    );
     return res.data.event_categories;
   } catch {
     throw new Error(`Failed to fetch categories. Please try again later.`);

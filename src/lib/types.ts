@@ -81,7 +81,7 @@ export type IShiftsSorted = {
 
 export interface IEvent {
   id: string;
-  title: string;
+  name: string;
   category: IEventCategory;
   start: moment.Moment;
   end: moment.Moment;
@@ -115,9 +115,9 @@ export interface IJobProps {
 export interface IEventCategory {
   id: string;
   name: string;
+  type: "optional" | "mandatory";
   color: string;
   course?: ICourse;
-  type: "optional" | "mandatory";
 }
 
 export type IEventCategoriesSorted = {

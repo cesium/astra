@@ -17,6 +17,7 @@ interface ICustomCombobox {
   setSelectedItem: (item: IItemProps | null) => void;
   className?: string;
   placeholder?: string;
+  disableFlip?: boolean;
 }
 
 export default function CustomCombobox({
@@ -25,6 +26,7 @@ export default function CustomCombobox({
   setSelectedItem,
   className,
   placeholder,
+  disableFlip = false,
 }: ICustomCombobox) {
   const [query, setQuery] = useState("");
 
@@ -60,11 +62,15 @@ export default function CustomCombobox({
         </ComboboxButton>
       </div>
       <ComboboxOptions
-        anchor="bottom"
+        anchor={disableFlip ? undefined : "bottom"}
         transition
         className={clsx(
-          "border-dark/5 bg-muted w-(--input-width) rounded-xl border p-1 [--anchor-gap:--spacing(1)] empty:invisible",
-          "transition duration-100 ease-in data-leave:data-closed:opacity-0",
+          "border-dark/5 bg-muted z-50 rounded-xl border p-1 empty:invisible",
+          "origin-top transition duration-150 ease-out",
+          "data-closed:scale-95 data-closed:opacity-0",
+          disableFlip
+            ? "absolute top-full right-0 left-0 mt-1 max-h-60 overflow-auto"
+            : "w-(--input-width) [--anchor-gap:--spacing(1)]",
         )}
       >
         {filteredItems.map((item) => (

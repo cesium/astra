@@ -116,7 +116,7 @@ function formatEvents(events: IEventResponse[]) {
 
     return {
       id: event.id,
-      title: event.title,
+      name: event.title,
       category: event.category,
       start: start,
       end: end,
