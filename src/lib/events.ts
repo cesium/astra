@@ -28,7 +28,7 @@ export async function editEvent(id: string, event: IEventRequest) {
     const res = await api.patch(`/events/${id}`, { event });
     return res.data.event;
   } catch {
-    throw new Error(`Failed to edit category with id: ${id}`);
+    throw new Error(`Failed to edit event with id: ${id}`);
   }
 }
 
