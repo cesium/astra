@@ -24,6 +24,7 @@ import {
 import { useGetAllCourses } from "@/lib/queries/courses";
 import { useGetCategories, useGetEvents } from "@/lib/queries/events";
 import { ICourse, IEventCategory, IEventResponse } from "@/lib/types";
+import { isAllDay, isAllDayEvent } from "@/lib/utils";
 import { Switch } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
@@ -427,20 +428,7 @@ function EventModalLayout() {
       : null,
   );
 
-  const startsAtMidnight =
-    start &&
-    start.hours() === 0 &&
-    start.minutes() === 0 &&
-    start.seconds() === 0;
-  const endsAtMidnight =
-    end && end.hours() === 0 && end.minutes() === 0 && end.seconds() === 0;
-  const allday =
-    start &&
-    end &&
-    ((startsAtMidnight && endsAtMidnight) ||
-      end.diff(start, "days", true) >= 1);
-
-  const [enabled, setEnabled] = useState(allday || false);
+  const [enabled, setEnabled] = useState(isAllDayEvent(start, end));
 
   return (
     <div className="w-full space-y-8">
@@ -638,7 +626,11 @@ function TimeCard({ start, end }: { start: string; end: string }) {
 
   return (
     <div className="w-fit">
-      <p>{`${startFormatted.format("HH:mm")} - ${endFormatted.format("HH:mm")}`}</p>
+      {isAllDay(startFormatted, endFormatted) ? (
+        "All Day"
+      ) : (
+        <p>{`${startFormatted.format("HH:mm")} - ${endFormatted.format("HH:mm")}`}</p>
+      )}
     </div>
   );
 }

@@ -50,3 +50,33 @@ export function getContrastColor(baseColor: string, targetRatio: number = 5) {
 
   return contrastColor || (direction === "darken" ? "#000" : "#fff");
 }
+
+export function isAllDay(
+  start: moment.Moment | null,
+  end: moment.Moment | null,
+): boolean {
+  if (!start || !end) return false;
+
+  const startsAtMidnight =
+    start.hours() === 0 && start.minutes() === 0 && start.seconds() === 0;
+  const endsAtMidnight =
+    end.hours() === 0 && end.minutes() === 0 && end.seconds() === 0;
+
+  return startsAtMidnight && endsAtMidnight;
+}
+
+export function isMultipleDay(
+  start: moment.Moment | null,
+  end: moment.Moment | null,
+): boolean {
+  if (!start || !end) return false;
+
+  return end.diff(start, "days", true) >= 1;
+}
+
+export function isAllDayEvent(
+  start: moment.Moment | null,
+  end: moment.Moment | null,
+): boolean {
+  return isAllDay(start, end) || isMultipleDay(start, end);
+}
