@@ -16,8 +16,8 @@ export default function EventsCalendar() {
   const formattedEvents = activeEvents.map((event: IEvent): Event => {
     return {
       title: event.category.course
-        ? `[${event.category.course?.shortname}] ${event.name}`
-        : event.name,
+        ? `[${event.category.course?.shortname}] ${event.title}`
+        : event.title,
       start: event.start.toDate(),
       end: event.end.toDate(),
       allDay: event.allDay,

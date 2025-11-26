@@ -81,7 +81,7 @@ export type IShiftsSorted = {
 
 export interface IEvent {
   id: string;
-  name: string;
+  title: string;
   category: IEventCategory;
   start: moment.Moment;
   end: moment.Moment;
