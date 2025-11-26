@@ -10,7 +10,6 @@ interface IInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export default function Input({
   type,
   className,
-  value,
   center_text,
   min,
   max,
@@ -33,7 +32,6 @@ export default function Input({
     >
       <input
         type={mutType}
-        value={value}
         className={twMerge(
           clsx(
             textAlignment,
