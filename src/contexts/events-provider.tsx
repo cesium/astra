@@ -56,7 +56,10 @@ function sortCategoriesByYear(
     { otherCategories: [], courseCategories: [] },
   );
 
-  const otherFormatted = { categories: otherCategories };
+  const otherFormatted = {
+    year: undefined,
+    semesters: { 0: otherCategories },
+  };
 
   const courseCategoriesMap = courseCategories.reduce(
     (acc, category) => {
@@ -65,15 +68,22 @@ function sortCategoriesByYear(
       if (!acc[yearKey]) {
         acc[yearKey] = {
           year: category.course ? Number(category.course.year) : 0,
-          categories: [category],
+          semesters: {},
         };
-      } else {
-        acc[yearKey].categories.push(category);
       }
+
+      const semesterKey = category.course?.semester ?? 0;
+      if (!acc[yearKey].semesters[semesterKey]) {
+        acc[yearKey].semesters[semesterKey] = [];
+      }
+      acc[yearKey].semesters[semesterKey].push(category);
 
       return acc;
     },
-    {} as Record<string, { year: number; categories: IEventCategory[] }>,
+    {} as Record<
+      string,
+      { year: number; semesters: Record<number, IEventCategory[]> }
+    >,
   );
 
   const courseCategoriesFormatted = Object.values(courseCategoriesMap);
