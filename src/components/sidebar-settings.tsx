@@ -73,6 +73,12 @@ export default function SidebarSettings() {
                   >
                     <SidebarItemLabel icon="sdk" label="Schedule Generator" />
                   </SidebarItem>
+                  <SidebarItem
+                    id="feedbacks"
+                    href="/settings/backoffice/feedbacks"
+                  >
+                    <SidebarItemLabel icon="mode_comment" label="Feedbacks" />
+                  </SidebarItem>
                 </>
               )}
             </SidebarItemList>
