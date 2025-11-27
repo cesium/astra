@@ -157,12 +157,19 @@ function DeleteModalLayout() {
         <h3 className="text-xl font-semibold">
           Are you sure you want to delete this {isEvent ? "event" : "category"}?
         </h3>
-        <p className="text-sm">
-          <span className="font-semibold">
-            {isEvent ? "Event" : "Category"}:
-          </span>{" "}
-          {name}
-        </p>
+        <div className="text-sm">
+          {isEvent ? (
+            <>
+              <span className="font-semibold">Event: </span>
+              {name}
+            </>
+          ) : (
+            <div className="inline-flex items-center gap-1">
+              <span className="material-symbols-outlined text-xl">error</span>
+              <p>{`Deleting category ${name} will remove all events linked to it`}</p>
+            </div>
+          )}
+        </div>
       </div>
       <div className="flex items-center justify-end gap-2">
         <button
@@ -367,7 +374,7 @@ function EventModalLayout() {
       end: z.date(),
       place: z.string().optional(),
       link: z
-        .string()
+        .url("Must be a valid URL starting with http:// or https://")
         .max(72, {
           message: "The link should be smaller than 72 characters",
         })
@@ -721,7 +728,7 @@ export default function EventsManagement() {
   return (
     <>
       <title>Events & Categories | Pombo</title>
-      <AuthCheck userTypes={["admin", "professor"]}>
+      <AuthCheck userTypes={["admin", "professor", "departments"]}>
         <SettingsWrapper title="Events & Categories">
           <EventsManagementContext.Provider
             value={{ onClose, onOpen, modalState, categories }}
