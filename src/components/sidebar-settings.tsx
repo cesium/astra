@@ -35,7 +35,7 @@ export default function SidebarSettings() {
         </SidebarItemList>
 
         {user.data &&
-          ["admin", "professor", "departments"].includes(user.data.type) && (
+          ["admin", "professor", "department"].includes(user.data.type) && (
             <>
               <SidebarHeader>Backoffice</SidebarHeader>
 

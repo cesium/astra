@@ -728,7 +728,7 @@ export default function EventsManagement() {
   return (
     <>
       <title>Events & Categories | Pombo</title>
-      <AuthCheck userTypes={["admin", "professor", "departments"]}>
+      <AuthCheck userTypes={["admin", "professor", "department"]}>
         <SettingsWrapper title="Events & Categories">
           <EventsManagementContext.Provider
             value={{ onClose, onOpen, modalState, categories }}
