@@ -34,6 +34,7 @@ export function useDeleteCategory() {
     mutationFn: deleteCategory,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["categories"] });
+      qc.invalidateQueries({ queryKey: ["events"] });
     },
   });
 }

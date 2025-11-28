@@ -25,7 +25,7 @@ export function TableHeader({ children, className }: IParentProps) {
   return (
     <thead
       className={clsx(
-        "border-dark/10 sticky top-0 border-b bg-white",
+        "sticky top-0 z-10 bg-white shadow-sm",
         className,
       )}
     >
