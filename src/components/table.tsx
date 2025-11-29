@@ -23,12 +23,7 @@ export function HeaderElement({
 
 export function TableHeader({ children, className }: IParentProps) {
   return (
-    <thead
-      className={clsx(
-        "sticky top-0 z-10 bg-white shadow-sm",
-        className,
-      )}
-    >
+    <thead className={clsx("sticky top-0 z-10 bg-white shadow-sm", className)}>
       <tr>{children}</tr>
     </thead>
   );
