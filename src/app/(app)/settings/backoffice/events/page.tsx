@@ -374,11 +374,21 @@ function EventModalLayout() {
       end: z.date(),
       place: z.string().optional(),
       link: z
-        .url("Must be a valid URL starting with http:// or https://")
-        .max(72, {
-          message: "The link should be smaller than 72 characters",
-        })
-        .optional(),
+        .string()
+        .optional()
+        .refine((val) => {
+          if (!val) return true;
+          try {
+            new URL(val);
+            return true;
+          } catch {
+            return false;
+          }
+        }, "Must be a valid URL starting with http:// or https://")
+        .refine(
+          (val) => !val || val.length <= 72,
+          "The link should be smaller than 72 characters",
+        ),
     })
     .refine((data) => data.end >= data.start, {
       message: "End date must be equal or after start date",
