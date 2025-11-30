@@ -12,7 +12,7 @@ import {
   IEventCategory,
   IEventResponse,
 } from "@/lib/types";
-import { getContrastColor } from "@/lib/utils";
+import { getContrastColor, isAllDayEvent } from "@/lib/utils";
 import moment from "moment";
 import { createContext, useEffect, useState } from "react";
 
@@ -106,14 +106,6 @@ function formatEvents(events: IEventResponse[]) {
     const start = moment.utc(event.start);
     const end = moment.utc(event.end);
 
-    const startsAtMidnight =
-      start.hours() === 0 && start.minutes() === 0 && start.seconds() === 0;
-    const endsAtMidnight =
-      end.hours() === 0 && end.minutes() === 0 && end.seconds() === 0;
-    const allday =
-      (startsAtMidnight && endsAtMidnight) ||
-      end.diff(start, "days", true) >= 1;
-
     return {
       id: event.id,
       title: event.title,
@@ -124,7 +116,7 @@ function formatEvents(events: IEventResponse[]) {
       link: event.link,
       eventColor: event.category.color,
       textColor: getContrastColor(event.category.color, 5),
-      allDay: allday,
+      allDay: isAllDayEvent(start, end),
     };
   });
 }

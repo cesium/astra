@@ -102,6 +102,10 @@ export interface IEventResponse {
   link?: string;
 }
 
+export type IEventRequest = Omit<IEventResponse, "id" | "category"> & {
+  category_id: string;
+};
+
 export interface IJobProps {
   id: number;
   type: string;
@@ -115,10 +119,14 @@ export interface IJobProps {
 export interface IEventCategory {
   id: string;
   name: string;
+  type: "optional" | "mandatory";
   color: string;
   course?: ICourse;
-  type: "optional" | "mandatory";
 }
+
+export type IEventCategoryRequest = Omit<IEventCategory, "id" | "course"> & {
+  course_id: string;
+};
 
 export type IEventCategoriesSorted = {
   year?: number;
