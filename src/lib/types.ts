@@ -65,7 +65,7 @@ export type IShiftsSorted = {
   semesters: Record<
     number,
     Record<
-      string,
+      number,
       {
         courseName: string;
         color: string;
@@ -130,7 +130,7 @@ export type IEventCategoryRequest = Omit<IEventCategory, "id" | "course"> & {
 
 export type IEventCategoriesSorted = {
   year?: number;
-  categories: IEventCategory[];
+  semesters: Record<number, IEventCategory[]>;
 }[];
 
 export interface IItemProps {
