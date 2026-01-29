@@ -50,9 +50,11 @@ function addShiftById(
     );
     return {
       ...newShift,
-      status: isOriginal
-        ? "active"
-        : ("override" as "active" | "override" | "inactive" | null),
+      status: (isOriginal ? "active" : "override") as
+        | "active"
+        | "override"
+        | "inactive"
+        | null,
     };
   });
 
