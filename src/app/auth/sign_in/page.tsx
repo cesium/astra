@@ -30,14 +30,11 @@ export default function SignIn() {
   const router = useRouter();
 
   const onSubmit: SubmitHandler<FormSchema> = (data) => {
-    signIn.mutate(
-      { ...data },
-      {
-        onSuccess: () => {
-          router.replace("/");
-        },
+    signIn.mutate(data, {
+      onSuccess: () => {
+        router.replace("/");
       },
-    );
+    });
   };
 
   return (
