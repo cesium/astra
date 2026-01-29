@@ -12,7 +12,10 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
-  email: z.email(),
+  email: z.email({
+    pattern: /^[aA]\d{6}@alunos\.uminho\.pt$/,
+    message: "Email must be in the format a123456@alunos.uminho.pt",
+  }),
   password: z.string().min(1, "Password is required"),
 });
 
@@ -80,7 +83,7 @@ export default function SignIn() {
                 {...register("email")}
                 id="email"
                 className="bg-dark/5 border-0 placeholder:text-black/50"
-                placeholder="Email"
+                placeholder="a123456@alunos.uminho.pt"
               />
               <span className="text-danger pl-2">{errors.email?.message}</span>
             </div>
