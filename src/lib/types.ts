@@ -42,6 +42,7 @@ export interface ICourse {
 
 export interface IShift {
   id: string;
+  slotId: string;
   courseName: string;
   courseId: string;
   shortCourseName: string;
