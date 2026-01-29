@@ -2,6 +2,7 @@ import { EventProps } from "react-big-calendar";
 import { editColor } from "@/lib/utils";
 
 export default function EventCard({ event }: EventProps) {
+  const id = event.resource?.id;
   const building = event.resource?.building;
   const room = event.resource?.room;
   const textColor = event.resource?.textColor;
@@ -10,6 +11,7 @@ export default function EventCard({ event }: EventProps) {
 
   return (
     <div
+      id={id}
       className="h-full w-full px-1.5 py-0.5"
       style={{
         backgroundImage:
