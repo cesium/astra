@@ -258,7 +258,7 @@ export function ScheduleProvider({ children }: { children: React.ReactNode }) {
 
   function extractIds(shifts: IShift[]): string[] {
     const Ids = shifts.map((shift) => shift.id);
-    return Ids;
+    return [...new Set(Ids)];
   }
 
   function filterCurrentSchedule(
