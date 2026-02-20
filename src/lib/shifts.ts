@@ -22,5 +22,5 @@ export async function deleteTimeslot(data: {
   shiftId: string;
   timeslotId: string;
 }) {
-  return await api.delete(`/timeslots/${data.timeslotId}`);
+  return await api.delete(`/shifts/timeslots/${data.timeslotId}`);
 }
