@@ -1,3 +1,5 @@
+import chroma from "chroma-js";
+
 export function firstLastName(name: string | undefined) {
   if (!name) return "";
 
@@ -21,3 +23,60 @@ export const editColor = (color: string, opacity: number, darken: number) => {
 
   return rgbaColor;
 };
+
+export function getContrastColor(baseColor: string, targetRatio: number = 5) {
+  const base = chroma(baseColor.trim());
+  let contrastColor;
+
+  const direction = base.luminance() > 0.5 ? "darken" : "brighten";
+
+  const step = 0.01;
+  let modifier = 0;
+  const maxModifier = 1;
+
+  while (modifier <= maxModifier) {
+    const candidate =
+      direction === "darken"
+        ? base.darken(modifier * 3)
+        : base.brighten(modifier * 3);
+
+    if (chroma.contrast(base, candidate) >= targetRatio) {
+      contrastColor = candidate.hex();
+      break;
+    }
+
+    modifier += step;
+  }
+
+  return contrastColor || (direction === "darken" ? "#000" : "#fff");
+}
+
+export function isAllDay(
+  start: moment.Moment | null,
+  end: moment.Moment | null,
+): boolean {
+  if (!start || !end) return false;
+
+  const startsAtMidnight =
+    start.hours() === 0 && start.minutes() === 0 && start.seconds() === 0;
+  const endsAtMidnight =
+    end.hours() === 0 && end.minutes() === 0 && end.seconds() === 0;
+
+  return startsAtMidnight && endsAtMidnight;
+}
+
+export function isMultipleDay(
+  start: moment.Moment | null,
+  end: moment.Moment | null,
+): boolean {
+  if (!start || !end) return false;
+
+  return end.diff(start, "days", true) >= 1;
+}
+
+export function isAllDayEvent(
+  start: moment.Moment | null,
+  end: moment.Moment | null,
+): boolean {
+  return isAllDay(start, end) || isMultipleDay(start, end);
+}

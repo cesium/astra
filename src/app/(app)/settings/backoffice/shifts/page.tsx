@@ -271,7 +271,7 @@ export default function Shifts() {
               <p>Here you can edit the shifts.</p>
             </section>
             <section className="flex-col gap-4">
-              <div className="flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+              <div className="flex flex-col rounded-lg border border-gray-200 bg-white p-6">
                 <h3 className="mb-4 text-lg font-medium">Select Course</h3>
                 <div className="flex flex-1 flex-col items-center justify-center gap-2 text-gray-400 lg:flex-row">
                   <ShiftsListbox
@@ -293,7 +293,7 @@ export default function Shifts() {
               </div>
             </section>
             <section className="flex flex-1 flex-col gap-4">
-              <div className="flex flex-1 flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+              <div className="flex flex-1 flex-col rounded-lg border border-gray-200 bg-white p-6">
                 <h3 className="mb-4 text-lg font-medium">Shift Details</h3>
                 {selectedShift ? (
                   <form onSubmit={handleSubmit(onSubmit)}>

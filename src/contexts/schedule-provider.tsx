@@ -35,23 +35,42 @@ function addShiftById(
   originalShifts: IShift[],
   id: string,
 ): IShift[] {
-  const newShift = allShifts.find((shift) => shift.id === id);
-  const isOriginal = originalShifts.some(
-    (shift) =>
-      shift.id === id &&
-      (shift.status === "inactive" || shift.status === "active"),
+  const newShifts = allShifts.filter((shift) => shift.id === id);
+
+  const shiftsToAdd = newShifts.filter(
+    (newShift) =>
+      !shifts.some((s) => s.id === newShift.id && s.slotId === newShift.slotId),
   );
-  if (newShift && !shifts.some((s) => s.id === id)) {
-    return [
-      ...shifts,
-      { ...newShift, status: isOriginal ? "active" : "override" },
-    ];
-  }
-  return shifts;
+
+  const mappedShifts = shiftsToAdd.map((newShift) => {
+    const isOriginal = originalShifts.some(
+      (shift) =>
+        shift.id === id &&
+        (shift.status === "inactive" || shift.status === "active"),
+    );
+    return {
+      ...newShift,
+      status: (isOriginal ? "active" : "override") as
+        | "active"
+        | "override"
+        | "inactive"
+        | null,
+    };
+  });
+
+  return [...shifts, ...mappedShifts];
 }
 
 function sortShiftsByYearCourse(mixedShifts: IShift[]): IShiftsSorted {
-  const byYearSemester = mixedShifts.reduce(
+  // remove duplicates since timeslots are previously converted to shifts
+  const seen = new Set<string>();
+  const uniqueShifts = mixedShifts.filter((shift) => {
+    if (seen.has(shift.id)) return false;
+    seen.add(shift.id);
+    return true;
+  });
+
+  const byYearSemester = uniqueShifts.reduce(
     (acc, shift) => {
       if (!acc[shift.year]) acc[shift.year] = {};
 
@@ -171,6 +190,7 @@ function extractShifts(courses: ICourse[]): IShift[] {
 
           return {
             id: shiftGroup.id,
+            slotId: shift.id,
             courseName: course.name,
             courseId: course.id,
             shortCourseName: course.shortname,
@@ -237,8 +257,8 @@ export function ScheduleProvider({ children }: { children: React.ReactNode }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   function extractIds(shifts: IShift[]): string[] {
-    const Ids = new Set(shifts.map((shift) => shift.id));
-    return Array.from(Ids);
+    const Ids = shifts.map((shift) => shift.id);
+    return [...new Set(Ids)];
   }
 
   function filterCurrentSchedule(

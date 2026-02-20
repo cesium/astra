@@ -34,54 +34,78 @@ export default function SidebarSettings() {
           </SidebarItem>
         </SidebarItemList>
 
-        {user.data && ["admin", "professor"].includes(user.data.type) && (
-          <>
-            <SidebarHeader>Backoffice</SidebarHeader>
+        {user.data &&
+          ["admin", "professor", "department"].includes(user.data.type) && (
+            <>
+              <SidebarHeader>Backoffice</SidebarHeader>
 
-            <SidebarItemList>
-              <SidebarItem
-                id="configurations"
-                href="/settings/backoffice/configurations"
-              >
-                <SidebarItemLabel icon="settings" label="Configurations" />
-              </SidebarItem>
+              <SidebarItemList>
+                {["admin", "professor"].includes(user.data.type) && (
+                  <>
+                    <SidebarItem
+                      id="configurations"
+                      href="/settings/backoffice/configurations"
+                    >
+                      <SidebarItemLabel
+                        icon="settings"
+                        label="Configurations"
+                      />
+                    </SidebarItem>
 
-              <SidebarItem id="exports" href="/settings/backoffice/exports">
-                <SidebarItemLabel icon="download" label="Export" />
-              </SidebarItem>
+                    <SidebarItem
+                      id="exports"
+                      href="/settings/backoffice/exports"
+                    >
+                      <SidebarItemLabel icon="download" label="Export" />
+                    </SidebarItem>
 
-              <SidebarItem id="jobs" href="/settings/backoffice/jobs">
-                <SidebarItemLabel icon="data_table" label="Jobs Monitor" />
-              </SidebarItem>
+                    <SidebarItem id="jobs" href="/settings/backoffice/jobs">
+                      <SidebarItemLabel
+                        icon="data_table"
+                        label="Jobs Monitor"
+                      />
+                    </SidebarItem>
 
-              <SidebarItem
-                id="statistics"
-                href="/settings/backoffice/statistics"
-              >
-                <SidebarItemLabel icon="insights" label="Statistics" />
-              </SidebarItem>
+                    <SidebarItem
+                      id="statistics"
+                      href="/settings/backoffice/statistics"
+                    >
+                      <SidebarItemLabel icon="insights" label="Statistics" />
+                    </SidebarItem>
+                  </>
+                )}
 
-              {user.data && user.data.type === "admin" && (
-                <>
-                  <SidebarItem id="imports" href="/settings/backoffice/imports">
-                    <SidebarItemLabel icon="upload" label="Import" />
-                  </SidebarItem>
+                {user.data && user.data.type === "admin" && (
+                  <>
+                    <SidebarItem
+                      id="imports"
+                      href="/settings/backoffice/imports"
+                    >
+                      <SidebarItemLabel icon="upload" label="Import" />
+                    </SidebarItem>
 
-                  <SidebarItem
-                    id="generator"
-                    href="/settings/backoffice/generator"
-                  >
-                    <SidebarItemLabel icon="sdk" label="Schedule Generator" />
-                  </SidebarItem>
+                    <SidebarItem
+                      id="generator"
+                      href="/settings/backoffice/generator"
+                    >
+                      <SidebarItemLabel icon="sdk" label="Schedule Generator" />
+                    </SidebarItem>
 
                   <SidebarItem id="shifts" href="/settings/backoffice/shifts">
                     <SidebarItemLabel icon="work_history" label="Shifts" />
                   </SidebarItem>
-                </>
-              )}
-            </SidebarItemList>
-          </>
-        )}
+                  </>
+                )}
+
+                <SidebarItem id="events" href="/settings/backoffice/events">
+                  <SidebarItemLabel
+                    icon="event_upcoming"
+                    label="Events & Categories"
+                  />
+                </SidebarItem>
+              </SidebarItemList>
+            </>
+          )}
       </Sidebar>
     </div>
   );

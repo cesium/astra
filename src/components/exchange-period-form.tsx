@@ -17,6 +17,7 @@ const toDateTimeLocal = (date: Date | undefined | null) => {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
+const currentYear = new Date().getFullYear();
 const formSchema = z
   .object({
     start: z.date(),
@@ -26,12 +27,12 @@ const formSchema = z
     message: "End date must be after start date",
     path: ["end"],
   })
-  .refine((data) => data.start.getFullYear() === 2025, {
-    message: "Start date must be in the year 2025",
+  .refine((data) => data.start.getFullYear() === currentYear, {
+    message: `Start date must be in the year ${currentYear}`,
     path: ["start"],
   })
-  .refine((data) => data.end.getFullYear() === 2025, {
-    message: "End date must be in the year 2025",
+  .refine((data) => data.end.getFullYear() === currentYear, {
+    message: `End date must be in the year ${currentYear}`,
     path: ["end"],
   });
 
