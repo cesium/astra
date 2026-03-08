@@ -28,6 +28,14 @@ export interface IExchange {
       | "theoretical_practical"
       | "practical_laboratory"
       | "tutorial_guidance";
+    professor: string;
+    timeslots: {
+      weekday: string;
+      start: string;
+      end: string;
+      building: string;
+      room: string;
+    }[];
     number: number;
   };
   to: {
@@ -37,6 +45,14 @@ export interface IExchange {
       | "theoretical_practical"
       | "practical_laboratory"
       | "tutorial_guidance";
+    professor: string;
+    timeslots: {
+      weekday: string;
+      start: string;
+      end: string;
+      building: string;
+      room: string;
+    }[];
     number: number;
   };
   course: { id: string; name: string };
@@ -44,18 +60,43 @@ export interface IExchange {
 
 export default function MainSection() {
   const { data: response } = useGetExchanges();
-
   const exchanges = response?.data?.requests ?? [];
+  //console.log(exchanges)
   const pending_exchanges = exchanges
     .filter((exchange: IExchange) => exchange.status === "pending")
     .map((exchange: IExchange) => ({
       id: exchange.id,
       uc: exchange.course.name,
       status: exchange.status,
-      from: `${getShortShiftType(exchange.from.type)}${exchange.from.number}`,
-      to: `${getShortShiftType(exchange.to.type)}${exchange.to.number}`,
+      from: {
+        shift: `${getShortShiftType(exchange.from.type)}${exchange.from.number}`,
+        professor: exchange.from.professor,
+        timeslots: exchange.from.timeslots.map((timeslot) => {
+          return {
+            weekday: timeslot.weekday,
+            start: timeslot.start,
+            end: timeslot.end,
+            room: timeslot.room,
+            building: timeslot.building,
+          };
+        }),
+      },
+      to: {
+        shift: `${getShortShiftType(exchange.to.type)}${exchange.to.number}`,
+        professor: exchange.to.professor,
+        timeslots: exchange.to.timeslots.map((timeslot) => {
+          return {
+            weekday: timeslot.weekday,
+            start: timeslot.start,
+            end: timeslot.end,
+            room: timeslot.room,
+            building: timeslot.building,
+          };
+        }),
+      },
       exchange_id: exchange.id,
     }));
+  console.log(pending_exchanges);
 
   const approved_exchanges = exchanges
     .filter((exchange: IExchange) => exchange.status === "approved")
@@ -63,11 +104,35 @@ export default function MainSection() {
       id: exchange.id,
       uc: exchange.course.name,
       status: exchange.status,
-      from: `${getShortShiftType(exchange.from.type)}${exchange.from.number}`,
-      to: `${getShortShiftType(exchange.to.type)}${exchange.to.number}`,
+      from: {
+        shift: `${getShortShiftType(exchange.from.type)}${exchange.from.number}`,
+        professor: exchange.from.professor,
+        timeslots: exchange.from.timeslots.map((timeslot) => {
+          return {
+            weekday: timeslot.weekday,
+            start: timeslot.start,
+            end: timeslot.end,
+            room: timeslot.room,
+            building: timeslot.building,
+          };
+        }),
+      },
+      to: {
+        shift: `${getShortShiftType(exchange.to.type)}${exchange.to.number}`,
+        professor: exchange.to.professor,
+        timeslots: exchange.to.timeslots.map((timeslot) => {
+          return {
+            weekday: timeslot.weekday,
+            start: timeslot.start,
+            end: timeslot.end,
+            room: timeslot.room,
+            building: timeslot.building,
+          };
+        }),
+      },
       exchange_id: exchange.id,
     }));
-
+  console.log(approved_exchanges);
   return (
     <div className="flex w-full min-w-0 flex-col gap-8 lg:pr-4">
       <h1 className="text-2xl font-semibold">Shift Exchange Requests</h1>

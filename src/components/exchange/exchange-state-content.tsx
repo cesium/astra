@@ -2,6 +2,25 @@ function isEqual({ n, x }: { n: number; x: number }) {
   return n === x;
 }
 
+function firstAndLastName(fullName: string) {
+  const words = fullName.trim().split(/\s+/);
+  if (words.length === 1) return words[0];
+
+  return `${words[0]} ${words[words.length - 1]}`;
+}
+
+interface ShiftProps {
+  shift: string;
+  professor?: string;
+  timeslots: {
+    weekday: string;
+    start: string;
+    end: string;
+    room: string;
+    building: string;
+  }[];
+}
+
 export default function ExchangeStateContent({
   uc,
   from,
@@ -10,11 +29,13 @@ export default function ExchangeStateContent({
   status,
 }: {
   uc: string;
-  from: string;
-  to: string;
+  from: ShiftProps;
+  to: ShiftProps;
   shift: string;
   status: "pending" | "completed";
 }) {
+  // console.log(from);
+  // console.log(to);
   const isPending = status === "pending";
   const loadingStyle =
     "animated-background bg-gradient-to-r from-celeste via-celeste/30 to-celeste";
@@ -34,19 +55,55 @@ export default function ExchangeStateContent({
     <div className="flex flex-col gap-4">
       <div className="flex w-full flex-col gap-2">
         <h2 className="font-semibold">Exchange request information</h2>
-        <div className="flex w-full gap-20">
-          <div className="flex flex-col justify-between gap-1">
-            <span className="text-gray-500">Curricular Unit</span>
-            <span className="text-gray-500">Shift type</span>
-            <span className="text-gray-500">Exchange</span>
+        <div className="grid w-fit grid-cols-[120px_1fr] gap-x-4 gap-y-3 text-sm">
+          <span className="text-gray-500">Curricular Unit</span>
+          <span className="font-medium text-black">{uc}</span>
+
+          <span className="text-gray-500">Shift type</span>
+          <span>{shift}</span>
+
+          <span className="text-gray-500">Exchange</span>
+          <div className="flex items-center gap-1">
+            <span>{from.shift}</span>
+            <span className="material-symbols-outlined text-sm">
+              arrow_forward
+            </span>
+            <span>{to.shift}</span>
           </div>
-          <div className="flex flex-col justify-between gap-1">
-            <span>{uc}</span>
-            <span>{shift}</span>
-            <div className="flex items-center gap-1">
-              <span>{from}</span>
-              <span className="material-symbols-outlined">arrow_forward</span>
-              <span>{to}</span>
+
+          {from.professor && to.professor && (
+            <>
+              <span className="text-gray-500">Professor</span>
+              <div className="flex items-center gap-1">
+                <span>{firstAndLastName(from.professor)}</span>
+                <span className="material-symbols-outlined text-sm">
+                  arrow_forward
+                </span>
+                <span>{firstAndLastName(to.professor)}</span>
+              </div>
+            </>
+          )}
+
+          <span className="text-gray-500">Time and Room</span>
+          <div className="flex w-fit flex-col gap-2">
+            <div className="flex flex-col">
+              {from.timeslots.map((slot, index) => (
+                <span key={index} className="capitalize">
+                  {`${slot.weekday}: ${slot.start} - ${slot.end}, CP${slot.building}-${slot.room}`}
+                </span>
+              ))}
+            </div>
+
+            <span className="material-symbols-outlined self-center text-sm">
+              arrow_downward
+            </span>
+
+            <div className="flex flex-col">
+              {to.timeslots.map((slot, index) => (
+                <span key={index} className="capitalize">
+                  {`${slot.weekday}: ${slot.start} - ${slot.end}, CP${slot.building}-${slot.room}`}
+                </span>
+              ))}
             </div>
           </div>
         </div>
