@@ -61,7 +61,6 @@ export interface IExchange {
 export default function MainSection() {
   const { data: response } = useGetExchanges();
   const exchanges = response?.data?.requests ?? [];
-  //console.log(exchanges)
   const pending_exchanges = exchanges
     .filter((exchange: IExchange) => exchange.status === "pending")
     .map((exchange: IExchange) => ({
@@ -96,7 +95,6 @@ export default function MainSection() {
       },
       exchange_id: exchange.id,
     }));
-  console.log(pending_exchanges);
 
   const approved_exchanges = exchanges
     .filter((exchange: IExchange) => exchange.status === "approved")
@@ -132,7 +130,6 @@ export default function MainSection() {
       },
       exchange_id: exchange.id,
     }));
-  console.log(approved_exchanges);
   return (
     <div className="flex w-full min-w-0 flex-col gap-8 lg:pr-4">
       <h1 className="text-2xl font-semibold">Shift Exchange Requests</h1>
