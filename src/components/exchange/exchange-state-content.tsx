@@ -1,5 +1,15 @@
+import { DateLocalizer, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
+
 function isEqual({ n, x }: { n: number; x: number }) {
   return n === x;
+}
+
+const localizer = momentLocalizer(moment);
+
+export function formatWeekday(weekdayString: string): string {
+  const date = moment(weekdayString, "dddd").toDate();
+  return localizer.format(date, "ddd");
 }
 
 function firstAndLastName(fullName: string) {
@@ -34,8 +44,6 @@ export default function ExchangeStateContent({
   shift: string;
   status: "pending" | "completed";
 }) {
-  // console.log(from);
-  // console.log(to);
   const isPending = status === "pending";
   const loadingStyle =
     "animated-background bg-gradient-to-r from-celeste via-celeste/30 to-celeste";
@@ -84,24 +92,46 @@ export default function ExchangeStateContent({
             </>
           )}
 
-          <span className="text-gray-500">Time and Room</span>
-          <div className="flex w-fit flex-col gap-2">
+          <span className="text-gray-500">Time</span>
+          <div className="flex w-fit flex-row gap-2">
             <div className="flex flex-col">
               {from.timeslots.map((slot, index) => (
                 <span key={index} className="capitalize">
-                  {`${slot.weekday}: ${slot.start} - ${slot.end}, CP${slot.building}-${slot.room}`}
+                  {`${formatWeekday(slot.weekday)}: ${slot.start} - ${slot.end}`}
                 </span>
               ))}
             </div>
 
             <span className="material-symbols-outlined self-center text-sm">
-              arrow_downward
+              arrow_forward
             </span>
 
             <div className="flex flex-col">
               {to.timeslots.map((slot, index) => (
                 <span key={index} className="capitalize">
-                  {`${slot.weekday}: ${slot.start} - ${slot.end}, CP${slot.building}-${slot.room}`}
+                  {`${formatWeekday(slot.weekday)}: ${slot.start} - ${slot.end}`}
+                </span>
+              ))}
+            </div>
+          </div>
+          <span className="text-gray-500">Room</span>
+          <div className="flex w-fit flex-row gap-2">
+            <div className="flex flex-col">
+              {from.timeslots.map((slot, index) => (
+                <span key={index} className="capitalize">
+                  {`CP${slot.building}-${slot.room}`}
+                </span>
+              ))}
+            </div>
+
+            <span className="material-symbols-outlined self-center text-sm">
+              arrow_forward
+            </span>
+
+            <div className="flex flex-col">
+              {to.timeslots.map((slot, index) => (
+                <span key={index} className="capitalize">
+                  {`CP${slot.building}-${slot.room}`}
                 </span>
               ))}
             </div>
