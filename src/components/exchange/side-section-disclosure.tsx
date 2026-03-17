@@ -11,12 +11,10 @@ export default function SideSectionDisclosure({
 }: ISideSectionDisclosure) {
   return (
     <Card>
-        <div className="group flex w-full items-center justify-between">
-          <h2 className="text-sm font-semibold uppercase">{title}</h2>
-        </div>
-        <div className="overflow-hidden">
-            {children}
-        </div>
+      <div className="group flex w-full items-center justify-between">
+        <h2 className="text-sm font-semibold uppercase">{title}</h2>
+      </div>
+      <div className="overflow-hidden">{children}</div>
     </Card>
   );
 }
