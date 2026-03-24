@@ -90,6 +90,10 @@ export default function SidebarSettings() {
                     >
                       <SidebarItemLabel icon="sdk" label="Schedule Generator" />
                     </SidebarItem>
+
+                    <SidebarItem id="shifts" href="/settings/backoffice/shifts">
+                      <SidebarItemLabel icon="work_history" label="Shifts" />
+                    </SidebarItem>
                   </>
                 )}
 
