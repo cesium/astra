@@ -16,6 +16,7 @@ import {
 import { extractShifts, formatIShift } from "@/lib/utils";
 import clsx from "clsx";
 import { useParams } from "next/navigation";
+import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 
 export default function Student() {
@@ -30,6 +31,18 @@ export default function Student() {
   const formattedShifts = formatIShift(extractShifts(studentSchedule || []));
 
   const forgotPassword = useForgotPassword();
+
+  // Sets the min and max date for the calendar view port
+  // useMemo fixes client-side hydration issues
+  const { minDate, maxDate } = useMemo(() => {
+    const min = new Date();
+    min.setHours(8, 0, 0);
+
+    const max = new Date();
+    max.setHours(20, 0, 0);
+
+    return { minDate: min, maxDate: max };
+  }, []);
 
   return (
     <SettingsWrapper title={"Manage Student | Pombo"}>
@@ -95,6 +108,8 @@ export default function Student() {
                   type="schedule"
                   events={formattedShifts}
                   views={{ work_week: true }}
+                  minDate={minDate}
+                  maxDate={maxDate}
                   editing={false}
                   className="schedule"
                 />

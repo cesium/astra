@@ -72,6 +72,13 @@ export default function SidebarSettings() {
                     >
                       <SidebarItemLabel icon="insights" label="Statistics" />
                     </SidebarItem>
+
+                    <SidebarItem
+                      id="students"
+                      href="/settings/backoffice/students"
+                    >
+                      <SidebarItemLabel icon="frame_inspect" label="Students" />
+                    </SidebarItem>
                   </>
                 )}
 

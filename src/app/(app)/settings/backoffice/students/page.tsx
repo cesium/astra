@@ -3,6 +3,12 @@
 import { AuthCheck } from "@/components/auth-check";
 import Avatar from "@/components/avatar";
 import SettingsWrapper from "@/components/settings-wrapper";
+import Table, {
+  TableCell,
+  TableContent,
+  TableHeader,
+  TableItemWrapper,
+} from "@/components/table";
 import { useListStudents } from "@/lib/queries/backoffice";
 import {
   FlopMetaParams,
@@ -54,33 +60,35 @@ const TableContext = createContext<ITableContext>({
   getSortDirection: () => SortDirection.NONE,
 });
 
-function Table({ children }: { children: React.ReactNode }) {
-  return <div className="border-dark/10 rounded-xl border">{children}</div>;
-}
-
-function TableHeader() {
+function StudentsTableHeader() {
   return (
-    <div className="border-dark/10 grid grid-cols-[1fr_1fr_1fr_25px] border-b px-4 py-1 text-start lg:grid-cols-5">
-      <HeaderElement
-        className="text-start"
+    <TableHeader>
+      <SortableHeaderElement
+        className="w-3/12 text-start"
         value="name"
         sortable
         title="Name"
       />
-      <HeaderElement
-        className="text-center lg:text-start"
+      <SortableHeaderElement
+        className="w-2/12 text-center lg:text-start"
         value="number"
         sortable
         title="Number"
       />
-      <HeaderElement className="hidden lg:block" title="Email" />
-      <HeaderElement className="hidden text-center md:block" title="Status" />
-      <div></div>
-    </div>
+      <SortableHeaderElement
+        className="hidden w-3/12 lg:table-cell lg:text-start"
+        title="Email"
+      />
+      <SortableHeaderElement
+        className="hidden w-2/12 text-center md:table-cell"
+        title="Status"
+      />
+      <th className="w-2/12 p-4" />
+    </TableHeader>
   );
 }
 
-function HeaderElement({
+function SortableHeaderElement({
   title,
   className,
   value,
@@ -106,7 +114,7 @@ function HeaderElement({
   };
 
   return (
-    <div className={className}>
+    <th className={clsx("p-4", className)}>
       <button
         className={twMerge(
           clsx(
@@ -118,36 +126,43 @@ function HeaderElement({
         aria-label={`Sort by ${title} ${currentDirection === SortDirection.NONE ? "" : currentDirection}`}
         disabled={!sortable}
       >
-        <h2 className={clsx("text-dark/50 py-2 font-semibold")}>{title}</h2>
+        <span className={clsx("text-dark/50 font-semibold")}>{title}</span>
         {sortable && (
           <span className="material-symbols-outlined text-dark/60 text-lg">
             {getSortIcon(currentDirection)}
           </span>
         )}
       </button>
-    </div>
+    </th>
   );
-}
-
-function TableContent({ children }: { children: React.ReactNode }) {
-  return <div className="divide-dark/10 divide-y">{children}</div>;
 }
 
 function UserCard({ student }: { student: Student }) {
   return (
-    <div className="grid grid-cols-[1fr_1fr_1fr_25px] items-center px-4 py-2 lg:grid-cols-5">
-      <div className="flex items-center gap-4">
-        <Avatar name={student.user.name} className="hidden size-12 lg:block" />
-        <p>{firstLastName(student.user.name)}</p>
-      </div>
+    <TableItemWrapper className="text-dark/80">
+      <TableCell className="w-3/12">
+        <div className="flex items-center gap-4">
+          <Avatar
+            name={student.user.name}
+            className="hidden size-12 lg:block"
+          />
+          <p>{firstLastName(student.user.name)}</p>
+        </div>
+      </TableCell>
 
-      <p className="text-center lg:text-start">{student.number}</p>
+      <TableCell className="w-2/12 text-center lg:text-start">
+        {student.number}
+      </TableCell>
 
-      <p className="hidden lg:block">{student.user.email}</p>
+      <TableCell className="hidden w-3/12 lg:table-cell">
+        {student.user.email}
+      </TableCell>
 
-      <p className="text-center">{student.special_status}</p>
+      <TableCell className="hidden w-2/12 text-center md:table-cell">
+        {student.special_status}
+      </TableCell>
 
-      <div className="text-end">
+      <TableCell className="w-2/12 text-end">
         <Link
           href={`/settings/backoffice/students/${student.id}`}
           className="w-fit"
@@ -156,8 +171,8 @@ function UserCard({ student }: { student: Student }) {
             edit
           </span>
         </Link>
-      </div>
-    </div>
+      </TableCell>
+    </TableItemWrapper>
   );
 }
 
@@ -342,19 +357,29 @@ export default function Students() {
             <div className="w-full space-y-3">
               <TableContext.Provider value={contextValue}>
                 <Table>
-                  <TableHeader />
+                  <StudentsTableHeader />
 
                   <TableContent>
                     {isLoading ? (
-                      <p className="text-dark/50 py-32 text-center">
-                        Loading...
-                      </p>
+                      <tr>
+                        <td colSpan={5} className="p-4">
+                          <p className="text-dark/50 py-28 text-center">
+                            Loading...
+                          </p>
+                        </td>
+                      </tr>
                     ) : studentsList.length > 0 ? (
                       studentsList.map((student: Student) => (
                         <UserCard key={student.id} student={student} />
                       ))
                     ) : (
-                      <p className="text-dark/50 py-32 text-center">No users</p>
+                      <tr>
+                        <td colSpan={5} className="p-4">
+                          <p className="text-dark/50 py-28 text-center">
+                            No users
+                          </p>
+                        </td>
+                      </tr>
                     )}
                   </TableContent>
                 </Table>
