@@ -4,26 +4,15 @@ import ExchangeModal from "./modal";
 import ExchangeStateContent from "../exchange-state-content";
 import { useState } from "react";
 import { useDeleteExchange } from "@/lib/mutations/exchange";
+import type { ExchangeShift } from "@/lib/types";
 
 interface IExchangeCardProps {
   uc: string;
-  from: ShiftProps;
-  to: ShiftProps;
+  from: ExchangeShift;
+  to: ExchangeShift;
   pending?: boolean;
   completed?: boolean;
   exchange_id?: string;
-}
-
-interface ShiftProps {
-  shift: string;
-  professor?: string;
-  timeslots: {
-    weekday: string;
-    start_hour: string;
-    end_hour: string;
-    room: string;
-    building: string;
-  }[];
 }
 
 const getShift = (shift: string) => {

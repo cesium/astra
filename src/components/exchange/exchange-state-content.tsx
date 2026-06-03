@@ -1,5 +1,6 @@
 import { momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+import type { ExchangeShift } from "@/lib/types";
 
 function isEqual({ n, x }: { n: number; x: number }) {
   return n === x;
@@ -19,18 +20,6 @@ function firstAndLastName(fullName: string) {
   return `${words[0]} ${words[words.length - 1]}`;
 }
 
-interface ShiftProps {
-  shift: string;
-  professor?: string;
-  timeslots: {
-    weekday: string;
-    start: string;
-    end: string;
-    room: string;
-    building: string;
-  }[];
-}
-
 export default function ExchangeStateContent({
   uc,
   from,
@@ -39,8 +28,8 @@ export default function ExchangeStateContent({
   status,
 }: {
   uc: string;
-  from: ShiftProps;
-  to: ShiftProps;
+  from: ExchangeShift;
+  to: ExchangeShift;
   shift: string;
   status: "pending" | "completed";
 }) {

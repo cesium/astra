@@ -28,6 +28,20 @@ export interface ITimeSlot {
   building: string | null;
 }
 
+export interface ExchangeShiftTimeslot {
+  weekday: string;
+  start: string;
+  end: string;
+  room: string;
+  building: string;
+}
+
+export interface ExchangeShift {
+  shift: string;
+  professor?: string;
+  timeslots: ExchangeShiftTimeslot[];
+}
+
 export interface IShiftResponse {
   id: string;
   type: string;
