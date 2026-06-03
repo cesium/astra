@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { IJobProps } from "./types";
+import { FlopMetaParams, IJobProps } from "./types";
 
 export async function listJobs() {
   try {
@@ -63,5 +63,36 @@ export async function getStatistics(course_id: string) {
     return res.data;
   } catch {
     throw new Error("Failed to fetch statistics. Please try again later.");
+  }
+}
+
+export async function listStudents(params: FlopMetaParams) {
+  try {
+    const res = await api.get("/students", { params });
+    return res.data;
+  } catch {
+    throw new Error("Failed to list Students. Please try again later.");
+  }
+}
+
+export async function getStudentScheduleById(student_id: string) {
+  try {
+    const res = await api.get(`/student/schedule/${student_id}`);
+    return res.data.courses;
+  } catch {
+    throw new Error(
+      "Failed to get student's schedule. Please try again later.",
+    );
+  }
+}
+
+export async function getStudentById(id: string) {
+  try {
+    const res = await api.get(`/student/${id}`);
+    return res.data.student;
+  } catch {
+    throw new Error(
+      `Failed to get student with id-${id}. Please try again later.`,
+    );
   }
 }

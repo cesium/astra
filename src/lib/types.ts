@@ -4,6 +4,14 @@ export enum UserType {
   professor,
 }
 
+export interface Student {
+  id: string;
+  number: string;
+  degree_year: number | null;
+  special_status: string;
+  user: User;
+}
+
 export interface User {
   id: string;
   name: string;
@@ -18,6 +26,20 @@ export interface ITimeSlot {
   weekday: string;
   room: string | null;
   building: string | null;
+}
+
+export interface ExchangeShiftTimeslot {
+  weekday: string;
+  start: string;
+  end: string;
+  room: string;
+  building: string;
+}
+
+export interface ExchangeShift {
+  shift: string;
+  professor?: string;
+  timeslots: ExchangeShiftTimeslot[];
 }
 
 export interface IShiftResponse {
@@ -137,4 +159,32 @@ export type IEventCategoriesSorted = {
 export interface IItemProps {
   id: string;
   name: string;
+}
+
+export enum SortDirection {
+  NONE = "none",
+  ASC = "asc",
+  DESC = "desc",
+}
+
+export interface FlopMetaParams {
+  "order_by[]"?: string;
+  "order_directions[]"?: string;
+  filters: { field: string; op: string; value: string }[];
+  page_size: number;
+  page: number;
+}
+
+export interface FlopMetaResponse {
+  sort: string[];
+  filters: string[];
+  page_size: number;
+  current_page: number;
+
+  next_page?: number | null;
+  previous_page?: number | null;
+  total_pages?: number;
+  has_next_page?: boolean;
+  has_previous_page?: boolean;
+  total_entries?: number;
 }
