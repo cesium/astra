@@ -1,4 +1,4 @@
-import { DateLocalizer, momentLocalizer } from "react-big-calendar";
+import { momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 
 function isEqual({ n, x }: { n: number; x: number }) {

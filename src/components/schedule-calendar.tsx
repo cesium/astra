@@ -4,7 +4,6 @@ import CalendarView from "./calendar/calendar";
 import { useContext, useMemo } from "react";
 import moment from "moment";
 import { ScheduleContext } from "@/contexts/schedule-provider";
-import { formatIShift } from "@/lib/utils";
 
 export default function ScheduleCalendar() {
   const context = useContext(ScheduleContext);
