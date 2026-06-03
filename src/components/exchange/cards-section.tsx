@@ -8,6 +8,18 @@ import { useGetExchangeDate } from "@/lib/queries/exchange";
 import { twMerge } from "tailwind-merge";
 import { clsx } from "clsx";
 
+interface ShiftProps {
+  shift: string;
+  professor?: string;
+  timeslots: {
+    weekday: string;
+    start_hour: string;
+    end_hour: string;
+    room: string;
+    building: string;
+  }[];
+}
+
 interface ICardSectionProps {
   title?: string;
   drafts?: boolean;
@@ -15,8 +27,8 @@ interface ICardSectionProps {
   completed?: boolean;
   data?: {
     uc: string;
-    from: string;
-    to: string;
+    from: ShiftProps;
+    to: ShiftProps;
     state: string;
     exchange_id: string;
   }[];

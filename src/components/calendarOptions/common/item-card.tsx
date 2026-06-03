@@ -1,0 +1,85 @@
+import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
+import ActionButton from "./action-button";
+
+function ShiftTag({
+  name,
+  id,
+  isEditing,
+  state,
+  onAction,
+}: {
+  name: string;
+  id: string;
+  isEditing: boolean;
+  state: "add" | "remove";
+  onAction?: (id: string) => void;
+}) {
+  return (
+    <div
+      id={id}
+      className={twMerge(
+        clsx(
+          "bg-dark/5 inline-flex w-fit items-center gap-2.5 rounded-2xl py-1.5 select-none",
+          isEditing ? "pr-1 pl-3" : "px-3",
+        ),
+      )}
+    >
+      <p>{name}</p>
+      {isEditing && <ActionButton id={id} state={state} onAction={onAction} />}
+    </div>
+  );
+}
+
+export default function EventHeader({
+  name,
+  color,
+  eventId,
+  shifts,
+  isEditing,
+  state,
+  onAction,
+}: {
+  name: string;
+  color: string;
+  eventId?: string;
+  shifts?: {
+    id: string;
+    type: string;
+    number: number;
+  }[];
+  isEditing: boolean;
+  state?: "add" | "remove";
+  onAction?: (id: string) => void;
+}) {
+  return (
+    <div className={twMerge(clsx("flex flex-col pb-3", shifts && "gap-2"))}>
+      <div className="inline-flex items-center justify-between pr-4">
+        <div className="inline-flex items-center">
+          <div
+            className="mr-2 h-3 w-1.5 rounded-full"
+            style={{ backgroundColor: color }}
+          />
+          <p className="max-w-2xs flex-1 truncate">{name}</p>
+        </div>
+        {!shifts && isEditing && onAction && (
+          <ActionButton state={state!} onAction={onAction} id={eventId} />
+        )}
+      </div>
+      {shifts && (
+        <div className="flex w-fit flex-wrap gap-2 pr-2">
+          {shifts.map((shift) => (
+            <ShiftTag
+              key={shift.id}
+              name={`${shift.type}${shift.number}`}
+              id={shift.id}
+              isEditing={isEditing}
+              state={state!}
+              onAction={onAction}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

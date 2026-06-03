@@ -1,5 +1,5 @@
 "use client";
-import { ScheduleContext } from "@/contexts/schedule-provider";
+import { IEvent, IShift } from "@/lib/types";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -12,15 +12,18 @@ import {
   useCallback,
   useMemo,
   Children,
-  useContext,
 } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface IAnimatedOptionsSection {
+interface IAnimatedOptionsSection<T = IShift | IEvent> {
   children: [ReactNode, ReactNode];
   title?: string;
   titleEdit?: string;
   classNameOpenedSection?: string;
+  isEditing: boolean;
+  setIsEditing: (prev: boolean) => void;
+  setEditingItems: (prev: T[]) => void;
+  currentItems: T[];
 }
 
 const useIsMobile = () => {
@@ -41,16 +44,17 @@ const useIsMobile = () => {
   return { isMobile, viewportHeight };
 };
 
-export default function AnimatedOptionsSection({
+export default function AnimatedOptionsSection<T = IShift | IEvent>({
   children,
   title = "Options",
   titleEdit = "Edit Options",
   classNameOpenedSection,
-}: IAnimatedOptionsSection) {
+  isEditing,
+  setIsEditing,
+  setEditingItems,
+  currentItems,
+}: IAnimatedOptionsSection<T>) {
   const [isOpen, setIsOpen] = useState(false);
-
-  const { isEditing, setIsEditing, setEditingShifts, currentSchedule } =
-    useContext(ScheduleContext);
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
@@ -58,9 +62,11 @@ export default function AnimatedOptionsSection({
   }, [setIsEditing]);
 
   const handleEditClick = useCallback(() => {
-    if (isEditing) setEditingShifts([...currentSchedule]);
+    if (isEditing) {
+      setEditingItems([...currentItems]);
+    }
     setIsEditing(!isEditing);
-  }, [isEditing, setIsEditing, setEditingShifts, currentSchedule]);
+  }, [isEditing, setIsEditing, setEditingItems, currentItems]);
 
   const handleMotionClick = useCallback(() => {
     if (!isOpen) {

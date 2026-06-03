@@ -15,7 +15,14 @@ type Story = StoryObj<typeof AnimatedOptionsSection>;
 const AnimatedOptionsSectionExample = () => {
   return (
     <div className="flex h-screen w-full items-center bg-gray-100 p-8">
-      <AnimatedOptionsSection title="Settings" titleEdit="Edit Settings">
+      <AnimatedOptionsSection
+        setIsEditing={() => {}}
+        isEditing={false}
+        setEditingItems={() => {}}
+        currentItems={[]}
+        title="Settings"
+        titleEdit="Edit Settings"
+      >
         <div className="space-y-4 p-4">
           <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
             <span>Theme</span>

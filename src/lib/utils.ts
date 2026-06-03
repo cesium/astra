@@ -1,5 +1,4 @@
-import moment from "moment";
-import { ICourse, IShift } from "./types";
+import chroma from "chroma-js";
 
 export function firstLastName(name: string | undefined) {
   if (!name) return "";
@@ -26,105 +25,59 @@ export const editColor = (color: string, opacity: number, darken: number) => {
   return rgbaColor;
 };
 
-// Converts an IShift to an Event
-export function formatIShift(shifts: IShift[]) {
-  return shifts.map((shift) => {
-    const [startHour, startMinute] = shift.start.split(":");
-    const [endHour, endMinute] = shift.end.split(":");
+export function getContrastColor(baseColor: string, targetRatio: number = 5) {
+  const base = chroma(baseColor.trim());
+  let contrastColor;
 
-    return {
-      title: `${shift.shortCourseName} - ${shift.shiftType}${shift.shiftNumber}`,
-      start: moment()
-        .day(shift.weekday + 1)
-        .hour(+startHour)
-        .minute(+startMinute)
-        .toDate(),
-      /* (*) we're subtracting 1 minute here to solve an issue that occurs when
-       * the end time of an event is equal to the start time of another.
-       * this issue causes the event bellow to think it is overlapping with the top one,
-       * when the `dayLayoutAlgorithm` is set to `no-overlap`.
-       */
-      end: moment()
-        .day(shift.weekday + 1)
-        .hour(+endHour)
-        .minute(+endMinute - 1) // (*)
-        .toDate(),
-      allDay: false,
-      resource: shift,
-    };
-  });
+  const direction = base.luminance() > 0.5 ? "darken" : "brighten";
+
+  const step = 0.01;
+  let modifier = 0;
+  const maxModifier = 1;
+
+  while (modifier <= maxModifier) {
+    const candidate =
+      direction === "darken"
+        ? base.darken(modifier * 3)
+        : base.brighten(modifier * 3);
+
+    if (chroma.contrast(base, candidate) >= targetRatio) {
+      contrastColor = candidate.hex();
+      break;
+    }
+
+    modifier += step;
+  }
+
+  return contrastColor || (direction === "darken" ? "#000" : "#fff");
 }
 
-// Extracts IShifts from ICourses
-export function extractShifts(courses: ICourse[]): IShift[] {
-  const { parentCourse, normalCourses } = courses.reduce(
-    (acc: { parentCourse: ICourse[]; normalCourses: ICourse[] }, course) => {
-      if (course.courses.length > 0) {
-        acc.parentCourse.push(course);
-      } else {
-        acc.normalCourses.push(course);
-      }
-      return acc;
-    },
-    { parentCourse: [], normalCourses: [] },
-  );
+export function isAllDay(
+  start: moment.Moment | null,
+  end: moment.Moment | null,
+): boolean {
+  if (!start || !end) return false;
 
-  const shiftsWithNoParents = normalCourses.flatMap((course) => {
-    if (course.shifts && course.shifts.length > 0) {
-      return course.shifts.flatMap((shiftGroup) =>
-        shiftGroup.timeslots.map((shift) => {
-          const WEEK_DAYS = [
-            "monday",
-            "tuesday",
-            "wednesday",
-            "thursday",
-            "friday",
-          ];
+  const startsAtMidnight =
+    start.hours() === 0 && start.minutes() === 0 && start.seconds() === 0;
+  const endsAtMidnight =
+    end.hours() === 0 && end.minutes() === 0 && end.seconds() === 0;
 
-          const SHIFT_TYPES: Record<string, "PL" | "T" | "TP" | "OL"> = {
-            theoretical: "T",
-            theoretical_practical: "TP",
-            practical_laboratory: "PL",
-            tutorial_guidance: "OL",
-          };
+  return startsAtMidnight && endsAtMidnight;
+}
 
-          const convertShiftType = (type: string): "PL" | "T" | "TP" | "OL" => {
-            return SHIFT_TYPES[type as keyof typeof SHIFT_TYPES];
-          };
+export function isMultipleDay(
+  start: moment.Moment | null,
+  end: moment.Moment | null,
+): boolean {
+  if (!start || !end) return false;
 
-          return {
-            id: shiftGroup.id,
-            courseName: course.name,
-            courseId: course.id,
-            shortCourseName: course.shortname,
-            professor: shiftGroup.professor ?? undefined,
-            weekday: WEEK_DAYS.indexOf(shift.weekday),
-            start: shift.start,
-            end: shift.end,
-            shiftType: convertShiftType(shiftGroup.type),
-            shiftNumber: shiftGroup.number,
-            building: shift.building
-              ? Number(shift.building) <= 3
-                ? `CP${shift.building}`
-                : `Building ${shift.building}`
-              : null,
-            room: shift.room || null,
-            year: course.year,
-            semester: course.semester,
-            eventColor: "#C3E5F9",
-            textColor: "#227AAE",
-            status: shiftGroup.enrollment_status,
-          };
-        }),
-      );
-    }
-    return [];
-  });
+  return end.diff(start, "days", true) >= 1;
+}
 
-  const childShifts =
-    parentCourse.length > 0
-      ? extractShifts(parentCourse.flatMap((c) => c.courses))
-      : [];
-
-  return [...shiftsWithNoParents, ...childShifts];
+export function isAllDayEvent(
+  start: moment.Moment | null,
+  end: moment.Moment | null,
+): boolean {
+  return isAllDay(start, end) || isMultipleDay(start, end);
 }

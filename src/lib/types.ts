@@ -50,6 +50,7 @@ export interface ICourse {
 
 export interface IShift {
   id: string;
+  slotId: string;
   courseName: string;
   courseId: string;
   shortCourseName: string;
@@ -88,17 +89,31 @@ export type IShiftsSorted = {
 }[];
 
 export interface IEvent {
-  id: number;
+  id: string;
   title: string;
-  category: string;
-  start: string;
-  end: string;
-  place: string;
-  link?: { label: string; href: string };
+  category: IEventCategory;
+  start: moment.Moment;
+  end: moment.Moment;
+  place?: string;
+  link?: string;
   eventColor: string;
   textColor: string;
   allDay?: boolean;
 }
+
+export interface IEventResponse {
+  id: string;
+  title: string;
+  category: IEventCategory;
+  start: string;
+  end: string;
+  place?: string;
+  link?: string;
+}
+
+export type IEventRequest = Omit<IEventResponse, "id" | "category"> & {
+  category_id: string;
+};
 
 export interface IJobProps {
   id: number;
@@ -109,6 +124,23 @@ export interface IJobProps {
   inserted_at: Date;
   user_id: string;
 }
+
+export interface IEventCategory {
+  id: string;
+  name: string;
+  type: "optional" | "mandatory";
+  color: string;
+  course?: ICourse;
+}
+
+export type IEventCategoryRequest = Omit<IEventCategory, "id" | "course"> & {
+  course_id: string;
+};
+
+export type IEventCategoriesSorted = {
+  year?: number;
+  categories: IEventCategory[];
+}[];
 
 export interface IItemProps {
   id: string;
