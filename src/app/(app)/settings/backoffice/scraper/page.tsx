@@ -110,9 +110,7 @@ const ConfigurationCard = ({
             {title}
           </button>
           {(error || warning) && (
-            <span
-              className="mt-2 block text-sm font-medium text-danger"
-            >
+            <span className="text-danger mt-2 block text-sm font-medium">
               {error?.message ?? warning}
             </span>
           )}
@@ -375,9 +373,9 @@ function TriggerModalLayout({
 
   const today = new Date();
 
-  // Sunday of the current week
+  // Monday of the current week
   const start = new Date(today);
-  start.setDate(today.getDate() - today.getDay());
+  start.setDate(today.getDate() - ((today.getDay() + 6) % 7));
   const defaultDate = start.toISOString().split("T")[0];
 
   const {
@@ -407,11 +405,11 @@ function TriggerModalLayout({
 
   const title = type === "link" ? "Link Timeslots" : "Sync Timeslots";
 
-  function getWeekSunday(dateString: string): string {
+  function getWeekMonday(dateString: string): string {
     const [y, m, d] = dateString.split("-").map(Number);
     const date = new Date(y, m - 1, d);
 
-    date.setDate(date.getDate() - date.getDay());
+    date.setDate(date.getDate() - ((date.getDay() + 6) % 7));
 
     const yyyy = date.getFullYear();
     const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -420,8 +418,8 @@ function TriggerModalLayout({
     return `${yyyy}-${mm}-${dd}`;
   }
 
-  const { onChange: startOnChange, ...startField } = register("week.start");
-  const { onChange: endOnChange, ...endField } = register("week.end");
+  const startField = register("week.start");
+  const endField = register("week.end");
 
   return (
     <form onSubmit={handleSubmit(handleSave)} className="w-full space-y-8">
@@ -517,10 +515,9 @@ function TriggerModalLayout({
               className="bg-muted !py-1 [&>input]:!text-black [&>input:invalid]:!text-black"
               {...startField}
               onChange={(e) => {
-                const snapped = getWeekSunday(e.target.value);
+                const snapped = getWeekMonday(e.target.value);
 
                 setValue("week.start", snapped, { shouldValidate: true });
-                startOnChange(e);
               }}
             />
 
@@ -540,10 +537,9 @@ function TriggerModalLayout({
               className="bg-muted !py-1 [&>input]:!text-black [&>input:invalid]:!text-black"
               {...endField}
               onChange={(e) => {
-                const snapped = getWeekSunday(e.target.value);
+                const snapped = getWeekMonday(e.target.value);
 
                 setValue("week.end", snapped, { shouldValidate: true });
-                endOnChange(e);
               }}
             />
 
