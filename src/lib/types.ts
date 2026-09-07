@@ -138,3 +138,13 @@ export interface IItemProps {
   id: string;
   name: string;
 }
+
+export interface IScrapeConfig {
+  course: string;
+  timeout: number;
+  years: number[];
+  week: {
+    start: string;
+    end: string;
+  };
+}
