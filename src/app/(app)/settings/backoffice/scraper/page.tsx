@@ -11,13 +11,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SettingsWrapper from "@/components/settings-wrapper";
 import Input from "@/components/input";
 import Label from "@/components/label";
-import { useGetAutoSyncState } from "@/lib/queries/backoffice";
+import { useGetAutoSyncState, useListJobs } from "@/lib/queries/backoffice";
 import {
   useLinkTimeslots,
   useSyncTimeslots,
   useToggleAutoSync,
 } from "@/lib/mutations/backoffice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@/components/modal";
 import { IScrapeConfig } from "@/lib/types";
 import Link from "next/link";
@@ -30,6 +30,9 @@ interface IConfigurationCardProps {
   icon: string;
   Actions?: React.ComponentType;
   onTrigger: () => void;
+  disabled?: boolean;
+  error?: Error | null;
+  warning?: string;
 }
 
 interface IModalStateProps {
@@ -47,6 +50,9 @@ const ConfigurationCard = ({
   icon,
   Actions,
   onTrigger,
+  disabled = false,
+  error,
+  warning,
 }: IConfigurationCardProps) => {
   return (
     <Card className="bg-muted flex flex-col gap-4 drop-shadow-none">
@@ -82,12 +88,12 @@ const ConfigurationCard = ({
         <p className="text-dark/80 text-sm">{description}</p>
         <div className="w-full">
           <button
-            disabled={false}
+            disabled={disabled}
             onClick={() => onTrigger()}
             className={twMerge(
               clsx(
                 "mt-6 min-w-1/5 rounded-lg px-2 py-1 font-semibold text-white transition-all duration-200",
-                !true
+                disabled
                   ? "cursor-not-allowed bg-gray-400"
                   : [
                       "cursor-pointer hover:scale-98",
@@ -103,16 +109,35 @@ const ConfigurationCard = ({
           >
             {title}
           </button>
+          {(error || warning) && (
+            <span
+              className="mt-2 block text-sm font-medium text-danger"
+            >
+              {error?.message ?? warning}
+            </span>
+          )}
         </div>
       </div>
     </Card>
   );
 };
 
-const AutoSyncToggle = () => {
+const AutoSyncToggle = ({
+  canEnable,
+  isJobsLoading,
+}: {
+  canEnable: boolean;
+  isJobsLoading: boolean;
+}) => {
   const { data: auto_sync } = useGetAutoSyncState();
   const toggleAutoSync = useToggleAutoSync();
-  const enabled = auto_sync ?? false;
+  const enabled = canEnable && (auto_sync ?? false);
+
+  useEffect(() => {
+    if (!isJobsLoading && !canEnable && auto_sync === true) {
+      toggleAutoSync.mutate();
+    }
+  }, [auto_sync, canEnable, isJobsLoading, toggleAutoSync]);
 
   const switchState = enabled ? "On" : "Off";
 
@@ -122,7 +147,7 @@ const AutoSyncToggle = () => {
       <Switch
         checked={enabled}
         onChange={() => toggleAutoSync.mutate()}
-        disabled={toggleAutoSync.isPending}
+        disabled={!canEnable || toggleAutoSync.isPending}
         className="group bg-dark/15 data-checked:bg-celeste inline-flex h-5 w-10 items-center rounded-full transition"
       >
         <span className="size-3 translate-x-1 rounded-full bg-white transition group-data-checked:translate-x-6" />
@@ -139,6 +164,7 @@ const AutoSyncToggle = () => {
 export default function Scraper() {
   const triggerLink = useLinkTimeslots();
   const triggerSync = useSyncTimeslots();
+  const { data: jobsList, isLoading: isJobsLoading } = useListJobs();
   const [modalState, setModalState] = useState<IModalStateProps>({
     isOpen: false,
     type: null,
@@ -201,6 +227,12 @@ export default function Scraper() {
       : "Sync Timeslots"
     : null;
 
+  const hasCompletedLinkTimeslots =
+    jobsList?.some(
+      (job) =>
+        job.state === "completed" && job.type == "scrape_and_link_timeslots",
+    ) ?? false;
+
   return (
     <>
       <title>Scraper | Pombo</title>
@@ -247,6 +279,7 @@ export default function Scraper() {
                 description="Links your database timeslots to scraper IDs, while updating room data, using the natural key. Run this once at the start of semester, or after a new import."
                 timestamp="3 days ago"
                 textColor="text-primary-400"
+                error={triggerLink.error}
                 onTrigger={() => onOpen("link")}
               />
               <ConfigurationCard
@@ -254,7 +287,19 @@ export default function Scraper() {
                 icon="sync"
                 description="Updates room data for all anchored timeslots. Safe to run repeatedly."
                 textColor="text-celeste"
-                Actions={AutoSyncToggle}
+                Actions={() => (
+                  <AutoSyncToggle
+                    canEnable={hasCompletedLinkTimeslots}
+                    isJobsLoading={isJobsLoading}
+                  />
+                )}
+                disabled={isJobsLoading || !hasCompletedLinkTimeslots}
+                error={triggerSync.error}
+                warning={
+                  !isJobsLoading && !hasCompletedLinkTimeslots
+                    ? "Complete a Link Timeslots job before syncing."
+                    : undefined
+                }
                 onTrigger={() => onOpen("sync")}
               />
             </section>
