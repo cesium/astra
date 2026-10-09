@@ -19,13 +19,15 @@ import {
 } from "@/lib/mutations/backoffice";
 import { useEffect, useState } from "react";
 import Modal from "@/components/modal";
-import { IScrapeConfig } from "@/lib/types";
+import { IJobMetadata, IScrapeConfig } from "@/lib/types";
 import Link from "next/link";
 import moment from "moment";
 
 interface IConfigurationCardProps {
   title: string;
   timestamp?: string;
+  runMetadata?: IJobMetadata | null;
+  runStatus?: string;
   description: string;
   textColor: string;
   icon: string;
@@ -43,9 +45,26 @@ interface IModalStateProps {
 
 type TriggerType = "link" | "sync";
 
+const ResultTag = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | number;
+}) => {
+  return (
+    <span className="bg-dark/5 rounded-full px-2 py-1">
+      <span className="text-dark/50">{label}</span>{" "}
+      <span className="font-semibold">{value}</span>
+    </span>
+  );
+};
+
 const ConfigurationCard = ({
   title,
   timestamp,
+  runMetadata,
+  runStatus,
   description,
   textColor,
   icon,
@@ -87,6 +106,27 @@ const ConfigurationCard = ({
         </span>
 
         <p className="text-dark/80 text-sm">{description}</p>
+        {(runStatus ||
+          runMetadata?.updated_count !== undefined ||
+          runMetadata?.unmatched_count !== undefined) && (
+          <div className="border-dark/10 text-dark/70 mt-4 space-y-2 border-t pt-3 text-sm">
+            <p className="text-dark/50 text-xs font-semibold tracking-wide uppercase">
+              Last run results
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              {runStatus && <ResultTag label="Status" value={runStatus} />}
+              {runMetadata?.updated_count !== undefined && (
+                <ResultTag label="Updated" value={runMetadata.updated_count} />
+              )}
+              {runMetadata?.unmatched_count !== undefined && (
+                <ResultTag
+                  label="Unmatched"
+                  value={runMetadata.unmatched_count}
+                />
+              )}
+            </div>
+          </div>
+        )}
         <div className="w-full">
           <button
             disabled={disabled}
@@ -233,16 +273,17 @@ export default function Scraper() {
     ) ?? false;
 
   const getLastRun = (type: string) => {
-    const latestJob = jobsList
+    return jobsList
       ?.filter((job) => job.type === type)
       .sort(
         (jobA, jobB) =>
           moment(jobB.attempted_at).valueOf() -
           moment(jobA.attempted_at).valueOf(),
       )[0];
-
-    return latestJob ? moment(latestJob.attempted_at).fromNow() : undefined;
   };
+
+  const lastLinkRun = getLastRun("scrape_and_link_timeslots");
+  const lastSyncRun = getLastRun("scrape_and_sync_timeslots");
 
   return (
     <>
@@ -288,7 +329,13 @@ export default function Scraper() {
                 title="Link Timeslots"
                 icon="anchor"
                 description="Links your database timeslots to scraper IDs, while updating room data, using the natural key. Run this once at the start of semester, or after a new import."
-                timestamp={getLastRun("scrape_and_link_timeslots")}
+                timestamp={
+                  lastLinkRun
+                    ? moment(lastLinkRun.attempted_at).fromNow()
+                    : undefined
+                }
+                runMetadata={lastLinkRun?.metadata}
+                runStatus={lastLinkRun?.state}
                 textColor="text-primary-400"
                 error={triggerLink.error}
                 onTrigger={() => onOpen("link")}
@@ -297,7 +344,13 @@ export default function Scraper() {
                 title="Sync Timeslots"
                 icon="sync"
                 description="Updates room data for all anchored timeslots. Safe to run repeatedly."
-                timestamp={getLastRun("scrape_and_sync_timeslots")}
+                timestamp={
+                  lastSyncRun
+                    ? moment(lastSyncRun.attempted_at).fromNow()
+                    : undefined
+                }
+                runMetadata={lastSyncRun?.metadata}
+                runStatus={lastSyncRun?.state}
                 textColor="text-celeste"
                 Actions={() => (
                   <AutoSyncToggle
