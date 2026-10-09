@@ -33,11 +33,7 @@ const formSchema = z
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export default function ClassesPeriodForm({
-  semester,
-}: {
-  semester: 1 | 2;
-}) {
+export default function ClassesPeriodForm({ semester }: { semester: 1 | 2 }) {
   const { data: periodData, isLoading } = useGetClassesPeriod(semester);
   const updatePeriod = useUpdateClassesPeriod(semester);
   const deletePeriod = useDeleteClassesPeriod(semester);

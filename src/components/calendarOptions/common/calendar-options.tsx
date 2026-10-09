@@ -118,17 +118,15 @@ export default function CalendarOptions<T, sortedT>({
           <div className="flex-shrink-0 px-2">
             <div className="flex items-center justify-between">
               <h3 className="text-2xl font-semibold">{title}</h3>
-              {exportType && (
-                <div>
-                  <ExportButton type={exportType} />
-                </div>
-              )}
-              <button
-                data-edit-button
-                className="text-primary-400 cursor-pointer transition duration-300 hover:opacity-70"
-              >
-                Edit
-              </button>
+              <div className="flex items-center gap-3">
+                {exportType && <ExportButton type={exportType} />}
+                <button
+                  data-edit-button
+                  className="text-primary-400 cursor-pointer transition duration-300 hover:opacity-70"
+                >
+                  Edit
+                </button>
+              </div>
             </div>
             <p>{description}</p>
           </div>
