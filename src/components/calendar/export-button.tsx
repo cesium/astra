@@ -13,7 +13,6 @@ interface ExportButtonProps {
 export default function ExportButton({ type = "schedule" }: ExportButtonProps) {
   const [modalState, setModalState] = useState(false);
   const [exportUrl, setExportUrl] = useState("");
-  const [buttonLabel, setButtonLabel] = useState("Export");
 
   const mutation = useMutation({
     mutationFn: async () => {
@@ -27,31 +26,24 @@ export default function ExportButton({ type = "schedule" }: ExportButtonProps) {
         : res.data.calendar_url;
     },
     onSuccess: (url) => {
-      if (!url) {
-        setButtonLabel("Failed to export");
-        return;
+      if (url) {
+        setExportUrl(url);
+        setModalState(true);
       }
-      setExportUrl(url);
-      setModalState(true);
-      setButtonLabel("Export");
     },
     onError: (error) => {
       console.error("Export failed:", error);
-      setButtonLabel("Failed to export");
     },
   });
 
   return (
     <>
       <button
-        onClick={() => {
-          setButtonLabel("Exporting...");
-          mutation.mutate();
-        }}
+        onClick={() => mutation.mutate()}
         disabled={mutation.isPending}
-        className="text-primary-400 cursor-pointer transition duration-300 hover:opacity-70"
+        className="text-primary-400 cursor-pointer transition duration-300 hover:opacity-70 disabled:opacity-50"
       >
-        {buttonLabel}
+        {mutation.isPending ? "Exporting..." : "Export"}
       </button>
 
       <CalendarExportModal

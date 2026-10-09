@@ -49,7 +49,6 @@ export default function ClassesPeriodForm({
     register,
     handleSubmit,
     watch,
-    setValue,
     reset,
     formState: { errors },
   } = useForm<FormSchema>({
@@ -58,10 +57,14 @@ export default function ClassesPeriodForm({
 
   useEffect(() => {
     if (periodData?.start && periodData?.end) {
-      setValue("start", new Date(periodData.start));
-      setValue("end", new Date(periodData.end));
+      reset({
+        start: new Date(periodData.start),
+        end: new Date(periodData.end),
+      });
+    } else {
+      reset({ start: undefined, end: undefined });
     }
-  }, [periodData, setValue]);
+  }, [periodData, reset]);
 
   const onSubmit: SubmitHandler<FormSchema> = (data) => {
     setAlert(null);

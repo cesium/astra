@@ -61,6 +61,12 @@ export default function CalendarExportModal({
             <span className="font-medium">subscribe</span> to your {itemLabel}.
           </p>
           <p>You will see your {itemLabel} in your calendar app.</p>
+          <div className="bg-warning/20 text-warning flex items-center gap-2 rounded-lg p-3 text-sm">
+            <span className="material-symbols-outlined text-base">
+              warning
+            </span>
+            If you change {itemLabel}, you will need to re-export and re-subscribe.
+          </div>
         </div>
       ),
     },
@@ -135,7 +141,7 @@ export default function CalendarExportModal({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <DialogPanel className="bg-muted/65 relative w-full max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl focus:outline-0">
+            <DialogPanel className="bg-muted/65 relative w-full max-w-xl flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl focus:outline-0">
               {modalTitle && (
                 <div className="flex items-center justify-between">
                   <DialogTitle className="text-dark text-2xl font-semibold">
