@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import Modal from "@/components/modal";
 import { IScrapeConfig } from "@/lib/types";
 import Link from "next/link";
+import moment from "moment";
 
 interface IConfigurationCardProps {
   title: string;
@@ -231,6 +232,18 @@ export default function Scraper() {
         job.state === "completed" && job.type == "scrape_and_link_timeslots",
     ) ?? false;
 
+  const getLastRun = (type: string) => {
+    const latestJob = jobsList
+      ?.filter((job) => job.type === type)
+      .sort(
+        (jobA, jobB) =>
+          moment(jobB.attempted_at).valueOf() -
+          moment(jobA.attempted_at).valueOf(),
+      )[0];
+
+    return latestJob ? moment(latestJob.attempted_at).fromNow() : undefined;
+  };
+
   return (
     <>
       <title>Scraper | Pombo</title>
@@ -275,7 +288,7 @@ export default function Scraper() {
                 title="Link Timeslots"
                 icon="anchor"
                 description="Links your database timeslots to scraper IDs, while updating room data, using the natural key. Run this once at the start of semester, or after a new import."
-                timestamp="3 days ago"
+                timestamp={getLastRun("scrape_and_link_timeslots")}
                 textColor="text-primary-400"
                 error={triggerLink.error}
                 onTrigger={() => onOpen("link")}
@@ -284,6 +297,7 @@ export default function Scraper() {
                 title="Sync Timeslots"
                 icon="sync"
                 description="Updates room data for all anchored timeslots. Safe to run repeatedly."
+                timestamp={getLastRun("scrape_and_sync_timeslots")}
                 textColor="text-celeste"
                 Actions={() => (
                   <AutoSyncToggle
