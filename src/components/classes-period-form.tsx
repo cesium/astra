@@ -86,8 +86,6 @@ export default function ClassesPeriodForm({
     setAlert(null);
     setError(null);
 
-    setValue("start", undefined as any);
-    setValue("end", undefined as any);
     reset({ start: undefined, end: undefined });
 
     if (periodData?.start && periodData?.end) {

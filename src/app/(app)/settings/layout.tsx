@@ -1,4 +1,43 @@
+import { Metadata } from "next";
 import SidebarSettings from "@/components/sidebar-settings";
+
+export const metadata: Metadata = {
+  title: "Settings | Pombo",
+  description: "Tweak your preferences and configure Pombo to suit your needs",
+  openGraph: {
+    url: "/settings",
+    type: "website",
+    title: "Settings | Pombo",
+    description:
+      "Tweak your preferences and configure Pombo to suit your needs",
+    images: [
+      {
+        url: "/images/og.png",
+        width: 1200,
+        height: 630,
+        alt: process.env.PROD_DOMAIN,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Settings | Pombo",
+    description:
+      "Tweak your preferences and configure Pombo to suit your needs",
+    images: [
+      {
+        url: "/images/og.png",
+        width: 1200,
+        height: 630,
+        alt: process.env.PROD_DOMAIN,
+      },
+    ],
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function SettingsLayout({
   children,

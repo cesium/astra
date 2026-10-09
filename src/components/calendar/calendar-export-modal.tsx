@@ -14,14 +14,21 @@ interface ModalProps {
   setModalState: (state: boolean) => void;
   title?: string;
   url: string;
+  type?: "schedule" | "calendar";
 }
 
 export default function CalendarExportModal({
   modalState,
   setModalState,
-  title = "Export Calendar",
+  title,
   url,
+  type = "schedule",
 }: ModalProps) {
+  const isSchedule = type === "schedule";
+  const itemLabel = isSchedule ? "shifts" : "events";
+  const modalTitle =
+    title || (isSchedule ? "Export Schedule" : "Export Calendar");
+
   const [isCopied, setIsCopied] = useState(false);
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
@@ -51,16 +58,9 @@ export default function CalendarExportModal({
         <div className="space-y-2 text-justify text-sm">
           <p>
             The URL above allows you to{" "}
-            <span className="font-medium">subscribe</span> to your shifts.
+            <span className="font-medium">subscribe</span> to your {itemLabel}.
           </p>
-          <p>You will see your shifts in your calendar app.</p>
-          <div className="bg-success/30 flex items-center gap-2 rounded-lg p-3 text-sm text-green-700">
-            <span className="material-symbols-outlined text-base">
-              check_circle
-            </span>
-            If you change shifts, you won&apos;t need to re-export and
-            re-subscribe.
-          </div>
+          <p>You will see your {itemLabel} in your calendar app.</p>
         </div>
       ),
     },
@@ -136,10 +136,10 @@ export default function CalendarExportModal({
             leaveTo="opacity-0 scale-95"
           >
             <DialogPanel className="bg-muted/65 relative w-full max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl focus:outline-0">
-              {title && (
+              {modalTitle && (
                 <div className="flex items-center justify-between">
                   <DialogTitle className="text-dark text-2xl font-semibold">
-                    {title}
+                    {modalTitle}
                   </DialogTitle>
                   <button
                     className="material-symbols-outlined text-dark/50 cursor-pointer text-2xl transition-opacity ease-in-out hover:opacity-70"

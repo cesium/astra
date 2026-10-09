@@ -2,11 +2,6 @@ import { AuthCheck } from "@/components/auth-check";
 import ClassesPeriodForm from "@/components/classes-period-form";
 import ExchangePeriodForm from "@/components/exchange-period-form";
 import SettingsWrapper from "@/components/settings-wrapper";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Pombo | Configurations",
-};
 
 export default function Configurations() {
   return (

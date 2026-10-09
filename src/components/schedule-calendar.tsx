@@ -1,7 +1,7 @@
 "use client";
 
 import CalendarView from "./calendar/calendar";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import moment from "moment";
 import { ScheduleContext } from "@/contexts/schedule-provider";
 
@@ -37,12 +37,26 @@ export default function ScheduleCalendar() {
     };
   });
 
+  // Sets the min and max date for the calendar view port
+  // useMemo fixes client-side hydration issues
+  const { minDate, maxDate } = useMemo(() => {
+    const min = new Date();
+    min.setHours(8, 0, 0);
+
+    const max = new Date();
+    max.setHours(20, 0, 0);
+
+    return { minDate: min, maxDate: max };
+  }, []);
+
   return (
     <div className="w-full">
       <CalendarView
         type="schedule"
         events={formattedEvents}
         views={{ work_week: true }}
+        minDate={minDate}
+        maxDate={maxDate}
         editing={isEditing}
         className="schedule" // This class enables styles for the schedule view
       />

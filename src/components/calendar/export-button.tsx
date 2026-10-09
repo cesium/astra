@@ -57,6 +57,7 @@ export default function ExportButton({ type = "schedule" }: ExportButtonProps) {
       <CalendarExportModal
         modalState={modalState}
         setModalState={setModalState}
+        type={type}
         title={type === "schedule" ? "Export Schedule" : "Export Calendar"}
         url={exportUrl}
       />

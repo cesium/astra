@@ -79,76 +79,79 @@ export default function Exports() {
   const validCourse = selectedCourse !== null;
 
   return (
-    <AuthCheck userTypes={["admin", "professor"]}>
-      <title>Pombo | Exports</title>
+    <>
+      <title>Exports | Pombo</title>
+      <AuthCheck userTypes={["admin", "professor"]}>
+        <SettingsWrapper title="Schedule Generator">
+          <div className="flex h-full flex-col gap-8">
+            <section className="space-y-2">
+              <h2 className="text-2xl font-semibold">
+                Export Blackboard groups
+              </h2>
+              <p>Trigger the export of Blackboard groups with a few clicks</p>
+            </section>
 
-      <SettingsWrapper title="Schedule Generator">
-        <div className="flex h-full flex-col gap-8">
-          <section className="space-y-2">
-            <h2 className="text-2xl font-semibold">Export Blackboard groups</h2>
-            <p>Trigger the export of Blackboard groups with a few clicks</p>
-          </section>
-
-          <section className="space-y-6">
-            <div className="max-w-2xl space-y-6">
-              <div className="space-y-1">
-                <p className="pl-2 font-semibold select-none">Courses</p>
-                <CustomCombobox
-                  items={formattedCourses}
-                  selectedItem={selectedCourse}
-                  setSelectedItem={setSelectedCourse}
-                />
+            <section className="space-y-6">
+              <div className="max-w-2xl space-y-6">
+                <div className="space-y-1">
+                  <p className="pl-2 font-semibold select-none">Courses</p>
+                  <CustomCombobox
+                    items={formattedCourses}
+                    selectedItem={selectedCourse}
+                    setSelectedItem={setSelectedCourse}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="mt-6 inline-flex w-full max-w-2xl items-center gap-4">
-              <button
-                disabled={!validCourse}
-                onClick={handleShiftsGroupExport}
-                className={twMerge(
-                  clsx(
-                    "w-1/2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
-                    !validCourse
-                      ? "cursor-not-allowed bg-gray-400"
-                      : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
-                  ),
-                )}
-              >
-                Shift Groups
-              </button>
+              <div className="mt-6 inline-flex w-full max-w-2xl items-center gap-4">
+                <button
+                  disabled={!validCourse}
+                  onClick={handleShiftsGroupExport}
+                  className={twMerge(
+                    clsx(
+                      "w-1/2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
+                      !validCourse
+                        ? "cursor-not-allowed bg-gray-400"
+                        : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
+                    ),
+                  )}
+                >
+                  Shift Groups
+                </button>
 
-              <span className="text-dark/80 font-semibold">or</span>
+                <span className="text-dark/80 font-semibold">or</span>
 
-              <button
-                disabled={!validCourse}
-                onClick={handleGroupEnrollmentsExport}
-                className={twMerge(
-                  clsx(
-                    "w-1/2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
-                    !validCourse
-                      ? "cursor-not-allowed bg-gray-400"
-                      : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
-                  ),
-                )}
-              >
-                Group Enrollments
-              </button>
-            </div>
+                <button
+                  disabled={!validCourse}
+                  onClick={handleGroupEnrollmentsExport}
+                  className={twMerge(
+                    clsx(
+                      "w-1/2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 md:text-base",
+                      !validCourse
+                        ? "cursor-not-allowed bg-gray-400"
+                        : "bg-primary-400 hover:bg-primary-400/95 cursor-pointer hover:scale-98",
+                    ),
+                  )}
+                >
+                  Group Enrollments
+                </button>
+              </div>
 
-            {exportShiftsGroupError && (
-              <p className="text-dark/50 font-semibold">
-                Failed to download Shifts Group!
-              </p>
-            )}
+              {exportShiftsGroupError && (
+                <p className="text-dark/50 font-semibold">
+                  Failed to download Shifts Group!
+                </p>
+              )}
 
-            {exportGroupEnrollmentsError && (
-              <p className="text-dark/50 font-semibold">
-                Failed to download Group Enrollment!
-              </p>
-            )}
-          </section>
-        </div>
-      </SettingsWrapper>
-    </AuthCheck>
+              {exportGroupEnrollmentsError && (
+                <p className="text-dark/50 font-semibold">
+                  Failed to download Group Enrollment!
+                </p>
+              )}
+            </section>
+          </div>
+        </SettingsWrapper>
+      </AuthCheck>
+    </>
   );
 }

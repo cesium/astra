@@ -1,3 +1,4 @@
+import axios from "axios";
 import { api } from "./api";
 import { IClassesPeriod, IClassesPeriodRequest } from "./types";
 
@@ -7,8 +8,8 @@ export async function getClassesPeriod(
   try {
     const res = await api.get<IClassesPeriod>(`/classes_period/${semester}`);
     return res.data;
-  } catch (error: any) {
-    if (error?.response?.status === 404) {
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
       return null;
     }
     throw error;
