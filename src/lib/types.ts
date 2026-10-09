@@ -138,3 +138,13 @@ export interface IItemProps {
   id: string;
   name: string;
 }
+
+export interface IClassesPeriod {
+  start: string;
+  end: string;
+}
+
+export interface IClassesPeriodRequest {
+  start: string;
+  end: string;
+}

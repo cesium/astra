@@ -1,4 +1,5 @@
 import AnimatedOptionsSection from "@/components/animated-options-section";
+import ExportButton from "@/components/calendar/export-button";
 import TabsGroup, {
   PanelContainer,
   Tab,
@@ -24,6 +25,7 @@ interface ICalendarOptionsProps<T, sortedT> {
 
   title: string;
   description: string;
+  exportType?: "schedule" | "calendar";
 
   DisplayComponent: React.ComponentType<{
     items: sortedT[];
@@ -99,6 +101,7 @@ export default function CalendarOptions<T, sortedT>({
   resetItems,
   title,
   description,
+  exportType,
   DisplayComponent,
   sortItems,
 }: ICalendarOptionsProps<T, sortedT>) {
@@ -115,12 +118,15 @@ export default function CalendarOptions<T, sortedT>({
           <div className="flex-shrink-0 px-2">
             <div className="flex items-center justify-between">
               <h3 className="text-2xl font-semibold">{title}</h3>
-              <button
-                data-edit-button
-                className="text-primary-400 cursor-pointer transition duration-300 hover:opacity-70"
-              >
-                Edit
-              </button>
+              <div className="flex items-center gap-3">
+                {exportType && <ExportButton type={exportType} />}
+                <button
+                  data-edit-button
+                  className="text-primary-400 cursor-pointer transition duration-300 hover:opacity-70"
+                >
+                  Edit
+                </button>
+              </div>
             </div>
             <p>{description}</p>
           </div>
