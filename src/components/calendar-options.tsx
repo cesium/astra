@@ -278,7 +278,7 @@ export default function CalendarOptions({
                   {schedule ? "Schedule" : "Calendar"}
                 </h3>
                 <div>
-                  <ExportButton />
+                  <ExportButton type={schedule ? "schedule" : "calendar"} />
                 </div>
                 <button
                   data-edit-button
