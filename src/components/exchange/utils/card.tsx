@@ -7,20 +7,20 @@ import { useDeleteExchange } from "@/lib/mutations/exchange";
 
 interface IExchangeCardProps {
   uc: string;
-  from: ShiftProps;
-  to: ShiftProps;
+  from: IShiftProps;
+  to: IShiftProps;
   pending?: boolean;
   completed?: boolean;
   exchange_id?: string;
 }
 
-interface ShiftProps {
+export interface IShiftProps {
   shift: string;
   professor?: string;
   timeslots: {
     weekday: string;
-    start_hour: string;
-    end_hour: string;
+    start: string;
+    end: string;
     room: string;
     building: string;
   }[];

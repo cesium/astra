@@ -48,7 +48,7 @@ export default function Modal({
             <DialogPanel
               className={twMerge(
                 clsx(
-                  "bg-muted/65 relative max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl focus:outline-0",
+                  "bg-muted/65 relative max-w-lg flex-1 space-y-4 rounded-2xl border border-black/10 p-6 shadow-xl backdrop-blur-md focus:outline-0",
                   className,
                 ),
               )}

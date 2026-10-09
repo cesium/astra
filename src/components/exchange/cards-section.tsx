@@ -1,24 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import ExchangeCard from "./utils/card";
+import ExchangeCard, { IShiftProps } from "./utils/card";
 import ExchangeModal from "./utils/modal";
 import AddExchangeContent from "./add-exchange-content";
 import { useGetExchangeDate } from "@/lib/queries/exchange";
 import { twMerge } from "tailwind-merge";
 import { clsx } from "clsx";
-
-interface ShiftProps {
-  shift: string;
-  professor?: string;
-  timeslots: {
-    weekday: string;
-    start_hour: string;
-    end_hour: string;
-    room: string;
-    building: string;
-  }[];
-}
 
 interface ICardSectionProps {
   title?: string;
@@ -27,8 +15,8 @@ interface ICardSectionProps {
   completed?: boolean;
   data?: {
     uc: string;
-    from: ShiftProps;
-    to: ShiftProps;
+    from: IShiftProps;
+    to: IShiftProps;
     state: string;
     exchange_id: string;
   }[];

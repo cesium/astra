@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   exportGroupEnrollments,
   exportShiftGroups,
+  getAutoSyncState,
   getDegrees,
   getStatistics,
   listJobs,
@@ -43,5 +44,12 @@ export function useGetStatistics(courseId?: string) {
     queryKey: ["statistics", courseId],
     queryFn: () => getStatistics(courseId as string),
     enabled: !!courseId,
+  });
+}
+
+export function useGetAutoSyncState() {
+  return useQuery<boolean>({
+    queryKey: ["auto_sync_state"],
+    queryFn: () => getAutoSyncState(),
   });
 }
