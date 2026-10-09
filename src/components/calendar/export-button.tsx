@@ -6,15 +6,25 @@ import CalendarExportModal from "@/components/calendar/calendar-export-modal";
 import { api } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 
-export default function ExportButton() {
+interface ExportButtonProps {
+  type?: "schedule" | "calendar";
+}
+
+export default function ExportButton({ type = "schedule" }: ExportButtonProps) {
   const [modalState, setModalState] = useState(false);
   const [exportUrl, setExportUrl] = useState("");
   const [buttonLabel, setButtonLabel] = useState("Export");
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const res = await api.get("/export/student/calendar-url");
-      return res.data.calendar_url;
+      const endpoint =
+        type === "schedule"
+          ? "/export/student/schedule-url"
+          : "/export/student/calendar-url";
+      const res = await api.get(endpoint);
+      return type === "schedule"
+        ? res.data.schedule_url
+        : res.data.calendar_url;
     },
     onSuccess: (url) => {
       if (!url) {
@@ -47,6 +57,7 @@ export default function ExportButton() {
       <CalendarExportModal
         modalState={modalState}
         setModalState={setModalState}
+        title={type === "schedule" ? "Export Schedule" : "Export Calendar"}
         url={exportUrl}
       />
     </>
