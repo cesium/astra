@@ -24,11 +24,14 @@ import {
 import { useGetAllCourses } from "@/lib/queries/courses";
 import { useGetCategories, useGetEvents } from "@/lib/queries/events";
 import { ICourse, IEventCategory, IEventResponse } from "@/lib/types";
-import { isAllDay, isAllDayEvent } from "@/lib/utils";
+import {
+  formatDateTimeAsUtc,
+  isAllDayUtcDateTime,
+  parseUtcDateTime,
+} from "@/lib/utils";
 import { Switch } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import moment from "moment";
 import Link from "next/link";
 import { createContext, useContext, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -362,8 +365,8 @@ function EventModalLayout() {
   const isNew = modalState.type === "newEvent";
 
   const event = modalState.data as IEventResponse;
-  const start = !isNew ? moment.utc(event?.start) : null;
-  const end = !isNew ? moment.utc(event?.end) : null;
+  const start = !isNew && event?.start ? parseUtcDateTime(event.start) : null;
+  const end = !isNew && event?.end ? parseUtcDateTime(event.end) : null;
 
   const formSchema = z
     .object({
@@ -416,8 +419,8 @@ function EventModalLayout() {
         id: modalState.data?.id,
         event: {
           title: data.name,
-          start: moment.utc(data.start).format("YYYY-MM-DDTHH:mm:ss[Z]"),
-          end: moment.utc(data.end).format("YYYY-MM-DDTHH:mm:ss[Z]"),
+          start: formatDateTimeAsUtc(data.start),
+          end: formatDateTimeAsUtc(data.end),
           place: data.place || "",
           link: data.link || "",
           category_id: selectedCategory!.id,
@@ -426,8 +429,8 @@ function EventModalLayout() {
     } else {
       createEvent.mutate({
         title: data.name,
-        start: moment.utc(data.start).format("YYYY-MM-DDTHH:mm:ss[Z]"),
-        end: moment.utc(data.end).format("YYYY-MM-DDTHH:mm:ss[Z]"),
+        start: formatDateTimeAsUtc(data.start),
+        end: formatDateTimeAsUtc(data.end),
         place: data.place || "",
         link: data.link || "",
         category_id: selectedCategory!.id,
@@ -445,7 +448,11 @@ function EventModalLayout() {
       : null,
   );
 
-  const [enabled, setEnabled] = useState(isAllDayEvent(start, end));
+  const [enabled, setEnabled] = useState(
+    !isNew && event?.start && event?.end
+      ? isAllDayUtcDateTime(event.start, event.end)
+      : false,
+  );
 
   return (
     <div className="w-full space-y-8">
@@ -626,8 +633,8 @@ function ColorTagCard({ color }: { color: string }) {
 }
 
 function DateCard({ start, end }: { start: string; end: string }) {
-  const startFormatted = moment.utc(start);
-  const endFormatted = moment.utc(end);
+  const startFormatted = parseUtcDateTime(start);
+  const endFormatted = parseUtcDateTime(end);
 
   return (
     <div className="flex w-fit flex-col">
@@ -638,12 +645,12 @@ function DateCard({ start, end }: { start: string; end: string }) {
 }
 
 function TimeCard({ start, end }: { start: string; end: string }) {
-  const startFormatted = moment.utc(start);
-  const endFormatted = moment.utc(end);
+  const startFormatted = parseUtcDateTime(start);
+  const endFormatted = parseUtcDateTime(end);
 
   return (
     <div className="w-fit">
-      {isAllDay(startFormatted, endFormatted) ? (
+      {isAllDayUtcDateTime(start, end) ? (
         "All Day"
       ) : (
         <p>{`${startFormatted.format("HH:mm")} - ${endFormatted.format("HH:mm")}`}</p>
