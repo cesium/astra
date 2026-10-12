@@ -31,39 +31,54 @@ export default function DisplayCategories({
               label={`${ordinalNumbers[yearGroup.year - 1]} Year`}
               key={`${ordinalNumbers[yearGroup.year - 1]} Year`}
             >
-              <div className="divide-dark/8 bg-light w-full space-y-3 divide-y rounded-lg pt-3 pl-4">
-                {yearGroup.categories.map((category) => (
-                  <EventHeader
-                    key={category.id}
-                    name={category.name}
-                    eventId={category.id}
-                    color={category.color}
-                    isEditing={isEditing}
-                    state={state}
-                    onAction={
-                      category.type === "optional" ? onAction : undefined
-                    }
-                  />
-                ))}
+              <div className="mt-1 ml-2 h-full w-full">
+                {Object.entries(yearGroup.semesters).map(
+                  ([semesterKey, categories]) => (
+                    <CustomDisclosure
+                      label={`${ordinalNumbers[Number(semesterKey) - 1]} Semester`}
+                      key={`${ordinalNumbers[Number(semesterKey) - 1]} Semester`}
+                    >
+                      <div className="divide-dark/8 bg-light w-full space-y-3 divide-y rounded-lg pt-3 pl-4">
+                        {categories.map((category) => (
+                          <EventHeader
+                            key={category.id}
+                            name={category.name}
+                            eventId={category.id}
+                            color={category.color}
+                            isEditing={isEditing}
+                            state={state}
+                            onAction={
+                              category.type === "optional"
+                                ? onAction
+                                : undefined
+                            }
+                          />
+                        ))}
+                      </div>
+                    </CustomDisclosure>
+                  ),
+                )}
               </div>
             </CustomDisclosure>
           ) : (
-            yearGroup.categories.length > 0 && (
+            !yearGroup.year && (
               <CustomDisclosure label="Other" key="Other">
                 <div className="divide-dark/8 bg-light w-full space-y-3 divide-y rounded-lg pt-3 pl-4">
-                  {yearGroup.categories.map((category) => (
-                    <EventHeader
-                      key={category.id}
-                      name={category.name}
-                      eventId={category.id}
-                      color={category.color}
-                      isEditing={isEditing}
-                      state={state}
-                      onAction={
-                        category.type === "optional" ? onAction : undefined
-                      }
-                    />
-                  ))}
+                  {Object.values(yearGroup.semesters).flatMap((categories) =>
+                    categories.map((category) => (
+                      <EventHeader
+                        key={category.id}
+                        name={category.name}
+                        eventId={category.id}
+                        color={category.color}
+                        isEditing={isEditing}
+                        state={state}
+                        onAction={
+                          category.type === "optional" ? onAction : undefined
+                        }
+                      />
+                    )),
+                  )}
                 </div>
               </CustomDisclosure>
             )
@@ -75,17 +90,19 @@ export default function DisplayCategories({
     return (
       <ScrollableContainer items={items}>
         {items.flatMap((yearGroup) =>
-          yearGroup.categories.map((category) => (
-            <EventHeader
-              key={category.id}
-              name={category.name}
-              eventId={category.id}
-              color={category.color}
-              isEditing={isEditing}
-              state={state}
-              onAction={category.type === "optional" ? onAction : undefined}
-            />
-          )),
+          Object.values(yearGroup.semesters).flatMap((categories) =>
+            categories.map((category) => (
+              <EventHeader
+                key={category.id}
+                name={category.name}
+                eventId={category.id}
+                color={category.color}
+                isEditing={isEditing}
+                state={state}
+                onAction={category.type === "optional" ? onAction : undefined}
+              />
+            )),
+          ),
         )}
       </ScrollableContainer>
     );
