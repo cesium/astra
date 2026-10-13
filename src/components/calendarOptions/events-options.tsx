@@ -44,6 +44,7 @@ export default function EventsOptions() {
       }
       title="Calendar"
       description="Select the types of events you want to see on your calendar."
+      exportType="calendar"
       DisplayComponent={DisplayCategories}
       sortItems={sortCategoriesByYear}
     />

@@ -40,6 +40,7 @@ export default function ScheduleOptions() {
       resetItems={() => setEditingShifts(originalSchedule)}
       title="Schedule"
       description="Choose the courses and respective shifts you wish to attend."
+      exportType="schedule"
       DisplayComponent={DisplayShifts}
       sortItems={sortShiftsByYearCourse}
     />
