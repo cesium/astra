@@ -1,4 +1,5 @@
 import chroma from "chroma-js";
+import moment from "moment";
 
 export function firstLastName(name: string | undefined) {
   if (!name) return "";
@@ -49,6 +50,24 @@ export function getContrastColor(baseColor: string, targetRatio: number = 5) {
   }
 
   return contrastColor || (direction === "darken" ? "#000" : "#fff");
+}
+
+export function parseUtcDateTime(value: string): moment.Moment {
+  return moment.utc(value).local();
+}
+
+export function formatDateTimeAsUtc(value: Date): string {
+  return moment(value).utc().format("YYYY-MM-DDTHH:mm:ss[Z]");
+}
+
+export function isAllDayUtcDateTime(start: string, end: string): boolean {
+  const utcStart = moment.utc(start);
+  const utcEnd = moment.utc(end);
+
+  return (
+    isAllDayEvent(utcStart.clone().local(), utcEnd.clone().local()) ||
+    isAllDayEvent(utcStart, utcEnd)
+  );
 }
 
 export function isAllDay(

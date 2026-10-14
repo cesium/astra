@@ -108,7 +108,10 @@ export default function EventModal({
     moment(event.end).hours() === 0 &&
     moment(event.end).minutes() === 0 &&
     moment(event.end).seconds() === 0;
-  const validTime = !(startsAtMidnight && endsAtMidnight);
+  const validTime =
+    type === "calendar" && event.allDay
+      ? false
+      : !(startsAtMidnight && endsAtMidnight);
 
   const eventDate =
     type === "calendar"
