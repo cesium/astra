@@ -19,15 +19,13 @@ import {
 } from "@/lib/mutations/backoffice";
 import { useEffect, useState } from "react";
 import Modal from "@/components/modal";
-import { IJobMetadata, IScrapeConfig } from "@/lib/types";
+import { IJobProps, IScrapeConfig } from "@/lib/types";
 import Link from "next/link";
 import moment from "moment";
 
 interface IConfigurationCardProps {
   title: string;
-  timestamp?: string;
-  runMetadata?: IJobMetadata | null;
-  runStatus?: string;
+  run?: IJobProps;
   description: string;
   textColor: string;
   icon: string;
@@ -62,9 +60,7 @@ const ResultTag = ({
 
 const ConfigurationCard = ({
   title,
-  timestamp,
-  runMetadata,
-  runStatus,
+  run,
   description,
   textColor,
   icon,
@@ -100,29 +96,26 @@ const ConfigurationCard = ({
           <p className="text-dark/70 text-sm">
             Last ran:{" "}
             <span className="font-semibold">
-              {timestamp ? timestamp : "never"}
+              {run ? moment(run.attempted_at).fromNow() : "never"}
             </span>
           </p>
         </span>
 
         <p className="text-dark/80 text-sm">{description}</p>
-        {(runStatus ||
-          runMetadata?.updated_count !== undefined ||
-          runMetadata?.unmatched_count !== undefined) && (
+        {(run?.state ||
+          run?.updated_count != null ||
+          run?.unmatched_count != null) && (
           <div className="border-dark/10 text-dark/70 mt-4 space-y-2 border-t pt-3 text-sm">
             <p className="text-dark/50 text-xs font-semibold tracking-wide uppercase">
               Last run results
             </p>
             <div className="flex flex-wrap items-center gap-2">
-              {runStatus && <ResultTag label="Status" value={runStatus} />}
-              {runMetadata?.updated_count !== undefined && (
-                <ResultTag label="Updated" value={runMetadata.updated_count} />
+              {run?.state && <ResultTag label="Status" value={run.state} />}
+              {run?.updated_count != null && (
+                <ResultTag label="Updated" value={run.updated_count} />
               )}
-              {runMetadata?.unmatched_count !== undefined && (
-                <ResultTag
-                  label="Unmatched"
-                  value={runMetadata.unmatched_count}
-                />
+              {run?.unmatched_count != null && (
+                <ResultTag label="Unmatched" value={run.unmatched_count} />
               )}
             </div>
           </div>
@@ -329,13 +322,7 @@ export default function Scraper() {
                 title="Link Timeslots"
                 icon="anchor"
                 description="Links your database timeslots to scraper IDs, while updating room data, using the natural key. Run this once at the start of semester, or after a new import."
-                timestamp={
-                  lastLinkRun
-                    ? moment(lastLinkRun.attempted_at).fromNow()
-                    : undefined
-                }
-                runMetadata={lastLinkRun?.metadata}
-                runStatus={lastLinkRun?.state}
+                run={lastLinkRun}
                 textColor="text-primary-400"
                 error={triggerLink.error}
                 onTrigger={() => onOpen("link")}
@@ -344,13 +331,7 @@ export default function Scraper() {
                 title="Sync Timeslots"
                 icon="sync"
                 description="Updates room data for all anchored timeslots. Safe to run repeatedly."
-                timestamp={
-                  lastSyncRun
-                    ? moment(lastSyncRun.attempted_at).fromNow()
-                    : undefined
-                }
-                runMetadata={lastSyncRun?.metadata}
-                runStatus={lastSyncRun?.state}
+                run={lastSyncRun}
                 textColor="text-celeste"
                 Actions={() => (
                   <AutoSyncToggle
@@ -505,7 +486,7 @@ function TriggerModalLayout({
 
           <Input
             disabled
-            className="bg-muted !py-1 opacity-50"
+            className="bg-muted py-1! opacity-50"
             {...register("course")}
           />
 
@@ -521,7 +502,7 @@ function TriggerModalLayout({
             <Input
               type="number"
               min={1}
-              className="bg-muted !py-1"
+              className="bg-muted py-1!"
               {...register("timeout", { valueAsNumber: true })}
             />
 
@@ -579,7 +560,7 @@ function TriggerModalLayout({
 
             <Input
               type="date"
-              className="bg-muted !py-1 [&>input]:!text-black [&>input:invalid]:!text-black"
+              className="bg-muted py-1! [&>input]:text-black! [&>input:invalid]:text-black!"
               {...startField}
               onChange={(e) => {
                 const snapped = getWeekMonday(e.target.value);
@@ -601,7 +582,7 @@ function TriggerModalLayout({
 
             <Input
               type="date"
-              className="bg-muted !py-1 [&>input]:!text-black [&>input:invalid]:!text-black"
+              className="bg-muted py-1! [&>input]:text-black! [&>input:invalid]:text-black!"
               {...endField}
               onChange={(e) => {
                 const snapped = getWeekMonday(e.target.value);

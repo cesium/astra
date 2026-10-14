@@ -111,16 +111,12 @@ export interface IJobProps {
   id: number;
   type: string;
   state: string;
-  metadata?: IJobMetadata | null;
   attempted_at: Date;
   completed_at: Date;
   inserted_at: Date;
   user_id: string;
-}
-
-export interface IJobMetadata {
-  updated_count?: number;
-  unmatched_count?: number;
+  updated_count: number | null;
+  unmatched_count: number | null;
 }
 
 export interface IEventCategory {
