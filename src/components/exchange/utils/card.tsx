@@ -48,7 +48,7 @@ export default function ExchangeCard({
   };
 
   return (
-    <div className="flex w-[294px] flex-shrink-0 flex-col justify-between gap-2 rounded-2xl border border-gray-300 p-4">
+    <div className="flex w-[294px] shrink-0 flex-col justify-between gap-2 rounded-2xl border border-gray-300 p-4">
       <div className="flex justify-between">
         <div className="flex-col">
           <span className="line-clamp-1">{uc}</span>
