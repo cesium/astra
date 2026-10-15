@@ -103,6 +103,7 @@ const ConfigurationCard = ({
 
         <p className="text-dark/80 text-sm">{description}</p>
         {(run?.state ||
+          run?.matched_count != null ||
           run?.updated_count != null ||
           run?.unmatched_count != null) && (
           <div className="border-dark/10 text-dark/70 mt-4 space-y-2 border-t pt-3 text-sm">
@@ -111,8 +112,18 @@ const ConfigurationCard = ({
             </p>
             <div className="flex flex-wrap items-center gap-2">
               {run?.state && <ResultTag label="Status" value={run.state} />}
+              {run?.matched_count != null && (
+                <ResultTag label="Matched" value={run.matched_count} />
+              )}
               {run?.updated_count != null && (
-                <ResultTag label="Updated" value={run.updated_count} />
+                <ResultTag
+                  label={
+                    run.type === "scrape_and_link_timeslots"
+                      ? "Linked"
+                      : "Updated"
+                  }
+                  value={run.updated_count}
+                />
               )}
               {run?.unmatched_count != null && (
                 <ResultTag label="Unmatched" value={run.unmatched_count} />

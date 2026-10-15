@@ -115,6 +115,7 @@ export interface IJobProps {
   completed_at: Date;
   inserted_at: Date;
   user_id: string;
+  matched_count: number | null;
   updated_count: number | null;
   unmatched_count: number | null;
 }
