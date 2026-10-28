@@ -90,6 +90,16 @@ export default function SidebarSettings() {
                     >
                       <SidebarItemLabel icon="sdk" label="Schedule Generator" />
                     </SidebarItem>
+
+                    <SidebarItem
+                      id="telescopium"
+                      href="/settings/backoffice/scraper"
+                    >
+                      <SidebarItemLabel
+                        icon="cloud_download"
+                        label="Telescopium"
+                      />
+                    </SidebarItem>
                   </>
                 )}
 

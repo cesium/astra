@@ -115,6 +115,9 @@ export interface IJobProps {
   completed_at: Date;
   inserted_at: Date;
   user_id: string;
+  matched_count: number | null;
+  updated_count: number | null;
+  unmatched_count: number | null;
 }
 
 export interface IEventCategory {
@@ -137,4 +140,14 @@ export type IEventCategoriesSorted = {
 export interface IItemProps {
   id: string;
   name: string;
+}
+
+export interface IScrapeConfig {
+  course: string;
+  timeout: number;
+  years: number[];
+  week: {
+    start: string;
+    end: string;
+  };
 }

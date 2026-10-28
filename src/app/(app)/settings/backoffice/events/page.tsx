@@ -118,9 +118,9 @@ function InputLine({
           placeholder={placeholder}
           onChange={onChange}
           className={clsx(
-            "bg-muted !py-1",
+            "bg-muted py-1!",
             rest.type === "date" || rest.type === "datetime-local"
-              ? "[&>input]:!text-black [&>input:invalid]:!text-black"
+              ? "[&>input]:text-black! [&>input:invalid]:text-black!"
               : "",
           )}
           {...rest}
