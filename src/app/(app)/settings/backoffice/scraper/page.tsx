@@ -207,7 +207,9 @@ const AutoSyncToggle = ({
 export default function Scraper() {
   const triggerLink = useLinkTimeslots();
   const triggerSync = useSyncTimeslots();
-  const { data: jobsList, isLoading: isJobsLoading } = useListJobs();
+  const { data: jobsList, isLoading: isJobsLoading } = useListJobs({
+    includeCron: true,
+  });
   const [modalState, setModalState] = useState<IModalStateProps>({
     isOpen: false,
     type: null,
@@ -281,7 +283,7 @@ export default function Scraper() {
       ?.filter(
         (job) =>
           job.type === type ||
-          (includeCron && job.cron && job.matched_count != null),
+          (includeCron && job.type === "none" && job.matched_count != null),
       )
       .sort(
         (jobA, jobB) =>

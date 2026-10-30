@@ -110,7 +110,6 @@ export type IEventRequest = Omit<IEventResponse, "id" | "category"> & {
 export interface IJobProps {
   id: number;
   type: string;
-  cron?: boolean;
   state: string;
   attempted_at: Date;
   completed_at: Date;

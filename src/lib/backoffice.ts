@@ -1,9 +1,11 @@
 import { api } from "./api";
 import { IJobProps, IScrapeConfig } from "./types";
 
-export async function listJobs() {
+export async function listJobs(options?: { includeCron?: boolean }) {
   try {
-    const res = await api.get<{ jobs: IJobProps[] }>("/jobs");
+    const res = await api.get<{ jobs: IJobProps[] }>("/jobs", {
+      params: options?.includeCron ? { cron: true } : undefined,
+    });
     return res.data.jobs;
   } catch {
     throw new Error("Failed to fetch jobs list. Please try again later.");

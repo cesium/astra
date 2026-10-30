@@ -8,10 +8,10 @@ import {
   listJobs,
 } from "../backoffice";
 
-export function useListJobs() {
+export function useListJobs(options?: { includeCron?: boolean }) {
   return useQuery({
-    queryKey: ["jobs-list"],
-    queryFn: listJobs,
+    queryKey: ["jobs-list", { includeCron: !!options?.includeCron }],
+    queryFn: () => listJobs(options),
     refetchInterval: 1000,
   });
 }
