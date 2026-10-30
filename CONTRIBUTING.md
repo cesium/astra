@@ -46,12 +46,12 @@ Finally, create your environment file and change it as needed:
 cp .env.sample .env
 ```
 
-| Variable              | Description                                                    |
-| --------------------- | -------------------------------------------------------------- |
+| Variable              | Description                                                     |
+| --------------------- | --------------------------------------------------------------- |
 | `NEXT_PUBLIC_API_URL` | URL of the backend API (defaults to `http://localhost:4000/v1`) |
-| `UMAMI_URL`           | URL of your Umami analytics instance                           |
-| `UMAMI_WEBSITE_ID`    | Umami website ID                                               |
-| `PROD_DOMAIN`         | Production domain                                              |
+| `UMAMI_URL`           | URL of your Umami analytics instance                            |
+| `UMAMI_WEBSITE_ID`    | Umami website ID                                                |
+| `PROD_DOMAIN`         | Production domain                                               |
 
 ## 🔨 Development
 
