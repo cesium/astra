@@ -276,9 +276,13 @@ export default function Scraper() {
         job.state === "completed" && job.type == "scrape_and_link_timeslots",
     ) ?? false;
 
-  const getLastRun = (type: string) => {
+  const getLastRun = (type: string, includeCron = false) => {
     return jobsList
-      ?.filter((job) => job.type === type)
+      ?.filter(
+        (job) =>
+          job.type === type ||
+          (includeCron && job.cron && job.matched_count != null),
+      )
       .sort(
         (jobA, jobB) =>
           moment(jobB.attempted_at).valueOf() -
@@ -287,7 +291,7 @@ export default function Scraper() {
   };
 
   const lastLinkRun = getLastRun("scrape_and_link_timeslots");
-  const lastSyncRun = getLastRun("scrape_and_sync_timeslots");
+  const lastSyncRun = getLastRun("scrape_and_sync_timeslots", true);
 
   return (
     <>
