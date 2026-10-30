@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+[contributing]: CONTRIBUTING.md
+[code_of_conduct]: CODE_OF_CONDUCT.md
+[license]: LICENSE.txt
+[ci-style-status]: https://github.com/cesium/astra/actions/workflows/style.yml/badge.svg
+[ci-style-workflow]: https://github.com/cesium/astra/actions/workflows/style.yml
 
-## Getting Started
+# Astra
 
-First, run the development server:
+[![CI Style][ci-style-status]][ci-style-workflow]
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Astra is the frontend used by Pombo, CeSIUM's platform for LEI students at
+UMinho. Built with Next.js and React, it is the web application where students
+manage their schedules and request shift exchanges, and where administrators
+manage the platform through a backoffice.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How it fits in Pombo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Pombo is made of four repositories:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Astra**: frontend
+- [Atlas](https://github.com/cesium/atlas): backend
+- [Kepler](https://github.com/cesium/kepler): schedule generation
+- [Telescopium](https://github.com/cesium/telescopium): scraper used to update and cross-check data
 
-## Learn More
+## 🤝 Contributing
 
-To learn more about Next.js, take a look at the following resources:
+When contributing to this repository, please first discuss the change you wish
+to make via discussions, issue, email, or any other method with the owners of
+this repository before making a change.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Please note we have a [Code of Conduct][code_of_conduct], please follow it
+in all your interactions with the project.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+We have a [Contributing Guide][contributing] to help you getting started.
 
-## Deploy on Vercel
+## 📝 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<img src=".github/brand/cesium-DARK.svg#gh-light-mode-only" width="300">
+<img src=".github/brand/cesium-LIGHT.svg#gh-dark-mode-only" width="300">
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Copyright (c) 2026, CeSIUM.
+
+This project is licensed under the MIT License - see the [LICENSE][license]
+file for details.
