@@ -7,11 +7,23 @@ import { useDeleteExchange } from "@/lib/mutations/exchange";
 
 interface IExchangeCardProps {
   uc: string;
-  from: string;
-  to: string;
+  from: IShiftProps;
+  to: IShiftProps;
   pending?: boolean;
   completed?: boolean;
   exchange_id?: string;
+}
+
+export interface IShiftProps {
+  shift: string;
+  professor?: string;
+  timeslots: {
+    weekday: string;
+    start: string;
+    end: string;
+    room: string;
+    building: string;
+  }[];
 }
 
 const getShift = (shift: string) => {
@@ -36,14 +48,14 @@ export default function ExchangeCard({
   };
 
   return (
-    <div className="flex w-[294px] flex-shrink-0 flex-col justify-between gap-2 rounded-2xl border border-gray-300 p-4">
+    <div className="flex w-[294px] shrink-0 flex-col justify-between gap-2 rounded-2xl border border-gray-300 p-4">
       <div className="flex justify-between">
         <div className="flex-col">
           <span className="line-clamp-1">{uc}</span>
           <div className="flex items-center gap-2">
-            <span>{from}</span>
+            <span>{from.shift}</span>
             <span className="material-symbols-outlined">arrow_forward</span>
-            <span>{to}</span>
+            <span>{to.shift}</span>
           </div>
         </div>
         <div className="flex items-center">
@@ -169,7 +181,7 @@ export default function ExchangeCard({
           uc={uc}
           from={from}
           to={to}
-          shift={getShift(from)}
+          shift={getShift(from.shift)}
           status={pending ? "pending" : "completed"}
         />
       </ExchangeModal>

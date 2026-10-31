@@ -12,8 +12,11 @@ import {
   IEventCategory,
   IEventResponse,
 } from "@/lib/types";
-import { getContrastColor, isAllDayEvent } from "@/lib/utils";
-import moment from "moment";
+import {
+  getContrastColor,
+  isAllDayUtcDateTime,
+  parseUtcDateTime,
+} from "@/lib/utils";
 import { createContext, useEffect, useState } from "react";
 
 interface IEventsProvider {
@@ -103,8 +106,8 @@ function lookForChanges(
 
 function formatEvents(events: IEventResponse[]) {
   return events.map((event) => {
-    const start = moment.utc(event.start);
-    const end = moment.utc(event.end);
+    const start = parseUtcDateTime(event.start);
+    const end = parseUtcDateTime(event.end);
 
     return {
       id: event.id,
@@ -116,7 +119,7 @@ function formatEvents(events: IEventResponse[]) {
       link: event.link,
       eventColor: event.category.color,
       textColor: getContrastColor(event.category.color, 5),
-      allDay: isAllDayEvent(start, end),
+      allDay: isAllDayUtcDateTime(event.start, event.end),
     };
   });
 }

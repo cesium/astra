@@ -94,6 +94,16 @@ export default function SidebarSettings() {
                     <SidebarItem id="shifts" href="/settings/backoffice/shifts">
                       <SidebarItemLabel icon="work_history" label="Shifts" />
                     </SidebarItem>
+                    
+                    <SidebarItem
+                      id="telescopium"
+                      href="/settings/backoffice/scraper"
+                    >
+                      <SidebarItemLabel
+                        icon="cloud_download"
+                        label="Telescopium"
+                      />
+                    </SidebarItem>
                   </>
                 )}
 
