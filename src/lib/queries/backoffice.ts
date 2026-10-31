@@ -4,14 +4,23 @@ import {
   exportShiftGroups,
   getAutoSyncState,
   getDegrees,
+  getScraperLastRuns,
   getStatistics,
   listJobs,
 } from "../backoffice";
 
-export function useListJobs(options?: { includeCron?: boolean }) {
+export function useListJobs() {
   return useQuery({
-    queryKey: ["jobs-list", { includeCron: !!options?.includeCron }],
-    queryFn: () => listJobs(options),
+    queryKey: ["jobs-list"],
+    queryFn: listJobs,
+    refetchInterval: 1000,
+  });
+}
+
+export function useGetScraperLastRuns() {
+  return useQuery({
+    queryKey: ["scraper-last-runs"],
+    queryFn: getScraperLastRuns,
     refetchInterval: 1000,
   });
 }

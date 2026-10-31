@@ -120,6 +120,12 @@ export interface IJobProps {
   unmatched_count: number | null;
 }
 
+export interface IScraperLastRuns {
+  link: IJobProps | null;
+  sync: IJobProps | null;
+  link_completed: boolean;
+}
+
 export interface IEventCategory {
   id: string;
   name: string;

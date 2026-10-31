@@ -11,7 +11,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SettingsWrapper from "@/components/settings-wrapper";
 import Input from "@/components/input";
 import Label from "@/components/label";
-import { useGetAutoSyncState, useListJobs } from "@/lib/queries/backoffice";
+import {
+  useGetAutoSyncState,
+  useGetScraperLastRuns,
+} from "@/lib/queries/backoffice";
 import {
   useLinkTimeslots,
   useSyncTimeslots,
@@ -207,9 +210,7 @@ const AutoSyncToggle = ({
 export default function Scraper() {
   const triggerLink = useLinkTimeslots();
   const triggerSync = useSyncTimeslots();
-  const { data: jobsList, isLoading: isJobsLoading } = useListJobs({
-    includeCron: true,
-  });
+  const { data: lastRuns, isLoading: isJobsLoading } = useGetScraperLastRuns();
   const [modalState, setModalState] = useState<IModalStateProps>({
     isOpen: false,
     type: null,
@@ -272,28 +273,9 @@ export default function Scraper() {
       : "Sync Timeslots"
     : null;
 
-  const hasCompletedLinkTimeslots =
-    jobsList?.some(
-      (job) =>
-        job.state === "completed" && job.type == "scrape_and_link_timeslots",
-    ) ?? false;
-
-  const getLastRun = (type: string, includeCron = false) => {
-    return jobsList
-      ?.filter(
-        (job) =>
-          job.type === type ||
-          (includeCron && job.type === "none" && job.matched_count != null),
-      )
-      .sort(
-        (jobA, jobB) =>
-          moment(jobB.attempted_at).valueOf() -
-          moment(jobA.attempted_at).valueOf(),
-      )[0];
-  };
-
-  const lastLinkRun = getLastRun("scrape_and_link_timeslots");
-  const lastSyncRun = getLastRun("scrape_and_sync_timeslots", true);
+  const hasCompletedLinkTimeslots = lastRuns?.link_completed ?? false;
+  const lastLinkRun = lastRuns?.link ?? undefined;
+  const lastSyncRun = lastRuns?.sync ?? undefined;
 
   return (
     <>
