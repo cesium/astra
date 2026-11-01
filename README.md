@@ -8,8 +8,9 @@
 
 [![CI Style][ci-style-status]][ci-style-workflow]
 
-Astra is the frontend used by Pombo, CeSIUM's platform for LEI students at
-UMinho. Built with Next.js and React, it is the web application where students
+Astra is the frontend used by [Pombo](https://pombo.di.uminho.pt/), CeSIUM's
+platform for LEI students at UMinho. Built with [Next.js](https://nextjs.org/)
+and [React](https://react.dev/), it is the web application where students
 manage their schedules and request shift exchanges, and where administrators
 manage the platform through a backoffice.
 
