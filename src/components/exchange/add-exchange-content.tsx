@@ -8,21 +8,8 @@ import { useCreateExchange } from "@/lib/mutations/exchange";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ICourse } from "@/lib/types";
+import { getShortShiftType } from "@/lib/utils";
 
-const getShortShiftType = (shiftType: string) => {
-  switch (shiftType) {
-    case "theoretical":
-      return "T";
-    case "theoretical_practical":
-      return "TP";
-    case "practical_laboratory":
-      return "PL";
-    case "tutorial_guidance":
-      return "OT";
-    default:
-      return shiftType;
-  }
-};
 
 export default function AddExchangeContent({
   setModalState,

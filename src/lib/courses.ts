@@ -1,9 +1,11 @@
 import { api } from "./api";
 import { ICourse } from "./types";
 
-export async function getAllCourses() {
+export async function getAllCourses(include_shifts: boolean = true) {
   try {
-    const res = await api.get<{ courses: ICourse[] }>("/courses");
+    const res = await api.get<{ courses: ICourse[] }>("/courses", {
+      params: { include_shifts },
+    });
     return res.data.courses;
   } catch {
     throw new Error("Failed to fetch courses. Please try again later.");

@@ -2,21 +2,7 @@
 
 import { useGetExchanges } from "@/lib/queries/exchange";
 import CardsSection from "./cards-section";
-
-const getShortShiftType = (shiftType: string) => {
-  switch (shiftType) {
-    case "theoretical":
-      return "T";
-    case "theoretical_practical":
-      return "TP";
-    case "practical_laboratory":
-      return "PL";
-    case "tutorial_guidance":
-      return "OT";
-    default:
-      return shiftType;
-  }
-};
+import { getShortShiftType } from "@/lib/utils";
 
 export interface IExchange {
   id: string;

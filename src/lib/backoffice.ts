@@ -1,5 +1,11 @@
 import { api } from "./api";
-import { IJobProps, IScrapeConfig } from "./types";
+import {
+  IJobProps,
+  IScrapeConfig,
+  IPutShift,
+  IShiftResponse,
+  IDeleteTimeslot,
+} from "./types";
 
 export async function listJobs() {
   try {
@@ -101,5 +107,37 @@ export async function toggleAutoSync() {
     throw new Error(
       "Failed to update Auto Sync State. Please try again later.",
     );
+  }
+}
+
+export async function getShiftsForCourse(course_id?: string) {
+  try {
+    const res = await api.get<{ data: IShiftResponse[] }>("/shifts", {
+      params: course_id ? { course_id } : undefined,
+    });
+    return res.data.data;
+  } catch {
+    throw new Error("Failed to fetch shifts. Please try again later.");
+  }
+}
+
+export async function updateShift(data: IPutShift) {
+  try {
+    const res = await api.put<{ data: IShiftResponse }>(
+      `/shifts/${data.id}`,
+      data,
+    );
+    return res.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteTimeslot(data: IDeleteTimeslot) {
+  try {
+    const res = await api.delete(`/shifts/timeslots/${data.timeslotId}`);
+    return res.data;
+  } catch (error) {
+    throw error;
   }
 }

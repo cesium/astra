@@ -2,160 +2,81 @@
 
 import { AuthCheck } from "@/components/auth-check";
 import SettingsWrapper from "@/components/settings-wrapper";
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-} from "@headlessui/react";
-import { twMerge } from "tailwind-merge";
-import clsx from "clsx";
-import Card from "@/components/card";
+import CustomCombobox from "@/components/combobox";
+import Input from "@/components/input";
 import { useEffect, useMemo, useState } from "react";
 import { useGetAllCourses } from "@/lib/queries/courses";
-import { ITimeSlot } from "@/lib/types";
-import { useDeleteTimeslot, useUpdateShift } from "@/lib/mutations/shifts";
+import { useGetShiftsForCourse } from "@/lib/queries/backoffice";
+import { useDeleteTimeslot, useUpdateShift } from "@/lib/mutations/backoffice";
+import { IItemProps, ITimeSlot } from "@/lib/types";
+import { getShortShiftType } from "@/lib/utils";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Input from "@/components/input";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const getShortShiftType = (shiftType: string) => {
-  switch (shiftType) {
-    case "theoretical":
-      return "T";
-    case "theoretical_practical":
-      return "TP";
-    case "practical_laboratory":
-      return "PL";
-    case "tutorial_guidance":
-      return "OT";
-    default:
-      return shiftType;
-  }
-};
+const weekdays = [
+  { id: "monday", name: "Monday" },
+  { id: "tuesday", name: "Tuesday" },
+  { id: "wednesday", name: "Wednesday" },
+  { id: "thursday", name: "Thursday" },
+  { id: "friday", name: "Friday" },
+  { id: "saturday", name: "Saturday" },
+  { id: "sunday", name: "Sunday" },
+];
 
-interface IShiftsListbox {
-  selectedItem: string;
-  setSelectedItem: (item: string) => void;
-  collection: { id: string; name: string }[];
-  label?: string;
-  className?: string;
-}
+const shiftTypes = [
+  { id: "theoretical", name: "Theoretical (T)" },
+  { id: "theoretical_practical", name: "Theoretical-Practical (TP)" },
+  { id: "practical_laboratory", name: "Practical-Laboratory (PL)" },
+  { id: "tutorial_guidance", name: "Tutorial Guidance (OT)" },
+];
 
-const ShiftsListbox = ({
-  selectedItem,
-  setSelectedItem,
-  collection,
-  label,
-  className,
-}: IShiftsListbox) => {
-  return (
-    <Listbox
-      as="div"
-      value={selectedItem}
-      onChange={setSelectedItem}
-      className={"w-full"}
-    >
-      <ListboxButton
-        className={twMerge(
-          clsx(
-            "group flex w-full cursor-pointer items-center justify-center rounded-md border border-gray-300 p-2 text-left select-none",
-          ),
-          className,
-        )}
-      >
-        <div className={clsx("flex-1")}>
-          <h3 className="text-xs sm:text-sm">{label}</h3>
-          {selectedItem ? (
-            <span className={clsx("block text-lg text-black")}>
-              {collection.find((item) => item.id === selectedItem)?.name}
-            </span>
-          ) : (
-            <span className={clsx("sm:block")}>Select an item</span>
-          )}
-        </div>
-      </ListboxButton>
-      <ListboxOptions
-        as={Card}
-        anchor={"bottom start"}
-        transition
-        className={twMerge(
-          clsx(
-            "flex w-(--button-width) origin-top flex-col gap-4 rounded-2xl border border-gray-300 p-4 transition duration-200 ease-out [--anchor-gap:-8px] data-closed:scale-95 data-closed:opacity-0 sm:translate-x-2",
-          ),
-        )}
-      >
-        {collection.length === 0 ? (
-          <div className="text-center text-sm text-gray-500">
-            No options available
-          </div>
-        ) : (
-          collection.map((item) => (
-            <ListboxOption
-              key={item.id}
-              value={item.id}
-              className="flex cursor-pointer items-center gap-3 select-none"
-            >
-              <div
-                className={clsx(
-                  "flex h-7 w-7 items-center justify-center rounded-full",
-                  { "bg-primary-400": selectedItem === item.id },
-                  { "border-2 border-gray-300": selectedItem !== item.id },
-                )}
-              >
-                <div
-                  className={clsx("flex h-2 w-2 rounded-full", {
-                    "bg-white": selectedItem === item.id,
-                  })}
-                ></div>
-              </div>
-              <span className="line-clamp-1 text-lg leading-5">
-                {item.name}
-              </span>
-            </ListboxOption>
-          ))
-        )}
-      </ListboxOptions>
-    </Listbox>
-  );
-};
+const formSchema = z.object({
+  type: z.string().min(1, "Type is required"),
+  number: z.number().min(1),
+  professor: z.string(),
+});
+
+type FormSchema = z.infer<typeof formSchema>;
 
 export default function Shifts() {
-  const { data: courses } = useGetAllCourses();
+  const { data: courses = [] } = useGetAllCourses(false);
   const updateShift = useUpdateShift();
   const deleteTimeslot = useDeleteTimeslot();
 
-  const [selectedCourse, setSelectedCourse] = useState("");
-  const [selectedShift, setSelectedShift] = useState("");
+  const [selectedCourse, setSelectedCourse] = useState<IItemProps | null>(null);
+  const [selectedShift, setSelectedShift] = useState<IItemProps | null>(null);
 
-  const selectedCourseData = courses?.find(
-    (course) => course.id === selectedCourse,
-  );
+  const formattedCourses: IItemProps[] = useMemo(() => {
+    return courses.map((course) => ({ id: course.id, name: course.name }));
+  }, [courses]);
 
-  const shifts = useMemo(() => {
-    return selectedCourseData?.shifts || [];
-  }, [selectedCourseData]);
+  const { data: shifts = [] } = useGetShiftsForCourse(selectedCourse?.id);
 
-  const selectedShiftData = shifts.find((shift) => shift.id === selectedShift);
+  const formattedShifts: IItemProps[] = useMemo(() => {
+    return shifts.map((shift) => ({
+      id: shift.id,
+      name: `${getShortShiftType(shift.type)}${shift.number}`,
+    }));
+  }, [shifts]);
+
+  const selectedShiftData = useMemo(() => {
+    return shifts.find((shift) => shift.id === selectedShift?.id);
+  }, [shifts, selectedShift]);
+
   const [timeslots, setTimeslots] = useState<ITimeSlot[]>([]);
   const [originalTimeslots, setOriginalTimeslots] = useState<ITimeSlot[]>([]);
 
-  const formSchema = z.object({
-    type: z.string(),
-    number: z.number().min(1),
-    professor: z.string(),
-  });
-
-  type FormSchema = z.infer<typeof formSchema>;
-
-  const { register, handleSubmit, watch, setValue } = useForm<FormSchema>({
+  const { register, handleSubmit, reset } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
   });
 
   const onSubmit: SubmitHandler<FormSchema> = (data: FormSchema) => {
+    if (!selectedShift || !selectedCourse) return;
+
     updateShift.mutate({
-      id: selectedShift,
+      id: selectedShift.id,
+      course_id: selectedCourse.id,
       type: data.type,
       number: data.number,
       professor: data.professor,
@@ -168,9 +89,11 @@ export default function Shifts() {
     field: keyof ITimeSlot,
     value: string,
   ) => {
-    const updatedTimeslots = [...timeslots];
-    updatedTimeslots[index][field] = value;
-    setTimeslots(updatedTimeslots);
+    setTimeslots((prev) =>
+      prev.map((slot, i) =>
+        i === index ? { ...slot, [field]: value } : slot,
+      ),
+    );
   };
 
   const addTimeslot = () => {
@@ -190,8 +113,12 @@ export default function Shifts() {
   const removeTimeslot = (id: string) => () => {
     const isOriginalTimeslot = originalTimeslots.some((slot) => slot.id === id);
 
-    if (isOriginalTimeslot) {
-      deleteTimeslot.mutate({ shiftId: selectedShift, timeslotId: id });
+    if (isOriginalTimeslot && selectedShift && selectedCourse) {
+      deleteTimeslot.mutate({
+        shiftId: selectedShift.id,
+        timeslotId: id,
+        course_id: selectedCourse.id,
+      });
     }
 
     setTimeslots(timeslots.filter((slot) => slot.id !== id));
@@ -207,58 +134,38 @@ export default function Shifts() {
     }
   }, [updateShift.isSuccess, updateShift]);
 
-  const weekdays = [
-    { id: "monday", name: "Monday" },
-    { id: "tuesday", name: "Tuesday" },
-    { id: "wednesday", name: "Wednesday" },
-    { id: "thursday", name: "Thursday" },
-    { id: "friday", name: "Friday" },
-    { id: "saturday", name: "Saturday" },
-    { id: "sunday", name: "Sunday" },
-  ];
-
-  const orderedShifts = useMemo(() => {
-    const transformedShifts = shifts.map((shift) => ({
-      id: shift.id,
-      name: `${getShortShiftType(shift.type)}${shift.number}`,
-    }));
-
-    return transformedShifts.sort((a, b) => {
-      const numberA = parseInt(a.name.match(/\d+/g)?.[0] || "0", 10);
-      const numberB = parseInt(b.name.match(/\d+/g)?.[0] || "0", 10);
-
-      return numberA - numberB;
-    });
-  }, [shifts]);
-
   useEffect(() => {
-    if (selectedShiftData?.timeslots) {
-      setTimeslots(selectedShiftData.timeslots);
-      setOriginalTimeslots(selectedShiftData.timeslots);
+    if (selectedShiftData) {
+      setTimeslots(selectedShiftData.timeslots ?? []);
+      setOriginalTimeslots(selectedShiftData.timeslots ?? []);
+      reset({
+        type: selectedShiftData.type ?? "",
+        number: selectedShiftData.number ?? 1,
+        professor: selectedShiftData.professor ?? "",
+      });
     } else {
       setTimeslots([]);
       setOriginalTimeslots([]);
+      reset({
+        type: "",
+        number: 1,
+        professor: "",
+      });
     }
-    if (selectedShiftData?.type) {
-      setValue("type", selectedShiftData.type);
-    }
-    if (selectedShiftData?.number) {
-      setValue("number", selectedShiftData.number);
-    }
-    if (selectedShiftData?.professor) {
-      setValue("professor", selectedShiftData.professor);
-    }
-  }, [selectedShiftData, setValue]);
+  }, [selectedShiftData, reset]);
 
   useEffect(() => {
-    setSelectedShift("");
-  }, [selectedCourse]);
-
-  useEffect(() => {
-    if (selectedCourse && !selectedShift && orderedShifts.length > 0) {
-      setSelectedShift(orderedShifts[0]?.id);
+    if (selectedCourse && formattedShifts.length > 0) {
+      if (
+        !selectedShift ||
+        !formattedShifts.some((s) => s.id === selectedShift.id)
+      ) {
+        setSelectedShift(formattedShifts[0]);
+      }
+    } else {
+      setSelectedShift(null);
     }
-  }, [selectedCourse, selectedShift, orderedShifts]);
+  }, [selectedCourse, formattedShifts, selectedShift]);
 
   return (
     <>
@@ -272,23 +179,39 @@ export default function Shifts() {
             </section>
             <section className="flex-col gap-4">
               <div className="flex flex-col rounded-lg border border-gray-200 bg-white p-6">
-                <h3 className="mb-4 text-lg font-medium">Select Course</h3>
-                <div className="flex flex-1 flex-col items-center justify-center gap-2 text-gray-400 lg:flex-row">
-                  <ShiftsListbox
-                    selectedItem={selectedCourse}
-                    setSelectedItem={setSelectedCourse}
-                    collection={courses || []}
-                    label="Course"
-                  />
-                  <ShiftsListbox
-                    selectedItem={selectedShift}
-                    setSelectedItem={setSelectedShift}
-                    collection={orderedShifts.map((shift) => ({
-                      id: shift.id,
-                      name: shift.name,
-                    }))}
-                    label="Shift"
-                  />
+                <h3 className="mb-4 text-lg font-medium">
+                  Select Course & Shift
+                </h3>
+                <div className="flex flex-1 flex-col gap-4 sm:flex-row">
+                  <div className="flex-1 space-y-1">
+                    <label className="text-sm font-medium text-gray-700">
+                      Course
+                    </label>
+                    <CustomCombobox
+                      items={formattedCourses}
+                      selectedItem={selectedCourse}
+                      setSelectedItem={(course) => {
+                        setSelectedCourse(course);
+                        setSelectedShift(null);
+                      }}
+                      placeholder="Select a course"
+                    />
+                  </div>
+                  <div className="flex-1 space-y-1">
+                    <label className="text-sm font-medium text-gray-700">
+                      Shift
+                    </label>
+                    <CustomCombobox
+                      items={formattedShifts}
+                      selectedItem={selectedShift}
+                      setSelectedItem={setSelectedShift}
+                      placeholder={
+                        selectedCourse
+                          ? "Select a shift"
+                          : "Select a course first"
+                      }
+                    />
+                  </div>
                 </div>
               </div>
             </section>
@@ -302,11 +225,17 @@ export default function Shifts() {
                         <label className="text-sm font-medium text-gray-700">
                           Type
                         </label>
-                        <Input
+                        <select
                           {...register("type", { required: true })}
-                          type="text"
-                          defaultValue={watch("type")}
-                        />
+                          className="focus:ring-primary-400 w-full rounded-md border border-gray-300 bg-white p-2 text-sm text-gray-700 focus:ring-2 focus:outline-none"
+                        >
+                          <option value="">Select type</option>
+                          {shiftTypes.map((type) => (
+                            <option key={type.id} value={type.id}>
+                              {type.name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                       <div className="flex min-w-[200px] flex-1 flex-col gap-1">
                         <label className="text-sm font-medium text-gray-700">
@@ -318,7 +247,6 @@ export default function Shifts() {
                             required: true,
                           })}
                           type="number"
-                          defaultValue={watch("number") || ""}
                         />
                       </div>
                       <div className="flex min-w-[200px] flex-1 flex-col gap-1">
@@ -328,7 +256,6 @@ export default function Shifts() {
                         <Input
                           {...register("professor", { required: true })}
                           type="text"
-                          defaultValue={watch("professor")}
                         />
                       </div>
 
@@ -357,14 +284,24 @@ export default function Shifts() {
                                   <label className="mb-1 block text-xs text-gray-600">
                                     Weekday
                                   </label>
-                                  <ShiftsListbox
-                                    selectedItem={timeslot.weekday}
-                                    setSelectedItem={(value) =>
-                                      updateTimeslot(index, "weekday", value)
+                                  <select
+                                    value={timeslot.weekday}
+                                    onChange={(e) =>
+                                      updateTimeslot(
+                                        index,
+                                        "weekday",
+                                        e.target.value,
+                                      )
                                     }
-                                    collection={weekdays}
-                                    className="rounded-xl border-gray-200"
-                                  />
+                                    className="focus:ring-primary-400 w-full rounded-md border border-gray-300 bg-white p-2 text-sm text-gray-700 focus:ring-2 focus:outline-none"
+                                  >
+                                    <option value="">Select weekday</option>
+                                    {weekdays.map((day) => (
+                                      <option key={day.id} value={day.id}>
+                                        {day.name}
+                                      </option>
+                                    ))}
+                                  </select>
                                 </div>
 
                                 <div className="min-w-[120px] flex-1">
@@ -460,9 +397,10 @@ export default function Shifts() {
                       <div className="mt-6">
                         <button
                           type="submit"
-                          className="bg-primary-400 hover:bg-primary-500 rounded-md px-4 py-2 text-white"
+                          disabled={updateShift.isPending}
+                          className="bg-primary-400 hover:bg-primary-500 rounded-md px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                          Update
+                          {updateShift.isPending ? "Updating..." : "Update"}
                         </button>
                         <div>
                           {timeslots.length === 0 && (

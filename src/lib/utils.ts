@@ -99,3 +99,18 @@ export function isAllDayEvent(
 ): boolean {
   return isAllDay(start, end) || isMultipleDay(start, end);
 }
+
+export const getShortShiftType = (shiftType: string) => {
+  switch (shiftType) {
+    case "theoretical":
+      return "T";
+    case "theoretical_practical":
+      return "TP";
+    case "practical_laboratory":
+      return "PL";
+    case "tutorial_guidance":
+      return "OT";
+    default:
+      return shiftType;
+  }
+};
