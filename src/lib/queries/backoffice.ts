@@ -4,6 +4,7 @@ import {
   exportShiftGroups,
   getAutoSyncState,
   getDegrees,
+  getScraperLastRuns,
   getStatistics,
   listJobs,
   getShiftsForCourse,
@@ -13,6 +14,14 @@ export function useListJobs() {
   return useQuery({
     queryKey: ["jobs-list"],
     queryFn: listJobs,
+    refetchInterval: 1000,
+  });
+}
+
+export function useGetScraperLastRuns() {
+  return useQuery({
+    queryKey: ["scraper-last-runs"],
+    queryFn: getScraperLastRuns,
     refetchInterval: 1000,
   });
 }

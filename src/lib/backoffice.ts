@@ -5,6 +5,7 @@ import {
   IPutShift,
   IShiftResponse,
   IDeleteTimeslot,
+  IScraperLastRuns
 } from "./types";
 
 export async function listJobs() {
@@ -13,6 +14,17 @@ export async function listJobs() {
     return res.data.jobs;
   } catch {
     throw new Error("Failed to fetch jobs list. Please try again later.");
+  }
+}
+
+export async function getScraperLastRuns() {
+  try {
+    const res = await api.get<IScraperLastRuns>("/scraper/last_runs");
+    return res.data;
+  } catch {
+    throw new Error(
+      "Failed to fetch last scraper runs. Please try again later.",
+    );
   }
 }
 
