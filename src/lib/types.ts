@@ -157,3 +157,19 @@ export interface IScrapeConfig {
     end: string;
   };
 }
+
+export interface IFeedback {
+  id: string;
+  subject: string;
+  message: string;
+  user: {
+    id: string;
+    name: string;
+  };
+  inserted_at: string;
+}
+
+export interface IFeedbackForm {
+  subject: string;
+  message: string;
+}
