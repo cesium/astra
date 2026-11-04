@@ -80,7 +80,7 @@ export default function SignIn() {
                 {...register("email")}
                 id="email"
                 className="bg-dark/5 border-0 placeholder:text-black/50"
-                placeholder="Email"
+                placeholder="a123456@alunos.uminho.pt"
               />
               <span className="text-danger pl-2">{errors.email?.message}</span>
             </div>

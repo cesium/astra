@@ -17,6 +17,8 @@ interface ICustomCombobox {
   setSelectedItem: (item: IItemProps | null) => void;
   className?: string;
   placeholder?: string;
+  disableFlip?: boolean;
+  required?: boolean;
 }
 
 export default function CustomCombobox({
@@ -25,6 +27,8 @@ export default function CustomCombobox({
   setSelectedItem,
   className,
   placeholder,
+  disableFlip = false,
+  required = false,
 }: ICustomCombobox) {
   const [query, setQuery] = useState("");
 
@@ -47,8 +51,9 @@ export default function CustomCombobox({
           placeholder={placeholder}
           displayValue={(item: IItemProps) => item?.name || ""}
           onChange={(event) => setQuery(event.target.value)}
+          required={required}
           className={clsx(
-            "bg-muted border-dark/10 w-full rounded-lg border py-1.5 pr-8 pl-3 text-sm/6",
+            "bg-muted border-dark/10 w-full rounded-xl border py-1.5 pr-8 pl-3 text-sm/6",
             "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
           )}
         />
@@ -60,11 +65,15 @@ export default function CustomCombobox({
         </ComboboxButton>
       </div>
       <ComboboxOptions
-        anchor="bottom"
+        anchor={disableFlip ? undefined : "bottom"}
         transition
         className={clsx(
-          "border-dark/5 bg-muted w-(--input-width) rounded-xl border p-1 [--anchor-gap:--spacing(1)] empty:invisible",
-          "transition duration-100 ease-in data-leave:data-closed:opacity-0",
+          "border-dark/5 bg-muted z-50 rounded-xl border p-1 empty:invisible",
+          "origin-top transition duration-150 ease-out",
+          "data-closed:scale-95 data-closed:opacity-0",
+          disableFlip
+            ? "absolute top-full right-0 left-0 mt-1 max-h-60 overflow-auto"
+            : "w-(--input-width) [--anchor-gap:--spacing(1)]",
         )}
       >
         {filteredItems.map((item) => (
