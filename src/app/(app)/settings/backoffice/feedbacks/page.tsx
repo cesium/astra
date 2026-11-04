@@ -1,181 +1,188 @@
 "use client";
 
-import { useGetFeedbacks } from "@/lib/queries/feedback";
+import { useState } from "react";
+import moment from "moment";
+import { AuthCheck } from "@/components/auth-check";
+import Avatar from "@/components/avatar";
+import Modal from "@/components/modal";
+import SettingsWrapper from "@/components/settings-wrapper";
+import Table, {
+  HeaderElement,
+  TableCell,
+  TableContent,
+  TableHeader,
+  TableItemWrapper,
+} from "@/components/table";
 import { useDeleteFeedback } from "@/lib/mutations/feedback";
-import { useState, Fragment } from "react";
-import {
-  Transition,
-  TransitionChild,
-  Dialog,
-  DialogPanel,
-} from "@headlessui/react";
+import { useGetFeedbacks } from "@/lib/queries/feedback";
+import { IFeedback } from "@/lib/types";
+import { firstLastName } from "@/lib/utils";
 
-function ConfirmDelete({
-  state,
-  setState,
-  onConfirm,
-  errorMessage,
+const COLUMNS = 5;
+
+function DeleteFeedbackModal({
+  feedback,
+  onClose,
 }: {
-  state: boolean;
-  setState: (state: boolean) => void;
-  onConfirm: () => void;
-  errorMessage: string | null;
+  feedback: IFeedback | null;
+  onClose: () => void;
 }) {
-  return (
-    <Transition appear show={state} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-50"
-        onClose={() => setState(false)}
-      >
-        <TransitionChild
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 backdrop-blur-sm" />
-        </TransitionChild>
+  const deleteFeedback = useDeleteFeedback();
 
-        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-          <TransitionChild
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
-          >
-            <DialogPanel className="relative w-full max-w-md flex-1 space-y-4 rounded-lg bg-white p-6 shadow-lg focus:outline-0">
-              <h2 className="px-2 py-1 text-lg font-semibold">
-                Are you sure you want to delete this feedback report?
-              </h2>
-              {errorMessage && (
-                <p className="text-danger mt-2 text-center text-sm">
-                  {errorMessage}
-                </p>
-              )}
-              <div className="flex flex-row justify-end gap-4">
-                <button
-                  onClick={() => setState(false)}
-                  className="cursor-pointer rounded-lg bg-gray-200 px-4 py-2 transition-all duration-150 select-none hover:bg-gray-200/80"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={onConfirm}
-                  className="bg-danger hover:bg-danger/80 cursor-pointer rounded-lg px-4 py-2 text-white/90 transition-all duration-150 select-none"
-                >
-                  Yes, delete it
-                </button>
-              </div>
-            </DialogPanel>
-          </TransitionChild>
+  function handleClose() {
+    deleteFeedback.reset();
+    onClose();
+  }
+
+  function handleDelete() {
+    if (!feedback) return;
+
+    deleteFeedback.mutate(feedback.id, { onSuccess: handleClose });
+  }
+
+  return (
+    <Modal modalState={!!feedback} onClose={handleClose}>
+      <div className="w-full space-y-8">
+        <div className="space-y-2">
+          <h3 className="text-xl font-semibold">
+            Are you sure you want to delete this feedback report?
+          </h3>
+          {feedback && (
+            <p className="text-sm">
+              <span className="font-semibold">Subject: </span>
+              {feedback.subject}
+            </p>
+          )}
+          {deleteFeedback.isError && (
+            <p className="text-danger text-sm">
+              Something went wrong. Please try again later.
+            </p>
+          )}
         </div>
-      </Dialog>
-    </Transition>
+        <div className="flex items-center justify-end gap-2">
+          <button
+            onClick={handleClose}
+            className="hover:bg-smoke border-dark/5 inline-flex h-fit cursor-pointer items-center justify-center rounded-lg border px-3 py-2 transition-all duration-200 hover:scale-95"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleDelete}
+            disabled={deleteFeedback.isPending}
+            className="bg-danger hover:bg-danger/90 inline-flex h-fit cursor-pointer items-center justify-center rounded-lg px-3 py-2 text-white transition-all duration-200 hover:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {deleteFeedback.isPending ? "Deleting..." : "Delete"}
+          </button>
+        </div>
+      </div>
+    </Modal>
   );
 }
 
-interface IFeedback {
-  id: string;
-  subject: string;
-  message: string;
-  user_id: string;
-  inserted_at: string;
-  updated_at: string;
+function FeedbackItem({
+  feedback,
+  onDelete,
+}: {
+  feedback: IFeedback;
+  onDelete: (feedback: IFeedback) => void;
+}) {
+  return (
+    <TableItemWrapper className="text-dark/80 align-top">
+      <TableCell>
+        <div
+          className="-my-1 flex items-center gap-2"
+          title={feedback.user.name}
+        >
+          <Avatar name={feedback.user.name} className="size-8 shrink-0" />
+          <span className="whitespace-nowrap">
+            {firstLastName(feedback.user.name)}
+          </span>
+        </div>
+      </TableCell>
+      <TableCell className="font-semibold break-words">
+        {feedback.subject}
+      </TableCell>
+      <TableCell className="break-words whitespace-pre-line">
+        {feedback.message}
+      </TableCell>
+      <TableCell className="whitespace-nowrap">
+        {moment(feedback.inserted_at).format("D MMM YYYY, HH:mm")}
+      </TableCell>
+      <TableCell>
+        <button
+          onClick={() => onDelete(feedback)}
+          aria-label="Delete feedback"
+          className="material-symbols-outlined text-danger flex h-6 cursor-pointer items-center text-xl transition-opacity hover:opacity-70"
+        >
+          delete
+        </button>
+      </TableCell>
+    </TableItemWrapper>
+  );
+}
+
+function TableMessage({ children }: { children: React.ReactNode }) {
+  return (
+    <tr>
+      <td colSpan={COLUMNS} className="p-4">
+        <p className="text-dark/50 text-center">{children}</p>
+      </td>
+    </tr>
+  );
 }
 
 export default function Feedbacks() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const [isConfirmationVisible, setConfirmationVisible] = useState(false);
-  const [selectedFeedbackId, setSelectedFeedbackId] = useState<string | null>(
+  const { data: feedbacks, isLoading, isError } = useGetFeedbacks();
+  const [feedbackToDelete, setFeedbackToDelete] = useState<IFeedback | null>(
     null,
   );
 
-  const { data: feedbacksRaw } = useGetFeedbacks();
-  const feedbacks: IFeedback[] = feedbacksRaw?.data ?? [];
-
-  const deleteMutation = useDeleteFeedback();
-
-  const handleDelete = (id: string) => {
-    setErrorMessage(null);
-
-    deleteMutation.mutate(id, {
-      onSuccess: () => {
-        setConfirmationVisible(false);
-        setSelectedFeedbackId(null);
-      },
-      onError: () => setErrorMessage("An error occurred."),
-    });
-  };
-
   return (
-    <div className="flex h-full flex-col gap-8 pb-8">
-      <section className="space-y-2">
-        <h2 className="text-2xl font-semibold">Feedbacks</h2>
-        <p>View submitted feedback reports</p>
-      </section>
-      <section>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
-                  Subject
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
-                  Message
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
-                  Submitted
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
-                  Actions
-                </th>
-              </tr>
-            </thead>
+    <>
+      <title>Feedbacks | Pombo</title>
+      <AuthCheck userTypes={["admin"]}>
+        <SettingsWrapper title="Feedbacks">
+          <div className="flex h-full flex-col gap-4">
+            <section className="space-y-1">
+              <h2 className="text-2xl font-semibold">Feedbacks</h2>
+              <p>View the issues reported by users</p>
+            </section>
 
-            <tbody className="divide-y divide-gray-200 bg-white">
-              {feedbacks.map((fb: IFeedback) => (
-                <tr key={fb.id}>
-                  <td className="max-w-xs px-6 py-4 text-sm break-words whitespace-normal text-gray-900">
-                    {fb.subject}
-                  </td>
-                  <td className="max-w-xs px-6 py-4 text-sm break-words whitespace-normal text-gray-900">
-                    {fb.message}
-                  </td>
-                  <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-900">
-                    {new Date(fb.inserted_at).toLocaleString()}
-                  </td>
-                  <td className="px-6 py-4 text-left text-sm font-medium">
-                    <button
-                      onClick={() => {
-                        setSelectedFeedbackId(fb.id);
-                        setConfirmationVisible(true);
-                      }}
-                      className="text-danger cursor-pointer"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-      <ConfirmDelete
-        state={isConfirmationVisible}
-        setState={setConfirmationVisible}
-        onConfirm={() => selectedFeedbackId && handleDelete(selectedFeedbackId)}
-        errorMessage={errorMessage}
-      />
-    </div>
+            <Table>
+              <TableHeader>
+                <HeaderElement className="w-fit" title="User" />
+                <HeaderElement className="w-1/4" title="Subject" />
+                <HeaderElement className="w-2/5" title="Message" />
+                <HeaderElement className="w-fit" title="Submitted" />
+                <HeaderElement className="w-fit" title="Actions" />
+              </TableHeader>
+
+              <TableContent>
+                {isLoading ? (
+                  <TableMessage>Loading...</TableMessage>
+                ) : isError ? (
+                  <TableMessage>Couldn&apos;t load the feedbacks</TableMessage>
+                ) : feedbacks && feedbacks.length > 0 ? (
+                  feedbacks.map((feedback) => (
+                    <FeedbackItem
+                      key={feedback.id}
+                      feedback={feedback}
+                      onDelete={setFeedbackToDelete}
+                    />
+                  ))
+                ) : (
+                  <TableMessage>No feedbacks yet</TableMessage>
+                )}
+              </TableContent>
+            </Table>
+          </div>
+
+          <DeleteFeedbackModal
+            feedback={feedbackToDelete}
+            onClose={() => setFeedbackToDelete(null)}
+          />
+        </SettingsWrapper>
+      </AuthCheck>
+    </>
   );
 }

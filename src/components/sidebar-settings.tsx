@@ -105,7 +105,7 @@ export default function SidebarSettings() {
                       id="feedbacks"
                       href="/settings/backoffice/feedbacks"
                     >
-                      <SidebarItemLabel icon="mode_comment" label="Feedbacks" />
+                      <SidebarItemLabel icon="error" label="Feedbacks" />
                     </SidebarItem>
                   </>
                 )}

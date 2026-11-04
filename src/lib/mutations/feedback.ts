@@ -16,7 +16,7 @@ export function useDeleteFeedback() {
   return useMutation({
     mutationFn: deleteFeedback,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["delete_feedback"] });
+      queryClient.invalidateQueries({ queryKey: ["feedbacks"] });
     },
   });
 }

@@ -14,6 +14,7 @@ import { useSignOut } from "@/lib/mutations/session";
 import Image from "next/image";
 import { firstLastName } from "@/lib/utils";
 import { useInstallPrompt } from "../contexts/install-prompt-provider";
+import FeedbackModal from "./feedback/feedback-modal";
 
 const Logo = () => (
   <Link href="/" className="flex cursor-pointer items-center gap-2">
@@ -116,6 +117,7 @@ function Tab({
 function MobileDropdown({ currentPage }: { currentPage: string }) {
   const [active, setActive] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<"tabs" | "user">("tabs");
+  const [isFeedbackOpen, setFeedbackOpen] = useState(false);
   const session = useGetSession();
   const user = useGetUserInfo();
   const signOut = useSignOut();
@@ -305,6 +307,18 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
                         Settings
                       </Link>
                       <button
+                        onClick={() => {
+                          setActive(false);
+                          setFeedbackOpen(true);
+                        }}
+                        className="text-dark flex cursor-pointer items-center gap-2"
+                      >
+                        <span className="material-symbols-outlined text-2xl">
+                          error
+                        </span>
+                        Report an issue
+                      </button>
+                      <button
                         onClick={() =>
                           signOut.mutate(undefined, {
                             onSuccess: () => {
@@ -328,6 +342,12 @@ function MobileDropdown({ currentPage }: { currentPage: string }) {
           </>
         )}
       </AnimatePresence>
+
+      {/* Outside the menu: closing the menu unmounts everything inside it */}
+      <FeedbackModal
+        isOpen={isFeedbackOpen}
+        onClose={() => setFeedbackOpen(false)}
+      />
     </div>
   );
 }

@@ -5,6 +5,5 @@ export function useGetFeedbacks() {
   return useQuery({
     queryKey: ["feedbacks"],
     queryFn: getFeedbacks,
-    refetchInterval: 3000,
   });
 }
