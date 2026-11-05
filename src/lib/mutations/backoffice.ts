@@ -4,6 +4,7 @@ import {
   linkTimeslots,
   syncTimeslots,
   toggleAutoSync,
+  updateShift,
 } from "../backoffice";
 
 export function useGenerateSchedule() {
@@ -31,6 +32,25 @@ export function useToggleAutoSync() {
     mutationFn: toggleAutoSync,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["auto_sync_state"] });
+    },
+  });
+}
+
+export function useUpdateShift() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateShift,
+    onSuccess: (_data, variables) => {
+      if (variables.course_id) {
+        queryClient.invalidateQueries({
+          queryKey: ["shifts", variables.course_id],
+        });
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["shifts"] });
+      }
+
+      queryClient.invalidateQueries({ queryKey: ["all-courses", true] });
     },
   });
 }

@@ -1,5 +1,11 @@
 import { api } from "./api";
-import { IJobProps, IScrapeConfig, IScraperLastRuns } from "./types";
+import {
+  IJobProps,
+  IScrapeConfig,
+  IPutShift,
+  IShiftResponse,
+  IScraperLastRuns,
+} from "./types";
 
 export async function listJobs() {
   try {
@@ -113,4 +119,23 @@ export async function toggleAutoSync() {
       "Failed to update Auto Sync State. Please try again later.",
     );
   }
+}
+
+export async function getShiftsForCourse(course_id?: string) {
+  try {
+    const res = await api.get<{ data: IShiftResponse[] }>("/shifts", {
+      params: course_id ? { course_id } : undefined,
+    });
+    return res.data.data;
+  } catch {
+    throw new Error("Failed to fetch shifts. Please try again later.");
+  }
+}
+
+export async function updateShift(data: IPutShift) {
+  const res = await api.put<{ data: IShiftResponse }>(
+    `/shifts/${data.id}`,
+    data,
+  );
+  return res.data.data;
 }

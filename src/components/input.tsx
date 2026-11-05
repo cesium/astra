@@ -24,9 +24,9 @@ export default function Input({
     <div
       className={twMerge(
         clsx(
-          className,
           textAlignment,
           "flex w-full items-center rounded-xl border border-black/10 px-2 py-1.5 text-black outline-none md:px-3 md:py-2.5",
+          className,
         ),
       )}
     >

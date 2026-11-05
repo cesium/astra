@@ -72,6 +72,10 @@ export default function SidebarSettings() {
                     >
                       <SidebarItemLabel icon="insights" label="Statistics" />
                     </SidebarItem>
+
+                    <SidebarItem id="shifts" href="/settings/backoffice/shifts">
+                      <SidebarItemLabel icon="work_history" label="Shifts" />
+                    </SidebarItem>
                   </>
                 )}
 

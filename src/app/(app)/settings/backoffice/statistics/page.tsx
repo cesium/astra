@@ -8,21 +8,7 @@ import { useGetStatistics } from "@/lib/queries/backoffice";
 import { useGetAllCourses } from "@/lib/queries/courses";
 import { ICourse } from "@/lib/types";
 import { useEffect, useMemo, useState } from "react";
-
-const getShortShiftType = (shiftType: string) => {
-  switch (shiftType) {
-    case "theoretical":
-      return "T";
-    case "theoretical_practical":
-      return "TP";
-    case "practical_laboratory":
-      return "PL";
-    case "tutorial_guidance":
-      return "OT";
-    default:
-      return shiftType;
-  }
-};
+import { getShortShiftType } from "@/lib/utils";
 
 interface IShift {
   type: string;

@@ -7,6 +7,7 @@ import {
   getScraperLastRuns,
   getStatistics,
   listJobs,
+  getShiftsForCourse,
 } from "../backoffice";
 
 export function useListJobs() {
@@ -60,5 +61,13 @@ export function useGetAutoSyncState() {
   return useQuery<boolean>({
     queryKey: ["auto_sync_state"],
     queryFn: () => getAutoSyncState(),
+  });
+}
+
+export function useGetShiftsForCourse(course_id?: string) {
+  return useQuery({
+    queryKey: ["shifts", course_id],
+    queryFn: () => getShiftsForCourse(course_id),
+    enabled: !!course_id,
   });
 }

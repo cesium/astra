@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllCourses, getStudentSchedule } from "../courses";
 
-export function useGetAllCourses() {
+export function useGetAllCourses(include_shifts: boolean = true) {
   return useQuery({
-    queryKey: ["all-courses"],
-    queryFn: getAllCourses,
+    queryKey: ["all-courses", include_shifts],
+    queryFn: () => getAllCourses(include_shifts),
   });
 }
 

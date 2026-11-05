@@ -4,6 +4,7 @@ import SideSectionDisclosure from "./side-section-disclosure";
 import { useGetStudentOriginalSchedule } from "@/lib/queries/courses";
 import { useGetExchangeDate } from "@/lib/queries/exchange";
 import { ICourse } from "@/lib/types";
+import { getShortShiftType } from "@/lib/utils";
 
 function parseDate(iso: string) {
   const date = new Date(iso);
@@ -15,21 +16,6 @@ function parseDate(iso: string) {
     minute: date.getMinutes(),
   };
 }
-
-const getShortShiftType = (shiftType: string) => {
-  switch (shiftType) {
-    case "theoretical":
-      return "T";
-    case "theoretical_practical":
-      return "TP";
-    case "practical_laboratory":
-      return "PL";
-    case "tutorial_guidance":
-      return "OT";
-    default:
-      return shiftType;
-  }
-};
 
 interface DateStateTextProps {
   exchangeDate: { data: { start: string; end: string } } | undefined;

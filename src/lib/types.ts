@@ -157,3 +157,13 @@ export interface IScrapeConfig {
     end: string;
   };
 }
+
+export interface IPutShift {
+  id: string;
+  course_id?: string;
+  type?: string;
+  number?: number;
+  professor?: string;
+  timeslots?: ITimeSlot[];
+  enrollment_status?: string | null;
+}
