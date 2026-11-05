@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { IJobProps } from "./types";
+import { IJobProps, IScrapeConfig, IScraperLastRuns } from "./types";
 
 export async function listJobs() {
   try {
@@ -7,6 +7,17 @@ export async function listJobs() {
     return res.data.jobs;
   } catch {
     throw new Error("Failed to fetch jobs list. Please try again later.");
+  }
+}
+
+export async function getScraperLastRuns() {
+  try {
+    const res = await api.get<IScraperLastRuns>("/scraper/last_runs");
+    return res.data;
+  } catch {
+    throw new Error(
+      "Failed to fetch last scraper runs. Please try again later.",
+    );
   }
 }
 
@@ -63,5 +74,43 @@ export async function getStatistics(course_id: string) {
     return res.data;
   } catch {
     throw new Error("Failed to fetch statistics. Please try again later.");
+  }
+}
+
+export async function linkTimeslots(config: IScrapeConfig) {
+  try {
+    const res = await api.post(`scraper/link`, { config });
+    return res.data;
+  } catch {
+    throw new Error("Failed to trigger Link Job. Please try again later");
+  }
+}
+
+export async function syncTimeslots(config: IScrapeConfig) {
+  try {
+    const res = await api.post(`scraper/sync`, { config });
+    return res.data;
+  } catch {
+    throw new Error("Failed to trigger Sync Job. Please try again later");
+  }
+}
+
+export async function getAutoSyncState() {
+  try {
+    const res = await api.get(`scraper/sync/auto_sync`);
+    return res.data.state;
+  } catch {
+    throw new Error("Failed to fetch Auto Sync State. Please try again later");
+  }
+}
+
+export async function toggleAutoSync() {
+  try {
+    const res = await api.post(`/scraper/sync/auto_sync`);
+    return res.data;
+  } catch {
+    throw new Error(
+      "Failed to update Auto Sync State. Please try again later.",
+    );
   }
 }

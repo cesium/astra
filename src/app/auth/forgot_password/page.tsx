@@ -130,7 +130,7 @@ export default function ResetPassword() {
                     {...register("email", { required: true })}
                     className="bg-dark/5 border-0 placeholder:text-black/50"
                     id="email"
-                    placeholder="Email"
+                    placeholder="a123456@alunos.uminho.pt"
                   />
                   <span className="text-danger px-1">
                     {errors.email?.message}

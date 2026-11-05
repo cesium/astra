@@ -2,7 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import {
   exportGroupEnrollments,
   exportShiftGroups,
+  getAutoSyncState,
   getDegrees,
+  getScraperLastRuns,
   getStatistics,
   listJobs,
 } from "../backoffice";
@@ -11,6 +13,14 @@ export function useListJobs() {
   return useQuery({
     queryKey: ["jobs-list"],
     queryFn: listJobs,
+    refetchInterval: 1000,
+  });
+}
+
+export function useGetScraperLastRuns() {
+  return useQuery({
+    queryKey: ["scraper-last-runs"],
+    queryFn: getScraperLastRuns,
     refetchInterval: 1000,
   });
 }
@@ -43,5 +53,12 @@ export function useGetStatistics(courseId?: string) {
     queryKey: ["statistics", courseId],
     queryFn: () => getStatistics(courseId as string),
     enabled: !!courseId,
+  });
+}
+
+export function useGetAutoSyncState() {
+  return useQuery<boolean>({
+    queryKey: ["auto_sync_state"],
+    queryFn: () => getAutoSyncState(),
   });
 }

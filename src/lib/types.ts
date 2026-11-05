@@ -42,6 +42,7 @@ export interface ICourse {
 
 export interface IShift {
   id: string;
+  slotId: string;
   courseName: string;
   courseId: string;
   shortCourseName: string;
@@ -102,6 +103,10 @@ export interface IEventResponse {
   link?: string;
 }
 
+export type IEventRequest = Omit<IEventResponse, "id" | "category"> & {
+  category_id: string;
+};
+
 export interface IJobProps {
   id: number;
   type: string;
@@ -110,15 +115,28 @@ export interface IJobProps {
   completed_at: Date;
   inserted_at: Date;
   user_id: string;
+  matched_count: number | null;
+  updated_count: number | null;
+  unmatched_count: number | null;
+}
+
+export interface IScraperLastRuns {
+  link: IJobProps | null;
+  sync: IJobProps | null;
+  link_completed: boolean;
 }
 
 export interface IEventCategory {
   id: string;
   name: string;
+  type: "optional" | "mandatory";
   color: string;
   course?: ICourse;
-  type: "optional" | "mandatory";
 }
+
+export type IEventCategoryRequest = Omit<IEventCategory, "id" | "course"> & {
+  course_id: string;
+};
 
 export type IEventCategoriesSorted = {
   year?: number;
@@ -128,4 +146,14 @@ export type IEventCategoriesSorted = {
 export interface IItemProps {
   id: string;
   name: string;
+}
+
+export interface IScrapeConfig {
+  course: string;
+  timeout: number;
+  years: number[];
+  week: {
+    start: string;
+    end: string;
+  };
 }
