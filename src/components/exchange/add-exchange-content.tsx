@@ -10,7 +10,6 @@ import { twMerge } from "tailwind-merge";
 import { ICourse } from "@/lib/types";
 import { getShortShiftType } from "@/lib/utils";
 
-
 export default function AddExchangeContent({
   setModalState,
 }: {

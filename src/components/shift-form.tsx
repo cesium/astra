@@ -175,10 +175,13 @@ export default function ShiftForm({
         timeslots: timeslots,
       },
       {
-        onSuccess: () => {
+        onSuccess: (updatedShift) => {
           const newName = `${getShortShiftType(pendingFormData.type)}${pendingFormData.number}`;
           onShiftNameChange(newName);
-          setOriginalTimeslots(timeslots);
+          if (updatedShift?.timeslots) {
+            setOriginalTimeslots(updatedShift?.timeslots);
+            setTimeslots(updatedShift?.timeslots);
+          }
           reset(pendingFormData);
           setIsConfirmUpdateOpen(false);
         },
