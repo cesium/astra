@@ -4,8 +4,7 @@ import {
   IScrapeConfig,
   IPutShift,
   IShiftResponse,
-  IDeleteTimeslot,
-  IScraperLastRuns
+  IScraperLastRuns,
 } from "./types";
 
 export async function listJobs() {
@@ -134,22 +133,9 @@ export async function getShiftsForCourse(course_id?: string) {
 }
 
 export async function updateShift(data: IPutShift) {
-  try {
-    const res = await api.put<{ data: IShiftResponse }>(
-      `/shifts/${data.id}`,
-      data,
-    );
-    return res.data.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function deleteTimeslot(data: IDeleteTimeslot) {
-  try {
-    const res = await api.delete(`/shifts/timeslots/${data.timeslotId}`);
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  const res = await api.put<{ data: IShiftResponse }>(
+    `/shifts/${data.id}`,
+    data,
+  );
+  return res.data.data;
 }

@@ -167,9 +167,3 @@ export interface IPutShift {
   timeslots?: ITimeSlot[];
   enrollment_status?: string | null;
 }
-
-export interface IDeleteTimeslot {
-  shiftId?: string;
-  timeslotId: string;
-  course_id?: string;
-}

@@ -5,7 +5,6 @@ import {
   syncTimeslots,
   toggleAutoSync,
   updateShift,
-  deleteTimeslot,
 } from "../backoffice";
 
 export function useGenerateSchedule() {
@@ -42,25 +41,6 @@ export function useUpdateShift() {
 
   return useMutation({
     mutationFn: updateShift,
-    onSuccess: (_data, variables) => {
-      if (variables.course_id) {
-        queryClient.invalidateQueries({
-          queryKey: ["shifts", variables.course_id],
-        });
-      } else {
-        queryClient.invalidateQueries({ queryKey: ["shifts"] });
-      }
-
-      queryClient.invalidateQueries({ queryKey: ["all-courses", true] });
-    },
-  });
-}
-
-export function useDeleteTimeslot() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: deleteTimeslot,
     onSuccess: (_data, variables) => {
       if (variables.course_id) {
         queryClient.invalidateQueries({
