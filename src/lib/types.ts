@@ -65,7 +65,7 @@ export type IShiftsSorted = {
   semesters: Record<
     number,
     Record<
-      number,
+      string,
       {
         courseName: string;
         color: string;

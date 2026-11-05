@@ -61,27 +61,25 @@ export default function DisplayCategories({
               </div>
             </CustomDisclosure>
           ) : (
-            !yearGroup.year && (
-              <CustomDisclosure label="Other" key="Other">
-                <div className="divide-dark/8 bg-light w-full space-y-3 divide-y rounded-lg pt-3 pl-4">
-                  {Object.values(yearGroup.semesters).flatMap((categories) =>
-                    categories.map((category) => (
-                      <EventHeader
-                        key={category.id}
-                        name={category.name}
-                        eventId={category.id}
-                        color={category.color}
-                        isEditing={isEditing}
-                        state={state}
-                        onAction={
-                          category.type === "optional" ? onAction : undefined
-                        }
-                      />
-                    )),
-                  )}
-                </div>
-              </CustomDisclosure>
-            )
+            <CustomDisclosure label="Other" key="Other">
+              <div className="divide-dark/8 bg-light w-full space-y-3 divide-y rounded-lg pt-3 pl-4">
+                {Object.values(yearGroup.semesters).flatMap((categories) =>
+                  categories.map((category) => (
+                    <EventHeader
+                      key={category.id}
+                      name={category.name}
+                      eventId={category.id}
+                      color={category.color}
+                      isEditing={isEditing}
+                      state={state}
+                      onAction={
+                        category.type === "optional" ? onAction : undefined
+                      }
+                    />
+                  )),
+                )}
+              </div>
+            </CustomDisclosure>
           ),
         )}
       </div>
