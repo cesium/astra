@@ -4,16 +4,19 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Avatar from "./avatar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useGetSession, useGetUserInfo } from "@/lib/queries/session";
 import { useSignOut } from "@/lib/mutations/session";
 import { firstLastName } from "@/lib/utils";
+import FeedbackModal from "./feedback/feedback-modal";
 
 const UserDropdown = () => {
   const router = useRouter();
   const user = useGetUserInfo();
   const session = useGetSession();
   const signOut = useSignOut();
+  const [isFeedbackOpen, setFeedbackOpen] = useState(false);
 
   // Load skeleton if user is signed in but user info is not yet loaded
   if (session.data?.signedIn && (user.isPending || !user.data)) {
@@ -29,97 +32,114 @@ const UserDropdown = () => {
   // this prevents a flicker of the "sign in +" button when the user is already signed in
   if (!session.isPending)
     return session.data?.signedIn ? (
-      <Menu as="div">
-        {({ open }) => (
-          <>
-            <MenuButton className="flex cursor-pointer items-center gap-2 focus:outline-none">
-              <span className="text-dark/50">
-                {firstLastName(user.data?.name)}
-              </span>
-              <Avatar name={user.data?.name} />
-            </MenuButton>
-            <AnimatePresence>
-              {open && (
-                <MenuItems
-                  static
-                  as={motion.div}
-                  initial={{
-                    opacity: 0,
-                    y: -20,
-                    scale: 0.95,
-                    transition: {
-                      type: "spring",
-                      duration: 0.4,
-                      bounce: 0.2,
-                      ease: [0.4, 0, 0.2, 1],
-                    },
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    transition: {
-                      type: "spring",
-                      duration: 0.4,
-                      bounce: 0.2,
-                      ease: [0.4, 0, 0.2, 1],
-                    },
-                  }}
-                  exit={{
-                    opacity: 0,
-                    y: -20,
-                    scale: 0.95,
-                    transition: {
-                      type: "spring",
-                      duration: 0.4,
-                      bounce: 0.2,
-                      ease: [0.4, 0, 0.2, 1],
-                    },
-                  }}
-                  className="bg-muted/50 drop-shadow-dark/5 border-dark/10 z-50 mx-6 mt-2 w-96 origin-top rounded-2xl border p-4 drop-shadow-2xl backdrop-blur-3xl focus:outline-0"
-                  anchor="bottom end"
-                >
-                  <MenuItem as="div" className="flex items-center gap-2">
-                    <Avatar className="size-14" name={user.data?.name} />
-                    <span className="text-dark/50">
-                      {firstLastName(user.data?.name)}
-                    </span>
-                  </MenuItem>
-                  <div className="my-3.5 border-b border-black/10" />
-                  <div className="flex flex-col gap-2">
-                    <MenuItem
-                      as={Link}
-                      href="/settings/account"
-                      className="text-dark flex items-center gap-2"
-                    >
-                      <span className="material-symbols-outlined text-2xl">
-                        settings
+      <>
+        <Menu as="div">
+          {({ open }) => (
+            <>
+              <MenuButton className="flex cursor-pointer items-center gap-2 focus:outline-none">
+                <span className="text-dark/50">
+                  {firstLastName(user.data?.name)}
+                </span>
+                <Avatar name={user.data?.name} />
+              </MenuButton>
+              <AnimatePresence>
+                {open && (
+                  <MenuItems
+                    static
+                    as={motion.div}
+                    initial={{
+                      opacity: 0,
+                      y: -20,
+                      scale: 0.95,
+                      transition: {
+                        type: "spring",
+                        duration: 0.4,
+                        bounce: 0.2,
+                        ease: [0.4, 0, 0.2, 1],
+                      },
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                      scale: 1,
+                      transition: {
+                        type: "spring",
+                        duration: 0.4,
+                        bounce: 0.2,
+                        ease: [0.4, 0, 0.2, 1],
+                      },
+                    }}
+                    exit={{
+                      opacity: 0,
+                      y: -20,
+                      scale: 0.95,
+                      transition: {
+                        type: "spring",
+                        duration: 0.4,
+                        bounce: 0.2,
+                        ease: [0.4, 0, 0.2, 1],
+                      },
+                    }}
+                    className="bg-muted/50 drop-shadow-dark/5 border-dark/10 z-50 mx-6 mt-2 w-96 origin-top rounded-2xl border p-4 drop-shadow-2xl backdrop-blur-3xl focus:outline-0"
+                    anchor="bottom end"
+                  >
+                    <MenuItem as="div" className="flex items-center gap-2">
+                      <Avatar className="size-14" name={user.data?.name} />
+                      <span className="text-dark/50">
+                        {firstLastName(user.data?.name)}
                       </span>
-                      Settings
                     </MenuItem>
-                    <MenuItem
-                      as="button"
-                      onClick={() =>
-                        signOut.mutate(undefined, {
-                          onSuccess: () => {
-                            router.push("/");
-                          },
-                        })
-                      }
-                      className="text-danger flex cursor-pointer items-center gap-2"
-                    >
-                      <span className="material-symbols-outlined text-2xl">
-                        logout
-                      </span>
-                      Sign out
-                    </MenuItem>
-                  </div>
-                </MenuItems>
-              )}
-            </AnimatePresence>
-          </>
-        )}
-      </Menu>
+                    <div className="my-3.5 border-b border-black/10" />
+                    <div className="flex flex-col gap-2">
+                      <MenuItem
+                        as={Link}
+                        href="/settings/account"
+                        className="text-dark flex items-center gap-2"
+                      >
+                        <span className="material-symbols-outlined text-2xl">
+                          settings
+                        </span>
+                        Settings
+                      </MenuItem>
+                      <MenuItem
+                        as="button"
+                        onClick={() => setFeedbackOpen(true)}
+                        className="text-dark flex cursor-pointer items-center gap-2"
+                      >
+                        <span className="material-symbols-outlined text-2xl">
+                          error
+                        </span>
+                        Report an issue
+                      </MenuItem>
+                      <MenuItem
+                        as="button"
+                        onClick={() =>
+                          signOut.mutate(undefined, {
+                            onSuccess: () => {
+                              router.push("/");
+                            },
+                          })
+                        }
+                        className="text-danger flex cursor-pointer items-center gap-2"
+                      >
+                        <span className="material-symbols-outlined text-2xl">
+                          logout
+                        </span>
+                        Sign out
+                      </MenuItem>
+                    </div>
+                  </MenuItems>
+                )}
+              </AnimatePresence>
+            </>
+          )}
+        </Menu>
+        {/* Outside the Menu: the menu unmounts its items when it closes */}
+        <FeedbackModal
+          isOpen={isFeedbackOpen}
+          onClose={() => setFeedbackOpen(false)}
+        />
+      </>
     ) : (
       <Link
         href="/auth/sign_in"

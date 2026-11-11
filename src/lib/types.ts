@@ -157,3 +157,35 @@ export interface IScrapeConfig {
     end: string;
   };
 }
+
+export interface IFeedback {
+  id: string;
+  subject: string;
+  message: string;
+  user: {
+    id: string;
+    name: string;
+  };
+  inserted_at: string;
+}
+
+export interface IFeedbackForm {
+  subject: string;
+  message: string;
+}
+
+export interface IPaginationMeta {
+  current_page: number;
+  page_size: number;
+  total_pages: number;
+  total_entries: number;
+  has_next_page: boolean;
+  has_previous_page: boolean;
+  next_page: number | null;
+  previous_page: number | null;
+}
+
+export interface IPaginated<T> {
+  data: T[];
+  meta: IPaginationMeta;
+}

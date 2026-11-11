@@ -100,6 +100,13 @@ export default function SidebarSettings() {
                         label="Telescopium"
                       />
                     </SidebarItem>
+
+                    <SidebarItem
+                      id="feedbacks"
+                      href="/settings/backoffice/feedbacks"
+                    >
+                      <SidebarItemLabel icon="error" label="Feedbacks" />
+                    </SidebarItem>
                   </>
                 )}
 
