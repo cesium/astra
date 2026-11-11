@@ -39,8 +39,16 @@ export function TableContent({ children, className }: IParentProps) {
   );
 }
 
-export function TableItemWrapper({ children, className }: IParentProps) {
-  return <tr className={clsx("", className)}>{children}</tr>;
+export function TableItemWrapper({
+  children,
+  className,
+  ...rest
+}: IParentProps & React.HTMLAttributes<HTMLTableRowElement>) {
+  return (
+    <tr className={clsx("", className)} {...rest}>
+      {children}
+    </tr>
+  );
 }
 
 export function TableCell({ children, className }: IParentProps) {

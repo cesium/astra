@@ -1,9 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getFeedbacks } from "../feedback";
 
-export function useGetFeedbacks() {
+export function useGetFeedbacks(page: number) {
   return useQuery({
-    queryKey: ["feedbacks"],
-    queryFn: getFeedbacks,
+    queryKey: ["feedbacks", page],
+    queryFn: () => getFeedbacks(page),
+    placeholderData: keepPreviousData,
   });
 }

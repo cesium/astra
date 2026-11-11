@@ -1,9 +1,13 @@
 import { api } from "./api";
-import { IFeedback, IFeedbackForm } from "./types";
+import { IFeedback, IFeedbackForm, IPaginated } from "./types";
 
-export async function getFeedbacks(): Promise<IFeedback[]> {
-  const res = await api.get<{ data: IFeedback[] }>(`/feedbacks`);
-  return res.data.data;
+export async function getFeedbacks(
+  page: number,
+): Promise<IPaginated<IFeedback>> {
+  const res = await api.get<IPaginated<IFeedback>>(`/feedbacks`, {
+    params: { page },
+  });
+  return res.data;
 }
 
 export async function createFeedback(data: IFeedbackForm) {

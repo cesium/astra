@@ -7,6 +7,7 @@ import Label from "@/components/label";
 import { useCreateFeedback } from "@/lib/mutations/feedback";
 
 const SUBJECT_MAX_LENGTH = 255;
+const MESSAGE_MAX_LENGTH = 5000;
 
 type FieldErrors = Partial<Record<"subject" | "message", string[]>>;
 
@@ -108,6 +109,7 @@ function AddFeedbackContent({ onClose }: IAddFeedbackContent) {
             id="feedback-message"
             required
             placeholder="Tell us what happened"
+            maxLength={MESSAGE_MAX_LENGTH}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             className="min-h-40 w-full resize-none rounded-xl border border-black/10 bg-transparent px-2 py-1.5 text-black outline-none placeholder:text-black/30 md:px-3 md:py-2.5"

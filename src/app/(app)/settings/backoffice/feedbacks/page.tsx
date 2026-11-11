@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { AuthCheck } from "@/components/auth-check";
 import Avatar from "@/components/avatar";
 import Modal from "@/components/modal";
+import Pagination from "@/components/pagination";
 import SettingsWrapper from "@/components/settings-wrapper";
 import Table, {
   HeaderElement,
@@ -79,15 +80,66 @@ function DeleteFeedbackModal({
   );
 }
 
+function FeedbackDetailsModal({
+  feedback,
+  onClose,
+}: {
+  feedback: IFeedback | null;
+  onClose: () => void;
+}) {
+  return (
+    <Modal modalState={!!feedback} onClose={onClose} className="max-w-2xl">
+      {feedback && (
+        <div className="w-full space-y-6">
+          <div className="flex items-center gap-3">
+            <Avatar name={feedback.user.name} className="size-10 shrink-0" />
+            <div>
+              <p className="font-semibold">{feedback.user.name}</p>
+              <p className="text-dark/50 text-sm">
+                {moment(feedback.inserted_at).format("D MMM YYYY, HH:mm")}
+              </p>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-xl font-semibold break-words">
+              {feedback.subject}
+            </h3>
+            <p className="text-dark/80 max-h-[50vh] overflow-y-auto break-words whitespace-pre-line">
+              {feedback.message}
+            </p>
+          </div>
+          <div className="flex justify-end">
+            <button
+              onClick={onClose}
+              className="hover:bg-smoke border-dark/5 inline-flex h-fit cursor-pointer items-center justify-center rounded-lg border px-3 py-2 transition-all duration-200 hover:scale-95"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </Modal>
+  );
+}
+
 function FeedbackItem({
   feedback,
+  onOpen,
   onDelete,
 }: {
   feedback: IFeedback;
+  onOpen: (feedback: IFeedback) => void;
   onDelete: (feedback: IFeedback) => void;
 }) {
   return (
-    <TableItemWrapper className="text-dark/80 align-top">
+    <TableItemWrapper
+      onClick={() => onOpen(feedback)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") onOpen(feedback);
+      }}
+      tabIndex={0}
+      className="text-dark/80 hover:bg-smoke cursor-pointer align-top transition-colors"
+    >
       <TableCell>
         <div
           className="-my-1 flex items-center gap-2"
@@ -100,17 +152,21 @@ function FeedbackItem({
         </div>
       </TableCell>
       <TableCell className="font-semibold break-words">
-        {feedback.subject}
+        <span className="line-clamp-2">{feedback.subject}</span>
       </TableCell>
-      <TableCell className="break-words whitespace-pre-line">
-        {feedback.message}
+      <TableCell className="break-words">
+        <span className="line-clamp-2">{feedback.message}</span>
       </TableCell>
       <TableCell className="whitespace-nowrap">
         {moment(feedback.inserted_at).format("D MMM YYYY, HH:mm")}
       </TableCell>
       <TableCell>
         <button
-          onClick={() => onDelete(feedback)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(feedback);
+          }}
+          onKeyDown={(e) => e.stopPropagation()}
           aria-label="Delete feedback"
           className="material-symbols-outlined text-danger flex h-6 cursor-pointer items-center text-xl transition-opacity hover:opacity-70"
         >
@@ -132,10 +188,20 @@ function TableMessage({ children }: { children: React.ReactNode }) {
 }
 
 export default function Feedbacks() {
-  const { data: feedbacks, isLoading, isError } = useGetFeedbacks();
+  const [page, setPage] = useState(1);
+  const { data, isLoading, isError } = useGetFeedbacks(page);
+  const feedbacks = data?.data;
+  const totalPages = data?.meta.total_pages ?? 0;
+
+  const [feedbackToOpen, setFeedbackToOpen] = useState<IFeedback | null>(null);
   const [feedbackToDelete, setFeedbackToDelete] = useState<IFeedback | null>(
     null,
   );
+
+  // Deleting the last feedback of the last page leaves that page empty
+  useEffect(() => {
+    if (totalPages > 0 && page > totalPages) setPage(totalPages);
+  }, [page, totalPages]);
 
   return (
     <>
@@ -148,7 +214,7 @@ export default function Feedbacks() {
               <p>View the issues reported by users</p>
             </section>
 
-            <Table>
+            <Table className="flex-1">
               <TableHeader>
                 <HeaderElement className="w-fit" title="User" />
                 <HeaderElement className="w-1/4" title="Subject" />
@@ -167,6 +233,7 @@ export default function Feedbacks() {
                     <FeedbackItem
                       key={feedback.id}
                       feedback={feedback}
+                      onOpen={setFeedbackToOpen}
                       onDelete={setFeedbackToDelete}
                     />
                   ))
@@ -175,7 +242,18 @@ export default function Feedbacks() {
                 )}
               </TableContent>
             </Table>
+
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              onPageChange={setPage}
+            />
           </div>
+
+          <FeedbackDetailsModal
+            feedback={feedbackToOpen}
+            onClose={() => setFeedbackToOpen(null)}
+          />
 
           <DeleteFeedbackModal
             feedback={feedbackToDelete}
