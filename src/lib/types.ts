@@ -140,7 +140,7 @@ export type IEventCategoryRequest = Omit<IEventCategory, "id" | "course"> & {
 
 export type IEventCategoriesSorted = {
   year?: number;
-  categories: IEventCategory[];
+  semesters: Record<number, IEventCategory[]>;
 }[];
 
 export interface IItemProps {
